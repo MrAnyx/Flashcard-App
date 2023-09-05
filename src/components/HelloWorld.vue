@@ -1,17 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
-defineProps<{ msg: string }>()
+defineProps<{ msg: string }>();
 
-let data = await fetch("http://localhost:8080/api/auth/login", {
-    method: "POST",
-    body: JSON.stringify({
-        identifier: "admin",
-        password: "password"
-    })
-});
-
-const count = ref(0)
+const count = ref(0);
 </script>
 
 <template>
@@ -27,8 +19,7 @@ const count = ref(0)
 
     <p>
         Check out
-        <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank">create-vue</a>, the official Vue + Vite
-        starter
+        <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank">create-vue</a>, the official Vue + Vite starter
     </p>
     <p>
         Install
