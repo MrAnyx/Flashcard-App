@@ -5,7 +5,10 @@
 <script setup lang="ts">
 import axios from "@/plugins/axios";
 
-axios.get("/auth/login");
+axios.post("/auth/login", {
+    identifier: "user",
+    password: "password"
+});
 </script>
 
 <style scoped lang="scss">
