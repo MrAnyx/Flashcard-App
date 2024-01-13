@@ -1,8 +1,6 @@
-# Design
+# Techs
 
-- Antdesign
-- Tremor
-- Naive
-- Vanilla SCSS
-- PandaCSS or Unocss
-- Element plus
+- PrimeVue
+- TablerIcon
+- Vue Router
+- Axios
