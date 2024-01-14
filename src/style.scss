@@ -1,5 +1,8 @@
-body {
+body,
+html {
     margin: 0;
     padding: 0;
-    background-color: var(--surface-card);
+    height: 100%;
+    width: 100%;
+    background-color: var(--surface-ground);
 }
