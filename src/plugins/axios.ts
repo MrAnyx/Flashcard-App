@@ -1,5 +1,8 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 import { getToken } from "@/services/authentication";
+import { AxiosResponse } from "axios";
+import { AxiosError } from "axios";
+import { ErrorFormat } from "@/types/format";
 
 // Set default axios parameters
 const instance = axios.create({

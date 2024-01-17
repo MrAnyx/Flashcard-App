@@ -54,14 +54,17 @@ import InputText from "primevue/inputtext";
 import Checkbox from "primevue/checkbox";
 import Button from "primevue/button";
 import Card from "primevue/card";
-import { computed, reactive, ref } from "vue";
+import { computed, onUnmounted, reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
 import Password from "primevue/password";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import axios from "@/plugins/axios";
+import type { LoginRequest } from "@/types/auth.d";
+import { AxiosResponse } from "axios";
 
 const isFormLoading = ref(false);
+const controller = new AbortController();
 
 const formInputs = reactive({
     rememberMe: true,
@@ -85,11 +88,28 @@ const onSubmit = async () => {
     const isValid = await $v.value.$validate();
     if (!isValid) return;
 
-    await axios.post("/auth/login", {
-        identifier: formInputs.username,
-        password: formInputs.password,
-    });
+    axios
+        .post<LoginRequest>(
+            "/auth/login",
+            {
+                identifier: formInputs.username,
+                password: formInputs.password,
+            },
+            {
+                signal: controller.signal,
+            }
+        )
+        .then((res: AxiosResponse) => {
+            console.log(res.data);
+        })
+        .finally(() => {
+            isFormLoading.value = false;
+        });
 };
+
+onUnmounted(() => {
+    controller.abort();
+});
 </script>
 
 <style lang="scss">
