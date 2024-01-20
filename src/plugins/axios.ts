@@ -1,8 +1,7 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
-import { getToken } from "@/services/authentication";
-import { AxiosResponse } from "axios";
-import { AxiosError } from "axios";
-import { ErrorFormat } from "@/types/format";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { useAuthStore } from "@/stores/auth.store";
+import { HttpCode } from "@/types/response.d";
+import router from "./router";
 
 // Set default axios parameters
 const instance = axios.create({
@@ -12,7 +11,8 @@ const instance = axios.create({
 // Catch request and set Authorization header
 instance.interceptors.request.use(
     (request: InternalAxiosRequestConfig) => {
-        const token = getToken();
+        const userStore = useAuthStore();
+        const token = userStore.token;
 
         if (token) {
             request.headers.Authorization = `Bearer ${token}`;
@@ -20,8 +20,21 @@ instance.interceptors.request.use(
 
         return request;
     },
-    (error) => {
+    (error: AxiosError) => {
         return Promise.reject(error);
+    }
+);
+
+instance.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+        if (error.response?.status === HttpCode.UNAUTHORIZED) {
+            router.push({ name: "login" });
+        } else if (error.response?.status === HttpCode.FORBIDDEN) {
+            router.push({ name: "home" });
+        } else {
+            return Promise.reject(error);
+        }
     }
 );
 

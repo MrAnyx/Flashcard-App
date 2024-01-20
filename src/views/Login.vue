@@ -54,18 +54,15 @@ import InputText from "primevue/inputtext";
 import Checkbox from "primevue/checkbox";
 import Button from "primevue/button";
 import Card from "primevue/card";
-import { computed, onUnmounted, reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { RouterLink } from "vue-router";
 import Password from "primevue/password";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-import axios from "@/plugins/axios";
-import type { LoginRequest } from "@/types/auth.d";
-import { AxiosResponse } from "axios";
+import { useAuthStore } from "@/stores/auth.store";
 
+// Form initialization
 const isFormLoading = ref(false);
-const controller = new AbortController();
-
 const formInputs = reactive({
     rememberMe: true,
     username: "",
@@ -83,33 +80,23 @@ const formInputsRules = computed(() => ({
 
 const $v = useVuelidate(formInputsRules, formInputs);
 
+// Form validation
+const authStore = useAuthStore();
+
 const onSubmit = async () => {
     isFormLoading.value = true;
     const isValid = await $v.value.$validate();
     if (!isValid) return;
 
-    axios
-        .post<LoginRequest>(
-            "/auth/login",
-            {
-                identifier: formInputs.username,
-                password: formInputs.password,
-            },
-            {
-                signal: controller.signal,
-            }
-        )
-        .then((res: AxiosResponse) => {
-            console.log(res.data);
-        })
-        .finally(() => {
-            isFormLoading.value = false;
-        });
-};
+    try {
+        await authStore.login(formInputs.username, formInputs.password);
+    } catch (err) {
+        // toast.add({ severity: "error", detail: "Invalid credentials", summary: "Authentication", life: 5000, group: ToastGroup.AUTH });
+        // console.error(err);
+    }
 
-onUnmounted(() => {
-    controller.abort();
-});
+    isFormLoading.value = false;
+};
 </script>
 
 <style lang="scss">

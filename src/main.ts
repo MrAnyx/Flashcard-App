@@ -10,13 +10,15 @@ import "primeicons/primeicons.css";
 
 // Plugins
 import PrimeVue from "primevue/config";
-import router from "./plugins/router";
+import ToastService from "primevue/toastservice";
 import pinia from "./plugins/pinia";
+import router from "./plugins/router";
 
 const app = createApp(App);
 
 app.use(PrimeVue, { ripple: true });
-app.use(router);
+app.use(ToastService);
 app.use(pinia);
+app.use(router);
 
 app.mount("#app");
