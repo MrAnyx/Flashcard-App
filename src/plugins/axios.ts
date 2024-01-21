@@ -1,7 +1,8 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { useAuthStore } from "@/stores/auth.store";
+import { useUserStore } from "@/stores/user.store";
 import { HttpCode } from "@/types/response.d";
-import router from "./router";
+import router from "@/plugins/router";
+import { app } from "@/main";
 
 // Set default axios parameters
 const instance = axios.create({
@@ -11,12 +12,13 @@ const instance = axios.create({
 // Catch request and set Authorization header
 instance.interceptors.request.use(
     (request: InternalAxiosRequestConfig) => {
-        const userStore = useAuthStore();
-        const token = userStore.token;
+        const userStore = useUserStore();
+        const token = userStore.getToken;
 
         if (token) {
             request.headers.Authorization = `Bearer ${token}`;
         }
+        request.validateStatus = (status: number) => status < 300;
 
         return request;
     },
@@ -29,8 +31,10 @@ instance.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
         if (error.response?.status === HttpCode.UNAUTHORIZED) {
+            app.config.globalProperties.$toast.add({ severity: "error", summary: "Unauthenticated", detail: "You must authenticated", life: 5000 });
             router.push({ name: "login" });
         } else if (error.response?.status === HttpCode.FORBIDDEN) {
+            app.config.globalProperties.$toast.add({ severity: "error", summary: "Forbidden", detail: "Access denied", life: 5000 });
             router.push({ name: "home" });
         } else {
             return Promise.reject(error);

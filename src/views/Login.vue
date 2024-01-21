@@ -16,9 +16,9 @@
                         <div class="flex flex-column gap-4">
                             <!-- <InlineMessage v-if="$v.$error" severity="error">Error Message</InlineMessage> -->
                             <div class="flex flex-column gap-2">
-                                <label for="username">Email or username</label>
-                                <InputText id="username" :disabled="isFormLoading" :class="{ 'p-invalid': $v.username.$error }" v-model="formInputs.username" />
-                                <small class="p-error" v-if="$v.username.$error">{{ $v.username.$errors[0].$message }}</small>
+                                <label for="identifier">Email or username</label>
+                                <InputText id="identifier" :disabled="isFormLoading" :class="{ 'p-invalid': $v.identifier.$error }" v-model="formInputs.identifier" />
+                                <small class="p-error" v-if="$v.identifier.$error">{{ $v.identifier.$errors[0].$message }}</small>
                             </div>
                             <div class="flex flex-column gap-2">
                                 <label for="password1" placeholder="Email address">Password</label>
@@ -33,15 +33,11 @@
                                 <small class="p-error" v-if="$v.password.$error">{{ $v.password.$errors[0].$message }}</small>
                             </div>
                             <div class="flex align-items-center justify-content-between">
-                                <div class="flex align-items-center">
-                                    <Checkbox input-id="rememberme1" :disabled="isFormLoading" :binary="true" v-model="formInputs.rememberMe" class="mr-2"></Checkbox>
-                                    <label for="rememberme1">Remember me</label>
-                                </div>
                                 <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot password?</a>
                             </div>
                         </div>
 
-                        <Button type="submit" label="Sign In" icon="pi pi-user" class="w-full mt-6" :loading="isFormLoading"></Button>
+                        <Button type="submit" label="Sign In" icon="pi pi-user" class="w-full mt-6" :loading="isFormLoading" :disabled="isFormLoading"></Button>
                     </div>
                 </form>
             </template>
@@ -51,26 +47,27 @@
 
 <script setup lang="ts">
 import InputText from "primevue/inputtext";
-import Checkbox from "primevue/checkbox";
 import Button from "primevue/button";
 import Card from "primevue/card";
 import { computed, reactive, ref } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import Password from "primevue/password";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-import { useAuthStore } from "@/stores/auth.store";
+import axios from "@/plugins/axios";
+import { useToast } from "primevue/usetoast";
+import { useUserStore } from "@/stores/user.store";
+import { User } from "@/types/user.d";
 
 // Form initialization
 const isFormLoading = ref(false);
 const formInputs = reactive({
-    rememberMe: true,
-    username: "",
+    identifier: "",
     password: "",
 });
 
 const formInputsRules = computed(() => ({
-    username: {
+    identifier: {
         required,
     },
     password: {
@@ -81,21 +78,33 @@ const formInputsRules = computed(() => ({
 const $v = useVuelidate(formInputsRules, formInputs);
 
 // Form validation
-const authStore = useAuthStore();
+const userStore = useUserStore();
+const toast = useToast();
+const router = useRouter();
 
 const onSubmit = async () => {
     isFormLoading.value = true;
     const isValid = await $v.value.$validate();
-    if (!isValid) return;
-
-    try {
-        await authStore.login(formInputs.username, formInputs.password);
-    } catch (err) {
-        // toast.add({ severity: "error", detail: "Invalid credentials", summary: "Authentication", life: 5000, group: ToastGroup.AUTH });
-        // console.error(err);
+    if (!isValid) {
+        isFormLoading.value = false;
+        return;
     }
 
-    isFormLoading.value = false;
+    axios
+        .post<User>("/auth/login", {
+            identifier: formInputs.identifier,
+            password: formInputs.password,
+        })
+        .then((response) => {
+            userStore.user = response.data;
+            router.push({ name: "home" });
+        })
+        .catch(() => {
+            toast.add({ severity: "error", summary: "Authentication", detail: "Invalid credentials", life: 5000 });
+        })
+        .finally(() => {
+            isFormLoading.value = false;
+        });
 };
 </script>
 

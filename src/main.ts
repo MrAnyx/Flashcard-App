@@ -13,8 +13,11 @@ import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
 import pinia from "./plugins/pinia";
 import router from "./plugins/router";
+import axios from "@/plugins/axios";
 
-const app = createApp(App);
+export const app = createApp(App);
+
+app.config.globalProperties.$axios = axios;
 
 app.use(PrimeVue, { ripple: true });
 app.use(ToastService);

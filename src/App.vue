@@ -1,5 +1,5 @@
 <template>
-    <Toast />
+    <Toast :breakpoints="{ '1000px': '75vw', '575px': '100vw' }" />
     <RouterView />
 </template>
 
