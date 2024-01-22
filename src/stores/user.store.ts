@@ -14,13 +14,13 @@ export const useUserStore = defineStore("user", {
     actions: {},
     getters: {
         isAdmin(state) {
-            return state.user?.roles.includes("ROLE_ADMIN");
+            return state.user?.roles.includes("ROLE_ADMIN") || false;
         },
         isUser(state) {
-            return state.user?.roles.includes("ROLE_USER");
+            return state.user?.roles.includes("ROLE_USER") || false;
         },
         getToken(state) {
-            return state.user?.token;
+            return state.user?.token || null;
         },
         isConnected() {
             return !!this.getToken;
