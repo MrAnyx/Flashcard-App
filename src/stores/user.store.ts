@@ -11,7 +11,11 @@ export const useUserStore = defineStore("user", {
     state: (): State => ({
         user: null,
     }),
-    actions: {},
+    actions: {
+        logout() {
+            this.user = null;
+        },
+    },
     getters: {
         isAdmin(state) {
             return state.user?.roles.includes("ROLE_ADMIN") || false;

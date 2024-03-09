@@ -6,8 +6,21 @@ import { app } from "@/main";
 
 // Set default axios parameters
 const instance = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
+    baseURL: import.meta.env.VITE_API_BASE_URL
 });
+
+export const ErrorCode = {
+    ERR_FR_TOO_MANY_REDIRECTS: "ERR_FR_TOO_MANY_REDIRECTS",
+    ERR_BAD_OPTION_VALUE: "ERR_BAD_OPTION_VALUE",
+    ERR_BAD_OPTION: "ERR_BAD_OPTION",
+    ERR_NETWORK: "ERR_NETWORK",
+    ERR_DEPRECATED: "ERR_DEPRECATED",
+    ERR_BAD_RESPONSE: "ERR_BAD_RESPONSE",
+    ERR_BAD_REQUEST: "ERR_BAD_REQUEST",
+    ERR_CANCELED: "ERR_CANCELED",
+    ECONNABORTED: "ECONNABORTED",
+    ETIMEDOUT: "ETIMEDOUT"
+};
 
 // Catch request and set Authorization header
 instance.interceptors.request.use(

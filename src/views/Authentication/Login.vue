@@ -7,9 +7,13 @@
                         <RouterLink :to="{ name: 'home' }">
                             <img src="../../assets/images/logo.svg" alt="Image" height="50" class="mb-3" />
                         </RouterLink>
-                        <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+                        <div class="text-900 text-3xl font-medium mb-3">
+                            Welcome Back
+                        </div>
                         <span class="text-600 font-medium line-height-3">Don't have an account?</span>
-                        <RouterLink :to="{ name: 'register' }" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Sign Up!</RouterLink>
+                        <RouterLink :to="{ name: 'register' }" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
+                            Sign Up!
+                        </RouterLink>
                     </div>
 
                     <div>
@@ -37,7 +41,14 @@
                             </div>
                         </div>
 
-                        <Button type="submit" label="Sign In" icon="pi pi-user" class="w-full mt-6" :loading="isFormLoading" :disabled="isFormLoading"></Button>
+                        <Button
+                            type="submit"
+                            label="Sign In"
+                            icon="pi pi-user"
+                            class="w-full mt-6"
+                            :loading="isFormLoading"
+                            :disabled="isFormLoading"
+                        ></Button>
                     </div>
                 </form>
             </template>
@@ -93,7 +104,7 @@ const onSubmit = async () => {
     axios
         .post<User>("/auth/login", {
             identifier: formInputs.identifier,
-            password: formInputs.password,
+            password: formInputs.password
         })
         .then((response) => {
             userStore.user = response.data;

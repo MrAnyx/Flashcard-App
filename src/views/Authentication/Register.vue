@@ -93,7 +93,7 @@ const formInputsRules = computed(() => ({
     },
     password: {
         required,
-        passwordStrong: helpers.withMessage("Choose a stronger password", passwordVeryString(PasswordStrength.STRENGTH_STRONG)),
+        passwordStrong: helpers.withMessage("Choose a stronger password", passwordVeryString(PasswordStrength.STRENGTH_MEDIUM)),
     },
     passwordConfirm: {
         required,
@@ -124,6 +124,7 @@ const onSubmit = async () => {
         })
         .then((response) => {
             userStore.user = response.data;
+            toast.add({ severity: "info", summary: "Welcome", detail: `Hi ${userStore.user.username}, create your first flashcard and start learning !`, life: 5000 });
             router.push({ name: "home" });
         })
         .catch(() => {

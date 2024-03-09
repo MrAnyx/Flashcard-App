@@ -1,6 +1,6 @@
 {
     "editorconfig": true,
-    "trailingComma": "es5",
+    "trailingComma": "none",
     "semi": true,
     "singleQuote": false,
     "printWidth": 200

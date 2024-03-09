@@ -1,9 +1,9 @@
 export enum PasswordStrength {
-    STRENGTH_VERY_WEAK,
-    STRENGTH_WEAK,
-    STRENGTH_MEDIUM,
-    STRENGTH_STRONG,
-    STRENGTH_VERY_STRONG,
+    STRENGTH_VERY_WEAK = 0,
+    STRENGTH_WEAK = 1,
+    STRENGTH_MEDIUM = 2,
+    STRENGTH_STRONG = 3,
+    STRENGTH_VERY_STRONG = 4,
 }
 
 type CharCountMap = {
@@ -53,6 +53,8 @@ export const estimateStrength = (password: string): PasswordStrength => {
 
     const pool = lower + upper + digit + symbol + control + other;
     const entropy = chars * Math.log2(pool) + (password.length - chars) * Math.log2(chars);
+
+    console.log(entropy);
 
     switch (true) {
         case entropy >= 120:
