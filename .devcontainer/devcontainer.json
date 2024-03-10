@@ -1,27 +1,27 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
-    "name": "Flashcard App",
-    "runArgs": ["--name", "flashcard-app"],
-    // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-    "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bookworm",
-    "features": {
-        "ghcr.io/devcontainers/features/github-cli:1": {}
-    },
-    "postCreateCommand": "pnpm install",
-    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-    "remoteUser": "root",
+  "name": "Flashcard App",
+  "runArgs": ["--name", "flashcard-app"],
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "postCreateCommand": "pnpm install",
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  "remoteUser": "root",
 
-    // Features to add to the dev container. More info: https://containers.dev/features.
-    // "features": {},
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},
 
-    "forwardPorts": [5000],
-    "portsAttributes": {
-        "5000": {
-            "label": "App"
-        }
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "App"
     }
+  }
 
-    // Configure tool-specific properties.
-    // "customizations": {},
+  // Configure tool-specific properties.
+  // "customizations": {},
 }
