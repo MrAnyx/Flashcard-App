@@ -15,16 +15,19 @@
         "@nuxt/ui": "^2.14.2",
         "nuxt": "^3.10.3",
         "vue": "^3.4.21",
-        "vue-router": "^4.3.0"
+        "vue-router": "^4.3.0",
+        "zod": "^3.22.4"
     },
     "devDependencies": {
         "@nuxt/schema": "^3.10.3",
+        "@nuxtjs/eslint-config-typescript": "^12.1.0",
         "@typescript-eslint/eslint-plugin": "^7.1.1",
         "@typescript-eslint/parser": "^7.1.1",
         "@vueuse/core": "^10.9.0",
         "@vueuse/nuxt": "^10.9.0",
         "eslint": "^8.57.0",
         "eslint-plugin-vue": "^9.22.0",
+        "sass": "^1.71.1",
         "typescript": "^5.4.2",
         "vue-tsc": "^1"
     }

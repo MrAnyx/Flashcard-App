@@ -1,6 +1,10 @@
 <template>
-  <div>
-    Hello 200
-  </div>
-  <NuxtPage />
+    <NuxtPage />
 </template>
+
+<style lang="scss">
+body,
+html {
+    background-color: rgb(var(--color-gray-900));
+}
+</style>
