@@ -1,27 +1,29 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
-  "name": "Flashcard App",
-  "runArgs": ["--name", "flashcard-app"],
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bookworm",
-  "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {}
-  },
-  "postCreateCommand": "pnpm install",
-  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  "remoteUser": "root",
-
-  // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {},
-
-  "forwardPorts": [3000],
-  "portsAttributes": {
-    "3000": {
-      "label": "App"
+    "name": "Flashcard App",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bookworm",
+    "postCreateCommand": "pnpm install",
+    "customizations": {
+        "vscode": {
+            "extensions": ["EditorConfig.EditorConfig", "dbaeumer.vscode-eslint", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "Vue.volar"],
+            "settings": {
+                "[json][jsonc]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "[typescript][javascript][vue]": {
+                    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+                },
+                "editor.codeActionsOnSave": {
+                    "source.fixAll.eslint": "explicit"
+                }
+            }
+        }
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {
+            "installDirectlyFromGitHubRelease": true,
+            "version": "latest"
+        },
+        "ghcr.io/audacioustux/devcontainers/taskfile:1": {}
     }
-  }
-
-  // Configure tool-specific properties.
-  // "customizations": {},
 }
+
