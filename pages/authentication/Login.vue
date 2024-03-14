@@ -8,7 +8,6 @@
             <UInput v-model="state.password" type="password" />
         </UFormGroup>
 
-
         <UButton type="submit">
             Submit
         </UButton>

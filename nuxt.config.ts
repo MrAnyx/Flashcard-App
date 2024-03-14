@@ -5,5 +5,16 @@ export default defineNuxtConfig({
     modules: ["@nuxt/ui", "@vueuse/nuxt"],
     colorMode: {
         preference: "dark"
+    },
+    tailwindcss: {
+        viewer: false
+    },
+    ssr: false,
+    vite: {
+        server: {
+            hmr: {
+                port: 3001
+            }
+        }
     }
 });

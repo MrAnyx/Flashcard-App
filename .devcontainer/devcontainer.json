@@ -4,7 +4,7 @@
     "postCreateCommand": "pnpm install",
     "customizations": {
         "vscode": {
-            "extensions": ["EditorConfig.EditorConfig", "dbaeumer.vscode-eslint", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "Vue.volar"],
+            "extensions": ["EditorConfig.EditorConfig", "dbaeumer.vscode-eslint", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "Vue.volar", "bradlc.vscode-tailwindcss"],
             "settings": {
                 "[json][jsonc]": {
                     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -26,4 +26,3 @@
         "ghcr.io/audacioustux/devcontainers/taskfile:1": {}
     }
 }
-

@@ -3,7 +3,7 @@
         <UCard>
             <div class="text-center mb-5">
                 <NuxtLink :to="{ name: 'home' }">
-                    <img src="@/assets/images/logo.svg" alt="Image" height="50" class="mb-3">
+                    <img src="@/assets/images/logo.svg" alt="Image" class="h-24">
                 </NuxtLink>
                 <div class="text-900 text-3xl font-medium mb-3">
                     Welcome Back
