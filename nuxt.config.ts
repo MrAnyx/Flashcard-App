@@ -1,7 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-
 export default defineNuxtConfig({
-    devtools: { enabled: false },
+    devtools: {
+        enabled: false
+    },
     modules: ["@nuxt/ui", "@vueuse/nuxt"],
     colorMode: {
         preference: "dark"
@@ -9,7 +10,7 @@ export default defineNuxtConfig({
     tailwindcss: {
         viewer: false
     },
-    ssr: false,
+    ssr: true,
     vite: {
         server: {
             hmr: {

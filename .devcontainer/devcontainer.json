@@ -1,7 +1,7 @@
 {
     "name": "Flashcard App",
     "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bookworm",
-    "postCreateCommand": "pnpm install",
+    "postCreateCommand": "npm install",
     "customizations": {
         "vscode": {
             "extensions": ["EditorConfig.EditorConfig", "dbaeumer.vscode-eslint", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "Vue.volar", "bradlc.vscode-tailwindcss"],
@@ -14,7 +14,8 @@
                 },
                 "editor.codeActionsOnSave": {
                     "source.fixAll.eslint": "explicit"
-                }
+                },
+                "tailwindCSS.classAttributes": ["class", "active-class", "inactive-class"]
             }
         }
     },

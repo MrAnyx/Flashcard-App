@@ -1,6 +1,11 @@
 export default defineAppConfig({
     ui: {
-        primary: "green",
-        gray: "cool"
+        primary: "sky",
+        gray: "cool",
+        input: {
+            default: {
+                size: "md"
+            }
+        }
     }
 });
