@@ -1,7 +1,16 @@
-{
-    "name": "Flashcard App",
-    "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bookworm",
-    "postCreateCommand": "npm install",
+    {
+    "name": "Flashcard App", 
+    "image": "mcr.microsoft.com/devcontainers/base:alpine-3.19",
+    "features": {
+        "ghcr.io/cirolosapio/devcontainers-features/alpine-node:0": {
+            "corepack": true,
+            "pnpmVersion": "latest"
+        },
+        "ghcr.io/devcontainers-contrib/features/typescript:2": {
+            "version": "latest"
+        }
+    },
+    "postCreateCommand": "pnpm install",
     "customizations": {
         "vscode": {
             "extensions": ["EditorConfig.EditorConfig", "dbaeumer.vscode-eslint", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "Vue.volar", "bradlc.vscode-tailwindcss"],
@@ -18,12 +27,5 @@
                 "tailwindCSS.classAttributes": ["class", "active-class", "inactive-class"]
             }
         }
-    },
-    "features": {
-        "ghcr.io/devcontainers/features/github-cli:1": {
-            "installDirectlyFromGitHubRelease": true,
-            "version": "latest"
-        },
-        "ghcr.io/audacioustux/devcontainers/taskfile:1": {}
     }
 }
