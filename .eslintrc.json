@@ -23,7 +23,6 @@
         "@typescript-eslint/no-unused-vars": "warn",
 
         // Vuejs
-        "vue/html-indent": ["error", 4],
-        "vue/no-multiple-template-root": "off"
+        "vue/html-indent": ["error", 4]
     }
 }

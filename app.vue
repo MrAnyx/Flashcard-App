@@ -3,8 +3,7 @@
 </template>
 
 <style lang="scss">
-body,
-html {
+body {
     background-color: rgb(var(--color-gray-900));
 }
 </style>

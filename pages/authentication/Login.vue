@@ -1,42 +1,42 @@
 <template>
-    <header class="text-center mb-8 flex flex-col space-y-2">
-        <h2 class="text-3xl font-medium3">
-            Welcome Back
-        </h2>
-        <p class="text-gray-400">
-            Don't have an account?
-            <ULink :to="{ name: 'register' }" class="text-primary hover:text-primary-300">
-                Sign up!
-            </ULink>
-        </p>
-    </header>
-    <UForm :schema="schema" :state="state" class="w-96 space-y-8" validate-on="submit" @submit="onSubmit">
-        <UFormGroup label="Email or username" name="email">
-            <UInput v-model="state.email" placeholder="Enter your email or username" />
-        </UFormGroup>
-
-        <UFormGroup label="Password" name="password" class="">
-            <template #hint>
-                <ULink :to="{ name: 'home' }" class="text-primary hover:text-primary-300">
-                    Forgot password?
+    <div>
+        <header class="text-center mb-8 flex flex-col space-y-2">
+            <h2 class="text-3xl font-medium3">
+                Welcome Back
+            </h2>
+            <p class="text-gray-400">
+                Don't have an account?
+                <ULink :to="{ name: 'register' }" class="text-primary hover:text-primary-300">
+                    Sign up!
                 </ULink>
-            </template>
-            <UInput v-model="state.password" type="password" placeholder="Enter your password" />
-        </UFormGroup>
+            </p>
+        </header>
+        <UForm :schema="schema" :state="state" class="w-96 space-y-8" validate-on="submit" @submit="onSubmit">
+            <div class="flex flex-col space-y-4">
+                <UFormGroup label="Email or username" name="email">
+                    <UInput v-model="state.email" placeholder="Enter your email or username" icon="i-heroicons-envelope" />
+                </UFormGroup>
 
-        <UButton type="submit" block>
-            Submit
-        </UButton>
+                <UFormGroup label="Password" name="password" class="">
+                    <template #hint>
+                        <ULink :to="{ name: 'home' }" class="text-primary hover:text-primary-300">
+                            Forgot password?
+                        </ULink>
+                    </template>
+                    <UInput
+                        v-model="state.password"
+                        type="password"
+                        placeholder="Enter your password"
+                        icon="i-heroicons-lock-closed"
+                    />
+                </UFormGroup>
+            </div>
 
-        <UDivider />
-
-        <p class="text-sm text-gray-400 text-center">
-            By signing in, you agree to our
-            <ULink :to="{ name: 'home' }" class="text-primary hover:text-primary-300">
-                Terms of Service.
-            </ULink>
-        </p>
-    </UForm>
+            <UButton type="submit" block>
+                Login
+            </UButton>
+        </UForm>
+    </div>
 </template>
 
 <script setup lang="ts">
