@@ -1,5 +1,5 @@
-    {
-    "name": "Flashcard App", 
+{
+    "name": "Flashcard App",
     "image": "mcr.microsoft.com/devcontainers/base:alpine-3.19",
     "features": {
         "ghcr.io/cirolosapio/devcontainers-features/alpine-node:0": {
@@ -11,6 +11,7 @@
         }
     },
     "postCreateCommand": "pnpm install",
+    "postStartCommand": "pnpm run dev",
     "customizations": {
         "vscode": {
             "extensions": ["EditorConfig.EditorConfig", "dbaeumer.vscode-eslint", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "Vue.volar", "bradlc.vscode-tailwindcss"],
