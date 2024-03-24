@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="text-red-100">
+        <h1 class="text-red-500">
             {{ $t('welcome') }} {{ locale }}
         </h1>
 

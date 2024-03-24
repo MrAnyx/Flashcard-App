@@ -1,3 +1,6 @@
 export default {
-    welcome: "Bienvenue"
+    core: {},
+    authentication: {
+        termesOfUse: "By clicking the button, you agree to our"
+    }
 };

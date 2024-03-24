@@ -17,7 +17,7 @@
                 <p class="text-sm text-gray-400 text-center">
                     By clicking the button, you agree to our
                     <ULink :to="{ name: 'home' }" class="text-primary hover:text-primary-300">
-                        Terms of Service.
+                        Terms of Service
                     </ULink>
                 </p>
             </div>

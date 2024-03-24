@@ -1,7 +1,20 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n"],
+    ssr: false,
     app: {
         pageTransition: { name: "page", mode: "out-in" }
+    },
+    i18n: {
+        defaultLocale: "en",
+        locales: ["en", "fr"],
+        vueI18n: "./i18n/i18n.config.ts"
+    },
+    colorMode: {
+        preference: "dark"
+    },
+    tailwindcss: {
+        viewer: false
     },
     sourcemap: {
         server: false,
@@ -10,19 +23,6 @@ export default defineNuxtConfig({
     devtools: {
         enabled: false
     },
-    i18n: {
-        defaultLocale: "en",
-        locales: ["en", "fr"],
-        vueI18n: "./i18n/i18n.config.ts"
-    },
-    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n"],
-    colorMode: {
-        preference: "dark"
-    },
-    tailwindcss: {
-        viewer: false
-    },
-    ssr: false,
     vite: {
         server: {
             hmr: {

@@ -1,3 +1,4 @@
 export default {
-    welcome: "Welcome"
+    core: {},
+    authentication: {}
 };
