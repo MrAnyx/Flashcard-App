@@ -25,7 +25,7 @@
     </div>
 </template>
 
-<style lang="scss">
+<style>
 .auth-enter-active,
 .auth-leave-active {
     transition: all .15s;

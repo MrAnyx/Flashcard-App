@@ -3,10 +3,19 @@ export default defineNuxtConfig({
     app: {
         pageTransition: { name: "page", mode: "out-in" }
     },
+    sourcemap: {
+        server: false,
+        client: false
+    },
     devtools: {
         enabled: false
     },
-    modules: ["@nuxt/ui", "@vueuse/nuxt"],
+    i18n: {
+        defaultLocale: "en",
+        locales: ["en", "fr"],
+        vueI18n: "./i18n/i18n.config.ts"
+    },
+    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n"],
     colorMode: {
         preference: "dark"
     },

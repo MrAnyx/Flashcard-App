@@ -2,7 +2,7 @@
     <NuxtPage />
 </template>
 
-<style lang="scss">
+<style>
 body {
     background-color: rgb(var(--color-gray-900));
 }

@@ -54,7 +54,7 @@ import type { FormSubmitEvent } from "#ui/types";
 // Form definition
 const schema = z
     .object({
-        username: z.string(),
+        username: z.string().min(5),
         email: z.string().email("Invalid email"),
         password: z.string().min(8, "Must be at least 8 characters"),
         passwordConfirm: z.string()

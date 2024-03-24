@@ -1,9 +1,11 @@
 <template>
-    <h1>Authentication</h1>
-    <NuxtPage />
+    <div>
+        <h1>Authentication</h1>
+        <NuxtPage />
+    </div>
 </template>
 
-<style lang="scss">
+<style>
 #container {
     height: 100vh;
     width: 100%;

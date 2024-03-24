@@ -35,6 +35,8 @@
             <UButton type="submit" block>
                 Login
             </UButton>
+
+            {{ $t('Welcome') }}
         </UForm>
     </div>
 </template>
