@@ -8,16 +8,14 @@
                     </ULink>
                 </div>
 
-                <NuxtPage
-                    :transition="{'name': 'auth', mode:'out-in'}"
-                />
+                <NuxtPage :transition="{'name': 'auth', mode:'out-in'}" />
 
                 <UDivider />
 
                 <p class="text-sm text-gray-400 text-center">
-                    By clicking the button, you agree to our
+                    {{ $t('authentication.termsOfUseText') }}
                     <ULink :to="{ name: 'home' }" class="text-primary hover:text-primary-300">
-                        Terms of Service
+                        {{ $t('authentication.termsOfUse') }}
                     </ULink>
                 </p>
             </div>

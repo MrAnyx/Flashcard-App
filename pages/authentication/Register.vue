@@ -2,12 +2,12 @@
     <div>
         <header class="text-center mb-8 flex flex-col space-y-2">
             <h2 class="text-3xl font-medium3">
-                Create an account
+                {{ $t('authentication.register.title') }}
             </h2>
             <p class="text-gray-400">
-                Already have an account?
+                {{ $t('authentication.register.subtitle') }}
                 <ULink :to="{ name: 'login' }" class="text-primary hover:text-primary-300">
-                    Login!
+                    {{ $t('authentication.login.action') }}
                 </ULink>
             </p>
         </header>
@@ -41,7 +41,7 @@
             </div>
 
             <UButton type="submit" block>
-                Sign up
+                {{ $t('authentication.register.action') }}
             </UButton>
         </UForm>
     </div>
