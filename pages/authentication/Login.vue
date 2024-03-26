@@ -13,20 +13,24 @@
         </header>
         <UForm :schema="schema" :state="state" class="w-96 space-y-8" validate-on="submit" @submit="onSubmit">
             <div class="flex flex-col space-y-4">
-                <UFormGroup label="Email or username" name="email">
-                    <UInput v-model="state.email" placeholder="Enter your email or username" icon="i-heroicons-envelope" />
+                <UFormGroup :label="$t('authentication.login.identifier.label')" name="email">
+                    <UInput
+                        v-model="state.email"
+                        :placeholder="$t('authentication.login.identifier.placeholder')"
+                        icon="i-heroicons-envelope"
+                    />
                 </UFormGroup>
 
-                <UFormGroup label="Password" name="password" class="">
+                <UFormGroup :label="$t('authentication.login.password.label')" name="password" class="">
                     <template #hint>
                         <ULink :to="{ name: 'home' }" class="text-primary hover:text-primary-300">
-                            Forgot password?
+                            {{ $t('authentication.login.password.forgotPassword') }}
                         </ULink>
                     </template>
                     <UInput
                         v-model="state.password"
                         type="password"
-                        placeholder="Enter your password"
+                        :placeholder="$t('authentication.login.password.placeholder')"
                         icon="i-heroicons-lock-closed"
                     />
                 </UFormGroup>
@@ -44,8 +48,11 @@ import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
 
 const schema = z.object({
-    email: z.string().email("Invalid email"),
-    password: z.string().min(8, "Must be at least 8 characters")
+    email: z.string()
+        .email("Invalid email")
+        .max(180, "Email is too long"),
+    password: z.string()
+        .min(8, "Password is too short")
 });
 
 type Schema = z.output<typeof schema>

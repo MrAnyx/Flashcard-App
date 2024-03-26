@@ -13,28 +13,36 @@
         </header>
         <UForm :schema="schema" :state="state" class="w-96 space-y-8" validate-on="submit" @submit="onSubmit">
             <div class="flex flex-col space-y-4">
-                <UFormGroup label="Username" name="username">
-                    <UInput v-model="state.username" placeholder="Enter your username" icon="i-heroicons-user" />
+                <UFormGroup :label="$t('authentication.register.username.label')" name="username">
+                    <UInput
+                        v-model="state.username"
+                        :placeholder="$t('authentication.register.username.placeholder')"
+                        icon="i-heroicons-user"
+                    />
                 </UFormGroup>
 
-                <UFormGroup label="Email" name="email">
-                    <UInput v-model="state.email" placeholder="Enter your email" icon="i-heroicons-envelope" />
+                <UFormGroup :label="$t('authentication.register.email.label') " name="email">
+                    <UInput
+                        v-model="state.email"
+                        :placeholder="$t('authentication.register.email.placeholder')"
+                        icon="i-heroicons-envelope"
+                    />
                 </UFormGroup>
 
-                <UFormGroup label="Password" name="password">
+                <UFormGroup :label="$t('authentication.register.password.label')" name="password">
                     <UInput
                         v-model="state.password"
                         type="password"
-                        placeholder="Enter your password"
+                        :placeholder="$t('authentication.register.password.placeholder')"
                         icon="i-heroicons-lock-closed"
                     />
                 </UFormGroup>
 
-                <UFormGroup label="Password confirmation" name="passwordConfirm">
+                <UFormGroup :label="$t('authentication.register.passwordConf.label')" name="passwordConfirm">
                     <UInput
                         v-model="state.passwordConfirm"
                         type="password"
-                        placeholder="Confirm your password"
+                        :placeholder="$t('authentication.register.passwordConf.placeholder')"
                         icon="i-heroicons-lock-closed"
                     />
                 </UFormGroup>
@@ -54,10 +62,20 @@ import type { FormSubmitEvent } from "#ui/types";
 // Form definition
 const schema = z
     .object({
-        username: z.string().min(5),
-        email: z.string().email("Invalid email"),
-        password: z.string().min(8, "Must be at least 8 characters"),
+        username: z
+            .string()
+            .min(1, "Username can not be blank")
+            .max(30, "Username is too long")
+            .regex(/^[\w-.]*$/, "Username contains invalid characters"),
+        email: z
+            .string()
+            .email("Invalid email")
+            .min(1, "Email can not be blank")
+            .max(180, "Email is too long"),
+        password: z.string()
+            .min(8, "Password is too short"),
         passwordConfirm: z.string()
+            .min(8, "Password is too short")
     })
     .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
         message: "Passwords don't match",
