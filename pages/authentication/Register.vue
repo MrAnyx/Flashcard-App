@@ -11,7 +11,7 @@
                 </ULink>
             </p>
         </header>
-        <UForm :schema="schema" :state="state" class="w-96 space-y-8" validate-on="submit" @submit="onSubmit">
+        <UForm :schema="schema" :state="state" class="space-y-8" validate-on="submit" @submit="onSubmit">
             <div class="flex flex-col space-y-4">
                 <UFormGroup :label="$t('authentication.register.username.label')" name="username">
                     <UInput

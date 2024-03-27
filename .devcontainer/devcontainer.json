@@ -23,6 +23,7 @@
                     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
                 },
                 "editor.codeActionsOnSave": {
+                    "source.fixAll": "never",
                     "source.fixAll.eslint": "explicit"
                 },
                 "tailwindCSS.classAttributes": ["class", "active-class", "inactive-class"]

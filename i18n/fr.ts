@@ -36,7 +36,7 @@ export default {
                 label: "Confirmez le mot de passe",
                 placeholder: "Confirmez votre mot de passe"
             },
-            action: "S'enregistrer2"
+            action: "S'enregistrer"
         }
     }
 };
