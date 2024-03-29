@@ -12,11 +12,11 @@ export default defineAppConfig({
                 size: "md"
             }
         },
-        divider: {
-            border: {
-                base: "flex border-gray-200 dark:border-gray-700"
-            }
-        },
+        // divider: {
+        //     border: {
+        //         base: "flex border-gray-200 dark:border-gray-700"
+        //     }
+        // },
         card: {
             background: "bg-gray-200 dark:bg-gray-800",
             shadow: "shadow",
