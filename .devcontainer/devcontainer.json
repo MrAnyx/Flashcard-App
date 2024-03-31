@@ -16,17 +16,21 @@
         "vscode": {
             "extensions": ["EditorConfig.EditorConfig", "dbaeumer.vscode-eslint", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "Vue.volar", "bradlc.vscode-tailwindcss"],
             "settings": {
-                "[json][jsonc]": {
+                "[javascript][typescript][vue]": {
+                    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+                    "editor.formatOnSave": false
+                },
+                "[css][scss][sass][less][json][jsonc][yaml][markdown]": {
+                    "editor.formatOnSave": true,
                     "editor.defaultFormatter": "esbenp.prettier-vscode"
                 },
-                "[typescript][javascript][vue]": {
-                    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-                },
+                "tailwindCSS.classAttributes": ["class", "active-class", "inactive-class"],
+                "eslint.validate": ["javascript", "typescript", "vue"],
                 "editor.codeActionsOnSave": {
                     "source.fixAll": "never",
-                    "source.fixAll.eslint": "explicit"
-                },
-                "tailwindCSS.classAttributes": ["class", "active-class", "inactive-class"]
+                    "source.fixAll.eslint": "explicit",
+                    "source.organizeImports": "never"
+                }
             }
         }
     }

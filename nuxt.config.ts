@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n"],
-    ssr: false,
+    ssr: true,
     app: {
         pageTransition: { name: "page", mode: "out-in" }
     },
