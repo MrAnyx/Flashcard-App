@@ -23,7 +23,7 @@
 
                 <UFormGroup :label="$t('authentication.login.password.label')" name="password" class="">
                     <template #hint>
-                        <ULink :to="{ name: 'home' }" class="text-primary hover:text-primary-300">
+                        <ULink :to="{ name: 'application' }" class="text-primary hover:text-primary-300">
                             {{ $t('authentication.login.password.forgotPassword') }}
                         </ULink>
                     </template>

@@ -10,7 +10,7 @@
                 class="lg:hidden"
                 @click.prevent="$emit('close')"
             />
-            <UButton color="gray" variant="ghost" label="Flashcard" class="flex-1">
+            <UButton color="gray" variant="ghost" label="Flashcard" class="flex-1" :to="{name: 'home'}">
                 <template #leading>
                     <img src="@/assets/images/logo.svg" alt="Image" height="20" width="20">
                 </template>
@@ -30,14 +30,17 @@ defineEmits(["close"]);
 const navigationLinks: VerticalNavigationLink[] = [{
     label: "Collection",
     icon: "i-heroicons-squares-2x2",
-    badge: 4
+    badge: 4,
+    to: { name: "topics" }
 }, {
     label: "Practice",
     icon: "i-heroicons-academic-cap",
-    badge: 125
+    badge: 125,
+    to: { name: "practice" }
 }, {
     label: "Settings",
-    icon: "i-heroicons-cog-6-tooth"
+    icon: "i-heroicons-cog-6-tooth",
+    to: { name: "settings" }
 }];
 
 const otherLinks: VerticalNavigationLink[][] = [[{
