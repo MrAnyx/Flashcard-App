@@ -11,7 +11,7 @@
                 </ULink>
             </p>
         </header>
-        <UForm :schema="schema" :state="state" class="space-y-8" validate-on="submit" @submit="onSubmit">
+        <UForm :schema="schema" :state="state" class="space-y-8" :validate-on="['submit']" @submit="onSubmit">
             <div class="flex flex-col space-y-4">
                 <UFormGroup :label="$t('authentication.login.identifier.label')" name="email">
                     <UInput
@@ -46,6 +46,10 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
+
+definePageMeta({
+    layout: "authentication"
+});
 
 const schema = z.object({
     email: z.string()

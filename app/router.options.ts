@@ -37,9 +37,7 @@ export default <RouterConfig>{
             ]
         },
         {
-            name: "authentication",
             path: "/auth",
-            component: () => import("@/pages/authentication/_layout.vue"),
             children: [
                 {
                     name: "login",

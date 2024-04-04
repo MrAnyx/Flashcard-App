@@ -2,8 +2,10 @@
 export default defineNuxtConfig({
     modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n"],
     ssr: true,
-    app: {
-        pageTransition: { name: "page", mode: "out-in" }
+    router: {
+        options: {
+            scrollBehaviorType: "smooth"
+        }
     },
     i18n: {
         defaultLocale: "en",
