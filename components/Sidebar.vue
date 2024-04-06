@@ -10,7 +10,7 @@
                 class="lg:hidden"
                 @click.prevent="$emit('close')"
             />
-            <UButton color="gray" variant="ghost" label="Flashcard" class="flex-1" :to="{name: 'home'}">
+            <UButton color="gray" variant="ghost" label="Flashcard" class="flex-1" to="/app">
                 <template #leading>
                     <img src="@/assets/images/logo.svg" alt="Image" height="20" width="20">
                 </template>

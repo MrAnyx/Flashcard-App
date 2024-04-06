@@ -1,10 +1,10 @@
 <template>
     <div>
         <h1>Landing page</h1>
-        <NuxtLink :to="{ name: 'home'}">
+        <NuxtLink to="/app">
             App
         </NuxtLink>
-        <NuxtLink :to="{name: 'login'}">
+        <NuxtLink to="/auth/login">
             Login
         </NuxtLink>
     </div>

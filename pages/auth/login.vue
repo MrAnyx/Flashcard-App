@@ -6,7 +6,7 @@
             </h2>
             <p class="text-gray-400">
                 {{ $t('authentication.login.subtitle') }}
-                <ULink :to="{ name: 'register' }" class="text-primary hover:text-primary-300">
+                <ULink to="/auth/register" class="text-primary hover:text-primary-300">
                     {{ $t('authentication.register.action') }}
                 </ULink>
             </p>
@@ -23,7 +23,7 @@
 
                 <UFormGroup :label="$t('authentication.login.password.label')" name="password" class="">
                     <template #hint>
-                        <ULink :to="{ name: 'application' }" class="text-primary hover:text-primary-300">
+                        <ULink to="/app" class="text-primary hover:text-primary-300">
                             {{ $t('authentication.login.password.forgotPassword') }}
                         </ULink>
                     </template>
@@ -48,7 +48,7 @@ import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
 
 definePageMeta({
-    layout: "authentication"
+    layout: "auth"
 });
 
 const schema = z.object({

@@ -3,19 +3,19 @@
         <UCard>
             <div class="flex flex-col space-y-6">
                 <div class="grid place-items-center">
-                    <ULink :to="{ name: 'landing' }">
+                    <ULink to="/">
                         <img src="@/assets/images/logo.svg" alt="Image" height="75" width="75">
                     </ULink>
                 </div>
 
                 <!-- <NuxtPage :transition="{ 'name': 'auth', mode: 'out-in' }" /> -->
-                <NuxtPage />
+                <slot />
 
                 <UDivider />
 
                 <p class="text-sm text-gray-400 text-center">
                     {{ $t('authentication.termsOfUseText') }}
-                    <ULink :to="{ name: 'application' }" class="text-primary hover:text-primary-300">
+                    <ULink to="/app" class="text-primary hover:text-primary-300">
                         {{ $t('authentication.termsOfUse') }}
                     </ULink>
                 </p>

@@ -6,7 +6,7 @@
             </h2>
             <p class="text-gray-400">
                 {{ $t('authentication.register.subtitle') }}
-                <ULink :to="{ name: 'login' }" class="text-primary hover:text-primary-300">
+                <ULink to="/auth/login" class="text-primary hover:text-primary-300">
                     {{ $t('authentication.login.action') }}
                 </ULink>
             </p>
