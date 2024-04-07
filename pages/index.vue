@@ -11,10 +11,7 @@
 </template>
 
 <script setup lang="ts">
-
 useHead({
-    titleTemplate: () => {
-        return "Flashcard - Master your knowledge";
-    }
+    titleTemplate: () => "Flashcard - Master your knowledge"
 });
 </script>

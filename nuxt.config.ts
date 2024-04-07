@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n"],
-    ssr: true,
+    ssr: false,
     router: {
         options: {
             scrollBehaviorType: "smooth"
@@ -10,7 +10,8 @@ export default defineNuxtConfig({
     i18n: {
         defaultLocale: "en",
         locales: ["en", "fr"],
-        vueI18n: "./i18n/i18n.config.ts"
+        vueI18n: "./i18n/i18n.config.ts",
+        strategy: "no_prefix"
     },
     colorMode: {
         preference: "dark"

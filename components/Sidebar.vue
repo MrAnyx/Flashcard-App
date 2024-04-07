@@ -31,16 +31,16 @@ const navigationLinks: VerticalNavigationLink[] = [{
     label: "Collection",
     icon: "i-heroicons-squares-2x2",
     badge: 4,
-    to: { name: "topics" }
+    to: "/app/topics"
 }, {
     label: "Practice",
     icon: "i-heroicons-academic-cap",
     badge: 125,
-    to: { name: "practice" }
+    to: "/app/practice"
 }, {
     label: "Settings",
     icon: "i-heroicons-cog-6-tooth",
-    to: { name: "settings" }
+    to: "/app/settings"
 }];
 
 const otherLinks: VerticalNavigationLink[][] = [[{

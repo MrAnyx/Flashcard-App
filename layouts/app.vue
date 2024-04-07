@@ -9,7 +9,19 @@
             </aside>
         </USlideover>
         <section class="flex-1 flex flex-col w-full">
-            <NuxtPage />
+            <header class="h-16 shrink-0 flex items-center border-b border-gray-800 px-6">
+                <UButton
+                    color="gray"
+                    variant="ghost"
+                    square
+                    icon="i-heroicons-bars-3"
+                    size="sm"
+                    class="mr-4 lg:hidden"
+                    @click.prevent="isSidebarOpen = !isSidebarOpen"
+                />
+                <slot name="header" />
+            </header>
+            <slot />
         </section>
     </main>
 </template>

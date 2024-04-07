@@ -9,9 +9,9 @@
                 </div>
 
                 <!-- <NuxtPage :transition="{ 'name': 'auth', mode: 'out-in' }" /> -->
-                <slot />
+                <slot name="default" />
 
-                <UDivider />
+                <UDivider :ui="{border: {base: 'dark:border-gray-700'}}" />
 
                 <p class="text-sm text-gray-400 text-center">
                     {{ $t('authentication.termsOfUseText') }}

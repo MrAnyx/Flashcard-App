@@ -1,3 +1,11 @@
 <template>
-    <h1>Practice</h1>
+    <div>
+        <NuxtLayout name="app">
+            <template #header>
+                <h1 class="text-gray-400">
+                    Practice
+                </h1>
+            </template>
+        </NuxtLayout>
+    </div>
 </template>
