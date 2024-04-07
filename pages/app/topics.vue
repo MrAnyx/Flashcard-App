@@ -1,7 +1,7 @@
 <template>
     <div>
         <NuxtLayout name="app">
-            <template #header>
+            <template #breadcrumb>
                 <UBreadcrumb :links="links" />
             </template>
             <RecentItems title="Recent topics" :items="[]" />

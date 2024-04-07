@@ -2,9 +2,7 @@
     <div>
         <NuxtLayout name="app">
             <template #header>
-                <h1 class="text-gray-400">
-                    Practice
-                </h1>
+                Practice
             </template>
         </NuxtLayout>
     </div>

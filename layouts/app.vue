@@ -19,7 +19,11 @@
                     class="mr-4 lg:hidden"
                     @click.prevent="isSidebarOpen = !isSidebarOpen"
                 />
-                <slot name="header" />
+
+                <h1 v-if="$slots.header" class="text-gray-400 font-semibold mr-4">
+                    <slot name="header" />
+                </h1>
+                <slot v-if="$slots.breadcrumb" name="breadcrumb" />
             </header>
             <slot />
         </section>
