@@ -40,7 +40,7 @@ const navigationLinks: VerticalNavigationLink[] = [{
 }, {
     label: "Settings",
     icon: "i-heroicons-cog-6-tooth",
-    to: "/app/settings"
+    to: "/app/settings/account"
 }];
 
 const otherLinks: VerticalNavigationLink[][] = [[{
