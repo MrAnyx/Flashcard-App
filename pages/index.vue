@@ -11,6 +11,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    name: "landing"
+});
+
 useHead({
     titleTemplate: () => "Flashcard - Master your knowledge"
 });

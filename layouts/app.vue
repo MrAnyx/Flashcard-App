@@ -20,10 +20,9 @@
                     @click.prevent="isSidebarOpen = !isSidebarOpen"
                 />
 
-                <h1 v-if="$slots.header" class="text-gray-400 font-semibold mr-4">
+                <h1 class="text-gray-400 font-semibold mr-4">
                     <slot name="header" />
                 </h1>
-                <slot v-if="$slots.breadcrumb" name="breadcrumb" />
             </header>
             <slot />
         </section>

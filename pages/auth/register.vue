@@ -60,7 +60,8 @@ import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
 
 definePageMeta({
-    layout: "auth"
+    layout: "auth",
+    name: "register"
 });
 
 // Form definition

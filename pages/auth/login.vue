@@ -48,7 +48,8 @@ import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
 
 definePageMeta({
-    layout: "auth"
+    layout: "auth",
+    name: "login"
 });
 
 const schema = z.object({
