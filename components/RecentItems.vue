@@ -5,7 +5,7 @@
         </h4>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <ULink v-for="i in 4" :key="i" :to="`/app/topics/${i}`">
+            <ULink v-for="item, id in items" :key="id" :to="`/app/topics/${item.id}/units`">
                 <UCard
                     class="hover:!ring-primary/65 hover:ring-2 transition-all"
                     :ui="{ body: { padding: 'p-3 sm:p-4' } }"
@@ -14,8 +14,8 @@
                         <UIcon name="i-heroicons-folder" class="bg-gray-300 text-2xl shrink-0" />
 
                         <div class="flex-1 text-gray-300 flex flex-col min-w-0 text-left">
-                            <span class="truncate">Korean</span>
-                            <span class="text-sm text-gray-500 truncate">4 units</span>
+                            <span class="truncate">{{ item.title }}</span>
+                            <span class="text-sm text-gray-500 truncate">{{ item.subItemsCount }} {{ subType }}s</span>
                         </div>
                     </div>
                 </UCard>
@@ -25,8 +25,11 @@
 </template>
 
 <script setup lang="ts">
+import type { RecentItem } from "~/types/RecentItem";
+
 defineProps<{
     title: string
-    items: any[]
+    items: RecentItem[],
+    subType: "unit" | "flashcard"
 }>();
 </script>

@@ -1,6 +1,8 @@
 <template>
     <div>
-        <RecentItems title="Recent topics" :items="recentItems" sub-type="unit" />
+        <UBreadcrumb :links="links" class="px-6 py-4 border-b border-gray-800" />
+
+        <RecentItems title="Recent units" :items="recentItems" sub-type="flashcard" />
         <UModal v-model="isModalOpen">
             <div class="p-4">
                 New topic
@@ -10,13 +12,13 @@
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
                     <h4 class="font-medium text-lg text-gray-200">
-                        Topics
+                        Units
                     </h4>
                     <UBadge color="primary" variant="subtle">
-                        {{ people.length }} topics
+                        {{ people.length }} units
                     </UBadge>
                 </div>
-                <UButton label="Add a topic" variant="soft" color="primary" @click="isModalOpen = true">
+                <UButton label="Add a unit" variant="soft" color="primary" @click="isModalOpen = true">
                     <template #leading>
                         <UIcon name="i-heroicons-plus" class="w-5 h-5" />
                     </template>
@@ -34,10 +36,19 @@
 </template>
 
 <script setup lang="ts">
+import type { BreadcrumbLink } from "#ui/types";
 import type { RecentItem } from "~/types/RecentItem";
 
+const links: BreadcrumbLink[] = [{
+    label: "Topics",
+    icon: "i-heroicons-folder",
+    to: "/app/topics"
+}, {
+    label: "Korean"
+}];
+
 definePageMeta({
-    name: "topics"
+    name: "units"
 });
 
 useHead({
@@ -49,22 +60,22 @@ const isModalOpen = ref(false);
 const recentItems: RecentItem[] = [
     {
         id: 1,
-        title: "Korean",
+        title: "Alphabet",
         subItemsCount: 16
     },
     {
         id: 2,
-        title: "Sport",
+        title: "Verbs",
         subItemsCount: 4
     },
     {
         id: 3,
-        title: "Cooking",
+        title: "Names",
         subItemsCount: 7
     },
     {
         id: 4,
-        title: "Gaming",
+        title: "Food",
         subItemsCount: 2
     }
 ];
