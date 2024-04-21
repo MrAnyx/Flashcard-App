@@ -1,5 +1,6 @@
 export type RecentItem = {
     id: number,
     title: string,
-    subItemsCount: number
+    subItemsCount: number,
+    url: string
 }

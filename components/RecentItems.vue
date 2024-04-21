@@ -5,7 +5,7 @@
         </h4>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <ULink v-for="item, id in items" :key="id" :to="`/app/topics/${item.id}/units`">
+            <ULink v-for="item, key in items" :key="key" :to="item.url">
                 <UCard
                     class="hover:!ring-primary/65 hover:ring-2 transition-all"
                     :ui="{ body: { padding: 'p-3 sm:p-4' } }"

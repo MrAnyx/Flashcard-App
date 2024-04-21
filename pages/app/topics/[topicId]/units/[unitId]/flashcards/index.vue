@@ -45,6 +45,12 @@ const links: BreadcrumbLink[] = [{
     to: "/app/topics"
 }, {
     label: "Korean"
+}, {
+    label: "Units",
+    icon: "i-heroicons-swatch",
+    to: "/app/topics/1/units"
+}, {
+    label: "Alphabet"
 }];
 
 definePageMeta({
@@ -61,22 +67,26 @@ const recentItems: RecentItem[] = [
     {
         id: 1,
         title: "Alphabet",
-        subItemsCount: 16
+        subItemsCount: 16,
+        url: "/app/topics/1/units/1/flashcards"
     },
     {
         id: 2,
         title: "Verbs",
-        subItemsCount: 4
+        subItemsCount: 4,
+        url: "/app/topics/1/units/2/flashcards"
     },
     {
         id: 3,
         title: "Names",
-        subItemsCount: 7
+        subItemsCount: 7,
+        url: "/app/topics/1/units/3/flashcards"
     },
     {
         id: 4,
         title: "Food",
-        subItemsCount: 2
+        subItemsCount: 2,
+        url: "/app/topics/1/units/4/flashcards"
     }
 ];
 

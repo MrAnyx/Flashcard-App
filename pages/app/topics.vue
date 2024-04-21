@@ -1,7 +1,7 @@
 <template>
     <NuxtLayout name="app">
         <template #header>
-            Topics
+            Collection
         </template>
         <NuxtPage />
     </NuxtLayout>
@@ -9,6 +9,6 @@
 
 <script setup lang="ts">
 useHead({
-    titleTemplate: () => "Topics"
+    titleTemplate: () => "Collection"
 });
 </script>
