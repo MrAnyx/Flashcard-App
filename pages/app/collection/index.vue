@@ -1,8 +1,6 @@
 <template>
     <div>
-        <UBreadcrumb :links="links" class="px-6 py-4 border-b border-gray-800" />
-
-        <RecentItems title="Recent units" :items="recentItems" sub-type="flashcard" />
+        <RecentItems title="Recent topics" :items="recentItems" sub-type="unit" />
         <UModal v-model="isModalOpen">
             <div class="p-4">
                 New topic
@@ -12,13 +10,13 @@
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
                     <h4 class="font-medium text-lg text-gray-200">
-                        Units
+                        Topics
                     </h4>
                     <UBadge color="primary" variant="subtle">
-                        {{ people.length }} units
+                        {{ people.length }} topics
                     </UBadge>
                 </div>
-                <UButton label="Add a unit" variant="soft" color="primary" @click="isModalOpen = true">
+                <UButton label="Add a topic" variant="soft" color="primary" @click="isModalOpen = true">
                     <template #leading>
                         <UIcon name="i-heroicons-plus" class="w-5 h-5" />
                     </template>
@@ -36,25 +34,10 @@
 </template>
 
 <script setup lang="ts">
-import type { BreadcrumbLink } from "#ui/types";
 import type { RecentItem } from "~/types/RecentItem";
 
-const links: BreadcrumbLink[] = [{
-    label: "Topics",
-    icon: "i-heroicons-folder",
-    to: "/app/topics"
-}, {
-    label: "Korean"
-}, {
-    label: "Units",
-    icon: "i-heroicons-swatch",
-    to: "/app/topics/1/units"
-}, {
-    label: "Alphabet"
-}];
-
 definePageMeta({
-    name: "units"
+    name: "topics"
 });
 
 useHead({
@@ -66,27 +49,27 @@ const isModalOpen = ref(false);
 const recentItems: RecentItem[] = [
     {
         id: 1,
-        title: "Alphabet",
+        title: "Korean",
         subItemsCount: 16,
-        url: "/app/topics/1/units/1/flashcards"
+        url: "/app/collection/1"
     },
     {
         id: 2,
-        title: "Verbs",
+        title: "Sport",
         subItemsCount: 4,
-        url: "/app/topics/1/units/2/flashcards"
+        url: "/app/collection/2"
     },
     {
         id: 3,
-        title: "Names",
-        subItemsCount: 7,
-        url: "/app/topics/1/units/3/flashcards"
+        title: "Cooking",
+        subItemsCount: 1,
+        url: "/app/collection/3"
     },
     {
         id: 4,
-        title: "Food",
+        title: "Gaming",
         subItemsCount: 2,
-        url: "/app/topics/1/units/4/flashcards"
+        url: "/app/collection/4"
     }
 ];
 

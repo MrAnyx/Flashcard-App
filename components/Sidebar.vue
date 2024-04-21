@@ -30,8 +30,8 @@ defineEmits(["close"]);
 const navigationLinks: VerticalNavigationLink[] = [{
     label: "Collection",
     icon: "i-heroicons-squares-2x2",
-    badge: 4,
-    to: "/app/topics"
+    badge: "856",
+    to: "/app/collection"
 }, {
     label: "Practice",
     icon: "i-heroicons-academic-cap",

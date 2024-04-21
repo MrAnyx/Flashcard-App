@@ -15,7 +15,7 @@
 
                         <div class="flex-1 text-gray-300 flex flex-col min-w-0 text-left">
                             <span class="truncate">{{ item.title }}</span>
-                            <span class="text-sm text-gray-500 truncate">{{ item.subItemsCount }} {{ subType }}s</span>
+                            <span class="text-sm text-gray-500 truncate">{{ item.subItemsCount }} {{ subType }}{{ item.subItemsCount > 1 ? 's' : '' }}</span>
                         </div>
                     </div>
                 </UCard>
