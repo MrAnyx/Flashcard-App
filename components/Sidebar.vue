@@ -38,6 +38,11 @@ const navigationLinks: VerticalNavigationLink[] = [{
     badge: 125,
     to: "/app/practice"
 }, {
+    label: "Favorites",
+    icon: "i-heroicons-star",
+    badge: 56,
+    to: "/app/favorites"
+}, {
     label: "Settings",
     icon: "i-heroicons-cog-6-tooth",
     to: "/app/settings/account"

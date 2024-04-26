@@ -12,7 +12,8 @@ import type { RecentItem } from "~/types/RecentItem";
 const breadcrumbItems: BreadcrumbLink[] = [
     {
         label: "Collection",
-        icon: "i-heroicons-folder"
+        icon: "i-heroicons-folder",
+        to: "/app/collection"
     },
     {
         label: "Korean",
