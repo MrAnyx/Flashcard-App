@@ -1,5 +1,6 @@
 {
     "name": "Flashcard App",
+    "runArgs": ["--network=flashcard-net"],
     "image": "mcr.microsoft.com/devcontainers/base:alpine-3.19",
     "features": {
         "ghcr.io/cirolosapio/devcontainers-features/alpine-node:0": {

@@ -18,4 +18,6 @@ definePageMeta({
 useHead({
     titleTemplate: () => "Flashcard - Master your knowledge"
 });
+
+await $fetch("http://localhost:8080/api/users/me");
 </script>
