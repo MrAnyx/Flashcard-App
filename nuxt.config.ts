@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n"],
+    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt"],
     ssr: false,
     runtimeConfig: {
         public: {
@@ -18,6 +18,9 @@ export default defineNuxtConfig({
         locales: ["en", "fr"],
         vueI18n: "./i18n/i18n.config.ts",
         strategy: "no_prefix"
+    },
+    pinia: {
+        storesDirs: ["./stores/**"]
     },
     colorMode: {
         preference: "dark"

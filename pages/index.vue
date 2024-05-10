@@ -7,6 +7,10 @@
         <NuxtLink to="/auth/login">
             Login
         </NuxtLink>
+
+        <button @click="store.increment">
+            {{ store.count }}
+        </button>
     </div>
 </template>
 
@@ -19,5 +23,9 @@ useHead({
     titleTemplate: () => "Flashcard - Master your knowledge"
 });
 
-await useApi("/users/me", {});
+useAppConfig();
+
+const store = useCounterStore();
+
+// await useApi("/users/me", {});
 </script>
