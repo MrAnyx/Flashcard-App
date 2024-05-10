@@ -13,7 +13,7 @@
                         Topics
                     </h4>
                     <UBadge color="primary" variant="subtle">
-                        {{ people.length }} topics
+                        {{ topics.length }} topics
                     </UBadge>
                 </div>
                 <UButton label="Add a topic" variant="soft" color="primary" @click="isModalOpen = true">
@@ -22,7 +22,15 @@
                     </template>
                 </UButton>
             </div>
-            <UTable :rows="people" :columns="columns">
+            <UTable
+                :rows="topics"
+                :columns="columns"
+                :ui="{ td: { base: 'max-w-[0] truncate' }}"
+            >
+                <template #favorite-data="{ row }">
+                    <UIcon v-if="row.favorite" name="i-heroicons-star-solid" class="text-xl text-yellow-400" />
+                    <UIcon v-else name="i-heroicons-star" class="text-xl" />
+                </template>
                 <template #actions-data="{ row }">
                     <UDropdown :items="rowOptions(row)">
                         <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal" />
@@ -34,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+import type { DropdownItem } from "#ui/types";
 import type { RecentItem } from "~/types/RecentItem";
 
 definePageMeta({
@@ -43,6 +52,28 @@ definePageMeta({
 useHead({
     titleTemplate: () => "Topics"
 });
+
+onMounted(() => {
+    loadTopics();
+});
+
+type Topic = {
+    id: number;
+    name: string;
+    description: string;
+    units: number;
+    favorite: boolean;
+}
+
+const topics = ref<Topic[]>([]);
+
+const loadTopics = () => {
+    const data = useFetch("http://localhost:8080/api/topics", {
+        headers: {
+            authorization: "Bearer 509326bd1f32bb33675a8f4e4df4760e73871db355bb221d14be27904eec6d83895e191b"
+        }
+    });
+};
 
 const isModalOpen = ref(false);
 
@@ -77,39 +108,19 @@ const columns = [{
     key: "name",
     label: "Name"
 }, {
-    key: "title",
-    label: "Title"
+    key: "description",
+    label: "Description"
 }, {
-    key: "email",
-    label: "Email"
+    key: "units",
+    label: "Units"
 }, {
-    key: "role",
-    label: "Role"
+    key: "favorite",
+    label: "Favorite"
 }, {
     key: "actions"
 }];
 
-const people = [{
-    id: 1,
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton@example.com",
-    role: "Member"
-}, {
-    id: 2,
-    name: "Courtney Henry",
-    title: "Designer",
-    email: "courtney.henry@example.com",
-    role: "Admin"
-}, {
-    id: 3,
-    name: "Tom Cook",
-    title: "Director of Product",
-    email: "tom.cook@example.com",
-    role: "Member"
-}];
-
-const rowOptions = (row: any) => [
+const rowOptions = (row: any): DropdownItem[][] => [
     [{
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",
@@ -117,12 +128,6 @@ const rowOptions = (row: any) => [
     }, {
         label: "Duplicate",
         icon: "i-heroicons-document-duplicate-20-solid"
-    }], [{
-        label: "Archive",
-        icon: "i-heroicons-archive-box-20-solid"
-    }, {
-        label: "Move",
-        icon: "i-heroicons-arrow-right-circle-20-solid"
     }], [{
         label: "Delete",
         icon: "i-heroicons-trash-20-solid"

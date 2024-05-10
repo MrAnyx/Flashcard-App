@@ -7,10 +7,6 @@
         <NuxtLink to="/auth/login">
             Login
         </NuxtLink>
-
-        <button @click="store.increment">
-            {{ store.count }}
-        </button>
     </div>
 </template>
 
@@ -24,8 +20,6 @@ useHead({
 });
 
 useAppConfig();
-
-const store = useCounterStore();
 
 // await useApi("/users/me", {});
 </script>
