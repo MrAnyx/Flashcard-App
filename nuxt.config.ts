@@ -2,6 +2,12 @@
 export default defineNuxtConfig({
     modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n"],
     ssr: false,
+    runtimeConfig: {
+        public: {
+            env: process.env.ENV,
+            apiBaseUrl: process.env.API_BASE_URL
+        }
+    },
     router: {
         options: {
             scrollBehaviorType: "smooth"

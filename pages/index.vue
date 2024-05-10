@@ -19,5 +19,5 @@ useHead({
     titleTemplate: () => "Flashcard - Master your knowledge"
 });
 
-await $fetch("http://localhost:8080/api/users/me");
+await useApi("/users/me", {});
 </script>
