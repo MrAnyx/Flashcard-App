@@ -46,6 +46,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
+import type { User } from "~/types/entity";
 
 definePageMeta({
     layout: "auth",
@@ -67,8 +68,20 @@ const state = reactive<Schema>({
     password: ""
 });
 
-const onSubmit = (event: FormSubmitEvent<Schema>) => {
-    // Do something with data
-    console.log(event);
+const onSubmit = () => {
+    useApi<User>("/auth/login", {
+        method: "POST"
+    }, {
+        identifier: state.email,
+        password: state.password
+    })
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((err) => {
+            if (err) {
+                console.log(err);
+            }
+        });
 };
 </script>

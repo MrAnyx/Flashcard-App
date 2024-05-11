@@ -1,5 +1,7 @@
+import type { User } from "~/types/entity";
+
 type State = {
-    user: object | undefined
+    user: User | undefined
 }
 
 export const useUserStore = defineStore("user", {

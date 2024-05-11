@@ -1,3 +1,5 @@
+import type { JsonStandard } from "~/types/request";
+
 type ApiRequestOption = {
     method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
     headers?: Record<string, string>,
@@ -8,7 +10,7 @@ type ApiRequestOption = {
 export const useApi = <TResponse>(url: string, options: ApiRequestOption, body: BodyInit | Record<string, any> | null | undefined) => {
     const config = useRuntimeConfig();
 
-    return $fetch<TResponse>(url, {
+    return $fetch<JsonStandard<TResponse>>(url, {
         baseURL: config.public.apiBaseUrl,
         method: options.method,
         headers: {

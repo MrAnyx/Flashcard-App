@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt"],
-    ssr: false,
+    ssr: true,
     runtimeConfig: {
         public: {
             env: process.env.ENV,
