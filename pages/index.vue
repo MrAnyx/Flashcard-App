@@ -19,7 +19,4 @@ useHead({
     titleTemplate: () => "Flashcard - Master your knowledge"
 });
 
-useAppConfig();
-
-// await useApi("/users/me", {});
 </script>

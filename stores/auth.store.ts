@@ -4,8 +4,8 @@ type State = {
     user: User | undefined
 }
 
-export const useUserStore = defineStore("user", {
-    state: () => ({
+export const useAuthStore = defineStore("auth", {
+    state: (): State => ({
         user: undefined
     })
 });
