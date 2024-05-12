@@ -52,6 +52,10 @@ definePageMeta({
     name: "login"
 });
 
+useHead({
+    title: "Se sonnecter"
+});
+
 const toast = useToast();
 const authStore = useAuthStore();
 const router = useRouter();

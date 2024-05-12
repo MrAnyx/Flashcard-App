@@ -16,7 +16,7 @@ definePageMeta({
 });
 
 useHead({
-    titleTemplate: () => "Flashcard - Master your knowledge"
+    title: "Master your knowledge"
 });
 
 </script>

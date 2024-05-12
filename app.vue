@@ -7,6 +7,14 @@
     </div>
 </template>
 
+<script setup lang="ts">
+useHead({
+    titleTemplate: (titleChunk) => {
+        return titleChunk ? `${titleChunk} - Flashcard` : "Flashcard";
+    }
+});
+</script>
+
 <style>
 body {
     background-color: rgb(var(--color-gray-900));
