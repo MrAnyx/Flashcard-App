@@ -65,14 +65,17 @@ type Topic = {
     favorite: boolean;
 }
 
-const topics = ref<Topic[]>([]);
+const topics = ref<Topic[]>([
+    {
+        id: 1,
+        name: "toto",
+        description: "super description",
+        units: 5,
+        favorite: true
+    }
+]);
 
 const loadTopics = () => {
-    const data = useFetch("http://localhost:8080/api/topics", {
-        headers: {
-            authorization: "Bearer 509326bd1f32bb33675a8f4e4df4760e73871db355bb221d14be27904eec6d83895e191b"
-        }
-    });
 };
 
 const isModalOpen = ref(false);
@@ -128,6 +131,9 @@ const rowOptions = (row: any): DropdownItem[][] => [
     }, {
         label: "Duplicate",
         icon: "i-heroicons-document-duplicate-20-solid"
+    }, {
+        label: "Move",
+        icon: "i-heroicons-arrow-top-right-on-square"
     }], [{
         label: "Delete",
         icon: "i-heroicons-trash-20-solid"

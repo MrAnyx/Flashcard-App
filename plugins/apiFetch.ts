@@ -6,19 +6,26 @@ export default defineNuxtPlugin(() => {
 
     const $apiFetch = $fetch.create({
         baseURL: config.apiBaseUrl,
-        onRequest ({ options }) {
-            if (authStore.user !== undefined) {
+        onRequest({ options }) {
+            if (authStore.token !== null) {
                 options.headers = {
                     ...options.headers,
-                    Authorization: `Bearer ${authStore.user.token}`
+                    Authorization: `Bearer ${authStore.token}`
                 };
             }
         },
-        onResponseError ({ response }) {
+        onRequestError() {
+            toast.add({
+                description: "An error occured while send a request, please try again or contact the administrator.",
+                title: "Internal error",
+                color: "red"
+            });
+        },
+        onResponseError({ response }) {
             if (response.status === 500) {
                 toast.add({
                     description: "An error occured on the server, please try again or contact the administrator.",
-                    title: "Server error",
+                    title: "Internal error",
                     color: "red"
                 });
             }

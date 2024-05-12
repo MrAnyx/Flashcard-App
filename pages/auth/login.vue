@@ -36,7 +36,7 @@
                 </UFormGroup>
             </div>
 
-            <UButton type="submit" block :loading="loginPending">
+            <UButton type="submit" block>
                 {{ $t('authentication.login.action') }}
             </UButton>
         </UForm>
@@ -71,7 +71,7 @@ const state = reactive<Schema>({
 });
 
 const onSubmit = async () => {
-    const res = await useApi<User>("/auth/login", {
+    const { data, error } = await useApi<User>("/auth/login", {
         method: "POST",
         body: {
             identifier: state.identifier,
@@ -79,10 +79,10 @@ const onSubmit = async () => {
         }
     });
 
-    if (!res.error.value) {
-        authStore.user = res.data.value!.data;
+    if (!error.value) {
+        authStore.user = data.value!.data;
         router.push("/app");
-    } else {
+    } else if (error.value.statusCode === 401) {
         // 401 Exception
         toast.add({
             title: "Invalid credentials",
