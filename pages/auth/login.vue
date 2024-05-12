@@ -13,9 +13,9 @@
         </header>
         <UForm :schema="schema" :state="state" class="space-y-8" :validate-on="['submit']" @submit="onSubmit">
             <div class="flex flex-col space-y-4">
-                <UFormGroup :label="$t('authentication.login.identifier.label')" name="email">
+                <UFormGroup :label="$t('authentication.login.identifier.label')" name="identifier">
                     <UInput
-                        v-model="state.email"
+                        v-model="state.identifier"
                         :placeholder="$t('authentication.login.identifier.placeholder')"
                         icon="i-heroicons-envelope"
                     />
@@ -36,7 +36,7 @@
                 </UFormGroup>
             </div>
 
-            <UButton type="submit" block>
+            <UButton type="submit" block :loading="loginPending">
                 {{ $t('authentication.login.action') }}
             </UButton>
         </UForm>
@@ -52,10 +52,13 @@ definePageMeta({
     name: "login"
 });
 
+const toast = useToast();
+const authStore = useAuthStore();
+const router = useRouter();
+
 const schema = z.object({
-    email: z.string()
-        .email("Invalid email")
-        .max(180, "Email is too long"),
+    identifier: z.string()
+        .max(180, "Identifier is too long"),
     password: z.string()
         .min(8, "Password is too short")
 });
@@ -63,17 +66,29 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive<Schema>({
-    email: "",
+    identifier: "",
     password: ""
 });
 
 const onSubmit = async () => {
-    const data = await useApi<User>("/auth/login", {
+    const res = await useApi<User>("/auth/login", {
         method: "POST",
         body: {
-            identifier: state.email,
+            identifier: state.identifier,
             password: state.password
         }
     });
+
+    if (!res.error.value) {
+        authStore.user = res.data.value!.data;
+        router.push("/app");
+    } else {
+        // 401 Exception
+        toast.add({
+            title: "Invalid credentials",
+            description: "Invalid identifier or password",
+            color: "red"
+        });
+    }
 };
 </script>
