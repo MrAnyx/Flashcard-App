@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-    name: "dashboard"
+    name: "dashboard",
+    middleware: "is-connected"
 });
-
 </script>

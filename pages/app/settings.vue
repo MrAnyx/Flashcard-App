@@ -26,6 +26,10 @@ useHead({
     }
 });
 
+definePageMeta({
+    middleware: "is-connected"
+});
+
 const links: HorizontalNavigationLink[] = [{
     label: "Account",
     icon: "i-heroicons-user",

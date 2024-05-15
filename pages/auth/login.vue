@@ -49,7 +49,8 @@ import type { User } from "~/types/entity";
 
 definePageMeta({
     layout: "auth",
-    name: "login"
+    name: "login",
+    middleware: "is-not-connected"
 });
 
 useHead({
@@ -91,6 +92,12 @@ const onSubmit = async () => {
         toast.add({
             title: "Invalid credentials",
             description: "Invalid identifier or password",
+            color: "red"
+        });
+    } else {
+        toast.add({
+            title: "Error",
+            description: "An error occured, try again or contact an adinistrator",
             color: "red"
         });
     }

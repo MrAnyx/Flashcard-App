@@ -5,6 +5,7 @@ type State = {
 };
 
 export const useAuthStore = defineStore("auth", {
+    persist: true,
     state: (): State => ({
         user: null
     }),

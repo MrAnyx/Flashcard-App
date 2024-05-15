@@ -1,11 +1,23 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt"],
+    modules: [
+        "@nuxt/ui",
+        "@vueuse/nuxt",
+        "@nuxtjs/i18n",
+        "@pinia/nuxt",
+        "@pinia-plugin-persistedstate/nuxt"
+    ],
     ssr: true,
     runtimeConfig: {
         public: {
             apiBaseUrl: process.env.API_BASE_URL
         }
+    },
+    piniaPersistedstate: {
+        cookieOptions: {
+            sameSite: "strict"
+        },
+        storage: "localStorage"
     },
     router: {
         options: {
@@ -36,6 +48,7 @@ export default defineNuxtConfig({
     },
     vite: {
         server: {
+            middlewareMode: true,
             hmr: {
                 port: 3001
             }

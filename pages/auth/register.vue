@@ -61,7 +61,8 @@ import type { FormSubmitEvent } from "#ui/types";
 
 definePageMeta({
     layout: "auth",
-    name: "register"
+    name: "register",
+    middleware: "is-not-connected"
 });
 
 // Form definition
@@ -96,8 +97,31 @@ const state = reactive<Schema>({
     passwordConfirm: ""
 });
 
-const onSubmit = (event: FormSubmitEvent<Schema>) => {
-    // Do something with data
-    console.log(event);
+const onSubmit = async () => {
+    // const { data, error } = await useApi<User>("/auth/login", {
+    //     method: "POST",
+    //     body: {
+    //         identifier: state.identifier,
+    //         password: state.password
+    //     }
+    // });
+
+    // if (!error.value) {
+    //     authStore.user = data.value!.data;
+    //     router.push("/app");
+    // } else if (error.value.statusCode === 401) {
+    //     // 401 Exception
+    //     toast.add({
+    //         title: "Invalid credentials",
+    //         description: "Invalid identifier or password",
+    //         color: "red"
+    //     });
+    // } else {
+    //     toast.add({
+    //         title: "Error",
+    //         description: "An error occured, try again or contact an adinistrator",
+    //         color: "red"
+    //     });
+    // }
 };
 </script>

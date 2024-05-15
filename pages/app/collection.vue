@@ -11,4 +11,8 @@
 useHead({
     titleTemplate: () => "Collection"
 });
+
+definePageMeta({
+    middleware: "is-connected"
+});
 </script>

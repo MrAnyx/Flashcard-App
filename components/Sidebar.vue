@@ -56,7 +56,11 @@ const otherLinks: VerticalNavigationLink[][] = [[{
     icon: "i-heroicons-document-check"
 }, {
     label: "Sign out",
-    icon: "i-heroicons-arrow-left-start-on-rectangle"
+    icon: "i-heroicons-arrow-left-start-on-rectangle",
+    click: () => {
+        useAuthStore().logout();
+        return navigateTo({ name: "landing" });
+    }
 }], [{
     label: "MrAnyx",
     avatar: {

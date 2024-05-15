@@ -9,6 +9,7 @@
 </template>
 <script setup lang="ts">
 definePageMeta({
-    name: "practice"
+    name: "practice",
+    middleware: "is-connected"
 });
 </script>

@@ -6,3 +6,9 @@
         <NuxtPage />
     </NuxtLayout>
 </template>
+
+<script setup lang="ts">
+definePageMeta({
+    middleware: "is-connected"
+});
+</script>
