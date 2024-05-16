@@ -57,15 +57,14 @@ useHead({
     title: "Se sonnecter"
 });
 
-const toast = useToast();
 const authStore = useAuthStore();
-const router = useRouter();
 
 const schema = z.object({
     identifier: z.string()
+        .min(1, "Identifier can not be blank")
         .max(180, "Identifier is too long"),
     password: z.string()
-        .min(8, "Password is too short")
+        .min(1, "Password can not be blank")
 });
 
 type Schema = z.output<typeof schema>
@@ -86,7 +85,7 @@ const onSubmit = async () => {
 
     if (!error.value) {
         authStore.user = data.value!.data;
-        router.push("/app");
+        return navigateTo({ name: "dashboard" });
     } else if (error.value.statusCode === 401) {
         // 401 Exception
         useStandardToast("unauthorized", {
