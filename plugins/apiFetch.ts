@@ -1,7 +1,6 @@
 export default defineNuxtPlugin(() => {
     // const userAuth = useCookie("token");
     const config = useRuntimeConfig().public;
-    const toast = useToast();
     const authStore = useAuthStore();
 
     const $apiFetch = $fetch.create({
@@ -15,18 +14,14 @@ export default defineNuxtPlugin(() => {
             }
         },
         onRequestError() {
-            toast.add({
-                description: "An error occured while send a request, please try again or contact the administrator.",
-                title: "Internal error",
-                color: "red"
+            useStandardToast("error", {
+                description: "An error occured while send a request, please try again or contact the administrator."
             });
         },
         onResponseError({ response }) {
             if (response.status === 500) {
-                toast.add({
-                    description: "An error occured on the server, please try again or contact the administrator.",
-                    title: "Internal error",
-                    color: "red"
+                useStandardToast("error", {
+                    description: "An error occured on the server, please try again or contact the administrator."
                 });
             }
         }

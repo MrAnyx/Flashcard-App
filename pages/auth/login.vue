@@ -89,16 +89,12 @@ const onSubmit = async () => {
         router.push("/app");
     } else if (error.value.statusCode === 401) {
         // 401 Exception
-        toast.add({
-            title: "Invalid credentials",
-            description: "Invalid identifier or password",
-            color: "red"
+        useStandardToast("unauthorized", {
+            description: "Invalid identifier or password."
         });
     } else {
-        toast.add({
-            title: "Error",
-            description: "An error occured, try again or contact an adinistrator",
-            color: "red"
+        useStandardToast("error", {
+            description: "An error occured, try again or contact an adinistrator"
         });
     }
 };
