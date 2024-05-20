@@ -1,7 +1,7 @@
 import type { Notification } from "#ui/types";
 import type { StandardToastType } from "~/types/standardToast";
 
-export function useStandardToast(type: StandardToastType, options: Partial<Notification>) {
+export function useStandardToast(type: StandardToastType, options?: Partial<Notification>) {
     const toast = useToast();
 
     // TODO Utiliser un switch
@@ -42,6 +42,13 @@ export function useStandardToast(type: StandardToastType, options: Partial<Notif
         toast.add({
             title: "Success",
             color: "green",
+            ...options
+        });
+    } else if (type === "unknownError") {
+        toast.add({
+            title: "Error",
+            description: "An error occured, try again or contact an adinistrator.",
+            color: "red",
             ...options
         });
     }

@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import type { FormSubmitEvent } from "#ui/types";
+import type { User } from "@/types/entity";
 
 definePageMeta({
     layout: "auth",
@@ -72,16 +72,18 @@ const schema = z
             .string()
             .min(1, "Username can not be blank")
             .max(30, "Username is too long")
-            .regex(/^[\w-.]*$/, "Username contains invalid characters"),
+            .regex(Regex.Username, "Username contains invalid characters"),
         email: z
             .string()
             .email("Invalid email")
             .min(1, "Email can not be blank")
             .max(180, "Email is too long"),
-        password: z.string()
+        password: z
+            .string()
+            .regex(Regex.Password, "Password isn't valid")
             .min(8, "Password is too short"),
-        passwordConfirm: z.string()
-            .min(8, "Password is too short")
+        passwordConfirm: z
+            .string()
     })
     .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
         message: "Passwords don't match",
@@ -97,31 +99,27 @@ const state = reactive<Schema>({
     passwordConfirm: ""
 });
 
-const onSubmit = async () => {
-    // const { data, error } = await useApi<User>("/auth/login", {
-    //     method: "POST",
-    //     body: {
-    //         identifier: state.identifier,
-    //         password: state.password
-    //     }
-    // });
+const authStore = useAuthStore();
 
-    // if (!error.value) {
-    //     authStore.user = data.value!.data;
-    //     router.push("/app");
-    // } else if (error.value.statusCode === 401) {
-    //     // 401 Exception
-    //     toast.add({
-    //         title: "Invalid credentials",
-    //         description: "Invalid identifier or password",
-    //         color: "red"
-    //     });
-    // } else {
-    //     toast.add({
-    //         title: "Error",
-    //         description: "An error occured, try again or contact an adinistrator",
-    //         color: "red"
-    //     });
-    // }
+const onSubmit = async () => {
+    const { data, error } = await useApi<User>("/auth/register", {
+        method: "POST",
+        body: {
+            username: state.username,
+            email: state.email,
+            password: state.password
+        }
+    });
+
+    if (!error.value) {
+        authStore.user = data.value!.data;
+        return navigateTo({ name: "dashboard" });
+    } else if (error.value.statusCode === 400) {
+        useStandardToast("error", {
+            description: "Inputs don't satisfy the validation rules."
+        });
+    } else {
+        useStandardToast("unknownError");
+    }
 };
 </script>

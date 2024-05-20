@@ -92,9 +92,7 @@ const onSubmit = async () => {
             description: "Invalid identifier or password."
         });
     } else {
-        useStandardToast("error", {
-            description: "An error occured, try again or contact an adinistrator"
-        });
+        useStandardToast("unknownError");
     }
 };
 </script>
