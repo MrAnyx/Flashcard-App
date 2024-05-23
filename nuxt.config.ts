@@ -1,12 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: [
-        "@nuxt/ui",
-        "@vueuse/nuxt",
-        "@nuxtjs/i18n",
-        "@pinia/nuxt",
-        "@pinia-plugin-persistedstate/nuxt"
-    ],
+    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt"],
     ssr: true,
     runtimeConfig: {
         public: {
