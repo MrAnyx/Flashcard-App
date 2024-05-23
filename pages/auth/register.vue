@@ -116,7 +116,7 @@ const onSubmit = async () => {
         return navigateTo({ name: "dashboard" });
     } else if (error.value.statusCode === 400) {
         useStandardToast("error", {
-            description: "Inputs don't satisfy the validation rules."
+            description: "Unable to create an account given this form."
         });
     } else {
         useStandardToast("error");
