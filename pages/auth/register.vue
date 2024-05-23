@@ -119,7 +119,7 @@ const onSubmit = async () => {
             description: "Inputs don't satisfy the validation rules."
         });
     } else {
-        useStandardToast("unknownError");
+        useStandardToast("error");
     }
 };
 </script>

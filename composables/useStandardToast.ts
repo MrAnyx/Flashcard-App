@@ -44,12 +44,5 @@ export function useStandardToast(type: StandardToastType, options?: Partial<Noti
             color: "green",
             ...options
         });
-    } else if (type === "unknownError") {
-        toast.add({
-            title: "Error",
-            description: "An error occured, try again or contact an adinistrator.",
-            color: "red",
-            ...options
-        });
     }
 }
