@@ -6,14 +6,26 @@
             </h2>
             <p class="text-gray-400">
                 {{ $t('authentication.register.subtitle') }}
-                <ULink to="/auth/login" class="text-primary hover:text-primary-300">
+                <ULink
+                    to="/auth/login"
+                    class="text-primary hover:text-primary-300"
+                >
                     {{ $t('authentication.login.action') }}
                 </ULink>
             </p>
         </header>
-        <UForm :schema="schema" :state="state" class="space-y-8" :validate-on="['submit']" @submit="onSubmit">
+        <UForm
+            :schema="schema"
+            :state="state"
+            class="space-y-8"
+            :validate-on="['submit']"
+            @submit="onSubmit"
+        >
             <div class="flex flex-col space-y-4">
-                <UFormGroup :label="$t('authentication.register.username.label')" name="username">
+                <UFormGroup
+                    :label="$t('authentication.register.username.label')"
+                    name="username"
+                >
                     <UInput
                         v-model="state.username"
                         :placeholder="$t('authentication.register.username.placeholder')"
@@ -21,7 +33,10 @@
                     />
                 </UFormGroup>
 
-                <UFormGroup :label="$t('authentication.register.email.label') " name="email">
+                <UFormGroup
+                    :label="$t('authentication.register.email.label') "
+                    name="email"
+                >
                     <UInput
                         v-model="state.email"
                         :placeholder="$t('authentication.register.email.placeholder')"
@@ -29,7 +44,10 @@
                     />
                 </UFormGroup>
 
-                <UFormGroup :label="$t('authentication.register.password.label')" name="password">
+                <UFormGroup
+                    :label="$t('authentication.register.password.label')"
+                    name="password"
+                >
                     <UInput
                         v-model="state.password"
                         type="password"
@@ -38,7 +56,10 @@
                     />
                 </UFormGroup>
 
-                <UFormGroup :label="$t('authentication.register.passwordConf.label')" name="passwordConfirm">
+                <UFormGroup
+                    :label="$t('authentication.register.passwordConf.label')"
+                    name="passwordConfirm"
+                >
                     <UInput
                         v-model="state.passwordConfirm"
                         type="password"
@@ -48,7 +69,10 @@
                 </UFormGroup>
             </div>
 
-            <UButton type="submit" block>
+            <UButton
+                type="submit"
+                block
+            >
                 {{ $t('authentication.register.action') }}
             </UButton>
         </UForm>
@@ -90,7 +114,7 @@ const schema = z
         path: ["passwordConfirm"] // path of error
     });
 
-type Schema = z.output<typeof schema>
+type Schema = z.output<typeof schema>;
 
 const state = reactive<Schema>({
     username: "",
@@ -114,11 +138,13 @@ const onSubmit = async () => {
     if (!error.value) {
         authStore.user = data.value!.data;
         return navigateTo({ name: "dashboard" });
-    } else if (error.value.statusCode === 400) {
+    }
+    else if (error.value.statusCode === 400) {
         useStandardToast("error", {
             description: "Unable to create an account given this form."
         });
-    } else {
+    }
+    else {
         useStandardToast("error");
     }
 };

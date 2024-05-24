@@ -6,14 +6,26 @@
             </h2>
             <p class="text-gray-400">
                 {{ $t('authentication.login.subtitle') }}
-                <ULink to="/auth/register" class="text-primary hover:text-primary-300">
+                <ULink
+                    to="/auth/register"
+                    class="text-primary hover:text-primary-300"
+                >
                     {{ $t('authentication.register.action') }}
                 </ULink>
             </p>
         </header>
-        <UForm :schema="schema" :state="state" class="space-y-8" :validate-on="['submit']" @submit="onSubmit">
+        <UForm
+            :schema="schema"
+            :state="state"
+            class="space-y-8"
+            :validate-on="['submit']"
+            @submit="onSubmit"
+        >
             <div class="flex flex-col space-y-4">
-                <UFormGroup :label="$t('authentication.login.identifier.label')" name="identifier">
+                <UFormGroup
+                    :label="$t('authentication.login.identifier.label')"
+                    name="identifier"
+                >
                     <UInput
                         v-model="state.identifier"
                         :placeholder="$t('authentication.login.identifier.placeholder')"
@@ -21,9 +33,16 @@
                     />
                 </UFormGroup>
 
-                <UFormGroup :label="$t('authentication.login.password.label')" name="password" class="">
+                <UFormGroup
+                    :label="$t('authentication.login.password.label')"
+                    name="password"
+                    class=""
+                >
                     <template #hint>
-                        <ULink to="/app" class="text-primary hover:text-primary-300">
+                        <ULink
+                            to="/app"
+                            class="text-primary hover:text-primary-300"
+                        >
                             {{ $t('authentication.login.password.forgotPassword') }}
                         </ULink>
                     </template>
@@ -36,7 +55,10 @@
                 </UFormGroup>
             </div>
 
-            <UButton type="submit" block>
+            <UButton
+                type="submit"
+                block
+            >
                 {{ $t('authentication.login.action') }}
             </UButton>
         </UForm>
@@ -67,7 +89,7 @@ const schema = z.object({
         .min(1, "Password can not be blank")
 });
 
-type Schema = z.output<typeof schema>
+type Schema = z.output<typeof schema>;
 
 const state = reactive<Schema>({
     identifier: "",
@@ -86,12 +108,14 @@ const onSubmit = async () => {
     if (!error.value) {
         authStore.user = data.value!.data;
         return navigateTo({ name: "dashboard" });
-    } else if (error.value.statusCode === 401) {
+    }
+    else if (error.value.statusCode === 401) {
         // 401 Exception
         useStandardToast("unauthorized", {
             description: "Invalid identifier or password."
         });
-    } else {
+    }
+    else {
         useStandardToast("error");
     }
 };

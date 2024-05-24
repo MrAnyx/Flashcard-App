@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="flex flex-col space-y-3 h-full">
         <div class="flex space-x-2 lg:space-x-0">
@@ -10,9 +11,20 @@
                 class="lg:hidden"
                 @click.prevent="$emit('close')"
             />
-            <UButton color="gray" variant="ghost" label="Flashcard" class="flex-1" to="/app">
+            <UButton
+                color="gray"
+                variant="ghost"
+                label="Flashcard"
+                class="flex-1"
+                to="/app"
+            >
                 <template #leading>
-                    <img src="@/assets/images/logo.svg" alt="Image" height="20" width="20">
+                    <img
+                        src="@/assets/images/logo.svg"
+                        alt="Image"
+                        height="20"
+                        width="20"
+                    >
                 </template>
             </UButton>
         </div>

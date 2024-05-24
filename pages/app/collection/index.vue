@@ -1,6 +1,10 @@
 <template>
     <div>
-        <RecentItems title="Recent topics" :items="recentItems" sub-type="unit" />
+        <RecentItems
+            title="Recent topics"
+            :items="recentItems"
+            sub-type="unit"
+        />
         <UModal v-model="isModalOpen">
             <div class="p-4">
                 New topic
@@ -12,28 +16,51 @@
                     <h4 class="font-medium text-lg text-gray-200">
                         Topics
                     </h4>
-                    <UBadge color="primary" variant="subtle">
+                    <UBadge
+                        color="primary"
+                        variant="subtle"
+                    >
                         {{ topics.length }} topics
                     </UBadge>
                 </div>
-                <UButton label="Add a topic" variant="soft" color="primary" @click="isModalOpen = true">
+                <UButton
+                    label="Add a topic"
+                    variant="soft"
+                    color="primary"
+                    @click="isModalOpen = true"
+                >
                     <template #leading>
-                        <UIcon name="i-heroicons-plus" class="w-5 h-5" />
+                        <UIcon
+                            name="i-heroicons-plus"
+                            class="w-5 h-5"
+                        />
                     </template>
                 </UButton>
             </div>
             <UTable
                 :rows="topics"
                 :columns="columns"
-                :ui="{ td: { base: 'max-w-[0] truncate' }}"
+                :ui="{ td: { base: 'max-w-[0] truncate' } }"
             >
                 <template #favorite-data="{ row }">
-                    <UIcon v-if="row.favorite" name="i-heroicons-star-solid" class="text-xl text-yellow-400" />
-                    <UIcon v-else name="i-heroicons-star" class="text-xl" />
+                    <UIcon
+                        v-if="row.favorite"
+                        name="i-heroicons-star-solid"
+                        class="text-xl text-yellow-400"
+                    />
+                    <UIcon
+                        v-else
+                        name="i-heroicons-star"
+                        class="text-xl"
+                    />
                 </template>
                 <template #actions-data="{ row }">
                     <UDropdown :items="rowOptions(row)">
-                        <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal" />
+                        <UButton
+                            color="gray"
+                            variant="ghost"
+                            icon="i-heroicons-ellipsis-horizontal"
+                        />
                     </UDropdown>
                 </template>
             </UTable>
@@ -63,7 +90,7 @@ type Topic = {
     description: string;
     units: number;
     favorite: boolean;
-}
+};
 
 const topics = ref<Topic[]>([
     {
@@ -123,7 +150,7 @@ const columns = [{
     key: "actions"
 }];
 
-const rowOptions = (row: any): DropdownItem[][] => [
+const rowOptions = (row: RecentItem): DropdownItem[][] => [
     [{
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",

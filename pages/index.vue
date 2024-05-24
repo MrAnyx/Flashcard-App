@@ -18,5 +18,4 @@ definePageMeta({
 useHead({
     title: "Master your knowledge"
 });
-
 </script>

@@ -8,8 +8,8 @@
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
-        "cs:lint": "eslint --ext .vue,.ts,.js",
-        "cs:fix": "eslint --ext .vue,.ts,.js --fix"
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "dependencies": {
         "@nuxt/ui": "^2.14.2",
@@ -20,16 +20,14 @@
         "zod": "^3.22.4"
     },
     "devDependencies": {
+        "@nuxt/eslint": "^0.3.13",
         "@nuxt/schema": "^3.10.3",
         "@nuxtjs/eslint-config-typescript": "^12.1.0",
         "@nuxtjs/i18n": "^8.2.0",
         "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
-        "@typescript-eslint/eslint-plugin": "^7.1.1",
-        "@typescript-eslint/parser": "^7.1.1",
         "@vueuse/core": "^10.9.0",
         "@vueuse/nuxt": "^10.9.0",
-        "eslint": "^8.57.0",
-        "eslint-plugin-vue": "^9.22.0",
+        "eslint": "^9.3.0",
         "typescript": "^5.4.2",
         "vue-tsc": "^1"
     },

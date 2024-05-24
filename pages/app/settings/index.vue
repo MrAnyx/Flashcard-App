@@ -12,14 +12,21 @@
                     <h4>Email</h4>
                     <span class="text-gray-400 text-sm">Used to login and receive notifications</span>
                 </div>
-                <UInput value="example@mail.com" type="email" icon="i-heroicons-envelope" />
+                <UInput
+                    value="example@mail.com"
+                    type="email"
+                    icon="i-heroicons-envelope"
+                />
             </div>
             <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 items-center mt-6">
                 <div>
                     <h4>Username</h4>
                     <span class="text-gray-400 text-sm">Your unique identifier used to login</span>
                 </div>
-                <UInput value="MrAnyx" icon="i-heroicons-user" />
+                <UInput
+                    value="MrAnyx"
+                    icon="i-heroicons-user"
+                />
             </div>
             <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 items-center mt-6">
                 <div>
@@ -27,8 +34,15 @@
                     <span class="text-gray-400 text-sm">Used to securely login to your account</span>
                 </div>
                 <div>
-                    <UInput icon="i-heroicons-lock-closed" placeholder="Current password" class="mb-2" />
-                    <UInput icon="i-heroicons-lock-closed" placeholder="New password" />
+                    <UInput
+                        icon="i-heroicons-lock-closed"
+                        placeholder="Current password"
+                        class="mb-2"
+                    />
+                    <UInput
+                        icon="i-heroicons-lock-closed"
+                        placeholder="New password"
+                    />
                 </div>
             </div>
         </section>
@@ -45,14 +59,21 @@
                     <h4>Email</h4>
                     <span class="text-gray-400 text-sm">Used to login and receive notifications</span>
                 </div>
-                <UInput value="example@mail.com" type="email" icon="i-heroicons-envelope" />
+                <UInput
+                    value="example@mail.com"
+                    type="email"
+                    icon="i-heroicons-envelope"
+                />
             </div>
             <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 items-center mt-6">
                 <div>
                     <h4>Username</h4>
                     <span class="text-gray-400 text-sm">Your unique identifier used to login</span>
                 </div>
-                <UInput value="MrAnyx" icon="i-heroicons-user" />
+                <UInput
+                    value="MrAnyx"
+                    icon="i-heroicons-user"
+                />
             </div>
             <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 items-center mt-6">
                 <div>
@@ -60,8 +81,15 @@
                     <span class="text-gray-400 text-sm">Used to securely login to your account</span>
                 </div>
                 <div>
-                    <UInput icon="i-heroicons-lock-closed" placeholder="Current password" class="mb-2" />
-                    <UInput icon="i-heroicons-lock-closed" placeholder="New password" />
+                    <UInput
+                        icon="i-heroicons-lock-closed"
+                        placeholder="Current password"
+                        class="mb-2"
+                    />
+                    <UInput
+                        icon="i-heroicons-lock-closed"
+                        placeholder="New password"
+                    />
                 </div>
             </div>
         </section>
@@ -77,5 +105,4 @@ definePageMeta({
 useHead({
     title: "Account"
 });
-
 </script>

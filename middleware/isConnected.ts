@@ -1,7 +1,7 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(() => {
     const authStore = useAuthStore();
     if (!authStore.isConnected) {
-        useStandardToast("unauthorized", {
+        useStandardToast("warning", {
             description: "You must login before accessing this page"
         });
         return navigateTo({

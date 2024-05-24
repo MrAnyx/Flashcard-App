@@ -3,7 +3,12 @@
         <aside class="border-r border-gray-800 w-64 p-4 hidden lg:block">
             <Sidebar />
         </aside>
-        <USlideover v-model="isSidebarOpen" class="lg:hidden" side="left" :ui="{ width: 'w-screen max-w-md' }">
+        <USlideover
+            v-model="isSidebarOpen"
+            class="lg:hidden"
+            side="left"
+            :ui="{ width: 'w-screen max-w-md' }"
+        >
             <aside class="p-4 h-full">
                 <Sidebar @close="isSidebarOpen = !isSidebarOpen" />
             </aside>

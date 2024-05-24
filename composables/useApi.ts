@@ -1,7 +1,7 @@
 import type { UseFetchOptions } from "nuxt/app";
 import type { JsonStandard } from "~/types/request";
 
-export function useApi<T> (
+export function useApi<T>(
     url: string | (() => string),
     options: UseFetchOptions<JsonStandard<T>> = {}
 ) {

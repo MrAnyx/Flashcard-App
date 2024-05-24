@@ -1,7 +1,14 @@
 <template>
     <div>
-        <UBreadcrumb :links="breadcrumbItems" class="px-6 py-4 border-b border-gray-800" />
-        <RecentItems title="Recent units" :items="recentItems" sub-type="flashcard" />
+        <UBreadcrumb
+            :links="breadcrumbItems"
+            class="px-6 py-4 border-b border-gray-800"
+        />
+        <RecentItems
+            title="Recent units"
+            :items="recentItems"
+            sub-type="flashcard"
+        />
     </div>
 </template>
 
@@ -47,5 +54,4 @@ const recentItems: RecentItem[] = [
         url: "/app/collection/1/4"
     }
 ];
-
 </script>

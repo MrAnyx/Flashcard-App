@@ -1,11 +1,14 @@
 <template>
     <div>
-        <UBreadcrumb :links="breadcrumbItems" class="px-6 py-4 border-b border-gray-800" />
+        <UBreadcrumb
+            :links="breadcrumbItems"
+            class="px-6 py-4 border-b border-gray-800"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
-import type{ BreadcrumbLink } from "#ui/types";
+import type { BreadcrumbLink } from "#ui/types";
 
 const breadcrumbItems: BreadcrumbLink[] = [
     {
