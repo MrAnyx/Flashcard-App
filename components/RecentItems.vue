@@ -8,7 +8,7 @@
             <ULink
                 v-for="item, key in items"
                 :key="key"
-                :to="'#'"
+                :to="topicId !== undefined ? { name: 'flashcards', params: { topicId, unitId: item.id } } : { name: 'units', params: { topicId: item.id } }"
             >
                 <UCard
                     class="hover:!ring-primary/65 hover:ring-2 transition-all h-full"
@@ -42,6 +42,6 @@ import type { RecentItem } from "~/types/recentItem";
 defineProps<{
     title: string;
     items: RecentItem[];
-    route: string;
+    topicId?: number;
 }>();
 </script>

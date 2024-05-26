@@ -4,7 +4,6 @@
             v-if="topicStore.recents.length >= 4"
             title="Recent topics"
             :items="topicStore.recents"
-            route="units"
         />
         <UModal v-model="isModalOpen">
             <div class="p-4">
