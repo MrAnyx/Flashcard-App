@@ -1,10 +1,10 @@
 <template>
     <div>
-        <RecentItems
+        <!-- <RecentItems
             v-if="topicStore.recents.length >= 4"
             title="Recent topics"
             :items="topicStore.recents"
-        />
+        /> -->
         <UModal v-model="isModalOpen">
             <div class="p-4">
                 New topic
@@ -84,27 +84,27 @@ useHead({
 const topicStore = useTopicStore();
 
 onMounted(() => {
-    if (topicStore.recents.length === 0) {
-        loadRecentTopics();
-    }
+    // if (topicStore.recents.length === 0) {
+    //     loadRecentTopics();
+    // }
     loadTopics();
 });
 
-const loadRecentTopics = async () => {
-    const { data, error } = await useApi<Topic[]>("/topics/recent", {
-        method: "GET",
-    });
+// const loadRecentTopics = async () => {
+//     const { data, error } = await useApi<Topic[]>("/topics/recent", {
+//         method: "GET",
+//     });
 
-    if (!error.value) {
-        topicStore.recents = data.value!.data;
-    }
-    else if (error.value.statusCode === 401) {
-        useStandardToast("unauthorized");
-    }
-    else {
-        useStandardToast("error");
-    }
-};
+//     if (!error.value) {
+//         topicStore.recents = data.value!.data;
+//     }
+//     else if (error.value.statusCode === 401) {
+//         useStandardToast("unauthorized");
+//     }
+//     else {
+//         useStandardToast("error");
+//     }
+// };
 
 const loadTopics = async () => {
     const { data, error } = await useApi<Topic[]>("/topics", {

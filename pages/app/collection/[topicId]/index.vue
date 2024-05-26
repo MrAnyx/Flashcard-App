@@ -4,12 +4,17 @@
             :links="breadcrumbItems"
             class="px-6 py-4 border-b border-gray-800"
         />
-        <RecentItems
+        <!-- <RecentItems
             v-if="unitStore.recents.length >= 4"
             title="Recent units"
             :items="unitStore.recents"
             :topic-id="1"
-        />
+        /> -->
+        <UModal v-model="isModalOpen">
+            <div class="p-4">
+                New unit
+            </div>
+        </UModal>
         <div class="py-6 flex-1 overflow-y-auto">
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
@@ -77,31 +82,30 @@ definePageMeta({
     name: "units"
 });
 
-const route = useRoute();
 const unitStore = useUnitStore();
 
 onMounted(() => {
-    if (unitStore.recents.length === 0) {
-        loadRecentUnits();
-    }
+    // if (unitStore.recents.length === 0) {
+    //     loadRecentUnits();
+    // }
     loadUnits();
 });
 
-const loadRecentUnits = async () => {
-    const { data, error } = await useApi<Unit[]>(`/topics/${route.params.topicId}/units/recent`, {
-        method: "GET",
-    });
+// const loadRecentUnits = async () => {
+//     const { data, error } = await useApi<Unit[]>(`/topics/${route.params.topicId}/units/recent`, {
+//         method: "GET",
+//     });
 
-    if (!error.value) {
-        unitStore.recents = data.value!.data;
-    }
-    else if (error.value.statusCode === 401) {
-        useStandardToast("unauthorized");
-    }
-    else {
-        useStandardToast("error");
-    }
-};
+//     if (!error.value) {
+//         unitStore.recents = data.value!.data;
+//     }
+//     else if (error.value.statusCode === 401) {
+//         useStandardToast("unauthorized");
+//     }
+//     else {
+//         useStandardToast("error");
+//     }
+// };
 
 const loadUnits = async () => {
     const { data, error } = await useApi<Unit[]>("/units", {
