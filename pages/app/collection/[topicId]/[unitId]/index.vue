@@ -10,6 +10,10 @@
 <script setup lang="ts">
 import type { BreadcrumbLink } from "#ui/types";
 
+definePageMeta({
+    name: "flashcards"
+});
+
 const breadcrumbItems: BreadcrumbLink[] = [
     {
         label: "Collection",

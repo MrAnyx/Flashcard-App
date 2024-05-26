@@ -27,6 +27,7 @@ useHead({
 });
 
 definePageMeta({
+    name: "settings",
     middleware: "is-connected"
 });
 

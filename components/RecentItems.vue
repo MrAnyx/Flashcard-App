@@ -8,11 +8,11 @@
             <ULink
                 v-for="item, key in items"
                 :key="key"
-                :to="item.url"
+                :to="'#'"
             >
                 <UCard
-                    class="hover:!ring-primary/65 hover:ring-2 transition-all"
-                    :ui="{ body: { padding: 'p-3 sm:p-4' } }"
+                    class="hover:!ring-primary/65 hover:ring-2 transition-all h-full"
+                    :ui="{ body: { padding: 'p-3 sm:p-4', base: 'h-full flex flex-col justify-center' } }"
                 >
                     <div class="flex items-center space-x-4">
                         <UIcon
@@ -21,8 +21,13 @@
                         />
 
                         <div class="flex-1 text-gray-300 flex flex-col min-w-0 text-left">
-                            <span class="truncate">{{ item.title }}</span>
-                            <span class="text-sm text-gray-500 truncate">{{ item.subItemsCount }} {{ subType }}{{ item.subItemsCount > 1 ? 's' : '' }}</span>
+                            <span class="truncate">{{ item.name }}</span>
+                            <span
+                                v-if="item.description !== ''"
+                                class="text-sm text-gray-500 truncate"
+                            >
+                                {{ item.description }}
+                            </span>
                         </div>
                     </div>
                 </UCard>
@@ -32,11 +37,11 @@
 </template>
 
 <script setup lang="ts">
-import type { RecentItem } from "~/types/RecentItem";
+import type { RecentItem } from "~/types/recentItem";
 
 defineProps<{
     title: string;
     items: RecentItem[];
-    subType: "unit" | "flashcard";
+    route: string;
 }>();
 </script>

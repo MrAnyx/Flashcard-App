@@ -20,9 +20,7 @@ export default defineNuxtPlugin(() => {
         },
         onResponseError({ response }) {
             if (response.status === 500) {
-                useStandardToast("error", {
-                    description: "An error occured on the server, please try again or contact the administrator."
-                });
+                useStandardToast("error");
             }
         }
     });

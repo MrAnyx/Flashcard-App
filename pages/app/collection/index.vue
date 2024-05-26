@@ -1,9 +1,10 @@
 <template>
     <div>
         <RecentItems
+            v-if="topicStore.recents.length >= 4"
             title="Recent topics"
-            :items="recentItems"
-            sub-type="unit"
+            :items="topicStore.recents"
+            route="units"
         />
         <UModal v-model="isModalOpen">
             <div class="p-4">
@@ -20,7 +21,7 @@
                         color="primary"
                         variant="subtle"
                     >
-                        {{ topics.length }} topics
+                        {{ topicStore.topics.length }} topics
                     </UBadge>
                 </div>
                 <UButton
@@ -38,7 +39,7 @@
                 </UButton>
             </div>
             <UTable
-                :rows="topics"
+                :rows="topicStore.topics"
                 :columns="columns"
                 :ui="{ td: { base: 'max-w-[0] truncate' } }"
             >
@@ -70,69 +71,59 @@
 
 <script setup lang="ts">
 import type { DropdownItem } from "#ui/types";
-import type { RecentItem } from "~/types/RecentItem";
+import type { Topic } from "~/types/entity";
+import type { RecentItem } from "~/types/recentItem";
 
 definePageMeta({
     name: "topics"
 });
 
 useHead({
-    titleTemplate: () => "Topics"
+    title: "Topics",
 });
 
+const topicStore = useTopicStore();
+
 onMounted(() => {
+    if (topicStore.recents.length === 0) {
+        loadRecentTopics();
+    }
     loadTopics();
 });
 
-type Topic = {
-    id: number;
-    name: string;
-    description: string;
-    units: number;
-    favorite: boolean;
+const loadRecentTopics = async () => {
+    const { data, error } = await useApi<Topic[]>("/topics/recent", {
+        method: "GET",
+    });
+
+    if (!error.value) {
+        topicStore.recents = data.value!.data;
+    }
+    else if (error.value.statusCode === 401) {
+        useStandardToast("unauthorized");
+    }
+    else {
+        useStandardToast("error");
+    }
 };
 
-const topics = ref<Topic[]>([
-    {
-        id: 1,
-        name: "toto",
-        description: "super description",
-        units: 5,
-        favorite: true
-    }
-]);
+const loadTopics = async () => {
+    const { data, error } = await useApi<Topic[]>("/topics", {
+        method: "GET",
+    });
 
-const loadTopics = () => {
+    if (!error.value) {
+        topicStore.topics = data.value!.data;
+    }
+    else if (error.value.statusCode === 401) {
+        useStandardToast("unauthorized");
+    }
+    else {
+        useStandardToast("error");
+    }
 };
 
 const isModalOpen = ref(false);
-
-const recentItems: RecentItem[] = [
-    {
-        id: 1,
-        title: "Korean",
-        subItemsCount: 16,
-        url: "/app/collection/1"
-    },
-    {
-        id: 2,
-        title: "Sport",
-        subItemsCount: 4,
-        url: "/app/collection/2"
-    },
-    {
-        id: 3,
-        title: "Cooking",
-        subItemsCount: 1,
-        url: "/app/collection/3"
-    },
-    {
-        id: 4,
-        title: "Gaming",
-        subItemsCount: 2,
-        url: "/app/collection/4"
-    }
-];
 
 const columns = [{
     key: "name",

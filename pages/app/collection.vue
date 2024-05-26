@@ -13,6 +13,7 @@ useHead({
 });
 
 definePageMeta({
+    name: "collection",
     middleware: "is-connected"
 });
 </script>

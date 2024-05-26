@@ -4,34 +4,43 @@ import type { StandardToastType } from "~/types/standardToast";
 export function useStandardToast(type: StandardToastType, options?: Partial<Notification>) {
     const toast = useToast();
 
-    // TODO Utiliser un switch
-    if (type === "error") {
-        toast.add({
-            title: "Error",
-            description: "An error occured. Please try again or contact an administrator.",
-            color: "red",
-            ...options
-        });
-    }
-    else if (type === "warning") {
-        toast.add({
-            title: "Warning",
-            color: "orange",
-            ...options
-        });
-    }
-    else if (type === "info") {
-        toast.add({
-            title: "Information",
-            color: "primary",
-            ...options
-        });
-    }
-    else if (type === "success") {
-        toast.add({
-            title: "Success",
-            color: "green",
-            ...options
-        });
+    switch (type) {
+        case "error":
+            toast.add({
+                title: "Error",
+                description: "An error occured. Please try again or contact an administrator.",
+                color: "red",
+                ...options
+            });
+            break;
+        case "warning":
+            toast.add({
+                title: "Warning",
+                color: "orange",
+                ...options
+            });
+            break;
+        case "info":
+            toast.add({
+                title: "Information",
+                color: "primary",
+                ...options
+            });
+            break;
+        case "success":
+            toast.add({
+                title: "Success",
+                color: "green",
+                ...options
+            });
+            break;
+        case "unauthorized":
+            toast.add({
+                title: "Error",
+                description: "You must be authenticated to access this ressource.",
+                color: "red",
+                ...options
+            });
+            break;
     }
 }

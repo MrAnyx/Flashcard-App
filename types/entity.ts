@@ -9,3 +9,21 @@ export type User = {
     updatedAt: string;
     roles: Role[];
 };
+
+export type Topic = {
+    id: number;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    description: string;
+    favorite: boolean;
+};
+
+export type Unit = {
+    id: number;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    description: string;
+    favorite: boolean;
+};

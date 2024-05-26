@@ -1,1 +1,1 @@
-export type StandardToastType = "error" | "warning" | "info" | "success";
+export type StandardToastType = "error" | "warning" | "info" | "success" | "unauthorized";

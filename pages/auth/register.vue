@@ -104,8 +104,8 @@ const schema = z
             .max(180, "Email is too long"),
         password: z
             .string()
-            .regex(Regex.Password, "Password isn't valid")
-            .min(8, "Password is too short"),
+            .min(8, "Password is too short")
+            .regex(Regex.Password, "Password isn't valid"),
         passwordConfirm: z
             .string()
     })

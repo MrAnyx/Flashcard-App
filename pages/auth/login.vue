@@ -110,8 +110,7 @@ const onSubmit = async () => {
         return navigateTo({ name: "dashboard" });
     }
     else if (error.value.statusCode === 401) {
-        // 401 Exception
-        useStandardToast("unauthorized", {
+        useStandardToast("warning", {
             description: "Invalid identifier or password."
         });
     }
