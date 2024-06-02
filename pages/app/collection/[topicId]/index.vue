@@ -82,30 +82,9 @@ definePageMeta({
     name: "units"
 });
 
-const unitStore = useUnitStore();
-
 onMounted(() => {
-    // if (unitStore.recents.length === 0) {
-    //     loadRecentUnits();
-    // }
     loadUnits();
 });
-
-// const loadRecentUnits = async () => {
-//     const { data, error } = await useApi<Unit[]>(`/topics/${route.params.topicId}/units/recent`, {
-//         method: "GET",
-//     });
-
-//     if (!error.value) {
-//         unitStore.recents = data.value!.data;
-//     }
-//     else if (error.value.statusCode === 401) {
-//         useStandardToast("unauthorized");
-//     }
-//     else {
-//         useStandardToast("error");
-//     }
-// };
 
 const loadUnits = async () => {
     const { data, error } = await useApi<Unit[]>("/units", {
@@ -114,11 +93,9 @@ const loadUnits = async () => {
 
     if (!error.value) {
         unitStore.units = data.value!.data;
-    }
-    else if (error.value.statusCode === 401) {
+    } else if (error.value.statusCode === 401) {
         useStandardToast("unauthorized");
-    }
-    else {
+    } else {
         useStandardToast("error");
     }
 };

@@ -72,6 +72,7 @@
             <UButton
                 type="submit"
                 block
+                :loading="state.loading"
             >
                 {{ $t('authentication.register.action') }}
             </UButton>
@@ -114,18 +115,18 @@ const schema = z
         path: ["passwordConfirm"] // path of error
     });
 
-type Schema = z.output<typeof schema>;
-
-const state = reactive<Schema>({
+const state = reactive({
     username: "",
     email: "",
     password: "",
-    passwordConfirm: ""
+    passwordConfirm: "",
+    loading: false
 });
 
 const authStore = useAuthStore();
 
 const onSubmit = async () => {
+    state.loading = true;
     const { data, error } = await useApi<User>("/auth/register", {
         method: "POST",
         body: {
@@ -137,15 +138,14 @@ const onSubmit = async () => {
 
     if (!error.value) {
         authStore.user = data.value!.data;
-        return navigateTo({ name: "dashboard" });
-    }
-    else if (error.value.statusCode === 400) {
+        navigateTo({ name: "dashboard" });
+    } else if (error.value.statusCode === 400) {
         useStandardToast("error", {
             description: "Unable to create an account given this form."
         });
-    }
-    else {
+    } else {
         useStandardToast("error");
     }
+    state.loading = false;
 };
 </script>

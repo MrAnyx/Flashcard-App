@@ -20,7 +20,7 @@
                         color="primary"
                         variant="subtle"
                     >
-                        {{ topicStore.topics.length }} topics
+                        {{ state.total }} topics
                     </UBadge>
                 </div>
                 <UButton
@@ -38,21 +38,32 @@
                 </UButton>
             </div>
             <UTable
-                :rows="topicStore.topics"
+                :sort="pagination"
+                :rows="state.topics"
                 :columns="columns"
+                :loading="state.loading"
+                sort-mode="manual"
                 :ui="{ td: { base: 'max-w-[0] truncate' } }"
+                @update:sort="loadTopics"
             >
+                <template #name-data="{ row }">
+                    <ULink :to="{ name: 'units', params: { topicId: row.id } }">
+                        {{ row.name }}
+                    </ULink>
+                </template>
                 <template #favorite-data="{ row }">
-                    <UIcon
-                        v-if="row.favorite"
-                        name="i-heroicons-star-solid"
-                        class="text-xl text-yellow-400"
-                    />
-                    <UIcon
-                        v-else
-                        name="i-heroicons-star"
-                        class="text-xl"
-                    />
+                    <button @click="toggleFavorite(row)">
+                        <UIcon
+                            v-if="row.favorite"
+                            name="i-heroicons-star-solid"
+                            class="text-xl text-yellow-400"
+                        />
+                        <UIcon
+                            v-else
+                            name="i-heroicons-star"
+                            class="text-xl"
+                        />
+                    </button>
                 </template>
                 <template #actions-data="{ row }">
                     <UDropdown :items="rowOptions(row)">
@@ -64,6 +75,11 @@
                     </UDropdown>
                 </template>
             </UTable>
+            <UPagination
+                v-model="state.page"
+                :page-count="state.total"
+                :total="5"
+            />
         </div>
     </div>
 </template>
@@ -71,7 +87,6 @@
 <script setup lang="ts">
 import type { DropdownItem } from "#ui/types";
 import type { Topic } from "~/types/entity";
-import type { RecentItem } from "~/types/recentItem";
 
 definePageMeta({
     name: "topics"
@@ -81,43 +96,57 @@ useHead({
     title: "Topics",
 });
 
-const topicStore = useTopicStore();
-
 onMounted(() => {
-    // if (topicStore.recents.length === 0) {
-    //     loadRecentTopics();
-    // }
     loadTopics();
 });
 
-// const loadRecentTopics = async () => {
-//     const { data, error } = await useApi<Topic[]>("/topics/recent", {
-//         method: "GET",
-//     });
+const state = reactive({
+    topics: [] as Topic[],
+    total: 0,
+    loading: false,
+    page: 1,
+});
 
-//     if (!error.value) {
-//         topicStore.recents = data.value!.data;
-//     }
-//     else if (error.value.statusCode === 401) {
-//         useStandardToast("unauthorized");
-//     }
-//     else {
-//         useStandardToast("error");
-//     }
-// };
+const pagination = ref({
+    column: "name",
+    direction: "desc" as const
+});
 
 const loadTopics = async () => {
+    state.loading = true;
     const { data, error } = await useApi<Topic[]>("/topics", {
         method: "GET",
+        query: {
+            sort: pagination.value.column,
+            order: pagination.value.direction,
+            page: state.page
+        },
     });
 
     if (!error.value) {
-        topicStore.topics = data.value!.data;
-    }
-    else if (error.value.statusCode === 401) {
+        state.topics = data.value!.data;
+        state.total = data.value!["@pagination"]!.total;
+    } else if (error.value.statusCode === 401) {
         useStandardToast("unauthorized");
+    } else {
+        useStandardToast("error");
     }
-    else {
+    state.loading = false;
+};
+
+const toggleFavorite = async (topic: Topic) => {
+    const { error } = await useApi<Topic>(`/topics/${topic.id}`, {
+        method: "PATCH",
+        body: {
+            favorite: !topic.favorite
+        }
+    });
+
+    if (!error.value) {
+        topic.favorite = !topic.favorite;
+    } else if (error.value.statusCode === 401) {
+        useStandardToast("unauthorized");
+    } else {
         useStandardToast("error");
     }
 };
@@ -126,21 +155,20 @@ const isModalOpen = ref(false);
 
 const columns = [{
     key: "name",
-    label: "Name"
+    label: "Name",
+    sortable: true,
 }, {
     key: "description",
     label: "Description"
 }, {
-    key: "units",
-    label: "Units"
-}, {
     key: "favorite",
-    label: "Favorite"
+    label: "Favorite",
+    sortable: true,
 }, {
     key: "actions"
 }];
 
-const rowOptions = (row: RecentItem): DropdownItem[][] => [
+const rowOptions = (row: Topic): DropdownItem[][] => [
     [{
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",
@@ -148,9 +176,6 @@ const rowOptions = (row: RecentItem): DropdownItem[][] => [
     }, {
         label: "Duplicate",
         icon: "i-heroicons-document-duplicate-20-solid"
-    }, {
-        label: "Move",
-        icon: "i-heroicons-arrow-top-right-on-square"
     }], [{
         label: "Delete",
         icon: "i-heroicons-trash-20-solid"

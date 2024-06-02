@@ -15,5 +15,5 @@ export type JsonStandard<TData> = {
     "@timestamp": string;
     "@pagination": JsonPagination | null;
     "@status": JsonStatus;
-    "data": TData;
+    data: TData;
 };

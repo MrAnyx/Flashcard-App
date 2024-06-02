@@ -1,5 +1,4 @@
 export default defineNuxtPlugin(() => {
-    // const userAuth = useCookie("token");
     const config = useRuntimeConfig().public;
     const authStore = useAuthStore();
 
@@ -17,12 +16,12 @@ export default defineNuxtPlugin(() => {
             useStandardToast("error", {
                 description: "An error occured while send a request, please try again or contact the administrator."
             });
-        },
-        onResponseError({ response }) {
-            if (response.status === 500) {
-                useStandardToast("error");
-            }
         }
+        // onResponseError({ response }) {
+        //     if (response.status === 500) {
+        //         useStandardToast("error");
+        //     }
+        // }
     });
 
     return {

@@ -58,6 +58,7 @@
             <UButton
                 type="submit"
                 block
+                :loading="state.loading"
             >
                 {{ $t('authentication.login.action') }}
             </UButton>
@@ -89,14 +90,14 @@ const schema = z.object({
         .min(1, "Password can not be blank")
 });
 
-type Schema = z.output<typeof schema>;
-
-const state = reactive<Schema>({
+const state = reactive({
     identifier: "",
-    password: ""
+    password: "",
+    loading: false
 });
 
 const onSubmit = async () => {
+    state.loading = true;
     const { data, error } = await useApi<User>("/auth/login", {
         method: "POST",
         body: {
@@ -107,15 +108,14 @@ const onSubmit = async () => {
 
     if (!error.value) {
         authStore.user = data.value!.data;
-        return navigateTo({ name: "dashboard" });
-    }
-    else if (error.value.statusCode === 401) {
+        navigateTo({ name: "dashboard" });
+    } else if (error.value.statusCode === 401) {
         useStandardToast("warning", {
             description: "Invalid identifier or password."
         });
-    }
-    else {
+    } else {
         useStandardToast("error");
     }
+    state.loading = false;
 };
 </script>

@@ -14,7 +14,9 @@ export default defineNuxtConfig({
                 indent: 4,
                 semi: true,
                 quotes: "double",
-                commaDangle: "only-multiline"
+                commaDangle: "only-multiline",
+                braceStyle: "1tbs",
+                quoteProps: "as-needed"
             }
         }
     },
