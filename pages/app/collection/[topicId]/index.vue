@@ -25,7 +25,7 @@
                         color="primary"
                         variant="subtle"
                     >
-                        {{ unitStore.units.length }} units
+                        {{ 0 }} units
                     </UBadge>
                 </div>
                 <UButton
@@ -43,7 +43,7 @@
                 </UButton>
             </div>
             <UTable
-                :rows="unitStore.units"
+                :rows="[]"
                 :columns="columns"
                 :ui="{ td: { base: 'max-w-[0] truncate' } }"
             >
@@ -87,12 +87,12 @@ onMounted(() => {
 });
 
 const loadUnits = async () => {
-    const { data, error } = await useApi<Unit[]>("/units", {
+    const { _data, error } = await useApi<Unit[]>("/units", {
         method: "GET",
     });
 
     if (!error.value) {
-        unitStore.units = data.value!.data;
+        // unitStore.units = data.value!.data;
     } else if (error.value.statusCode === 401) {
         useStandardToast("unauthorized");
     } else {

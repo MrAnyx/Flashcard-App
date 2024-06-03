@@ -38,21 +38,17 @@
                 </UButton>
             </div>
             <UTable
-                :sort="pagination"
+                v-model:sort="sort"
                 :rows="state.topics"
                 :columns="columns"
                 :loading="state.loading"
                 sort-mode="manual"
                 :ui="{ td: { base: 'max-w-[0] truncate' } }"
                 @update:sort="loadTopics"
+                @select="select"
             >
-                <template #name-data="{ row }">
-                    <ULink :to="{ name: 'units', params: { topicId: row.id } }">
-                        {{ row.name }}
-                    </ULink>
-                </template>
                 <template #favorite-data="{ row }">
-                    <button @click="toggleFavorite(row)">
+                    <button @click.stop="toggleFavorite(row)">
                         <UIcon
                             v-if="row.favorite"
                             name="i-heroicons-star-solid"
@@ -75,11 +71,6 @@
                     </UDropdown>
                 </template>
             </UTable>
-            <UPagination
-                v-model="state.page"
-                :page-count="state.total"
-                :total="5"
-            />
         </div>
     </div>
 </template>
@@ -104,12 +95,12 @@ const state = reactive({
     topics: [] as Topic[],
     total: 0,
     loading: false,
-    page: 1,
 });
 
-const pagination = ref({
+const page = ref(1);
+const sort = ref({
     column: "name",
-    direction: "desc" as const
+    direction: "asc" as const
 });
 
 const loadTopics = async () => {
@@ -117,9 +108,9 @@ const loadTopics = async () => {
     const { data, error } = await useApi<Topic[]>("/topics", {
         method: "GET",
         query: {
-            sort: pagination.value.column,
-            order: pagination.value.direction,
-            page: state.page
+            sort: sort.value.column,
+            order: sort.value.direction,
+            page: page.value
         },
     });
 
@@ -153,10 +144,19 @@ const toggleFavorite = async (topic: Topic) => {
 
 const isModalOpen = ref(false);
 
+function select(row: Topic) {
+    return navigateTo({
+        name: "units",
+        params: {
+            topicId: row.id
+        }
+    });
+}
+
 const columns = [{
     key: "name",
     label: "Name",
-    sortable: true,
+    sortable: true
 }, {
     key: "description",
     label: "Description"
@@ -165,20 +165,24 @@ const columns = [{
     label: "Favorite",
     sortable: true,
 }, {
-    key: "actions"
+    key: "actions",
+    label: "Actions",
 }];
 
-const rowOptions = (row: Topic): DropdownItem[][] => [
-    [{
-        label: "Edit",
-        icon: "i-heroicons-pencil-square-20-solid",
-        click: () => console.log("Edit", row.id)
-    }, {
-        label: "Duplicate",
-        icon: "i-heroicons-document-duplicate-20-solid"
-    }], [{
-        label: "Delete",
-        icon: "i-heroicons-trash-20-solid"
-    }]
-];
+const rowOptions = (row: Topic): DropdownItem[][] => {
+    return [
+        [{
+            label: "Edit",
+            icon: "i-heroicons-pencil-square-20-solid",
+            click: () => console.log("Edit", row.id)
+        }, {
+            label: "Duplicate",
+            icon: "i-heroicons-document-duplicate-20-solid"
+        }], [{
+            label: "Delete",
+            class: "bg-red-500/15",
+            icon: "i-heroicons-trash-20-solid"
+        }]
+    ];
+};
 </script>
