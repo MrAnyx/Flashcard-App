@@ -62,7 +62,10 @@
                     </button>
                 </template>
                 <template #actions-data="{ row }">
-                    <UDropdown :items="rowOptions(row)">
+                    <UDropdown
+                        :items="rowOptions(row)"
+                        @click.stop
+                    >
                         <UButton
                             color="gray"
                             variant="ghost"
@@ -169,20 +172,18 @@ const columns = [{
     label: "Actions",
 }];
 
-const rowOptions = (row: Topic): DropdownItem[][] => {
-    return [
-        [{
-            label: "Edit",
-            icon: "i-heroicons-pencil-square-20-solid",
-            click: () => console.log("Edit", row.id)
-        }, {
-            label: "Duplicate",
-            icon: "i-heroicons-document-duplicate-20-solid"
-        }], [{
-            label: "Delete",
-            class: "bg-red-500/15",
-            icon: "i-heroicons-trash-20-solid"
-        }]
-    ];
-};
+const rowOptions = (row: Topic): DropdownItem[][] => [
+    [{
+        label: "Edit",
+        icon: "i-heroicons-pencil-square-20-solid",
+        click: () => console.log("Edit", row.id)
+    }, {
+        label: "Duplicate",
+        icon: "i-heroicons-document-duplicate-20-solid"
+    }], [{
+        label: "Delete",
+        class: "bg-red-500/15",
+        icon: "i-heroicons-trash-20-solid"
+    }]
+];
 </script>
