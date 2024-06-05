@@ -145,6 +145,46 @@ const toggleFavorite = async (topic: Topic) => {
     }
 };
 
+const duplicateTopic = async (topic: Topic) => {
+    const { data, error } = await useApi<Topic>(`/topics`, {
+        method: "POST",
+        body: {
+            name: topic.name,
+            description: topic.description,
+            favorite: false
+        }
+    });
+
+    if (!error.value) {
+        state.topics.push(data.value!.data);
+        useStandardToast("success", {
+            description: `The topic ${topic.name} has been duplicated`
+        });
+    } else if (error.value.statusCode === 401) {
+        useStandardToast("unauthorized");
+    } else {
+        useStandardToast("error");
+    }
+};
+
+const deleteTopic = async (topic: Topic) => {
+    const { error } = await useApi<Topic>(`/topics/${topic.id}`, {
+        method: "DELETE",
+    });
+
+    if (!error.value) {
+        const topicToRemove = state.topics.findIndex(t => t.id === topic.id);
+        state.topics.splice(topicToRemove, 1);
+        useStandardToast("success", {
+            description: `The topic ${topic.name} has been deleted`
+        });
+    } else if (error.value.statusCode === 401) {
+        useStandardToast("unauthorized");
+    } else {
+        useStandardToast("error");
+    }
+};
+
 const isModalOpen = ref(false);
 
 function select(row: Topic) {
@@ -179,11 +219,15 @@ const rowOptions = (row: Topic): DropdownItem[][] => [
         click: () => console.log("Edit", row.id)
     }, {
         label: "Duplicate",
-        icon: "i-heroicons-document-duplicate-20-solid"
+        icon: "i-heroicons-document-duplicate-20-solid",
+        click: () => duplicateTopic(row)
     }], [{
         label: "Delete",
         class: "bg-red-500/15",
-        icon: "i-heroicons-trash-20-solid"
+        labelClass: "text-red-500",
+        iconClass: "bg-red-500",
+        icon: "i-heroicons-trash-20-solid",
+        click: () => deleteTopic(row)
     }]
 ];
 </script>
