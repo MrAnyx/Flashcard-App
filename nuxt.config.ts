@@ -15,10 +15,10 @@ export default defineNuxtConfig({
                 semi: true,
                 quotes: "double",
                 commaDangle: "only-multiline",
-                braceStyle: "1tbs",
+                braceStyle: "allman",
                 quoteProps: "as-needed"
             }
-        }
+        },
     },
     piniaPersistedstate: {
         cookieOptions: {
