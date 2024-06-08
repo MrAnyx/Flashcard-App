@@ -90,7 +90,8 @@ useHead({
     title: "Topics",
 });
 
-onMounted(() => {
+onMounted(() =>
+{
     loadTopics();
 });
 
@@ -106,17 +107,30 @@ const sort = ref({
     direction: "asc" as const
 });
 
-const topicStore = useTopicStore();
-
-const loadTopics = async () => {
+const loadTopics = async () =>
+{
+    const data = useData();
     state.loading = true;
-    const data = await topicStore.getTopics(sort.value.column, sort.value.direction, page.value);
-    state.topics = data.value!.data;
-    state.total = data.value!["@pagination"].total;
-    state.loading = false;
+
+    try
+    {
+        const topics = await data.topic.getTopics({
+            order: sort.value.direction,
+            sort: sort.value.column,
+            page: page.value
+        });
+
+        state.total = topics!["@pagination"]!.total;
+        state.topics = topics!.data;
+    }
+    finally
+    {
+        state.loading = false;
+    }
 };
 
-const toggleFavorite = async (topic: Topic) => {
+const toggleFavorite = async (topic: Topic) =>
+{
     const { error } = await useApi<Topic>(`/topics/${topic.id}`, {
         method: "PATCH",
         body: {
@@ -124,17 +138,23 @@ const toggleFavorite = async (topic: Topic) => {
         }
     });
 
-    if (!error.value) {
+    if (!error.value)
+    {
         topic.favorite = !topic.favorite;
-    } else if (error.value.statusCode === 401) {
+    }
+    else if (error.value.statusCode === 401)
+    {
         useStandardToast("unauthorized");
-    } else {
+    }
+    else
+    {
         useStandardToast("error");
     }
 };
 
-const duplicateTopic = async (topic: Topic) => {
-    const { data, error } = await useApi<Topic>(`/topics`, {
+const duplicateTopic = async (topic: Topic) =>
+{
+    const { data, error } = await useApi<Topic>("/topics", {
         method: "POST",
         body: {
             name: topic.name,
@@ -143,39 +163,51 @@ const duplicateTopic = async (topic: Topic) => {
         }
     });
 
-    if (!error.value) {
+    if (!error.value)
+    {
         state.topics.push(data.value!.data);
         useStandardToast("success", {
             description: `The topic ${topic.name} has been duplicated`
         });
-    } else if (error.value.statusCode === 401) {
+    }
+    else if (error.value.statusCode === 401)
+    {
         useStandardToast("unauthorized");
-    } else {
+    }
+    else
+    {
         useStandardToast("error");
     }
 };
 
-const deleteTopic = async (topic: Topic) => {
+const deleteTopic = async (topic: Topic) =>
+{
     const { error } = await useApi<Topic>(`/topics/${topic.id}`, {
         method: "DELETE",
     });
 
-    if (!error.value) {
+    if (!error.value)
+    {
         const topicToRemove = state.topics.findIndex(t => t.id === topic.id);
         state.topics.splice(topicToRemove, 1);
         useStandardToast("success", {
             description: `The topic ${topic.name} has been deleted`
         });
-    } else if (error.value.statusCode === 401) {
+    }
+    else if (error.value.statusCode === 401)
+    {
         useStandardToast("unauthorized");
-    } else {
+    }
+    else
+    {
         useStandardToast("error");
     }
 };
 
 const isModalOpen = ref(false);
 
-function select(row: Topic) {
+function select(row: Topic)
+{
     return navigateTo({
         name: "units",
         params: {
