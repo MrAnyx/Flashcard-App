@@ -106,25 +106,13 @@ const sort = ref({
     direction: "asc" as const
 });
 
+const topicStore = useTopicStore();
+
 const loadTopics = async () => {
     state.loading = true;
-    const { data, error } = await useApi<Topic[]>("/topics", {
-        method: "GET",
-        query: {
-            sort: sort.value.column,
-            order: sort.value.direction,
-            page: page.value
-        },
-    });
-
-    if (!error.value) {
-        state.topics = data.value!.data;
-        state.total = data.value!["@pagination"]!.total;
-    } else if (error.value.statusCode === 401) {
-        useStandardToast("unauthorized");
-    } else {
-        useStandardToast("error");
-    }
+    const data = await topicStore.getTopics(sort.value.column, sort.value.direction, page.value);
+    state.topics = data.value!.data;
+    state.total = data.value!["@pagination"].total;
     state.loading = false;
 };
 
