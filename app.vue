@@ -4,12 +4,14 @@
             <NuxtPage />
         </NuxtLayout>
         <UNotifications />
+        <UModals />
     </div>
 </template>
 
 <script setup lang="ts">
 useHead({
-    titleTemplate: (titleChunk) => {
+    titleTemplate: (titleChunk) =>
+    {
         return titleChunk ? `${titleChunk} - Flashcard` : "Flashcard";
     }
 });

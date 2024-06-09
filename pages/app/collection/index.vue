@@ -5,11 +5,6 @@
             title="Recent topics"
             :items="topicStore.recents"
         /> -->
-        <UModal v-model="isModalOpen">
-            <div class="p-4">
-                New topic
-            </div>
-        </UModal>
         <div class="py-6 flex-1 overflow-y-auto">
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
@@ -27,7 +22,7 @@
                     label="Add a topic"
                     variant="soft"
                     color="primary"
-                    @click="isModalOpen = true"
+                    @click="showTopicModal()"
                 >
                     <template #leading>
                         <UIcon
@@ -79,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { TopicForm } from "#components";
 import type { DropdownItem } from "#ui/types";
 import type { Topic } from "~/types/entity";
 
@@ -95,6 +91,8 @@ onMounted(() =>
     loadTopics();
 });
 
+const data = useData();
+
 const state = reactive({
     topics: [] as Topic[],
     total: 0,
@@ -109,7 +107,6 @@ const sort = ref({
 
 const loadTopics = async () =>
 {
-    const data = useData();
     state.loading = true;
 
     try
@@ -131,82 +128,49 @@ const loadTopics = async () =>
 
 const toggleFavorite = async (topic: Topic) =>
 {
-    const { error } = await useApi<Topic>(`/topics/${topic.id}`, {
-        method: "PATCH",
-        body: {
-            favorite: !topic.favorite
-        }
+    await data.topic.patchTopic(topic.id, {
+        favorite: !topic.favorite
     });
-
-    if (!error.value)
-    {
-        topic.favorite = !topic.favorite;
-    }
-    else if (error.value.statusCode === 401)
-    {
-        useStandardToast("unauthorized");
-    }
-    else
-    {
-        useStandardToast("error");
-    }
+    topic.favorite = !topic.favorite;
 };
 
 const duplicateTopic = async (topic: Topic) =>
 {
-    const { data, error } = await useApi<Topic>("/topics", {
-        method: "POST",
-        body: {
-            name: topic.name,
-            description: topic.description,
-            favorite: false
-        }
+    const duplicatedTopic = await data.topic.createTopic({
+        name: topic.name,
+        description: topic.description,
+        favorite: false
     });
 
-    if (!error.value)
-    {
-        state.topics.push(data.value!.data);
-        useStandardToast("success", {
-            description: `The topic ${topic.name} has been duplicated`
-        });
-    }
-    else if (error.value.statusCode === 401)
-    {
-        useStandardToast("unauthorized");
-    }
-    else
-    {
-        useStandardToast("error");
-    }
+    state.topics.push(duplicatedTopic!.data);
+
+    useStandardToast("success", {
+        description: `The topic ${topic.name} has been duplicated`
+    });
 };
 
 const deleteTopic = async (topic: Topic) =>
 {
-    const { error } = await useApi<Topic>(`/topics/${topic.id}`, {
-        method: "DELETE",
-    });
+    await data.topic.deleteTopic(topic.id);
 
-    if (!error.value)
-    {
-        const topicToRemove = state.topics.findIndex(t => t.id === topic.id);
-        state.topics.splice(topicToRemove, 1);
-        useStandardToast("success", {
-            description: `The topic ${topic.name} has been deleted`
-        });
-    }
-    else if (error.value.statusCode === 401)
-    {
-        useStandardToast("unauthorized");
-    }
-    else
-    {
-        useStandardToast("error");
-    }
+    const topicToRemove = state.topics.findIndex(t => t.id === topic.id);
+    state.topics.splice(topicToRemove, 1);
+
+    useStandardToast("success", {
+        description: `The topic ${topic.name} has been deleted`
+    });
 };
 
-const isModalOpen = ref(false);
+const modal = useModal();
 
-function select(row: Topic)
+const showTopicModal = () =>
+{
+    modal.open(TopicForm, {
+
+    });
+};
+
+const select = (row: Topic) =>
 {
     return navigateTo({
         name: "units",
@@ -214,7 +178,7 @@ function select(row: Topic)
             topicId: row.id
         }
     });
-}
+};
 
 const columns = [{
     key: "name",
