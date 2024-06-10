@@ -5,7 +5,7 @@
             title="Recent topics"
             :items="topicStore.recents"
         /> -->
-        <div class="py-6 flex-1 overflow-y-auto">
+        <div class="py-6 flex-1">
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
                     <h4 class="font-medium text-lg text-gray-200">
@@ -15,7 +15,7 @@
                         color="primary"
                         variant="subtle"
                     >
-                        {{ state.total }} topics
+                        {{ topicStore.total }} topic{{ topicStore.total > 1 ? 's' : '' }}
                     </UBadge>
                 </div>
                 <UButton
@@ -34,9 +34,9 @@
             </div>
             <UTable
                 v-model:sort="sort"
-                :rows="state.topics"
+                :rows="topicStore.topics"
                 :columns="columns"
-                :loading="state.loading"
+                :loading="loading"
                 sort-mode="manual"
                 :ui="{ td: { base: 'max-w-[0] truncate' } }"
                 @update:sort="loadTopics"
@@ -69,6 +69,15 @@
                     </UDropdown>
                 </template>
             </UTable>
+            <div class="mt-4 flex justify-center">
+                <UPagination
+                    v-if="(topicStore.total / paginationStore.itemsPerPage) > 1"
+                    v-model="page"
+                    :page-count="paginationStore.itemsPerPage"
+                    :total="topicStore.total"
+                    @update:model-value="loadTopics"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -76,6 +85,7 @@
 <script setup lang="ts">
 import { TopicForm } from "#components";
 import type { DropdownItem } from "#ui/types";
+import { usePaginationStore } from "~/stores/pagination.store";
 import type { Topic } from "~/types/entity";
 
 definePageMeta({
@@ -92,13 +102,10 @@ onMounted(() =>
 });
 
 const data = useData();
+const topicStore = useTopicStore();
+const paginationStore = usePaginationStore();
 
-const state = reactive({
-    topics: [] as Topic[],
-    total: 0,
-    loading: false,
-});
-
+const loading = ref(false);
 const page = ref(1);
 const sort = ref({
     column: "name",
@@ -107,7 +114,7 @@ const sort = ref({
 
 const loadTopics = async () =>
 {
-    state.loading = true;
+    loading.value = true;
 
     try
     {
@@ -117,18 +124,18 @@ const loadTopics = async () =>
             page: page.value
         });
 
-        state.total = topics!["@pagination"]!.total;
-        state.topics = topics!.data;
+        topicStore.total = topics!["@pagination"]!.total;
+        topicStore.topics = topics!.data;
     }
     finally
     {
-        state.loading = false;
+        loading.value = false;
     }
 };
 
 const toggleFavorite = async (topic: Topic) =>
 {
-    await data.topic.patchTopic(topic.id, {
+    await data.topic.updatePartialTopic(topic.id, {
         favorite: !topic.favorite
     });
     topic.favorite = !topic.favorite;
@@ -142,7 +149,7 @@ const duplicateTopic = async (topic: Topic) =>
         favorite: false
     });
 
-    state.topics.push(duplicatedTopic!.data);
+    topicStore.addTopic(duplicatedTopic!.data);
 
     useStandardToast("success", {
         description: `The topic ${topic.name} has been duplicated`
@@ -153,8 +160,7 @@ const deleteTopic = async (topic: Topic) =>
 {
     await data.topic.deleteTopic(topic.id);
 
-    const topicToRemove = state.topics.findIndex(t => t.id === topic.id);
-    state.topics.splice(topicToRemove, 1);
+    topicStore.deleteTopic(topic);
 
     useStandardToast("success", {
         description: `The topic ${topic.name} has been deleted`
@@ -163,10 +169,10 @@ const deleteTopic = async (topic: Topic) =>
 
 const modal = useModal();
 
-const showTopicModal = () =>
+const showTopicModal = (topic?: Topic) =>
 {
     modal.open(TopicForm, {
-
+        topic
     });
 };
 
@@ -186,7 +192,8 @@ const columns = [{
     sortable: true
 }, {
     key: "description",
-    label: "Description"
+    label: "Description",
+    sortable: true,
 }, {
     key: "favorite",
     label: "Favorite",
@@ -200,7 +207,7 @@ const rowOptions = (row: Topic): DropdownItem[][] => [
     [{
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",
-        click: () => console.log("Edit", row.id)
+        click: () => showTopicModal(row)
     }, {
         label: "Duplicate",
         icon: "i-heroicons-document-duplicate-20-solid",

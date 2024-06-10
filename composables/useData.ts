@@ -1,4 +1,5 @@
-export default () => {
+export default () =>
+{
     const topic = useTopic();
 
     return {

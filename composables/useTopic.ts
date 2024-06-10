@@ -65,7 +65,7 @@ export default () =>
         });
     };
 
-    const patchTopic = (id: number, updatedTopic: Partial<Topic>) =>
+    const updatePartialTopic = (id: number, updatedTopic: Partial<Topic>) =>
     {
         return new Promise<JsonStandard<Topic> | null>(async (resolve, reject) =>
         {
@@ -95,6 +95,11 @@ export default () =>
                 reject(error);
             }
         });
+    };
+
+    const updateTopic = (id: number, updatedTopic: Topic) =>
+    {
+        return updatePartialTopic(id, updatedTopic);
     };
 
     const createTopic = (topic: Pick<Topic, "name" | "description" | "favorite">) =>
@@ -162,7 +167,8 @@ export default () =>
         getTopics,
         getTopic,
         createTopic,
-        patchTopic,
+        updateTopic,
+        updatePartialTopic,
         deleteTopic
     };
 };

@@ -28,6 +28,7 @@
                 >
                     <UInput
                         v-model="state.identifier"
+                        autofocus
                         :placeholder="$t('authentication.login.identifier.placeholder')"
                         icon="i-heroicons-envelope"
                     />
@@ -96,7 +97,8 @@ const state = reactive({
     loading: false
 });
 
-const onSubmit = async () => {
+const onSubmit = async () =>
+{
     state.loading = true;
     const { data, error } = await useApi<User>("/auth/login", {
         method: "POST",
@@ -106,14 +108,19 @@ const onSubmit = async () => {
         }
     });
 
-    if (!error.value) {
+    if (!error.value)
+    {
         authStore.user = data.value!.data;
         navigateTo({ name: "dashboard" });
-    } else if (error.value.statusCode === 401) {
+    }
+    else if (error.value.statusCode === 401)
+    {
         useStandardToast("warning", {
             description: "Invalid identifier or password."
         });
-    } else {
+    }
+    else
+    {
         useStandardToast("error");
     }
     state.loading = false;

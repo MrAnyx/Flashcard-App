@@ -29,7 +29,9 @@
                     <slot name="header" />
                 </h1>
             </header>
-            <slot />
+            <div class="overflow-y-auto">
+                <slot />
+            </div>
         </section>
     </main>
 </template>

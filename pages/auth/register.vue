@@ -28,6 +28,7 @@
                 >
                     <UInput
                         v-model="state.username"
+                        autofocus
                         :placeholder="$t('authentication.register.username.placeholder')"
                         icon="i-heroicons-user"
                     />
@@ -125,7 +126,8 @@ const state = reactive({
 
 const authStore = useAuthStore();
 
-const onSubmit = async () => {
+const onSubmit = async () =>
+{
     state.loading = true;
     const { data, error } = await useApi<User>("/auth/register", {
         method: "POST",
@@ -136,14 +138,19 @@ const onSubmit = async () => {
         }
     });
 
-    if (!error.value) {
+    if (!error.value)
+    {
         authStore.user = data.value!.data;
         navigateTo({ name: "dashboard" });
-    } else if (error.value.statusCode === 400) {
+    }
+    else if (error.value.statusCode === 400)
+    {
         useStandardToast("error", {
             description: "Unable to create an account given this form."
         });
-    } else {
+    }
+    else
+    {
         useStandardToast("error");
     }
     state.loading = false;
