@@ -5,7 +5,7 @@ type State = {
 export const usePaginationStore = defineStore("pagination", {
     persist: true,
     state: (): State => ({
-        itemsPerPage: 5
+        itemsPerPage: 25
     }),
     actions: {},
     getters: {}
