@@ -88,22 +88,26 @@ import type { DropdownItem } from "#ui/types";
 import { usePaginationStore } from "~/stores/pagination.store";
 import type { Topic } from "~/types/entity";
 
+// Meta methods for page
 definePageMeta({
     name: "topics"
 });
 
 useHead({
-    title: "Topics",
+    title: "Topics"
 });
 
-onMounted(() =>
-{
-    loadTopics();
-});
-
+// Stores and composables
 const data = useData();
 const topicStore = useTopicStore();
 const paginationStore = usePaginationStore();
+const modal = useModal();
+
+// Lifecycle hooks
+onMounted(async () =>
+{
+    await loadTopics();
+});
 
 const loading = ref(false);
 const page = ref(1);
@@ -111,6 +115,24 @@ const sort = ref({
     column: "name",
     direction: "asc" as const
 });
+
+// Table data
+const columns = [{
+    key: "name",
+    label: "Name",
+    sortable: true
+}, {
+    key: "description",
+    label: "Description",
+    sortable: true,
+}, {
+    key: "favorite",
+    label: "Favorite",
+    sortable: true,
+}, {
+    key: "actions",
+    label: "Actions",
+}];
 
 const loadTopics = async () =>
 {
@@ -167,58 +189,40 @@ const deleteTopic = async (topic: Topic) =>
     });
 };
 
-const modal = useModal();
-
-const showTopicModal = (topic?: Topic) =>
-{
-    modal.open(TopicForm, {
-        topic
-    });
-};
-
-const select = (row: Topic) =>
+const select = (topic: Topic) =>
 {
     return navigateTo({
         name: "units",
         params: {
-            topicId: row.id
+            topicId: topic.id
         }
     });
 };
 
-const columns = [{
-    key: "name",
-    label: "Name",
-    sortable: true
-}, {
-    key: "description",
-    label: "Description",
-    sortable: true,
-}, {
-    key: "favorite",
-    label: "Favorite",
-    sortable: true,
-}, {
-    key: "actions",
-    label: "Actions",
-}];
-
-const rowOptions = (row: Topic): DropdownItem[][] => [
+const rowOptions = (topic: Topic): DropdownItem[][] => [
     [{
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",
-        click: () => showTopicModal(row)
+        click: () => showTopicModal(topic)
     }, {
         label: "Duplicate",
         icon: "i-heroicons-document-duplicate-20-solid",
-        click: () => duplicateTopic(row)
+        click: () => duplicateTopic(topic)
     }], [{
         label: "Delete",
         class: "bg-red-500/15",
         labelClass: "text-red-500",
         iconClass: "bg-red-500",
         icon: "i-heroicons-trash-20-solid",
-        click: () => deleteTopic(row)
+        click: () => deleteTopic(topic)
     }]
 ];
+
+// Modal
+const showTopicModal = (topic?: Topic) =>
+{
+    modal.open(TopicForm, {
+        topic
+    });
+};
 </script>

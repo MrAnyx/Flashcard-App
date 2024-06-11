@@ -21,7 +21,8 @@
 import type { HorizontalNavigationLink } from "#ui/types";
 
 useHead({
-    titleTemplate: (titleChunk) => {
+    titleTemplate: (titleChunk) =>
+    {
         return titleChunk ? `${titleChunk} - Settings` : "Settings";
     }
 });

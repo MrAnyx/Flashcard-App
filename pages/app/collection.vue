@@ -8,12 +8,15 @@
 </template>
 
 <script setup lang="ts">
-useHead({
-    titleTemplate: () => "Collection"
-});
-
 definePageMeta({
     name: "collection",
     middleware: "is-connected"
+});
+
+useHead({
+    titleTemplate: (titleChunk) =>
+    {
+        return titleChunk ? `${titleChunk} - Collection` : "Collection";
+    }
 });
 </script>

@@ -3,7 +3,7 @@
         <UCard>
             <template #header>
                 <div class="flex justify-between items-center">
-                    <span class="font-medium">{{ props.topic ? "Edit" : "Create" }} a topic</span>
+                    <span class="font-medium">{{ props.topic ? "Edit" : "Create" }} a unit</span>
                     <UButton
                         icon="i-heroicons-x-mark"
                         color="white"
@@ -27,7 +27,7 @@
                         <UInput
                             v-model="state.name"
                             autofocus
-                            placeholder="You topic name"
+                            placeholder="Your unit name"
                         />
                     </UFormGroup>
 
@@ -38,7 +38,7 @@
                         <UTextarea
                             v-model="state.description"
                             :rows="7"
-                            placeholder="You topic description"
+                            placeholder="Your unit description"
                         />
                     </UFormGroup>
                 </div>
@@ -57,15 +57,16 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import type { Topic } from "~/types/entity";
+import type { Topic, Unit } from "~/types/entity";
 
 const props = defineProps<{
-    topic?: Topic;
+    topic: Topic;
+    unit?: Unit;
 }>();
 
 const modal = useModal();
 const data = useData();
-const topicStore = useTopicStore();
+const unitStore = useUnitStore();
 
 defineShortcuts({
     escape: {
@@ -83,36 +84,36 @@ const schema = z.object({
 });
 
 const state = reactive({
-    name: props.topic?.name ?? "",
-    description: props.topic?.description ?? "",
+    name: props.unit?.name ?? "",
+    description: props.unit?.description ?? "",
     loading: false
 });
 
 const onSubmit = async () =>
 {
     state.loading = true;
-    if (props.topic)
+    if (props.unit)
     {
-        const topic = await data.topic.updatePartialTopic(props.topic.id, {
+        const unit = await data.unit.updatePartialUnit(props.unit.id, {
             name: state.name,
             description: state.description,
         });
 
-        topicStore.updateTopic(props.topic.id, topic!.data);
+        unitStore.updateUnit(props.unit.id, unit!.data);
     }
     else
     {
-        const topic = await data.topic.createTopic({
+        const unit = await data.unit.createUnit(props.topic.id, {
             name: state.name,
             description: state.description,
             favorite: false
         });
 
-        topicStore.addTopic(topic!.data);
+        unitStore.addUnit(unit!.data);
     }
 
     useStandardToast("success", {
-        description: `The topic ${state.name} has been ${props.topic ? "updated" : "created"}`
+        description: `The unit ${state.name} has been ${props.unit ? "updated" : "created"}`
     });
     state.loading = false;
     modal.close();

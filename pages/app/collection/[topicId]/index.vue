@@ -8,31 +8,26 @@
             v-if="unitStore.recents.length >= 4"
             title="Recent units"
             :items="unitStore.recents"
-            :topic-id="1"
         /> -->
-        <UModal v-model="isModalOpen">
-            <div class="p-4">
-                New unit
-            </div>
-        </UModal>
-        <div class="py-6 flex-1 overflow-y-auto">
+
+        <div class="py-6 flex-1">
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
                     <h4 class="font-medium text-lg text-gray-200">
-                        Topics
+                        Units
                     </h4>
                     <UBadge
                         color="primary"
                         variant="subtle"
                     >
-                        {{ 0 }} units
+                        {{ unitStore.total }} unit{{ unitStore.total > 1 ? 's' : '' }}
                     </UBadge>
                 </div>
                 <UButton
                     label="Add a unit"
                     variant="soft"
                     color="primary"
-                    @click="isModalOpen = true"
+                    @click="showUnitModal()"
                 >
                     <template #leading>
                         <UIcon
@@ -43,24 +38,34 @@
                 </UButton>
             </div>
             <UTable
-                :rows="[]"
+                v-model:sort="sort"
+                :rows="unitStore.units"
                 :columns="columns"
+                :loading="loading"
+                sort-mode="manual"
                 :ui="{ td: { base: 'max-w-[0] truncate' } }"
+                @update:sort="loadUnits"
+                @select="select"
             >
                 <template #favorite-data="{ row }">
-                    <UIcon
-                        v-if="row.favorite"
-                        name="i-heroicons-star-solid"
-                        class="text-xl text-yellow-400"
-                    />
-                    <UIcon
-                        v-else
-                        name="i-heroicons-star"
-                        class="text-xl"
-                    />
+                    <button @click.stop="toggleFavorite(row)">
+                        <UIcon
+                            v-if="row.favorite"
+                            name="i-heroicons-star-solid"
+                            class="text-xl text-yellow-400"
+                        />
+                        <UIcon
+                            v-else
+                            name="i-heroicons-star"
+                            class="text-xl"
+                        />
+                    </button>
                 </template>
                 <template #actions-data="{ row }">
-                    <UDropdown :items="rowOptions(row)">
+                    <UDropdown
+                        :items="rowOptions(row)"
+                        @click.stop
+                    >
                         <UButton
                             color="gray"
                             variant="ghost"
@@ -69,81 +74,178 @@
                     </UDropdown>
                 </template>
             </UTable>
+            <div class="mt-4 flex justify-center">
+                <UPagination
+                    v-if="(unitStore.total / paginationStore.itemsPerPage) > 1"
+                    v-model="page"
+                    :page-count="paginationStore.itemsPerPage"
+                    :total="unitStore.total"
+                    @update:model-value="loadUnits"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { UnitForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
+import { usePaginationStore } from "~/stores/pagination.store";
 import type { Unit } from "~/types/entity";
-import type { RecentItem } from "~/types/recentItem";
 
+// Meta methods for page
 definePageMeta({
     name: "units"
 });
 
-onMounted(() => {
-    loadUnits();
+useHead({
+    title: "Units"
 });
 
-const loadUnits = async () => {
-    const { _data, error } = await useApi<Unit[]>("/units", {
-        method: "GET",
-    });
+// Stores and composables
+const data = useData();
+const unitStore = useUnitStore();
+const paginationStore = usePaginationStore();
+const modal = useModal();
 
-    if (!error.value) {
-        // unitStore.units = data.value!.data;
-    } else if (error.value.statusCode === 401) {
-        useStandardToast("unauthorized");
-    } else {
-        useStandardToast("error");
+// Lifecycle hooks
+onMounted(async () =>
+{
+    await loadUnits();
+});
+
+const topicId = Number(useRoute().params["topicId"]);
+const topic = await data.topic.getTopic(topicId);
+const loading = ref(false);
+const page = ref(1);
+const sort = ref({
+    column: "name",
+    direction: "asc" as const
+});
+
+// Table data
+const columns = [{
+    key: "name",
+    label: "Name",
+    sortable: true
+}, {
+    key: "description",
+    label: "Description",
+    sortable: true,
+}, {
+    key: "favorite",
+    label: "Favorite",
+    sortable: true,
+}, {
+    key: "actions",
+    label: "Actions",
+}];
+
+const loadUnits = async () =>
+{
+    loading.value = true;
+
+    try
+    {
+        const units = await data.unit.getUnitsByTopic(topicId, {
+            order: sort.value.direction,
+            sort: sort.value.column,
+            page: page.value
+        });
+
+        unitStore.total = units!["@pagination"]!.total;
+        unitStore.units = units!.data;
+    }
+    finally
+    {
+        loading.value = false;
     }
 };
 
-const isModalOpen = ref(false);
+const toggleFavorite = async (unit: Unit) =>
+{
+    await data.unit.updatePartialUnit(unit.id, {
+        favorite: !unit.favorite
+    });
+    unit.favorite = !unit.favorite;
+};
 
-const columns = [{
-    key: "name",
-    label: "Name"
-}, {
-    key: "description",
-    label: "Description"
-}, {
-    key: "units",
-    label: "Units"
-}, {
-    key: "favorite",
-    label: "Favorite"
-}, {
-    key: "actions"
-}];
+const duplicateUnit = async (unit: Unit) =>
+{
+    const duplicatedUnit = await data.unit.createUnit(topicId, {
+        name: unit.name,
+        description: unit.description,
+        favorite: false
+    });
 
-const rowOptions = (row: RecentItem): DropdownItem[][] => [
+    unitStore.addUnit(duplicatedUnit!.data);
+
+    useStandardToast("success", {
+        description: `The unit ${unit.name} has been duplicated`
+    });
+};
+
+const deleteTopic = async (unit: Unit) =>
+{
+    await data.unit.deleteUnit(unit.id);
+
+    unitStore.deleteUnit(unit);
+
+    useStandardToast("success", {
+        description: `The unit ${unit.name} has been deleted`
+    });
+};
+
+const select = (unit: Unit) =>
+{
+    return navigateTo({
+        name: "flashcards",
+        params: {
+            topicId,
+            unitId: unit.id
+        }
+    });
+};
+
+const rowOptions = (unit: Unit): DropdownItem[][] => [
     [{
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",
-        click: () => console.log("Edit", row.id)
+        click: () => showUnitModal(unit)
     }, {
         label: "Duplicate",
-        icon: "i-heroicons-document-duplicate-20-solid"
-    }, {
-        label: "Move",
-        icon: "i-heroicons-arrow-top-right-on-square"
+        icon: "i-heroicons-document-duplicate-20-solid",
+        click: () => duplicateUnit(unit)
     }], [{
         label: "Delete",
-        icon: "i-heroicons-trash-20-solid"
+        class: "bg-red-500/15",
+        labelClass: "text-red-500",
+        iconClass: "bg-red-500",
+        icon: "i-heroicons-trash-20-solid",
+        click: () => deleteTopic(unit)
     }]
 ];
 
+// Modal
+const showUnitModal = (unit?: Unit) =>
+{
+    modal.open(UnitForm, {
+        topic: topic!.data,
+        unit
+    });
+};
+
+// Breadcrumb
 const breadcrumbItems: BreadcrumbLink[] = [
     {
         label: "Collection",
         icon: "i-heroicons-folder",
-        to: "/app/collection"
+        to: {
+            name: "topics",
+        }
     },
     {
-        label: "Korean",
-        to: "/app/collection/1"
+        label: topic!.data.name,
     }
 ];
 </script>
