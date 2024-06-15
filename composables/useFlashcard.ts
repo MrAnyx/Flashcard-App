@@ -1,14 +1,14 @@
 import type { Pagination } from "~/types/core";
-import type { Topic } from "~/types/entity";
+import type { Flashcard } from "~/types/entity";
 import type { JsonStandard } from "~/types/request";
 
 export default () =>
 {
-    const getTopics = (pagination: Pagination) =>
+    const getFlashcardsByUnit = (unitId: number, pagination: Pagination) =>
     {
-        return new Promise<JsonStandard<Topic[]> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Flashcard[]> | null>(async (resolve, reject) =>
         {
-            const { data, error } = await useApi<Topic[]>("/topics", {
+            const { data, error } = await useApi<Flashcard[]>(`/units/${unitId}/flashcards`, {
                 method: "GET",
                 query: {
                     ...pagination
@@ -36,11 +36,43 @@ export default () =>
         });
     };
 
-    const getTopic = (id: number) =>
+    const getFlashcards = (pagination: Pagination) =>
     {
-        return new Promise<JsonStandard<Topic> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Flashcard[]> | null>(async (resolve, reject) =>
         {
-            const { data, error } = await useApi<Topic>(`/topics/${id}`, {
+            const { data, error } = await useApi<Flashcard[]>(`/flashcards`, {
+                method: "GET",
+                query: {
+                    ...pagination
+                }
+            });
+
+            if (!error.value)
+            {
+                resolve(data.value);
+            }
+            else
+            {
+                switch (error.value.statusCode)
+                {
+                    case 401:
+                        useStandardToast("unauthorized");
+                        break;
+                    default:
+                        useStandardToast("error");
+                        break;
+                }
+
+                reject(error);
+            }
+        });
+    };
+
+    const getFlashcard = (id: number) =>
+    {
+        return new Promise<JsonStandard<Flashcard> | null>(async (resolve, reject) =>
+        {
+            const { data, error } = await useApi<Flashcard>(`/flashcards/${id}`, {
                 method: "GET"
             });
 
@@ -65,11 +97,11 @@ export default () =>
         });
     };
 
-    const updatePartialTopic = (id: number, updatedElement: Partial<Topic>) =>
+    const updatePartialFlashcard = (id: number, updatedElement: Partial<Flashcard>) =>
     {
-        return new Promise<JsonStandard<Topic> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Flashcard> | null>(async (resolve, reject) =>
         {
-            const { data, error } = await useApi<Topic>(`/topics/${id}`, {
+            const { data, error } = await useApi<Flashcard>(`/flashcards/${id}`, {
                 method: "PATCH",
                 body: {
                     ...updatedElement
@@ -97,19 +129,20 @@ export default () =>
         });
     };
 
-    const updateTopic = (id: number, updatedElement: Topic) =>
+    const updateFlashcard = (id: number, updatedElement: Flashcard) =>
     {
-        return updatePartialTopic(id, updatedElement);
+        return updatePartialFlashcard(id, updatedElement);
     };
 
-    const createTopic = (topic: Pick<Topic, "name" | "description" | "favorite">) =>
+    const createFlashcard = (unitId: number, unit: Pick<Flashcard, "front" | "back" | "details" | "favorite">) =>
     {
-        return new Promise<JsonStandard<Topic> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Flashcard> | null>(async (resolve, reject) =>
         {
-            const { data, error } = await useApi<Topic>("/topics", {
+            const { data, error } = await useApi<Flashcard>("/flashcards", {
                 method: "POST",
                 body: {
-                    ...topic
+                    ...unit,
+                    unit: unitId
                 }
             });
 
@@ -134,11 +167,11 @@ export default () =>
         });
     };
 
-    const deleteTopic = (id: number) =>
+    const deleteFlashcard = (id: number) =>
     {
         return new Promise<JsonStandard<null> | null>(async (resolve, reject) =>
         {
-            const { data, error } = await useApi<null>(`/topics/${id}`, {
+            const { data, error } = await useApi<null>(`/flashcards/${id}`, {
                 method: "DELETE"
             });
 
@@ -164,11 +197,12 @@ export default () =>
     };
 
     return {
-        getTopics,
-        getTopic,
-        createTopic,
-        updateTopic,
-        updatePartialTopic,
-        deleteTopic
+        getFlashcardsByUnit,
+        getFlashcards,
+        getFlashcard,
+        createFlashcard,
+        updateFlashcard,
+        updatePartialFlashcard,
+        deleteFlashcard
     };
 };

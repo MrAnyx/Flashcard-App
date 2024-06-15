@@ -97,14 +97,14 @@ export default () =>
         });
     };
 
-    const updatePartialUnit = (id: number, updatedUnit: Partial<Unit>) =>
+    const updatePartialUnit = (id: number, updatedElement: Partial<Unit>) =>
     {
         return new Promise<JsonStandard<Unit> | null>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Unit>(`/units/${id}`, {
                 method: "PATCH",
                 body: {
-                    ...updatedUnit
+                    ...updatedElement
                 }
             });
 
@@ -129,9 +129,9 @@ export default () =>
         });
     };
 
-    const updateUnit = (id: number, updatedUnit: Unit) =>
+    const updateUnit = (id: number, updatedElement: Unit) =>
     {
-        return updatePartialUnit(id, updatedUnit);
+        return updatePartialUnit(id, updatedElement);
     };
 
     const createUnit = (topicId: number, unit: Pick<Unit, "name" | "description" | "favorite">) =>

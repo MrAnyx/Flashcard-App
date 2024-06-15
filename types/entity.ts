@@ -27,3 +27,18 @@ export type Unit = {
     description: string;
     favorite: boolean;
 };
+
+export type Flashcard = {
+    id: number;
+    createdAt: string;
+    updatedAt: string;
+    front: string;
+    back: string;
+    details: string;
+    nextReview: string;
+    previousReview: string;
+    state: number;
+    difficulty: number;
+    stability: number;
+    favorite: boolean;
+};

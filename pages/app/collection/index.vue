@@ -69,9 +69,11 @@
                     </UDropdown>
                 </template>
             </UTable>
-            <div class="mt-4 flex justify-center">
+            <div
+                v-if="(topicStore.total / paginationStore.itemsPerPage) > 1"
+                class="mt-4 flex justify-center"
+            >
                 <UPagination
-                    v-if="(topicStore.total / paginationStore.itemsPerPage) > 1"
                     v-model="page"
                     :page-count="paginationStore.itemsPerPage"
                     :total="topicStore.total"
@@ -120,7 +122,7 @@ const sort = ref({
 const columns = [{
     key: "name",
     label: "Name",
-    sortable: true
+    sortable: true,
 }, {
     key: "description",
     label: "Description",

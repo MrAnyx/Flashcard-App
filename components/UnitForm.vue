@@ -3,7 +3,7 @@
         <UCard>
             <template #header>
                 <div class="flex justify-between items-center">
-                    <span class="font-medium">{{ props.topic ? "Edit" : "Create" }} a unit</span>
+                    <span class="font-medium">{{ props.unit ? "Edit" : "Create" }} a unit</span>
                     <UButton
                         icon="i-heroicons-x-mark"
                         color="white"
@@ -48,7 +48,7 @@
                     block
                     :loading="state.loading"
                 >
-                    {{ props.topic ? "Update" : "Create" }}
+                    {{ props.unit ? "Update" : "Create" }}
                 </UButton>
             </UForm>
         </UCard>

@@ -29,9 +29,9 @@ export const useUnitStore = defineStore("unit", {
             const elementToUpdate = this.units.findIndex(u => u.id === id);
             if (elementToUpdate !== -1)
             {
-                const previousTopic = this.units[elementToUpdate];
+                const previousElement = this.units[elementToUpdate];
                 this.units[elementToUpdate] = {
-                    ...previousTopic,
+                    ...previousElement,
                     ...unit
                 };
             }
