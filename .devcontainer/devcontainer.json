@@ -15,7 +15,15 @@
     "postStartCommand": "pnpm run dev",
     "customizations": {
         "vscode": {
-            "extensions": ["EditorConfig.EditorConfig", "dbaeumer.vscode-eslint", "christian-kohler.npm-intellisense", "esbenp.prettier-vscode", "Vue.volar", "bradlc.vscode-tailwindcss"],
+            "extensions": [
+                "EditorConfig.EditorConfig",
+                "dbaeumer.vscode-eslint",
+                "christian-kohler.npm-intellisense",
+                "esbenp.prettier-vscode",
+                "Vue.volar",
+                "bradlc.vscode-tailwindcss",
+                "Nuxtr.nuxtr-vscode"
+            ],
             "settings": {
                 "[javascript][typescript][vue]": {
                     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
