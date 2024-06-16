@@ -22,7 +22,7 @@
                     label="Add a topic"
                     variant="soft"
                     color="primary"
-                    @click="showTopicModal()"
+                    @click="showCreateUpdateModal()"
                 >
                     <template #leading>
                         <UIcon
@@ -39,7 +39,7 @@
                 :loading="loading"
                 sort-mode="manual"
                 :ui="{ td: { base: 'max-w-[0] truncate' } }"
-                @update:sort="loadTopics"
+                @update:sort="loadTable"
                 @select="select"
             >
                 <template #favorite-data="{ row }">
@@ -77,7 +77,7 @@
                     v-model="page"
                     :page-count="paginationStore.itemsPerPage"
                     :total="topicStore.total"
-                    @update:model-value="loadTopics"
+                    @update:model-value="loadTable"
                 />
             </div>
         </div>
@@ -108,7 +108,7 @@ const modal = useModal();
 // Lifecycle hooks
 onMounted(async () =>
 {
-    await loadTopics();
+    await loadTable();
 });
 
 const loading = ref(false);
@@ -136,20 +136,20 @@ const columns = [{
     label: "Actions",
 }];
 
-const loadTopics = async () =>
+const loadTable = async () =>
 {
     loading.value = true;
 
     try
     {
-        const topics = await data.topic.getTopics({
+        const response = await data.topic.getTopics({
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value
         });
 
-        topicStore.total = topics!["@pagination"]!.total;
-        topicStore.topics = topics!.data;
+        topicStore.total = response!["@pagination"]!.total;
+        topicStore.topics = response!.data;
     }
     finally
     {
@@ -157,74 +157,74 @@ const loadTopics = async () =>
     }
 };
 
-const toggleFavorite = async (topic: Topic) =>
+const toggleFavorite = async (row: Topic) =>
 {
-    await data.topic.updatePartialTopic(topic.id, {
-        favorite: !topic.favorite
+    await data.topic.updatePartialTopic(row.id, {
+        favorite: !row.favorite
     });
-    topic.favorite = !topic.favorite;
+    row.favorite = !row.favorite;
 };
 
-const duplicateTopic = async (topic: Topic) =>
+const duplicateRow = async (row: Topic) =>
 {
-    const duplicatedTopic = await data.topic.createTopic({
-        name: topic.name,
-        description: topic.description,
+    const response = await data.topic.createTopic({
+        name: row.name,
+        description: row.description,
         favorite: false
     });
 
-    topicStore.addTopic(duplicatedTopic!.data);
+    topicStore.addTopic(response!.data);
 
     useStandardToast("success", {
-        description: `The topic ${topic.name} has been duplicated`
+        description: `The topic ${row.name} has been duplicated`
     });
 };
 
-const deleteTopic = async (topic: Topic) =>
+const deleteRow = async (row: Topic) =>
 {
-    await data.topic.deleteTopic(topic.id);
+    await data.topic.deleteTopic(row.id);
 
-    topicStore.deleteTopic(topic);
+    topicStore.deleteTopic(row);
 
     useStandardToast("success", {
-        description: `The topic ${topic.name} has been deleted`
+        description: `The topic ${row.name} has been deleted`
     });
 };
 
-const select = (topic: Topic) =>
+const select = (row: Topic) =>
 {
     return navigateTo({
         name: "units",
         params: {
-            topicId: topic.id
+            topicId: row.id
         }
     });
 };
 
-const rowOptions = (topic: Topic): DropdownItem[][] => [
+const rowOptions = (row: Topic): DropdownItem[][] => [
     [{
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",
-        click: () => showTopicModal(topic)
+        click: () => showCreateUpdateModal(row)
     }, {
         label: "Duplicate",
         icon: "i-heroicons-document-duplicate-20-solid",
-        click: () => duplicateTopic(topic)
+        click: () => duplicateRow(row)
     }], [{
         label: "Delete",
         class: "bg-red-500/15",
         labelClass: "text-red-500",
         iconClass: "bg-red-500",
         icon: "i-heroicons-trash-20-solid",
-        click: () => deleteTopic(topic)
+        click: () => deleteRow(row)
     }]
 ];
 
 // Modal
-const showTopicModal = (topic?: Topic) =>
+const showCreateUpdateModal = (row?: Topic) =>
 {
     modal.open(TopicForm, {
-        topic
+        topic: row
     });
 };
 </script>

@@ -27,7 +27,7 @@
                     label="Add a flashcard"
                     variant="soft"
                     color="primary"
-                    @click="showUnitModal()"
+                    @click="showCreateUpdateModal()"
                 >
                     <template #leading>
                         <UIcon
@@ -44,7 +44,7 @@
                 :loading="loading"
                 sort-mode="manual"
                 :ui="{ td: { base: 'max-w-[0] truncate' } }"
-                @update:sort="loadFlashcards"
+                @update:sort="loadTable"
             >
                 <template #favorite-data="{ row }">
                     <button @click.stop="toggleFavorite(row)">
@@ -79,7 +79,7 @@
                     v-model="page"
                     :page-count="paginationStore.itemsPerPage"
                     :total="flashcardStore.total"
-                    @update:model-value="loadFlashcards"
+                    @update:model-value="loadTable"
                 />
             </div>
         </div>
@@ -110,7 +110,7 @@ const modal = useModal();
 // Lifecycle hooks
 onMounted(async () =>
 {
-    await loadFlashcards();
+    await loadTable();
 });
 
 const topicId = Number(useRoute().params["topicId"]);
@@ -139,20 +139,20 @@ const columns = [{
     label: "Actions",
 }];
 
-const loadFlashcards = async () =>
+const loadTable = async () =>
 {
     loading.value = true;
 
     try
     {
-        const flashcards = await data.flashcard.getFlashcardsByUnit(unitId, {
+        const response = await data.flashcard.getFlashcardsByUnit(unitId, {
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value
         });
 
-        flashcardStore.total = flashcards!["@pagination"]!.total;
-        flashcardStore.flashcards = flashcards!.data;
+        flashcardStore.total = response!["@pagination"]!.total;
+        flashcardStore.flashcards = response!.data;
     }
     finally
     {
@@ -160,67 +160,67 @@ const loadFlashcards = async () =>
     }
 };
 
-const toggleFavorite = async (flashcard: Flashcard) =>
+const toggleFavorite = async (row: Flashcard) =>
 {
-    await data.flashcard.updatePartialFlashcard(flashcard.id, {
-        favorite: !flashcard.favorite
+    await data.flashcard.updatePartialFlashcard(row.id, {
+        favorite: !row.favorite
     });
-    flashcard.favorite = !flashcard.favorite;
+    row.favorite = !row.favorite;
 };
 
-const duplicateFlashcard = async (flashcard: Flashcard) =>
+const duplicateRow = async (row: Flashcard) =>
 {
-    const duplicatedFlashcard = await data.flashcard.createFlashcard(unitId, {
-        front: flashcard.front,
-        back: flashcard.back,
-        details: flashcard.details,
+    const response = await data.flashcard.createFlashcard(unitId, {
+        front: row.front,
+        back: row.back,
+        details: row.details,
         favorite: false
     });
 
-    flashcardStore.addFlashcard(duplicatedFlashcard!.data);
+    flashcardStore.addFlashcard(response!.data);
 
     useStandardToast("success", {
-        description: `The flashcard ${flashcard.front} has been duplicated`
+        description: `The flashcard ${row.front} has been duplicated`
     });
 };
 
-const deleteFlashcard = async (flashcard: Flashcard) =>
+const deleteRow = async (row: Flashcard) =>
 {
-    await data.flashcard.deleteFlashcard(flashcard.id);
+    await data.flashcard.deleteFlashcard(row.id);
 
-    flashcardStore.deleteFlashcard(flashcard);
+    flashcardStore.deleteFlashcard(row);
 
     useStandardToast("success", {
-        description: `The flashcard ${flashcard.front} has been deleted`
+        description: `The flashcard ${row.front} has been deleted`
     });
 };
 
-const rowOptions = (flashcard: Flashcard): DropdownItem[][] => [
+const rowOptions = (row: Flashcard): DropdownItem[][] => [
     [{
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",
-        click: () => showUnitModal(flashcard)
+        click: () => showCreateUpdateModal(row)
     }, {
         label: "Duplicate",
         icon: "i-heroicons-document-duplicate-20-solid",
-        click: () => duplicateFlashcard(flashcard)
+        click: () => duplicateRow(row)
     }], [{
         label: "Delete",
         class: "bg-red-500/15",
         labelClass: "text-red-500",
         iconClass: "bg-red-500",
         icon: "i-heroicons-trash-20-solid",
-        click: () => deleteFlashcard(flashcard)
+        click: () => deleteRow(row)
     }]
 ];
 
 // Modal
-const showUnitModal = (flashcard?: Flashcard) =>
+const showCreateUpdateModal = (row?: Flashcard) =>
 {
     modal.open(FlashcardForm, {
         topic: topic!.data,
         unit: unit!.data,
-        flashcard
+        flashcard: row
     });
 };
 

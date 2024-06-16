@@ -27,7 +27,7 @@
                     label="Add a unit"
                     variant="soft"
                     color="primary"
-                    @click="showUnitModal()"
+                    @click="showCreateUpdateModal()"
                 >
                     <template #leading>
                         <UIcon
@@ -44,8 +44,8 @@
                 :loading="loading"
                 sort-mode="manual"
                 :ui="{ td: { base: 'max-w-[0] truncate' } }"
-                @update:sort="loadUnits"
-                @select="select"
+                @update:sort="loadTable"
+                @select="selectRow"
             >
                 <template #favorite-data="{ row }">
                     <button @click.stop="toggleFavorite(row)">
@@ -80,7 +80,7 @@
                     v-model="page"
                     :page-count="paginationStore.itemsPerPage"
                     :total="unitStore.total"
-                    @update:model-value="loadUnits"
+                    @update:model-value="loadTable"
                 />
             </div>
         </div>
@@ -111,7 +111,7 @@ const modal = useModal();
 // Lifecycle hooks
 onMounted(async () =>
 {
-    await loadUnits();
+    await loadTable();
 });
 
 const topicId = Number(useRoute().params["topicId"]);
@@ -141,20 +141,20 @@ const columns = [{
     label: "Actions",
 }];
 
-const loadUnits = async () =>
+const loadTable = async () =>
 {
     loading.value = true;
 
     try
     {
-        const units = await data.unit.getUnitsByTopic(topicId, {
+        const repsonse = await data.unit.getUnitsByTopic(topicId, {
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value
         });
 
-        unitStore.total = units!["@pagination"]!.total;
-        unitStore.units = units!.data;
+        unitStore.total = repsonse!["@pagination"]!.total;
+        unitStore.units = repsonse!.data;
     }
     finally
     {
@@ -162,76 +162,76 @@ const loadUnits = async () =>
     }
 };
 
-const toggleFavorite = async (unit: Unit) =>
+const toggleFavorite = async (row: Unit) =>
 {
-    await data.unit.updatePartialUnit(unit.id, {
-        favorite: !unit.favorite
+    await data.unit.updatePartialUnit(row.id, {
+        favorite: !row.favorite
     });
-    unit.favorite = !unit.favorite;
+    row.favorite = !row.favorite;
 };
 
-const duplicateUnit = async (unit: Unit) =>
+const duplicateRow = async (row: Unit) =>
 {
-    const duplicatedUnit = await data.unit.createUnit(topicId, {
-        name: unit.name,
-        description: unit.description,
+    const response = await data.unit.createUnit(topicId, {
+        name: row.name,
+        description: row.description,
         favorite: false
     });
 
-    unitStore.addUnit(duplicatedUnit!.data);
+    unitStore.addUnit(response!.data);
 
     useStandardToast("success", {
-        description: `The unit ${unit.name} has been duplicated`
+        description: `The unit ${row.name} has been duplicated`
     });
 };
 
-const deleteTopic = async (unit: Unit) =>
+const deleteRow = async (row: Unit) =>
 {
-    await data.unit.deleteUnit(unit.id);
+    await data.unit.deleteUnit(row.id);
 
-    unitStore.deleteUnit(unit);
+    unitStore.deleteUnit(row);
 
     useStandardToast("success", {
-        description: `The unit ${unit.name} has been deleted`
+        description: `The unit ${row.name} has been deleted`
     });
 };
 
-const select = (unit: Unit) =>
+const selectRow = (row: Unit) =>
 {
     return navigateTo({
         name: "flashcards",
         params: {
             topicId,
-            unitId: unit.id
+            unitId: row.id
         }
     });
 };
 
-const rowOptions = (unit: Unit): DropdownItem[][] => [
+const rowOptions = (row: Unit): DropdownItem[][] => [
     [{
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",
-        click: () => showUnitModal(unit)
+        click: () => showCreateUpdateModal(row)
     }, {
         label: "Duplicate",
         icon: "i-heroicons-document-duplicate-20-solid",
-        click: () => duplicateUnit(unit)
+        click: () => duplicateRow(row)
     }], [{
         label: "Delete",
         class: "bg-red-500/15",
         labelClass: "text-red-500",
         iconClass: "bg-red-500",
         icon: "i-heroicons-trash-20-solid",
-        click: () => deleteTopic(unit)
+        click: () => deleteRow(row)
     }]
 ];
 
 // Modal
-const showUnitModal = (unit?: Unit) =>
+const showCreateUpdateModal = (row?: Unit) =>
 {
     modal.open(UnitForm, {
         topic: topic!.data,
-        unit
+        unit: row
     });
 };
 
