@@ -24,6 +24,7 @@ export default defineNuxtConfig({
         cookieOptions: {
             sameSite: "strict"
         },
+        // Cookie has better performances
         storage: "localStorage"
     },
     router: {
