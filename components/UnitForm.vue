@@ -99,7 +99,7 @@ const onSubmit = async () =>
             description: state.description,
         });
 
-        unitStore.updateUnit(props.unit.id, unit!.data);
+        unitStore.update(props.unit.id, unit!.data);
     }
     else
     {
@@ -109,7 +109,7 @@ const onSubmit = async () =>
             favorite: false
         });
 
-        unitStore.addUnit(unit!.data);
+        unitStore.prepend(unit!.data);
     }
 
     useStandardToast("success", {

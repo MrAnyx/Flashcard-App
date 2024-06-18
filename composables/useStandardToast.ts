@@ -1,10 +1,12 @@
 import type { Notification } from "#ui/types";
 import type { StandardToastType } from "~/types/standardToast";
 
-export function useStandardToast(type: StandardToastType, options?: Partial<Notification>) {
+export function useStandardToast(type: StandardToastType, options?: Partial<Notification>)
+{
     const toast = useToast();
 
-    switch (type) {
+    switch (type)
+    {
         case "error":
             toast.add({
                 title: "Error",

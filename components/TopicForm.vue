@@ -98,7 +98,7 @@ const onSubmit = async () =>
             description: state.description,
         });
 
-        topicStore.updateTopic(props.topic.id, topic!.data);
+        topicStore.update(props.topic.id, topic!.data);
     }
     else
     {
@@ -108,7 +108,7 @@ const onSubmit = async () =>
             favorite: false
         });
 
-        topicStore.addTopic(topic!.data);
+        topicStore.prepend(topic!.data);
     }
 
     useStandardToast("success", {

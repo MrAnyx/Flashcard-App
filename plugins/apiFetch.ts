@@ -1,18 +1,22 @@
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin(() =>
+{
     const config = useRuntimeConfig().public;
     const authStore = useAuthStore();
 
     const $apiFetch = $fetch.create({
         baseURL: config.apiBaseUrl,
-        onRequest({ options }) {
-            if (authStore.token !== null) {
+        onRequest({ options })
+        {
+            if (authStore.token !== null)
+            {
                 options.headers = {
                     ...options.headers,
                     Authorization: `Bearer ${authStore.token}`
                 };
             }
         },
-        onRequestError() {
+        onRequestError()
+        {
             useStandardToast("error", {
                 description: "An error occured while send a request, please try again or contact the administrator."
             });

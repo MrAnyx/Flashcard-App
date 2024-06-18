@@ -13,34 +13,39 @@ export const useFlashcardStore = defineStore("flashcard", {
         total: 0
     }),
     actions: {
-        addFlashcard(flashcard: Flashcard)
+        prepend(item: Flashcard)
         {
-            this.flashcards = [flashcard, ...this.flashcards];
-            this.incrementTotal();
+            this.flashcards = [item, ...this.flashcards];
+            this.increment();
         },
-        deleteFlashcard(flashcard: Flashcard)
+        append(item: Flashcard)
         {
-            const elementToRemove = this.flashcards.findIndex(t => t.id === flashcard.id);
-            this.flashcards.splice(elementToRemove, 1);
-            this.decrementTotal();
+            this.flashcards = [...this.flashcards, item];
+            this.increment();
         },
-        updateFlashcard(id: number, flashcard: Partial<Flashcard>)
+        delete(item: Flashcard)
         {
-            const elementToUpdate = this.flashcards.findIndex(u => u.id === id);
-            if (elementToUpdate !== -1)
+            const itemToRemove = this.flashcards.findIndex(f => f.id === item.id);
+            this.flashcards.splice(itemToRemove, 1);
+            this.increment();
+        },
+        update(id: number, item: Partial<Flashcard>)
+        {
+            const itemToUpdate = this.flashcards.findIndex(f => f.id === id);
+            if (itemToUpdate !== -1)
             {
-                const previousElement = this.flashcards[elementToUpdate];
-                this.flashcards[elementToUpdate] = {
-                    ...previousElement,
-                    ...flashcard
+                const previousItem = this.flashcards[itemToUpdate];
+                this.flashcards[itemToUpdate] = {
+                    ...previousItem,
+                    ...item
                 };
             }
         },
-        incrementTotal()
+        increment()
         {
             this.total++;
         },
-        decrementTotal()
+        decrement()
         {
             this.total--;
         }

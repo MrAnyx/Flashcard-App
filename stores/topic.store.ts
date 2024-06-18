@@ -13,34 +13,39 @@ export const useTopicStore = defineStore("topic", {
         total: 0
     }),
     actions: {
-        addTopic(topic: Topic)
+        prepend(item: Topic)
         {
-            this.topics = [topic, ...this.topics];
-            this.incrementTotal();
+            this.topics = [item, ...this.topics];
+            this.increment();
         },
-        deleteTopic(topic: Topic)
+        append(item: Topic)
         {
-            const topicToRemove = this.topics.findIndex(t => t.id === topic.id);
-            this.topics.splice(topicToRemove, 1);
-            this.decrementTotal();
+            this.topics = [...this.topics, item];
+            this.increment();
         },
-        updateTopic(id: number, topic: Partial<Topic>)
+        delete(item: Topic)
         {
-            const topicToUpdate = this.topics.findIndex(t => t.id === id);
-            if (topicToUpdate !== -1)
+            const itemToRemove = this.topics.findIndex(t => t.id === item.id);
+            this.topics.splice(itemToRemove, 1);
+            this.decrement();
+        },
+        update(id: number, item: Partial<Topic>)
+        {
+            const itemToUpdate = this.topics.findIndex(t => t.id === id);
+            if (itemToUpdate !== -1)
             {
-                const previousTopic = this.topics[topicToUpdate];
-                this.topics[topicToUpdate] = {
-                    ...previousTopic,
-                    ...topic
+                const previousItem = this.topics[itemToUpdate];
+                this.topics[itemToUpdate] = {
+                    ...previousItem,
+                    ...item
                 };
             }
         },
-        incrementTotal()
+        increment()
         {
             this.total++;
         },
-        decrementTotal()
+        decrement()
         {
             this.total--;
         }

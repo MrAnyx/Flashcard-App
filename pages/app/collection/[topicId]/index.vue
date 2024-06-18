@@ -178,7 +178,7 @@ const duplicateRow = async (row: Unit) =>
         favorite: false
     });
 
-    unitStore.addUnit(response!.data);
+    unitStore.prepend(response!.data);
 
     useStandardToast("success", {
         description: `The unit ${row.name} has been duplicated`
@@ -189,7 +189,7 @@ const deleteRow = async (row: Unit) =>
 {
     await data.unit.deleteUnit(row.id);
 
-    unitStore.deleteUnit(row);
+    unitStore.delete(row);
 
     useStandardToast("success", {
         description: `The unit ${row.name} has been deleted`

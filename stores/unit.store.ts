@@ -13,34 +13,39 @@ export const useUnitStore = defineStore("unit", {
         total: 0
     }),
     actions: {
-        addUnit(unit: Unit)
+        prepend(item: Unit)
         {
-            this.units = [unit, ...this.units];
-            this.incrementTotal();
+            this.units = [item, ...this.units];
+            this.increment();
         },
-        deleteUnit(unit: Unit)
+        append(item: Unit)
         {
-            const elementToRemove = this.units.findIndex(t => t.id === unit.id);
-            this.units.splice(elementToRemove, 1);
-            this.decrementTotal();
+            this.units = [...this.units, item];
+            this.increment();
         },
-        updateUnit(id: number, unit: Partial<Unit>)
+        delete(item: Unit)
         {
-            const elementToUpdate = this.units.findIndex(u => u.id === id);
-            if (elementToUpdate !== -1)
+            const itemToRemove = this.units.findIndex(u => u.id === item.id);
+            this.units.splice(itemToRemove, 1);
+            this.decrement();
+        },
+        update(id: number, item: Partial<Unit>)
+        {
+            const itemToUpdate = this.units.findIndex(u => u.id === id);
+            if (itemToUpdate !== -1)
             {
-                const previousElement = this.units[elementToUpdate];
-                this.units[elementToUpdate] = {
-                    ...previousElement,
-                    ...unit
+                const previousItem = this.units[itemToUpdate];
+                this.units[itemToUpdate] = {
+                    ...previousItem,
+                    ...item
                 };
             }
         },
-        incrementTotal()
+        increment()
         {
             this.total++;
         },
-        decrementTotal()
+        decrement()
         {
             this.total--;
         }

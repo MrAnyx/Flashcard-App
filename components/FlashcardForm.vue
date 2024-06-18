@@ -115,7 +115,7 @@ const onSubmit = async () =>
             details: state.details ?? null,
         });
 
-        flashcardStore.updateFlashcard(props.flashcard.id, flashcard!.data);
+        flashcardStore.update(props.flashcard.id, flashcard!.data);
     }
     else
     {
@@ -126,7 +126,7 @@ const onSubmit = async () =>
             favorite: false
         });
 
-        flashcardStore.addFlashcard(flashcard!.data);
+        flashcardStore.prepend(flashcard!.data);
     }
 
     useStandardToast("success", {

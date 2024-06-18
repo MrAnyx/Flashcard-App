@@ -177,7 +177,7 @@ const duplicateRow = async (row: Flashcard) =>
         favorite: false
     });
 
-    flashcardStore.addFlashcard(response!.data);
+    flashcardStore.prepend(response!.data);
 
     useStandardToast("success", {
         description: `The flashcard ${row.front} has been duplicated`
@@ -188,7 +188,7 @@ const deleteRow = async (row: Flashcard) =>
 {
     await data.flashcard.deleteFlashcard(row.id);
 
-    flashcardStore.deleteFlashcard(row);
+    flashcardStore.delete(row);
 
     useStandardToast("success", {
         description: `The flashcard ${row.front} has been deleted`

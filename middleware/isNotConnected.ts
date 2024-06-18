@@ -1,7 +1,9 @@
-export default defineNuxtRouteMiddleware(() => {
+export default defineNuxtRouteMiddleware(() =>
+{
     const authStore = useAuthStore();
 
-    if (authStore.isConnected) {
+    if (authStore.isConnected)
+    {
         useStandardToast("info", {
             description: "You are already logged in."
         });

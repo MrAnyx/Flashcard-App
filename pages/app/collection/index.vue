@@ -173,7 +173,7 @@ const duplicateRow = async (row: Topic) =>
         favorite: false
     });
 
-    topicStore.addTopic(response!.data);
+    topicStore.prepend(response!.data);
 
     useStandardToast("success", {
         description: `The topic ${row.name} has been duplicated`
@@ -184,7 +184,7 @@ const deleteRow = async (row: Topic) =>
 {
     await data.topic.deleteTopic(row.id);
 
-    topicStore.deleteTopic(row);
+    topicStore.delete(row);
 
     useStandardToast("success", {
         description: `The topic ${row.name} has been deleted`

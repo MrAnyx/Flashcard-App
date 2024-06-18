@@ -10,21 +10,26 @@ export const useAuthStore = defineStore("auth", {
         user: null
     }),
     actions: {
-        logout() {
+        logout()
+        {
             this.user = null;
         }
     },
     getters: {
-        token: (state) => {
+        token: (state) =>
+        {
             return state.user?.token || null;
         },
-        isAdmin(state) {
+        isAdmin(state)
+        {
             return state.user?.roles.includes("ROLE_ADMIN") || false;
         },
-        isUser(state) {
+        isUser(state)
+        {
             return state.user?.roles.includes("ROLE_USER") || false;
         },
-        isConnected() {
+        isConnected()
+        {
             return this.token !== null;
         }
     }
