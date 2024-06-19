@@ -14,7 +14,7 @@
                 </div>
                 <USelectMenu
                     v-model="paginationStore.itemsPerPage"
-                    :options="itemsPerPageOptions"
+                    :options="itemsPerPageObject"
                     value-attribute="value"
                     option-attribute="label"
                 />
@@ -33,22 +33,11 @@ useHead({
 });
 
 const paginationStore = usePaginationStore();
-const itemsPerPageOptions = [
-    {
-        label: "25",
-        value: 25
-    },
-    {
-        label: "50",
-        value: 50
-    },
-    {
-        label: "100",
-        value: 100
-    },
-    {
-        label: "200",
-        value: 200
-    }
-];
+const itemsPerPageOptions = [25, 50, 100, 200];
+const itemsPerPageObject = itemsPerPageOptions.map((o) =>
+{
+    return {
+        label: o.toString(), value: o
+    };
+});
 </script>
