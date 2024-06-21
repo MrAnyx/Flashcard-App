@@ -13,4 +13,8 @@ definePageMeta({
     name: "practice",
     middleware: "is-connected"
 });
+
+useHead({
+    title: "Practice"
+});
 </script>

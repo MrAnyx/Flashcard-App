@@ -13,4 +13,8 @@ definePageMeta({
     name: "dashboard",
     middleware: "is-connected"
 });
+
+useHead({
+    title: "Dashboard"
+});
 </script>

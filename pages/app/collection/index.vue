@@ -145,7 +145,8 @@ const loadTable = async () =>
         const response = await data.topic.getTopics({
             order: sort.value.direction,
             sort: sort.value.column,
-            page: page.value
+            page: page.value,
+            itemsPerPage: paginationStore.itemsPerPage
         });
 
         topicStore.total = response!["@pagination"]!.total;

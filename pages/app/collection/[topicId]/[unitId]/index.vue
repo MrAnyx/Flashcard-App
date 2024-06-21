@@ -148,7 +148,8 @@ const loadTable = async () =>
         const response = await data.flashcard.getFlashcardsByUnit(unitId, {
             order: sort.value.direction,
             sort: sort.value.column,
-            page: page.value
+            page: page.value,
+            itemsPerPage: paginationStore.itemsPerPage
         });
 
         flashcardStore.total = response!["@pagination"]!.total;

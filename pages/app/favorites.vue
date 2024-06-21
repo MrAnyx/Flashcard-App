@@ -12,4 +12,8 @@ definePageMeta({
     name: "favorites",
     middleware: "is-connected"
 });
+
+useHead({
+    title: "My favorites"
+});
 </script>

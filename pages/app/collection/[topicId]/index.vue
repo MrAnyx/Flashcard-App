@@ -150,7 +150,8 @@ const loadTable = async () =>
         const repsonse = await data.unit.getUnitsByTopic(topicId, {
             order: sort.value.direction,
             sort: sort.value.column,
-            page: page.value
+            page: page.value,
+            itemsPerPage: paginationStore.itemsPerPage
         });
 
         unitStore.total = repsonse!["@pagination"]!.total;
