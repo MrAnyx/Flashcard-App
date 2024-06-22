@@ -77,7 +77,7 @@ defineShortcuts({
 
 const schema = z.object({
     name: z.string()
-        .min(1, "Tha name can not be blank")
+        .min(1, "The name can not be blank")
         .max(35, "The name is too long"),
     description: z.string()
         .max(300, "The description is too long")
@@ -91,31 +91,37 @@ const state = reactive({
 
 const onSubmit = async () =>
 {
-    state.loading = true;
-    if (props.unit)
+    try
     {
-        const unit = await data.unit.updatePartialUnit(props.unit.id, {
-            name: state.name,
-            description: state.description,
-        });
+        state.loading = true;
+        if (props.unit)
+        {
+            const unit = await data.unit.updatePartialUnit(props.unit.id, {
+                name: state.name,
+                description: state.description,
+            });
 
-        unitStore.update(props.unit.id, unit!.data);
+            unitStore.update(props.unit.id, unit!.data);
+        }
+        else
+        {
+            const unit = await data.unit.createUnit(props.topic.id, {
+                name: state.name,
+                description: state.description,
+                favorite: false
+            });
+
+            unitStore.prepend(unit!.data);
+        }
+
+        useStandardToast("success", {
+            description: `The unit ${state.name} has been ${props.unit ? "updated" : "created"}`
+        });
+        modal.close();
     }
-    else
+    finally
     {
-        const unit = await data.unit.createUnit(props.topic.id, {
-            name: state.name,
-            description: state.description,
-            favorite: false
-        });
-
-        unitStore.prepend(unit!.data);
+        state.loading = false;
     }
-
-    useStandardToast("success", {
-        description: `The unit ${state.name} has been ${props.unit ? "updated" : "created"}`
-    });
-    state.loading = false;
-    modal.close();
 };
 </script>

@@ -39,6 +39,8 @@ import type { VerticalNavigationLink } from "#ui/types";
 
 defineEmits(["close"]);
 
+const authStore = useAuthStore();
+
 const navigationLinks: VerticalNavigationLink[] = [{
     label: "Collection",
     icon: "i-heroicons-squares-2x2",
@@ -60,24 +62,42 @@ const navigationLinks: VerticalNavigationLink[] = [{
     to: "/app/settings/account"
 }];
 
-const otherLinks: VerticalNavigationLink[][] = [[{
-    label: "Help & Documentation",
-    icon: "i-heroicons-question-mark-circle"
-}, {
-    label: "Terms of use",
-    icon: "i-heroicons-document-check"
-}, {
-    label: "Sign out",
-    icon: "i-heroicons-arrow-left-start-on-rectangle",
-    click: () =>
-    {
-        useAuthStore().logout();
-        return navigateTo({ name: "landing" });
+const otherLinks: VerticalNavigationLink[][] = [
+    [
+        {
+            label: "Help & Documentation",
+            icon: "i-heroicons-question-mark-circle"
+        }, {
+            label: "Terms of use",
+            icon: "i-heroicons-document-check"
+        }, {
+            label: "Sign out",
+            icon: "i-heroicons-arrow-left-start-on-rectangle",
+            click: () =>
+            {
+                useAuthStore().logout();
+                return navigateTo({ name: "landing" });
+            }
+        }
+    ], [
+        {
+            label: authStore.user!.username,
+            avatar: {
+                alt: authStore.user!.username
+            }
+        }
+    ]
+];
+
+const adminDashboardLink: VerticalNavigationLink = {
+    label: "Admin dashboard",
+    icon: "i-heroicons-adjustments-horizontal",
+    to: {
+        name: "admin-dashboard"
     }
-}], [{
-    label: "MrAnyx",
-    avatar: {
-        alt: "MrAnyx"
-    }
-}]];
+};
+if (authStore.isAdmin)
+{
+    otherLinks[0].unshift(adminDashboardLink);
+}
 </script>

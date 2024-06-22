@@ -76,7 +76,7 @@ defineShortcuts({
 
 const schema = z.object({
     name: z.string()
-        .min(1, "Tha name can not be blank")
+        .min(1, "The name can not be blank")
         .max(35, "The name is too long"),
     description: z.string()
         .max(300, "The description is too long")
@@ -90,31 +90,37 @@ const state = reactive({
 
 const onSubmit = async () =>
 {
-    state.loading = true;
-    if (props.topic)
+    try
     {
-        const topic = await data.topic.updatePartialTopic(props.topic.id, {
-            name: state.name,
-            description: state.description,
-        });
+        state.loading = true;
+        if (props.topic)
+        {
+            const topic = await data.topic.updatePartialTopic(props.topic.id, {
+                name: state.name,
+                description: state.description,
+            });
 
-        topicStore.update(props.topic.id, topic!.data);
+            topicStore.update(props.topic.id, topic!.data);
+        }
+        else
+        {
+            const topic = await data.topic.createTopic({
+                name: state.name,
+                description: state.description,
+                favorite: false
+            });
+
+            topicStore.prepend(topic!.data);
+        }
+
+        useStandardToast("success", {
+            description: `The topic ${state.name} has been ${props.topic ? "updated" : "created"}`
+        });
+        modal.close();
     }
-    else
+    finally
     {
-        const topic = await data.topic.createTopic({
-            name: state.name,
-            description: state.description,
-            favorite: false
-        });
-
-        topicStore.prepend(topic!.data);
+        state.loading = false;
     }
-
-    useStandardToast("success", {
-        description: `The topic ${state.name} has been ${props.topic ? "updated" : "created"}`
-    });
-    state.loading = false;
-    modal.close();
 };
 </script>

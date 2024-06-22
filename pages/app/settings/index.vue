@@ -70,6 +70,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { AlertAction } from "#ui/types";
+import DeleteAccount from "~/components/DeleteAccount.vue";
 
 definePageMeta({
     alias: "/app/settings/account",
@@ -81,6 +82,7 @@ useHead({
 });
 
 const authStore = useAuthStore();
+const modal = useModal();
 
 // const schema = z.object({
 //     username: z.string()
@@ -101,7 +103,10 @@ const deleteAccountActions: AlertAction[] = [
         icon: "i-heroicons-trash",
         color: "red",
         variant: "solid",
-        click: () => {}
+        click: () =>
+        {
+            modal.open(DeleteAccount);
+        }
     },
 ];
 </script>
