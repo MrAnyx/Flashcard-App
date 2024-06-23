@@ -20,7 +20,7 @@
                 @submit="onSubmit"
             >
                 <div class="flex flex-col space-y-4">
-                    <p>Deleting your account will remove all the data from the system. This operation <b>can not be undone</b>.</p>
+                    <p>Deleting your account will remove all the data from the system. This operation <b class="text-red-500">can not be undone</b>.</p>
 
                     <UFormGroup
                         label="Email"
