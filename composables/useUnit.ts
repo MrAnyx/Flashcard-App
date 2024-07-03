@@ -6,7 +6,7 @@ export default () =>
 {
     const getUnitsByTopic = (topicId: number, pagination: Pagination) =>
     {
-        return new Promise<JsonStandard<Unit[]> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Unit[]>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Unit[]>(`/topics/${topicId}/units`, {
                 method: "GET",
@@ -17,7 +17,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -38,7 +38,7 @@ export default () =>
 
     const getUnits = (pagination: Pagination) =>
     {
-        return new Promise<JsonStandard<Unit[]> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Unit[]>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Unit[]>(`/units`, {
                 method: "GET",
@@ -49,7 +49,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -70,7 +70,7 @@ export default () =>
 
     const getUnit = (id: number) =>
     {
-        return new Promise<JsonStandard<Unit> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Unit>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Unit>(`/units/${id}`, {
                 method: "GET"
@@ -78,7 +78,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -99,7 +99,7 @@ export default () =>
 
     const updatePartialUnit = (id: number, updatedElement: Partial<Unit>) =>
     {
-        return new Promise<JsonStandard<Unit> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Unit>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Unit>(`/units/${id}`, {
                 method: "PATCH",
@@ -110,7 +110,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -136,7 +136,7 @@ export default () =>
 
     const createUnit = (topicId: number, unit: Pick<Unit, "name" | "description" | "favorite">) =>
     {
-        return new Promise<JsonStandard<Unit> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Unit>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Unit>("/units", {
                 method: "POST",
@@ -148,7 +148,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -169,7 +169,7 @@ export default () =>
 
     const deleteUnit = (id: number) =>
     {
-        return new Promise<JsonStandard<null> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<null>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<null>(`/units/${id}`, {
                 method: "DELETE"
@@ -177,7 +177,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {

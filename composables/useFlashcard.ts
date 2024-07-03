@@ -6,7 +6,7 @@ export default () =>
 {
     const getFlashcardsByUnit = (unitId: number, pagination: Pagination) =>
     {
-        return new Promise<JsonStandard<Flashcard[]> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Flashcard[]>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Flashcard[]>(`/units/${unitId}/flashcards`, {
                 method: "GET",
@@ -17,7 +17,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -38,7 +38,7 @@ export default () =>
 
     const getFlashcards = (pagination: Pagination) =>
     {
-        return new Promise<JsonStandard<Flashcard[]> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Flashcard[]>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Flashcard[]>(`/flashcards`, {
                 method: "GET",
@@ -49,7 +49,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -70,7 +70,7 @@ export default () =>
 
     const getFlashcard = (id: number) =>
     {
-        return new Promise<JsonStandard<Flashcard> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Flashcard>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Flashcard>(`/flashcards/${id}`, {
                 method: "GET"
@@ -78,7 +78,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -99,7 +99,7 @@ export default () =>
 
     const updatePartialFlashcard = (id: number, updatedElement: Partial<Flashcard>) =>
     {
-        return new Promise<JsonStandard<Flashcard> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Flashcard>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Flashcard>(`/flashcards/${id}`, {
                 method: "PATCH",
@@ -110,7 +110,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -136,7 +136,7 @@ export default () =>
 
     const createFlashcard = (unitId: number, unit: Pick<Flashcard, "front" | "back" | "details" | "favorite">) =>
     {
-        return new Promise<JsonStandard<Flashcard> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Flashcard>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Flashcard>("/flashcards", {
                 method: "POST",
@@ -148,7 +148,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -169,7 +169,7 @@ export default () =>
 
     const deleteFlashcard = (id: number) =>
     {
-        return new Promise<JsonStandard<null> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<null>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<null>(`/flashcards/${id}`, {
                 method: "DELETE"
@@ -177,7 +177,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
