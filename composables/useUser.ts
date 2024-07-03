@@ -4,7 +4,7 @@ export default () =>
 {
     const deleteMe = () =>
     {
-        return new Promise<JsonStandard<null> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<null>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<null>(`/users/me`, {
                 method: "DELETE"
@@ -12,7 +12,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {

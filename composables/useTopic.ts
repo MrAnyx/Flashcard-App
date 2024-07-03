@@ -6,7 +6,7 @@ export default () =>
 {
     const getTopics = (pagination: Pagination) =>
     {
-        return new Promise<JsonStandard<Topic[]> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Topic[]>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Topic[]>("/topics", {
                 method: "GET",
@@ -17,7 +17,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -38,7 +38,7 @@ export default () =>
 
     const getTopic = (id: number) =>
     {
-        return new Promise<JsonStandard<Topic> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Topic>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Topic>(`/topics/${id}`, {
                 method: "GET"
@@ -46,7 +46,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -67,7 +67,7 @@ export default () =>
 
     const updatePartialTopic = (id: number, updatedElement: Partial<Topic>) =>
     {
-        return new Promise<JsonStandard<Topic> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Topic>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Topic>(`/topics/${id}`, {
                 method: "PATCH",
@@ -78,7 +78,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -104,7 +104,7 @@ export default () =>
 
     const createTopic = (topic: Pick<Topic, "name" | "description" | "favorite">) =>
     {
-        return new Promise<JsonStandard<Topic> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<Topic>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<Topic>("/topics", {
                 method: "POST",
@@ -115,7 +115,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
@@ -136,7 +136,7 @@ export default () =>
 
     const deleteTopic = (id: number) =>
     {
-        return new Promise<JsonStandard<null> | null>(async (resolve, reject) =>
+        return new Promise<JsonStandard<null>>(async (resolve, reject) =>
         {
             const { data, error } = await useApi<null>(`/topics/${id}`, {
                 method: "DELETE"
@@ -144,7 +144,7 @@ export default () =>
 
             if (!error.value)
             {
-                resolve(data.value);
+                resolve(data.value!);
             }
             else
             {
