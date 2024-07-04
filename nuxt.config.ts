@@ -1,11 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import pkg from "./package.json";
 
 export default defineNuxtConfig({
     modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "@nuxt/eslint"],
     ssr: true,
     runtimeConfig: {
         public: {
-            apiBaseUrl: process.env.API_BASE_URL
+            apiBaseUrl: process.env.API_BASE_URL,
+            appVersion: pkg.version
         }
     },
     eslint: {

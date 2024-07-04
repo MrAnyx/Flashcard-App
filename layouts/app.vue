@@ -7,7 +7,7 @@
             v-model="isSidebarOpen"
             class="lg:hidden"
             side="left"
-            :ui="{ width: 'w-screen max-w-md' }"
+            :ui="{ width: 'w-screen max-w-xs' }"
         >
             <aside class="p-4 h-full">
                 <Sidebar @close="isSidebarOpen = !isSidebarOpen" />

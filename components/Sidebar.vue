@@ -28,20 +28,59 @@
                 </template>
             </UButton>
         </div>
-        <UVerticalNavigation :links="navigationLinks" />
+        <UVerticalNavigation :links="navigationLinks">
+            <template #default="{ link }">
+                <UTooltip
+                    v-if="link.premium && !authStore.isPremium"
+                    text="Premium feature"
+                    :popper="{ placement: 'right' }"
+                >
+                    <span>{{ link.label }}</span>
+                </UTooltip>
+            </template>
+        </UVerticalNavigation>
         <div class="flex-1" />
         <UVerticalNavigation :links="otherLinks" />
+
+        <UDropdown :items="profileDropdownOptions">
+            <template #account="{ item }">
+                <div class="text-left truncate">
+                    <p>Signed in as</p>
+                    <p class="truncate font-medium text-gray-900 dark:text-white">
+                        {{ item.label }}
+                    </p>
+                </div>
+            </template>
+            <UButton
+                color="gray"
+                variant="ghost"
+                truncate
+                class="justify-start"
+                block
+                :label="authStore.user!.username"
+            >
+                <template #leading>
+                    <UAvatar
+                        size="2xs"
+                        :alt="authStore.user!.username"
+                    />
+                </template>
+            </UButton>
+        </UDropdown>
     </div>
 </template>
 
 <script setup lang="ts">
-import type { VerticalNavigationLink } from "#ui/types";
+import { ModalShortcuts } from "#components";
+import type { DropdownItem, VerticalNavigationLink } from "#ui/types";
 
 defineEmits(["close"]);
 
 const authStore = useAuthStore();
+const modal = useModal();
+const version = useVersion();
 
-const navigationLinks: VerticalNavigationLink[] = [{
+const navigationLinks: VerticalNavigationLink[][] = [[{
     label: "Collection",
     icon: "i-heroicons-squares-2x2",
     badge: "856",
@@ -60,44 +99,72 @@ const navigationLinks: VerticalNavigationLink[] = [{
     label: "Settings",
     icon: "i-heroicons-cog-6-tooth",
     to: "/app/settings/account"
-}];
+}],
+...(!authStore.isPremium
+    ? [[{
+            label: "Analytics",
+            icon: "i-heroicons-chart-pie",
+        }]]
+    : [])
+];
 
 const otherLinks: VerticalNavigationLink[][] = [
     [
+        ...(authStore.isAdmin
+            ? [{
+                    label: "Admin dashboard",
+                    icon: "i-heroicons-adjustments-horizontal",
+                    to: {
+                        name: "admin-dashboard"
+                    }
+                }]
+            : []),
+        ...(!authStore.isPremium
+            ? [{
+                    label: "Upgrade to premium",
+                    icon: "i-heroicons-check-badge",
+                    labelClass: "text-yellow-500",
+                    iconClass: "bg-yellow-500",
+                }]
+            : []),
         {
             label: "Help & Documentation",
             icon: "i-heroicons-question-mark-circle"
         }, {
             label: "Terms of use",
             icon: "i-heroicons-document-check"
-        }, {
-            label: "Sign out",
-            icon: "i-heroicons-arrow-left-start-on-rectangle",
-            click: () =>
-            {
-                useAuthStore().logout();
-                return navigateTo({ name: "landing" });
-            }
-        }
-    ], [
-        {
-            label: authStore.user!.username,
-            avatar: {
-                alt: authStore.user!.username
-            }
         }
     ]
 ];
 
-const adminDashboardLink: VerticalNavigationLink = {
-    label: "Admin dashboard",
-    icon: "i-heroicons-adjustments-horizontal",
-    to: {
-        name: "admin-dashboard"
-    }
-};
-if (authStore.isAdmin)
-{
-    otherLinks[0].unshift(adminDashboardLink);
-}
+const profileDropdownOptions: DropdownItem[][] = [
+    [{
+        label: authStore.user!.email,
+        slot: "account",
+        disabled: true
+    }, {
+        label: `Version: ${version}`,
+        disabled: true
+    }], [
+        {
+            label: "Profile",
+            icon: "i-heroicons-user",
+        }, {
+            label: "Shortcuts",
+            icon: "i-heroicons-command-line",
+            click: () =>
+            {
+                modal.open(ModalShortcuts);
+            }
+        }
+    ], [{
+        label: "Sign out",
+        icon: "i-heroicons-arrow-left-start-on-rectangle",
+        click: () =>
+        {
+            useAuthStore().logout();
+            return navigateTo({ name: "landing" });
+        }
+    }]
+];
 </script>

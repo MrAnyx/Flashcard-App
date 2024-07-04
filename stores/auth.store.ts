@@ -31,6 +31,10 @@ export const useAuthStore = defineStore("auth", {
         isConnected()
         {
             return this.token !== null;
+        },
+        isPremium()
+        {
+            return true;
         }
     }
 });

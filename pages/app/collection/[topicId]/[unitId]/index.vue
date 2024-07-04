@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { FlashcardForm } from "#components";
+import { ModalFlashcardForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
 import { usePaginationStore } from "~/stores/pagination.store";
 import type { Flashcard } from "~/types/entity";
@@ -218,7 +218,7 @@ const rowOptions = (row: Flashcard): DropdownItem[][] => [
 // Modal
 const showCreateUpdateModal = (row?: Flashcard) =>
 {
-    modal.open(FlashcardForm, {
+    modal.open(ModalFlashcardForm, {
         topic: topic!.data,
         unit: unit!.data,
         flashcard: row

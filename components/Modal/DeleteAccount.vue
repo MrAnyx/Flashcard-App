@@ -21,6 +21,7 @@
             >
                 <div class="flex flex-col space-y-4">
                     <p>Deleting your account will remove all the data from the system. This operation <b class="text-red-500">can not be undone</b>.</p>
+                    <p>Confirm your email to delete your account.</p>
 
                     <UFormGroup
                         label="Email"

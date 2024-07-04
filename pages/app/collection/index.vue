@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { TopicForm } from "#components";
+import { ModalTopicForm } from "#components";
 import type { DropdownItem } from "#ui/types";
 import { usePaginationStore } from "~/stores/pagination.store";
 import type { Topic } from "~/types/entity";
@@ -224,7 +224,7 @@ const rowOptions = (row: Topic): DropdownItem[][] => [
 // Modal
 const showCreateUpdateModal = (row?: Topic) =>
 {
-    modal.open(TopicForm, {
+    modal.open(ModalTopicForm, {
         topic: row
     });
 };

@@ -70,7 +70,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { AlertAction } from "#ui/types";
-import DeleteAccount from "~/components/DeleteAccount.vue";
+import { ModalDeleteAccount } from "#components";
 
 definePageMeta({
     alias: "/app/settings/account",
@@ -105,7 +105,7 @@ const deleteAccountActions: AlertAction[] = [
         variant: "solid",
         click: () =>
         {
-            modal.open(DeleteAccount);
+            modal.open(ModalDeleteAccount);
         }
     },
 ];

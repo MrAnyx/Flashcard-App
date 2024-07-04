@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { UnitForm } from "#components";
+import { ModalUnitForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
 import { usePaginationStore } from "~/stores/pagination.store";
 import type { Unit } from "~/types/entity";
@@ -230,7 +230,7 @@ const rowOptions = (row: Unit): DropdownItem[][] => [
 // Modal
 const showCreateUpdateModal = (row?: Unit) =>
 {
-    modal.open(UnitForm, {
+    modal.open(ModalUnitForm, {
         topic: topic!.data,
         unit: row
     });
