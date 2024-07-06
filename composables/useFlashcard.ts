@@ -196,6 +196,64 @@ export default () =>
         });
     };
 
+    const resetFlashcard = (id: number) =>
+    {
+        return new Promise<JsonStandard<null>>(async (resolve, reject) =>
+        {
+            const { data, error } = await useApi<null>(`/flashcards/${id}/reset`, {
+                method: "PATCH"
+            });
+
+            if (!error.value)
+            {
+                resolve(data.value!);
+            }
+            else
+            {
+                switch (error.value.statusCode)
+                {
+                    case 401:
+                        useStandardToast("unauthorized");
+                        break;
+                    default:
+                        useStandardToast("error");
+                        break;
+                }
+
+                reject(error);
+            }
+        });
+    };
+
+    const countFlashcards = () =>
+    {
+        return new Promise<JsonStandard<number>>(async (resolve, reject) =>
+        {
+            const { data, error } = await useApi<number>(`/flashcards/count`, {
+                method: "GET"
+            });
+
+            if (!error.value)
+            {
+                resolve(data.value!);
+            }
+            else
+            {
+                switch (error.value.statusCode)
+                {
+                    case 401:
+                        useStandardToast("unauthorized");
+                        break;
+                    default:
+                        useStandardToast("error");
+                        break;
+                }
+
+                reject(error);
+            }
+        });
+    };
+
     return {
         getFlashcardsByUnit,
         getFlashcards,
@@ -203,6 +261,8 @@ export default () =>
         createFlashcard,
         updateFlashcard,
         updatePartialFlashcard,
-        deleteFlashcard
+        deleteFlashcard,
+        resetFlashcard,
+        countFlashcards
     };
 };

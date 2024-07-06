@@ -192,6 +192,15 @@ const deleteRow = async (row: Topic) =>
     });
 };
 
+const resetRow = async (row: Topic) =>
+{
+    await data.topic.resetTopic(row.id);
+
+    useStandardToast("success", {
+        description: `The topic ${row.name} has been reset`
+    });
+};
+
 const select = (row: Topic) =>
 {
     return navigateTo({
@@ -212,6 +221,10 @@ const rowOptions = (row: Topic): DropdownItem[][] => [
         icon: "i-heroicons-document-duplicate-20-solid",
         click: () => duplicateRow(row)
     }], [{
+        label: "Reset",
+        icon: "i-heroicons-sparkles",
+        click: () => resetRow(row)
+    }, {
         label: "Delete",
         class: "bg-red-500/15",
         labelClass: "text-red-500",

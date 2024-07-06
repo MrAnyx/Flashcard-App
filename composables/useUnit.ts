@@ -196,6 +196,35 @@ export default () =>
         });
     };
 
+    const resetUnit = (id: number) =>
+    {
+        return new Promise<JsonStandard<null>>(async (resolve, reject) =>
+        {
+            const { data, error } = await useApi<null>(`/units/${id}/flashcards/reset`, {
+                method: "PATCH"
+            });
+
+            if (!error.value)
+            {
+                resolve(data.value!);
+            }
+            else
+            {
+                switch (error.value.statusCode)
+                {
+                    case 401:
+                        useStandardToast("unauthorized");
+                        break;
+                    default:
+                        useStandardToast("error");
+                        break;
+                }
+
+                reject(error);
+            }
+        });
+    };
+
     return {
         getUnitsByTopic,
         getUnits,
@@ -203,6 +232,7 @@ export default () =>
         createUnit,
         updateUnit,
         updatePartialUnit,
-        deleteUnit
+        deleteUnit,
+        resetUnit
     };
 };

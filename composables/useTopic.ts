@@ -163,12 +163,42 @@ export default () =>
         });
     };
 
+    const resetTopic = (id: number) =>
+    {
+        return new Promise<JsonStandard<null>>(async (resolve, reject) =>
+        {
+            const { data, error } = await useApi<null>(`/topics/${id}/flashcards/reset`, {
+                method: "PATCH"
+            });
+
+            if (!error.value)
+            {
+                resolve(data.value!);
+            }
+            else
+            {
+                switch (error.value.statusCode)
+                {
+                    case 401:
+                        useStandardToast("unauthorized");
+                        break;
+                    default:
+                        useStandardToast("error");
+                        break;
+                }
+
+                reject(error);
+            }
+        });
+    };
+
     return {
         getTopics,
         getTopic,
         createTopic,
         updateTopic,
         updatePartialTopic,
-        deleteTopic
+        deleteTopic,
+        resetTopic
     };
 };

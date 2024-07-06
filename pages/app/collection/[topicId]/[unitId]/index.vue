@@ -196,6 +196,15 @@ const deleteRow = async (row: Flashcard) =>
     });
 };
 
+const resetRow = async (row: Flashcard) =>
+{
+    await data.flashcard.resetFlashcard(row.id);
+
+    useStandardToast("success", {
+        description: `The flashcard ${row.front} has been reset`
+    });
+};
+
 const rowOptions = (row: Flashcard): DropdownItem[][] => [
     [{
         label: "Edit",
@@ -206,6 +215,10 @@ const rowOptions = (row: Flashcard): DropdownItem[][] => [
         icon: "i-heroicons-document-duplicate-20-solid",
         click: () => duplicateRow(row)
     }], [{
+        label: "Reset",
+        icon: "i-heroicons-sparkles",
+        click: () => resetRow(row)
+    }, {
         label: "Delete",
         class: "bg-red-500/15",
         labelClass: "text-red-500",

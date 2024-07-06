@@ -197,6 +197,15 @@ const deleteRow = async (row: Unit) =>
     });
 };
 
+const resetRow = async (row: Unit) =>
+{
+    await data.unit.resetUnit(row.id);
+
+    useStandardToast("success", {
+        description: `The unit ${row.name} has been reset`
+    });
+};
+
 const selectRow = (row: Unit) =>
 {
     return navigateTo({
@@ -218,6 +227,10 @@ const rowOptions = (row: Unit): DropdownItem[][] => [
         icon: "i-heroicons-document-duplicate-20-solid",
         click: () => duplicateRow(row)
     }], [{
+        label: "Reset",
+        icon: "i-heroicons-sparkles",
+        click: () => resetRow(row)
+    }, {
         label: "Delete",
         class: "bg-red-500/15",
         labelClass: "text-red-500",
