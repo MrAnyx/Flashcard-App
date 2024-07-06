@@ -65,6 +65,18 @@
                         :alt="authStore.user!.username"
                     />
                 </template>
+
+                <template
+                    v-if="authStore.isPremium"
+                    #trailing
+                >
+                    <UTooltip text="Premium account">
+                        <UIcon
+                            name="i-heroicons-check-badge"
+                            class="text-yellow-500"
+                        />
+                    </UTooltip>
+                </template>
             </UButton>
         </UDropdown>
     </div>
@@ -83,30 +95,30 @@ const version = useVersion();
 const navigationLinks: VerticalNavigationLink[][] = [[{
     label: "Collection",
     icon: "i-heroicons-squares-2x2",
-    badge: "856",
+    badge: 100,
     to: "/app/collection"
 }, {
     label: "Practice",
     icon: "i-heroicons-academic-cap",
-    badge: 125,
+    badge: 86,
     to: "/app/practice"
 }, {
     label: "Favorites",
     icon: "i-heroicons-star",
     badge: 56,
     to: "/app/favorites"
-}, {
+},
+...(authStore.isPremium
+    ? [{
+            label: "Analytics",
+            icon: "i-heroicons-chart-pie",
+        }]
+    : []),
+{
     label: "Settings",
     icon: "i-heroicons-cog-6-tooth",
     to: "/app/settings/account"
-}],
-...(!authStore.isPremium
-    ? [[{
-            label: "Analytics",
-            icon: "i-heroicons-chart-pie",
-        }]]
-    : [])
-];
+}]];
 
 const otherLinks: VerticalNavigationLink[][] = [
     [
