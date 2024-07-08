@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col space-y-8">
         <div>
-            <h2 class="font-medium text-gray-200 text-xl">
+            <h2 class="font-medium text-xl">
                 My profile
             </h2>
             <span class="text-gray-400 text-sm">Customize your personal informations</span>
@@ -31,7 +31,7 @@
         </section>
         <UDivider />
         <div>
-            <h2 class="font-medium text-gray-200 text-xl">
+            <h2 class="font-medium text-xl">
                 Security
             </h2>
             <span class="text-gray-400 text-sm">Customize your personal informations</span>

@@ -1,6 +1,6 @@
 <template>
     <main class="fixed inset-0 flex overflow-hidden">
-        <aside class="border-r border-gray-800 w-64 p-4 hidden lg:block">
+        <aside class="border-r border-gray-200 dark:border-gray-800 w-64 p-4 hidden lg:block">
             <Sidebar />
         </aside>
         <USlideover
@@ -14,7 +14,7 @@
             </aside>
         </USlideover>
         <section class="flex-1 flex flex-col w-full">
-            <header class="h-16 shrink-0 flex items-center border-b border-gray-800 px-6">
+            <header class="h-16 shrink-0 flex items-center border-b border-gray-200 dark:border-gray-700 px-6">
                 <UButton
                     color="gray"
                     variant="ghost"
@@ -25,7 +25,7 @@
                     @click.prevent="isSidebarOpen = !isSidebarOpen"
                 />
 
-                <h1 class="text-gray-400 font-semibold mr-4">
+                <h1 class="text-gray-600 dark:text-gray-400 font-semibold mr-4">
                     <slot name="header" />
                 </h1>
             </header>

@@ -153,7 +153,7 @@ const profileDropdownOptions: DropdownItem[][] = [
     [{
         label: authStore.user!.email,
         slot: "account",
-        disabled: true
+        disabled: true,
     }, {
         label: `Version: ${version}`,
         disabled: true

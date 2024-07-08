@@ -55,13 +55,6 @@ const modal = useModal();
 const authStore = useAuthStore();
 const data = useData();
 
-defineShortcuts({
-    escape: {
-        usingInput: true,
-        handler: () => modal.close()
-    }
-});
-
 const schema = z
     .object({
         email: z

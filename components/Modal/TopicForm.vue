@@ -67,13 +67,6 @@ const modal = useModal();
 const data = useData();
 const topicStore = useTopicStore();
 
-defineShortcuts({
-    escape: {
-        usingInput: true,
-        handler: () => modal.close()
-    }
-});
-
 const schema = z.object({
     name: z.string()
         .min(1, "The name can not be blank")

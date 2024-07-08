@@ -92,7 +92,7 @@ import type { Topic } from "~/types/entity";
 
 // Meta methods for page
 definePageMeta({
-    name: "topics"
+    name: "topics",
 });
 
 useHead({

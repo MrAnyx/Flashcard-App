@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col space-y-8">
         <div>
-            <h2 class="font-medium text-gray-200 text-xl">
+            <h2 class="font-medium text-xl">
                 Pagination
             </h2>
             <span class="text-gray-400 text-sm">Customize how requests are made</span>

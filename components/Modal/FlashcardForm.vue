@@ -79,13 +79,6 @@ const modal = useModal();
 const data = useData();
 const flashcardStore = useFlashcardStore();
 
-defineShortcuts({
-    escape: {
-        usingInput: true,
-        handler: () => modal.close()
-    }
-});
-
 const schema = z.object({
     front: z.string()
         .min(1, "Tha front side can not be blank")

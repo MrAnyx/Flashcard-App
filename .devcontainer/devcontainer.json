@@ -11,8 +11,8 @@
             "version": "latest"
         }
     },
-    "postCreateCommand": "pnpm install",
-    "postStartCommand": "pnpm run dev",
+    // "postCreateCommand": "pnpm install",
+    // "postStartCommand": "pnpm run dev",
     "customizations": {
         "vscode": {
             "extensions": [
