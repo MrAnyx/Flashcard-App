@@ -1,6 +1,6 @@
 <template>
     <UModal prevent-close>
-        <UCard>
+        <UCard :ui="{ body: { base: 'max-h-[600px]' } }">
             <template #header>
                 <div class="flex justify-between items-center">
                     <span class="font-medium">Keyboard shortcuts</span>
@@ -14,7 +14,7 @@
             </template>
             <div class="flex flex-col gap-y-10">
                 <div
-                    v-for="section in ShortcutSections"
+                    v-for="section in AppShortcutSections"
                     :key="section.section"
                 >
                     <h4 class="text-lg font-bold mb-3">

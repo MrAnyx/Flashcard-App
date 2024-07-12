@@ -40,4 +40,23 @@
 import Sidebar from "@/components/Sidebar.vue";
 
 const isSidebarOpen = ref(false);
+
+let shortcuts = {};
+
+AppShortcutSections.map(s => s.shortcuts).flatMap(s => Object.entries(s)).forEach(([key, value]) =>
+{
+    if (value.global)
+    {
+        shortcuts = {
+            ...shortcuts,
+            [key]: {
+                name: value.name,
+                handler: value.action,
+                usingInput: value.usingInput
+            }
+        };
+    }
+});
+
+defineShortcuts(shortcuts);
 </script>

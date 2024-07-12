@@ -2,7 +2,7 @@ import { ModalFlashcardForm, ModalTopicForm, ModalUnitForm } from "#components";
 import type { ShortcutSection } from "~/types/shortcut";
 
 // Shortcuts must be unique to prevent bad behavior
-export const ShortcutSections: ShortcutSection[] = [
+export const AppShortcutSections: ShortcutSection[] = [
     {
         section: "Navigation",
         shortcuts: {
@@ -58,7 +58,7 @@ export const ShortcutSections: ShortcutSection[] = [
                 {
                     useModal().close();
                     navigateTo({
-                        name: "favorite"
+                        name: "favorites"
                     });
                 }
             },
