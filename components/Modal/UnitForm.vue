@@ -21,6 +21,20 @@
             >
                 <div class="flex flex-col space-y-4">
                     <UFormGroup
+                        v-if="props.topic === undefined"
+                        name="topic"
+                        label="Topic"
+                    >
+                        <USelectMenu
+                            v-model="state.topic"
+                            :options="topics.data"
+                            placeholder="Select a topic"
+                            option-attribute="name"
+                            size="md"
+                        />
+                    </UFormGroup>
+
+                    <UFormGroup
                         label="Name"
                         name="name"
                     >
@@ -60,27 +74,36 @@ import { z } from "zod";
 import type { Topic, Unit } from "~/types/entity";
 
 const props = defineProps<{
-    topic: Topic;
+    topic?: Topic;
     unit?: Unit;
 }>();
 
 const modal = useModal();
 const data = useData();
+const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 
 const schema = z.object({
-    name: z.string()
+    name: z
+        .string()
         .min(1, "The name can not be blank")
         .max(35, "The name is too long"),
-    description: z.string()
-        .max(300, "The description is too long")
+    description: z
+        .string()
+        .max(300, "The description is too long"),
+    topic: z
+        .any()
+        .refine(option => !!option, "Select a topic from the list"),
 });
 
 const state = reactive({
     name: props.unit?.name ?? "",
     description: props.unit?.description ?? "",
+    topic: props.topic,
     loading: false
 });
+
+const topics = await data.topic.getTopics({ order: "asc", page: 1, sort: "name", itemsPerPage: 200 });
 
 const onSubmit = async () =>
 {
@@ -98,13 +121,16 @@ const onSubmit = async () =>
         }
         else
         {
-            const unit = await data.unit.createUnit(props.topic.id, {
+            const unit = await data.unit.createUnit(state.topic!.id, {
                 name: state.name,
                 description: state.description,
                 favorite: false
             });
 
-            unitStore.prepend(unit!.data);
+            if (topicStore.selectedTopic?.id === state.topic!.id)
+            {
+                unitStore.prepend(unit!.data);
+            }
         }
 
         useStandardToast("success", {

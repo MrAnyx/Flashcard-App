@@ -80,8 +80,8 @@ export const AppShortcutSections: ShortcutSection[] = [
     }, {
         section: "Common",
         shortcuts: {
-            alt_t: {
-                shortcut: ["Alt", "T"],
+            shift_t: {
+                shortcut: ["Shift", "T"],
                 global: true,
                 usingInput: true,
                 name: "Switch theme",
