@@ -8,7 +8,7 @@
         <div class="py-6 flex-1">
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
-                    <h4 class="font-medium text-lg text-gray-200">
+                    <h4 class="font-medium text-lg">
                         Topics
                     </h4>
                     <UBadge
@@ -108,6 +108,7 @@ const modal = useModal();
 // Lifecycle hooks
 onMounted(async () =>
 {
+    topicStore.selectedTopic = undefined;
     await loadTable();
 });
 
@@ -203,6 +204,7 @@ const resetRow = async (row: Topic) =>
 
 const select = (row: Topic) =>
 {
+    topicStore.selectedTopic = row;
     return navigateTo({
         name: "units",
         params: {

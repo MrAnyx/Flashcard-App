@@ -4,13 +4,15 @@ type State = {
     recents: Topic[];
     topics: Topic[];
     total: number;
+    selectedTopic: Topic | undefined;
 };
 
 export const useTopicStore = defineStore("topic", {
     state: (): State => ({
         recents: [],
         topics: [],
-        total: 0
+        total: 0,
+        selectedTopic: undefined
     }),
     actions: {
         prepend(item: Topic)

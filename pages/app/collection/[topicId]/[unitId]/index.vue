@@ -103,6 +103,8 @@ useHead({
 
 // Stores and composables
 const data = useData();
+const topicStore = useTopicStore();
+const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
 const paginationStore = usePaginationStore();
 const modal = useModal();
@@ -113,10 +115,8 @@ onMounted(async () =>
     await loadTable();
 });
 
-const topicId = Number(useRoute().params["topicId"]);
-const unitId = Number(useRoute().params["unitId"]);
-const topic = await data.topic.getTopic(topicId);
-const unit = await data.unit.getUnit(unitId);
+const topic = topicStore.selectedTopic!;
+const unit = unitStore.selectedUnit!;
 
 const loading = ref(false);
 const page = ref(1);
@@ -145,7 +145,7 @@ const loadTable = async () =>
 
     try
     {
-        const response = await data.flashcard.getFlashcardsByUnit(unitId, {
+        const response = await data.flashcard.getFlashcardsByUnit(unit.id, {
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
@@ -171,7 +171,7 @@ const toggleFavorite = async (row: Flashcard) =>
 
 const duplicateRow = async (row: Flashcard) =>
 {
-    const response = await data.flashcard.createFlashcard(unitId, {
+    const response = await data.flashcard.createFlashcard(unit.id, {
         front: row.front,
         back: row.back,
         details: row.details,
@@ -232,8 +232,8 @@ const rowOptions = (row: Flashcard): DropdownItem[][] => [
 const showCreateUpdateModal = (row?: Flashcard) =>
 {
     modal.open(ModalFlashcardForm, {
-        topic: topic!.data,
-        unit: unit!.data,
+        topic: topic,
+        unit: unit,
         flashcard: row
     });
 };
@@ -248,16 +248,16 @@ const breadcrumbItems: BreadcrumbLink[] = [
         }
     },
     {
-        label: topic!.data.name,
+        label: topic.name,
         to: {
             name: "units",
             params: {
-                topicId
+                topicId: topic.id
             }
         }
     },
     {
-        label: unit!.data.name,
+        label: unit.name,
     }
 ];
 </script>

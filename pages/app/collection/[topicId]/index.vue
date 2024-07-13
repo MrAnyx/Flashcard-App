@@ -105,17 +105,18 @@ useHead({
 // Stores and composables
 const data = useData();
 const unitStore = useUnitStore();
+const topicStore = useTopicStore();
 const paginationStore = usePaginationStore();
 const modal = useModal();
 
 // Lifecycle hooks
 onMounted(async () =>
 {
+    unitStore.selectedUnit = undefined;
     await loadTable();
 });
 
-const topicId = Number(useRoute().params["topicId"]);
-const topic = await data.topic.getTopic(topicId);
+const topic = topicStore.selectedTopic!;
 const loading = ref(false);
 const page = ref(1);
 const sort = ref({
@@ -147,7 +148,7 @@ const loadTable = async () =>
 
     try
     {
-        const repsonse = await data.unit.getUnitsByTopic(topicId, {
+        const repsonse = await data.unit.getUnitsByTopic(topic.id, {
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
@@ -173,7 +174,7 @@ const toggleFavorite = async (row: Unit) =>
 
 const duplicateRow = async (row: Unit) =>
 {
-    const response = await data.unit.createUnit(topicId, {
+    const response = await data.unit.createUnit(topic.id, {
         name: row.name,
         description: row.description,
         favorite: false
@@ -208,10 +209,11 @@ const resetRow = async (row: Unit) =>
 
 const selectRow = (row: Unit) =>
 {
+    unitStore.selectedUnit = row;
     return navigateTo({
         name: "flashcards",
         params: {
-            topicId,
+            topicId: topic.id,
             unitId: row.id
         }
     });
@@ -244,7 +246,7 @@ const rowOptions = (row: Unit): DropdownItem[][] => [
 const showCreateUpdateModal = (row?: Unit) =>
 {
     modal.open(ModalUnitForm, {
-        topic: topic!.data,
+        topic: topic,
         unit: row
     });
 };
@@ -259,7 +261,7 @@ const breadcrumbItems: BreadcrumbLink[] = [
         }
     },
     {
-        label: topic!.data.name,
+        label: topic.name,
     }
 ];
 </script>

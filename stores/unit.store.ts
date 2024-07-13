@@ -4,13 +4,15 @@ type State = {
     recents: Unit[];
     units: Unit[];
     total: number;
+    selectedUnit: Unit | undefined;
 };
 
 export const useUnitStore = defineStore("unit", {
     state: (): State => ({
         recents: [],
         units: [],
-        total: 0
+        total: 0,
+        selectedUnit: undefined
     }),
     actions: {
         prepend(item: Unit)
