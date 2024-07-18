@@ -43,6 +43,11 @@
                     </UFormGroup>
                 </div>
 
+                <UCheckbox
+                    v-model="state.keepCreating"
+                    label="Keep creating units ?"
+                />
+
                 <UButton
                     type="submit"
                     block
@@ -78,7 +83,8 @@ const schema = z.object({
 const state = reactive({
     name: props.topic?.name ?? "",
     description: props.topic?.description ?? "",
-    loading: false
+    loading: false,
+    keepCreating: false
 });
 
 const onSubmit = async () =>
@@ -109,7 +115,16 @@ const onSubmit = async () =>
         useStandardToast("success", {
             description: `The topic ${state.name} has been ${props.topic ? "updated" : "created"}`
         });
-        modal.close();
+
+        if (!state.keepCreating)
+        {
+            modal.close();
+        }
+        else
+        {
+            state.name = "";
+            state.description = "";
+        }
     }
     finally
     {

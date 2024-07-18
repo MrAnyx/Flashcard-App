@@ -4,11 +4,13 @@ export default () =>
     const unit = useUnit();
     const flashcard = useFlashcard();
     const user = useUser();
+    const auth = useAuth();
 
     return {
         topic,
         unit,
         flashcard,
-        user
+        user,
+        auth
     };
 };

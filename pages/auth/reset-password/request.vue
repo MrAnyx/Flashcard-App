@@ -2,18 +2,13 @@
     <div>
         <header class="text-center mb-8 flex flex-col space-y-2">
             <h2 class="text-3xl font-medium3">
-                {{ $t('authentication.login.title') }}
+                Oups, I forgot my password
             </h2>
-            <p class="text-gray-400">
-                {{ $t('authentication.login.subtitle') }}
-                <ULink
-                    to="/auth/register"
-                    class="text-primary hover:text-primary-300"
-                >
-                    {{ $t('authentication.register.action') }}
-                </ULink>
-            </p>
         </header>
+
+        <p class="text-gray-400 mb-8 leading-loose">
+            Fear not. Enter your email or username and we'll send an email with the instructions to reset your password.
+        </p>
         <UForm
             :schema="schema"
             :state="state"
@@ -33,27 +28,6 @@
                         icon="i-heroicons-envelope"
                     />
                 </UFormGroup>
-
-                <UFormGroup
-                    :label="$t('authentication.login.password.label')"
-                    name="password"
-                    class=""
-                >
-                    <template #hint>
-                        <ULink
-                            :to="{ name: 'reset-password-request' }"
-                            class="text-primary hover:text-primary-300"
-                        >
-                            {{ $t('authentication.login.password.forgotPassword') }}
-                        </ULink>
-                    </template>
-                    <UInput
-                        v-model="state.password"
-                        type="password"
-                        :placeholder="$t('authentication.login.password.placeholder')"
-                        icon="i-heroicons-lock-closed"
-                    />
-                </UFormGroup>
             </div>
 
             <UButton
@@ -61,7 +35,7 @@
                 block
                 :loading="state.loading"
             >
-                {{ $t('authentication.login.action') }}
+                Reset password
             </UButton>
 
             <UDivider
@@ -69,12 +43,12 @@
             />
 
             <p class="text-sm text-gray-400 text-center">
-                {{ $t('authentication.termsOfUseText') }}
+                Go back to the
                 <ULink
-                    to="/app"
+                    to="/auth/login"
                     class="text-primary hover:text-primary-300"
                 >
-                    {{ $t('authentication.termsOfUse') }}
+                    login page
                 </ULink>
             </p>
         </UForm>
@@ -83,32 +57,27 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import type { User } from "~/types/entity";
 
 definePageMeta({
     layout: "auth",
-    name: "login",
+    name: "reset-password-request",
     middleware: "is-not-connected"
 });
 
 useHead({
-    title: "Se sonnecter"
+    title: "Reset my password"
 });
 
-const authStore = useAuthStore();
 const data = useData();
 
 const schema = z.object({
     identifier: z.string()
         .min(1, "Identifier can not be blank")
         .max(180, "Identifier is too long"),
-    password: z.string()
-        .min(1, "Password can not be blank")
 });
 
 const state = reactive({
     identifier: "",
-    password: "",
     loading: false
 });
 
@@ -117,14 +86,13 @@ const onSubmit = async () =>
     try
     {
         state.loading = true;
-
-        const user = await data.auth.login({
-            identifier: state.identifier,
-            password: state.password
+        await data.auth.requestResetPassword({
+            identifier: state.identifier
         });
 
-        authStore.user = user.data;
-        navigateTo({ name: "dashboard" });
+        navigateTo({
+            name: "reset-password-proceed"
+        });
     }
     finally
     {

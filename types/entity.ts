@@ -42,3 +42,10 @@ export type Flashcard = {
     stability: number;
     favorite: boolean;
 };
+
+export type Auth = {
+    username: string;
+    email: string;
+    identifier: string;
+    password: string;
+};

@@ -2,18 +2,13 @@
     <div>
         <header class="text-center mb-8 flex flex-col space-y-2">
             <h2 class="text-3xl font-medium3">
-                {{ $t('authentication.register.title') }}
+                Oups, I forgot my password
             </h2>
-            <p class="text-gray-400">
-                {{ $t('authentication.register.subtitle') }}
-                <ULink
-                    to="/auth/login"
-                    class="text-primary hover:text-primary-300"
-                >
-                    {{ $t('authentication.login.action') }}
-                </ULink>
-            </p>
         </header>
+
+        <p class="text-gray-400 mb-8 leading-loose">
+            Fear not. Enter your email or username and we'll send an email with the instructions to reset your password.
+        </p>
         <UForm
             :schema="schema"
             :state="state"
@@ -23,49 +18,14 @@
         >
             <div class="flex flex-col space-y-4">
                 <UFormGroup
-                    :label="$t('authentication.register.username.label')"
-                    name="username"
+                    :label="$t('authentication.login.identifier.label')"
+                    name="identifier"
                 >
                     <UInput
-                        v-model="state.username"
+                        v-model="state.identifier"
                         autofocus
-                        :placeholder="$t('authentication.register.username.placeholder')"
-                        icon="i-heroicons-user"
-                    />
-                </UFormGroup>
-
-                <UFormGroup
-                    :label="$t('authentication.register.email.label') "
-                    name="email"
-                >
-                    <UInput
-                        v-model="state.email"
-                        :placeholder="$t('authentication.register.email.placeholder')"
+                        :placeholder="$t('authentication.login.identifier.placeholder')"
                         icon="i-heroicons-envelope"
-                    />
-                </UFormGroup>
-
-                <UFormGroup
-                    :label="$t('authentication.register.password.label')"
-                    name="password"
-                >
-                    <UInput
-                        v-model="state.password"
-                        type="password"
-                        :placeholder="$t('authentication.register.password.placeholder')"
-                        icon="i-heroicons-lock-closed"
-                    />
-                </UFormGroup>
-
-                <UFormGroup
-                    :label="$t('authentication.register.passwordConf.label')"
-                    name="passwordConfirm"
-                >
-                    <UInput
-                        v-model="state.passwordConfirm"
-                        type="password"
-                        :placeholder="$t('authentication.register.passwordConf.placeholder')"
-                        icon="i-heroicons-lock-closed"
                     />
                 </UFormGroup>
             </div>
@@ -75,7 +35,7 @@
                 block
                 :loading="state.loading"
             >
-                {{ $t('authentication.register.action') }}
+                Reset password
             </UButton>
 
             <UDivider
@@ -83,12 +43,12 @@
             />
 
             <p class="text-sm text-gray-400 text-center">
-                {{ $t('authentication.termsOfUseText') }}
+                Go back to the
                 <ULink
-                    to="/app"
+                    to="/auth/login"
                     class="text-primary hover:text-primary-300"
                 >
-                    {{ $t('authentication.termsOfUse') }}
+                    login page
                 </ULink>
             </p>
         </UForm>
@@ -108,16 +68,9 @@ definePageMeta({
 // Form definition
 const schema = z
     .object({
-        username: z
+        token: z
             .string()
-            .min(1, "Username can not be blank")
-            .max(30, "Username is too long")
-            .regex(Regex.Username, "Username contains invalid characters"),
-        email: z
-            .string()
-            .email("Invalid email")
-            .min(1, "Email can not be blank")
-            .max(180, "Email is too long"),
+            .min(1, "Username can not be blank"),
         password: z
             .string()
             .min(8, "Password is too short")
@@ -131,8 +84,7 @@ const schema = z
     });
 
 const state = reactive({
-    username: "",
-    email: "",
+    token: "",
     password: "",
     passwordConfirm: "",
     loading: false
