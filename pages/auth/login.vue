@@ -83,7 +83,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import type { User } from "~/types/entity";
 
 definePageMeta({
     layout: "auth",

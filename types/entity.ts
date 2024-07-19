@@ -49,3 +49,9 @@ export type Auth = {
     identifier: string;
     password: string;
 };
+
+export type ResetPassword = {
+    identifier: string;
+    token: string;
+    password: string;
+};

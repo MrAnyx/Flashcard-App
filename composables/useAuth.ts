@@ -1,4 +1,4 @@
-import type { Auth, User } from "~/types/entity";
+import type { Auth, ResetPassword, User } from "~/types/entity";
 import type { JsonStandard } from "~/types/request";
 
 export default () =>
@@ -36,7 +36,7 @@ export default () =>
         });
     };
 
-    const requestResetPassword = (authData: Pick<Auth, "identifier">) =>
+    const requestResetPassword = (authData: Pick<ResetPassword, "identifier">) =>
     {
         return new Promise<JsonStandard<null>>(async (resolve, reject) =>
         {
@@ -68,8 +68,42 @@ export default () =>
         });
     };
 
+    const proceedResetPassword = (authData: Pick<ResetPassword, "token" | "password">) =>
+    {
+        return new Promise<JsonStandard<User>>(async (resolve, reject) =>
+        {
+            const { data, error } = await useApi<User>("/auth/reset-password/proceed", {
+                method: "POST",
+                body: {
+                    token: authData.token,
+                    password: authData.password,
+                }
+            });
+
+            if (!error.value)
+            {
+                resolve(data.value!);
+            }
+            else
+            {
+                switch (error.value.statusCode)
+                {
+                    case 401:
+                        useStandardToast("unauthorized");
+                        break;
+                    default:
+                        useStandardToast("error");
+                        break;
+                }
+
+                reject(error);
+            }
+        });
+    };
+
     return {
         login,
-        requestResetPassword
+        requestResetPassword,
+        proceedResetPassword
     };
 };

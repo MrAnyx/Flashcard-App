@@ -7,7 +7,7 @@
         </header>
 
         <p class="text-gray-400 mb-8 leading-loose">
-            Fear not. Enter your email or username and we'll send an email with the instructions to reset your password.
+            The token sent by email is valid for <strong>10 minutes</strong>. Fill the token and your new password to finalize the process.
         </p>
         <UForm
             :schema="schema"
@@ -18,14 +18,36 @@
         >
             <div class="flex flex-col space-y-4">
                 <UFormGroup
-                    :label="$t('authentication.login.identifier.label')"
-                    name="identifier"
+                    label="Token"
+                    name="token"
                 >
                     <UInput
-                        v-model="state.identifier"
+                        v-model="state.token"
                         autofocus
-                        :placeholder="$t('authentication.login.identifier.placeholder')"
-                        icon="i-heroicons-envelope"
+                        placeholder="Enter the token sent by email"
+                        icon="i-heroicons-shield-check"
+                    />
+                </UFormGroup>
+                <UFormGroup
+                    label="Password"
+                    name="password"
+                >
+                    <UInput
+                        v-model="state.password"
+                        type="password"
+                        placeholder="New password"
+                        icon="i-heroicons-lock-closed"
+                    />
+                </UFormGroup>
+                <UFormGroup
+                    label="Password confirmation"
+                    name="passwordConfirm"
+                >
+                    <UInput
+                        v-model="state.passwordConfirm"
+                        type="password"
+                        placeholder="Confirm your password"
+                        icon="i-heroicons-lock-closed"
                     />
                 </UFormGroup>
             </div>
@@ -35,7 +57,7 @@
                 block
                 :loading="state.loading"
             >
-                Reset password
+                Reset my password
             </UButton>
 
             <UDivider
@@ -57,13 +79,15 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import type { User } from "@/types/entity";
 
 definePageMeta({
     layout: "auth",
-    name: "register",
+    name: "reset-password-proceed",
     middleware: "is-not-connected"
 });
+
+const data = useData();
+const authStore = useAuthStore();
 
 // Form definition
 const schema = z
@@ -90,35 +114,25 @@ const state = reactive({
     loading: false
 });
 
-const authStore = useAuthStore();
-
 const onSubmit = async () =>
 {
-    state.loading = true;
-    const { data, error } = await useApi<User>("/auth/register", {
-        method: "POST",
-        body: {
-            username: state.username,
-            email: state.email,
-            password: state.password
-        }
-    });
-
-    if (!error.value)
+    try
     {
-        authStore.user = data.value!.data;
+        state.loading = true;
+        const user = await data.auth.proceedResetPassword({
+            token: state.token,
+            password: state.password
+        });
+
+        authStore.user = user.data;
+        useStandardToast("success", {
+            description: "Your password has beed reset successfully"
+        });
         navigateTo({ name: "dashboard" });
     }
-    else if (error.value.statusCode === 400)
+    finally
     {
-        useStandardToast("error", {
-            description: "Unable to create an account given this form."
-        });
+        state.loading = false;
     }
-    else
-    {
-        useStandardToast("error");
-    }
-    state.loading = false;
 };
 </script>
