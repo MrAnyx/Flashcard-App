@@ -100,7 +100,7 @@ useHead({
 });
 
 // Stores and composables
-const data = useData();
+const repository = useRepository();
 const topicStore = useTopicStore();
 const paginationStore = usePaginationStore();
 const modal = useModal();
@@ -139,19 +139,19 @@ const columns = [{
 
 const loadTable = async () =>
 {
-    loading.value = true;
-
     try
     {
-        const response = await data.topic.getTopics({
+        loading.value = true;
+
+        const response = await repository.topic.getTopics({
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
             itemsPerPage: paginationStore.itemsPerPage
         });
 
-        topicStore.total = response!["@pagination"]!.total;
-        topicStore.topics = response!.data;
+        topicStore.total = response["@pagination"]!.total;
+        topicStore.topics = response.data;
     }
     finally
     {
@@ -161,7 +161,7 @@ const loadTable = async () =>
 
 const toggleFavorite = async (row: Topic) =>
 {
-    await data.topic.updatePartialTopic(row.id, {
+    await repository.topic.updatePartialTopic(row.id, {
         favorite: !row.favorite
     });
     row.favorite = !row.favorite;
@@ -169,13 +169,13 @@ const toggleFavorite = async (row: Topic) =>
 
 const duplicateRow = async (row: Topic) =>
 {
-    const response = await data.topic.createTopic({
+    const response = await repository.topic.createTopic({
         name: row.name,
         description: row.description,
         favorite: false
     });
 
-    topicStore.prepend(response!.data);
+    topicStore.prepend(response.data);
 
     useStandardToast("success", {
         description: `The topic ${row.name} has been duplicated`
@@ -184,7 +184,7 @@ const duplicateRow = async (row: Topic) =>
 
 const deleteRow = async (row: Topic) =>
 {
-    await data.topic.deleteTopic(row.id);
+    await repository.topic.deleteTopic(row.id);
 
     topicStore.delete(row);
 
@@ -195,7 +195,7 @@ const deleteRow = async (row: Topic) =>
 
 const resetRow = async (row: Topic) =>
 {
-    await data.topic.resetTopic(row.id);
+    await repository.topic.resetTopic(row.id);
 
     useStandardToast("success", {
         description: `The topic ${row.name} has been reset`

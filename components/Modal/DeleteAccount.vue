@@ -53,13 +53,12 @@ import { z } from "zod";
 
 const modal = useModal();
 const authStore = useAuthStore();
-const data = useData();
+const repository = useRepository();
+const validationRule = useValidationRule();
 
 const schema = z
     .object({
-        email: z
-            .string()
-            .email("Invalid email")
+        email: validationRule.email
     })
     .refine(({ email }) => email === authStore.user!.email, {
         message: "This email doesn't match your email",
@@ -76,7 +75,8 @@ const onSubmit = async () =>
     try
     {
         state.loading = true;
-        await data.user.deleteMe();
+
+        await repository.user.deleteMe();
 
         useStandardToast("success", {
             description: "Your account has been deleted successfully"

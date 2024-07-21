@@ -95,14 +95,12 @@ useHead({
 });
 
 const authStore = useAuthStore();
-const data = useData();
+const repository = useRepository();
+const validationRule = useValidationRule();
 
 const schema = z.object({
-    identifier: z.string()
-        .min(1, "Identifier can not be blank")
-        .max(180, "Identifier is too long"),
-    password: z.string()
-        .min(1, "Password can not be blank")
+    identifier: validationRule.identifier,
+    password: validationRule.password
 });
 
 const state = reactive({
@@ -117,12 +115,12 @@ const onSubmit = async () =>
     {
         state.loading = true;
 
-        const user = await data.auth.login({
+        const data = await repository.auth.login({
             identifier: state.identifier,
             password: state.password
         });
 
-        authStore.user = user.data;
+        authStore.user = data.data;
         navigateTo({ name: "dashboard" });
     }
     finally

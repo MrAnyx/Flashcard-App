@@ -68,12 +68,11 @@ useHead({
     title: "Reset my password"
 });
 
-const data = useData();
+const repository = useRepository();
+const validationRule = useValidationRule();
 
 const schema = z.object({
-    identifier: z.string()
-        .min(1, "Identifier can not be blank")
-        .max(180, "Identifier is too long"),
+    identifier: validationRule.identifier,
 });
 
 const state = reactive({
@@ -86,8 +85,9 @@ const onSubmit = async () =>
     try
     {
         state.loading = true;
-        await data.auth.requestResetPassword({
-            identifier: state.identifier
+
+        await repository.auth.requestPasswordReset({
+            identifier: state.identifier,
         });
 
         navigateTo({

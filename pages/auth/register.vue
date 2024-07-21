@@ -97,7 +97,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import type { User } from "@/types/entity";
 
 definePageMeta({
     layout: "auth",
@@ -105,25 +104,17 @@ definePageMeta({
     middleware: "is-not-connected"
 });
 
+const authStore = useAuthStore();
+const repository = useRepository();
+const validationRule = useValidationRule();
+
 // Form definition
 const schema = z
     .object({
-        username: z
-            .string()
-            .min(1, "Username can not be blank")
-            .max(30, "Username is too long")
-            .regex(Regex.Username, "Username contains invalid characters"),
-        email: z
-            .string()
-            .email("Invalid email")
-            .min(1, "Email can not be blank")
-            .max(180, "Email is too long"),
-        password: z
-            .string()
-            .min(8, "Password is too short")
-            .regex(Regex.Password, "Password isn't valid"),
-        passwordConfirm: z
-            .string()
+        username: validationRule.username,
+        email: validationRule.email,
+        password: validationRule.password,
+        passwordConfirm: validationRule.password
     })
     .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
         message: "Passwords don't match",
@@ -138,35 +129,24 @@ const state = reactive({
     loading: false
 });
 
-const authStore = useAuthStore();
-
 const onSubmit = async () =>
 {
-    state.loading = true;
-    const { data, error } = await useApi<User>("/auth/register", {
-        method: "POST",
-        body: {
+    try
+    {
+        state.loading = true;
+
+        const data = await repository.auth.register({
             username: state.username,
             email: state.email,
             password: state.password
-        }
-    });
+        });
 
-    if (!error.value)
-    {
-        authStore.user = data.value!.data;
+        authStore.user = data.data;
         navigateTo({ name: "dashboard" });
     }
-    else if (error.value.statusCode === 400)
+    finally
     {
-        useStandardToast("error", {
-            description: "Unable to create an account given this form."
-        });
+        state.loading = false;
     }
-    else
-    {
-        useStandardToast("error");
-    }
-    state.loading = false;
 };
 </script>

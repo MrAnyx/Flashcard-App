@@ -103,7 +103,7 @@ useHead({
 });
 
 // Stores and composables
-const data = useData();
+const repository = useRepository();
 const unitStore = useUnitStore();
 const topicStore = useTopicStore();
 const paginationStore = usePaginationStore();
@@ -144,19 +144,19 @@ const columns = [{
 
 const loadTable = async () =>
 {
-    loading.value = true;
-
     try
     {
-        const repsonse = await data.unit.getUnitsByTopic(topic.id, {
+        loading.value = true;
+
+        const repsonse = await repository.unit.getUnitsByTopic(topic.id, {
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
             itemsPerPage: paginationStore.itemsPerPage
         });
 
-        unitStore.total = repsonse!["@pagination"]!.total;
-        unitStore.units = repsonse!.data;
+        unitStore.total = repsonse["@pagination"]!.total;
+        unitStore.units = repsonse.data;
     }
     finally
     {
@@ -166,7 +166,7 @@ const loadTable = async () =>
 
 const toggleFavorite = async (row: Unit) =>
 {
-    await data.unit.updatePartialUnit(row.id, {
+    await repository.unit.updatePartialUnit(row.id, {
         favorite: !row.favorite
     });
     row.favorite = !row.favorite;
@@ -174,13 +174,13 @@ const toggleFavorite = async (row: Unit) =>
 
 const duplicateRow = async (row: Unit) =>
 {
-    const response = await data.unit.createUnit(topic.id, {
+    const response = await repository.unit.createUnit(topic.id, {
         name: row.name,
         description: row.description,
         favorite: false
     });
 
-    unitStore.prepend(response!.data);
+    unitStore.prepend(response.data);
 
     useStandardToast("success", {
         description: `The unit ${row.name} has been duplicated`
@@ -189,7 +189,7 @@ const duplicateRow = async (row: Unit) =>
 
 const deleteRow = async (row: Unit) =>
 {
-    await data.unit.deleteUnit(row.id);
+    await repository.unit.deleteUnit(row.id);
 
     unitStore.delete(row);
 
@@ -200,7 +200,7 @@ const deleteRow = async (row: Unit) =>
 
 const resetRow = async (row: Unit) =>
 {
-    await data.unit.resetUnit(row.id);
+    await repository.unit.resetUnit(row.id);
 
     useStandardToast("success", {
         description: `The unit ${row.name} has been reset`

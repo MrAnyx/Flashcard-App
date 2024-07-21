@@ -102,7 +102,7 @@ useHead({
 });
 
 // Stores and composables
-const data = useData();
+const repository = useRepository();
 const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
@@ -145,15 +145,15 @@ const loadTable = async () =>
 
     try
     {
-        const response = await data.flashcard.getFlashcardsByUnit(unit.id, {
+        const response = await repository.flashcard.getFlashcardsByUnit(unit.id, {
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
             itemsPerPage: paginationStore.itemsPerPage
         });
 
-        flashcardStore.total = response!["@pagination"]!.total;
-        flashcardStore.flashcards = response!.data;
+        flashcardStore.total = response["@pagination"]!.total;
+        flashcardStore.flashcards = response.data;
     }
     finally
     {
@@ -163,7 +163,7 @@ const loadTable = async () =>
 
 const toggleFavorite = async (row: Flashcard) =>
 {
-    await data.flashcard.updatePartialFlashcard(row.id, {
+    await repository.flashcard.updatePartialFlashcard(row.id, {
         favorite: !row.favorite
     });
     row.favorite = !row.favorite;
@@ -171,14 +171,14 @@ const toggleFavorite = async (row: Flashcard) =>
 
 const duplicateRow = async (row: Flashcard) =>
 {
-    const response = await data.flashcard.createFlashcard(unit.id, {
+    const response = await repository.flashcard.createFlashcard(unit.id, {
         front: row.front,
         back: row.back,
         details: row.details,
         favorite: false
     });
 
-    flashcardStore.prepend(response!.data);
+    flashcardStore.prepend(response.data);
 
     useStandardToast("success", {
         description: `The flashcard ${row.front} has been duplicated`
@@ -187,7 +187,7 @@ const duplicateRow = async (row: Flashcard) =>
 
 const deleteRow = async (row: Flashcard) =>
 {
-    await data.flashcard.deleteFlashcard(row.id);
+    await repository.flashcard.deleteFlashcard(row.id);
 
     flashcardStore.delete(row);
 
@@ -198,7 +198,7 @@ const deleteRow = async (row: Flashcard) =>
 
 const resetRow = async (row: Flashcard) =>
 {
-    await data.flashcard.resetFlashcard(row.id);
+    await repository.flashcard.resetFlashcard(row.id);
 
     useStandardToast("success", {
         description: `The flashcard ${row.front} has been reset`

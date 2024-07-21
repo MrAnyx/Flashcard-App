@@ -70,24 +70,20 @@ import { z } from "zod";
 import type { Topic, Unit, Flashcard } from "~/types/entity";
 
 const props = defineProps<{
-    topic: Topic;
-    unit: Unit;
+    topic?: Topic;
+    unit?: Unit;
     flashcard?: Flashcard;
 }>();
 
 const modal = useModal();
-const data = useData();
+const repository = useRepository();
 const flashcardStore = useFlashcardStore();
+const validationRule = useValidationRule();
 
 const schema = z.object({
-    front: z.string()
-        .min(1, "Tha front side can not be blank")
-        .max(255, "The front side is too long"),
-    back: z.string()
-        .min(1, "Tha back side can not be blank")
-        .max(255, "The back side is too long"),
-    details: z.string()
-        .max(1000, "The details is too long"),
+    front: validationRule.front,
+    back: validationRule.back,
+    details: validationRule.details,
 });
 
 const state = reactive({
@@ -99,33 +95,41 @@ const state = reactive({
 
 const onSubmit = async () =>
 {
-    state.loading = true;
-    if (props.flashcard)
+    try
     {
-        const flashcard = await data.flashcard.updatePartialFlashcard(props.flashcard.id, {
-            front: state.front,
-            back: state.back,
-            details: state.details ?? null,
+        state.loading = true;
+
+        if (props.flashcard)
+        {
+            const flashcard = await repository.flashcard.updatePartialFlashcard(props.flashcard.id, {
+                front: state.front,
+                back: state.back,
+                details: state.details ?? null,
+            });
+
+            flashcardStore.update(props.flashcard.id, flashcard!.data);
+        }
+        else
+        {
+            const flashcard = await repository.flashcard.createFlashcard(props.unit.id, {
+                front: state.front,
+                back: state.back,
+                details: state.details,
+                favorite: false
+            });
+
+            flashcardStore.prepend(flashcard!.data);
+        }
+
+        useStandardToast("success", {
+            description: `The flashcard ${state.front} has been ${props.flashcard ? "updated" : "created"}`
         });
 
-        flashcardStore.update(props.flashcard.id, flashcard!.data);
+        modal.close();
     }
-    else
+    finally
     {
-        const flashcard = await data.flashcard.createFlashcard(props.unit.id, {
-            front: state.front,
-            back: state.back,
-            details: state.details,
-            favorite: false
-        });
-
-        flashcardStore.prepend(flashcard!.data);
+        state.loading = false;
     }
-
-    useStandardToast("success", {
-        description: `The flashcard ${state.front} has been ${props.flashcard ? "updated" : "created"}`
-    });
-    state.loading = false;
-    modal.close();
 };
 </script>

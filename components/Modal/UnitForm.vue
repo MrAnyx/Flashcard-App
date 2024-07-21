@@ -27,10 +27,11 @@
                     >
                         <USelectMenu
                             v-model="state.topic"
-                            :options="topics.data"
+                            :options="topics!.data"
                             placeholder="Select a topic"
                             option-attribute="name"
                             size="md"
+                            :loading="loadingTopics"
                         />
                     </UFormGroup>
 
@@ -84,18 +85,14 @@ const props = defineProps<{
 }>();
 
 const modal = useModal();
-const data = useData();
+const repository = useRepository();
 const topicStore = useTopicStore();
 const unitStore = useUnitStore();
+const validattionRule = useValidationRule();
 
 const schema = z.object({
-    name: z
-        .string()
-        .min(1, "The name can not be blank")
-        .max(35, "The name is too long"),
-    description: z
-        .string()
-        .max(300, "The description is too long"),
+    name: validattionRule.name,
+    description: validattionRule.description,
     topic: z
         .any()
         .refine(option => !!option, "Select a topic from the list"),
@@ -109,7 +106,7 @@ const state = reactive({
     keepCreating: false
 });
 
-const topics = await data.topic.getTopics({ order: "asc", page: 1, sort: "name", itemsPerPage: 200 });
+const { data: topics, pending: loadingTopics } = useLazyAsyncData(() => repository.topic.getTopics({ order: "asc", page: 1, sort: "name", itemsPerPage: 200 }));
 
 const onSubmit = async () =>
 {
@@ -118,7 +115,7 @@ const onSubmit = async () =>
         state.loading = true;
         if (props.unit)
         {
-            const unit = await data.unit.updatePartialUnit(props.unit.id, {
+            const unit = await repository.unit.updatePartialUnit(props.unit.id, {
                 name: state.name,
                 description: state.description,
             });
@@ -127,7 +124,7 @@ const onSubmit = async () =>
         }
         else
         {
-            const unit = await data.unit.createUnit(state.topic!.id, {
+            const unit = await repository.unit.createUnit(state.topic!.id, {
                 name: state.name,
                 description: state.description,
                 favorite: false

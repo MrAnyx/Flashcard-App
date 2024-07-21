@@ -86,21 +86,16 @@ definePageMeta({
     middleware: "is-not-connected"
 });
 
-const data = useData();
 const authStore = useAuthStore();
+const repository = useRepository();
+const validationRule = useValidationRule();
 
 // Form definition
 const schema = z
     .object({
-        token: z
-            .string()
-            .min(1, "Username can not be blank"),
-        password: z
-            .string()
-            .min(8, "Password is too short")
-            .regex(Regex.Password, "Password isn't valid"),
-        passwordConfirm: z
-            .string()
+        token: validationRule.token,
+        password: validationRule.password,
+        passwordConfirm: validationRule.password
     })
     .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
         message: "Passwords don't match",
@@ -119,12 +114,13 @@ const onSubmit = async () =>
     try
     {
         state.loading = true;
-        const user = await data.auth.proceedResetPassword({
+
+        const data = await repository.auth.proceedResetPassword({
             token: state.token,
             password: state.password
         });
 
-        authStore.user = user.data;
+        authStore.user = data.data;
         useStandardToast("success", {
             description: "Your password has beed reset successfully"
         });

@@ -54,7 +54,7 @@ export default defineNuxtConfig({
         client: false
     },
     devtools: {
-        enabled: false
+        enabled: true
     },
     vite: {
         server: {

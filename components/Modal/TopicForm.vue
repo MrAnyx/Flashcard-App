@@ -45,7 +45,7 @@
 
                 <UCheckbox
                     v-model="state.keepCreating"
-                    label="Keep creating units ?"
+                    label="Keep creating topics  ?"
                 />
 
                 <UButton
@@ -69,15 +69,13 @@ const props = defineProps<{
 }>();
 
 const modal = useModal();
-const data = useData();
+const repository = useRepository();
 const topicStore = useTopicStore();
+const validationRule = useValidationRule();
 
 const schema = z.object({
-    name: z.string()
-        .min(1, "The name can not be blank")
-        .max(35, "The name is too long"),
-    description: z.string()
-        .max(300, "The description is too long")
+    name: validationRule.name,
+    description: validationRule.description
 });
 
 const state = reactive({
@@ -92,38 +90,39 @@ const onSubmit = async () =>
     try
     {
         state.loading = true;
+
         if (props.topic)
         {
-            const topic = await data.topic.updatePartialTopic(props.topic.id, {
+            const topic = await repository.topic.updatePartialTopic(props.topic.id, {
                 name: state.name,
                 description: state.description,
             });
 
-            topicStore.update(props.topic.id, topic!.data);
+            topicStore.update(props.topic.id, topic.data);
         }
         else
         {
-            const topic = await data.topic.createTopic({
+            const topic = await repository.topic.createTopic({
                 name: state.name,
                 description: state.description,
                 favorite: false
             });
 
-            topicStore.prepend(topic!.data);
+            topicStore.prepend(topic.data);
         }
 
         useStandardToast("success", {
             description: `The topic ${state.name} has been ${props.topic ? "updated" : "created"}`
         });
 
-        if (!state.keepCreating)
-        {
-            modal.close();
-        }
-        else
+        if (state.keepCreating)
         {
             state.name = "";
             state.description = "";
+        }
+        else
+        {
+            modal.close();
         }
     }
     finally

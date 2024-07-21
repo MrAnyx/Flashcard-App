@@ -5,6 +5,8 @@ export default defineNuxtPlugin(() =>
 
     const $apiFetch = $fetch.create({
         baseURL: config.apiBaseUrl,
+        keepalive: true,
+        retry: false,
         onRequest({ options })
         {
             if (authStore.token !== null)
@@ -20,12 +22,17 @@ export default defineNuxtPlugin(() =>
             useStandardToast("error", {
                 description: "An error occured while send a request, please try again or contact the administrator."
             });
+        },
+        onResponseError({ response })
+        {
+            // if (response.status === 500)
+            // {
+            //     useStandardToast("error");
+            // }
+
+            // TODO Gestion globale des erreurs
+            useStandardToast("error");
         }
-        // onResponseError({ response }) {
-        //     if (response.status === 500) {
-        //         useStandardToast("error");
-        //     }
-        // }
     });
 
     return {
