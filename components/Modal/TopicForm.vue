@@ -14,7 +14,7 @@
             </template>
             <UForm
                 :schema="schema"
-                :state="state"
+                :state="formData"
                 class="space-y-8"
                 :validate-on="['submit']"
                 @submit="onSubmit"
@@ -25,7 +25,7 @@
                         name="name"
                     >
                         <UInput
-                            v-model="state.name"
+                            v-model="formData.name"
                             autofocus
                             placeholder="You topic name"
                         />
@@ -36,7 +36,7 @@
                         name="description"
                     >
                         <UTextarea
-                            v-model="state.description"
+                            v-model="formData.description"
                             :rows="7"
                             placeholder="You topic description"
                         />
@@ -44,14 +44,14 @@
                 </div>
 
                 <UCheckbox
-                    v-model="state.keepCreating"
+                    v-model="formProvider.keepCreating"
                     label="Keep creating topics  ?"
                 />
 
                 <UButton
                     type="submit"
                     block
-                    :loading="state.loading"
+                    :loading="formProvider.loading"
                 >
                     {{ props.topic ? "Update" : "Create" }}
                 </UButton>
@@ -63,6 +63,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { Topic } from "~/types/entity";
+import type { FormSubmitEvent } from "#ui/types";
 
 const props = defineProps<{
     topic?: Topic;
@@ -78,24 +79,29 @@ const schema = z.object({
     description: validationRule.description
 });
 
-const state = reactive({
-    name: props.topic?.name ?? "",
-    description: props.topic?.description ?? "",
+type Schema = z.output<typeof schema>;
+
+const formProvider = reactive({
     loading: false,
     keepCreating: false
 });
 
-const onSubmit = async () =>
+const formData = reactive({
+    name: props.topic?.name ?? "",
+    description: props.topic?.description ?? "",
+});
+
+const onSubmit = async (event: FormSubmitEvent<Schema>) =>
 {
     try
     {
-        state.loading = true;
+        formProvider.loading = true;
 
         if (props.topic)
         {
             const topic = await repository.topic.updatePartialTopic(props.topic.id, {
-                name: state.name,
-                description: state.description,
+                name: event.data.name,
+                description: event.data.description,
             });
 
             topicStore.update(props.topic.id, topic.data);
@@ -103,8 +109,8 @@ const onSubmit = async () =>
         else
         {
             const topic = await repository.topic.createTopic({
-                name: state.name,
-                description: state.description,
+                name: event.data.name,
+                description: event.data.description,
                 favorite: false
             });
 
@@ -112,13 +118,13 @@ const onSubmit = async () =>
         }
 
         useStandardToast("success", {
-            description: `The topic ${state.name} has been ${props.topic ? "updated" : "created"}`
+            description: `The topic ${event.data.name} has been ${props.topic ? "updated" : "created"}`
         });
 
-        if (state.keepCreating)
+        if (formProvider.keepCreating)
         {
-            state.name = "";
-            state.description = "";
+            formData.name = "";
+            formData.description = "";
         }
         else
         {
@@ -127,7 +133,7 @@ const onSubmit = async () =>
     }
     finally
     {
-        state.loading = false;
+        formProvider.loading = false;
     }
 };
 </script>

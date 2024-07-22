@@ -83,7 +83,7 @@ export const AppShortcutSections: ShortcutSection[] = [
             shift_t: {
                 shortcut: ["Shift", "T"],
                 global: true,
-                usingInput: true,
+                usingInput: false,
                 name: "Switch theme",
                 description: "Switch to dark/light theme",
                 action: () =>

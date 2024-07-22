@@ -30,11 +30,11 @@ export const useValidationRule = () =>
             .min(1, "Token can not be blank"),
 
         front: z.string()
-            .min(1, "Tha front side can not be blank")
+            .min(1, "The front side can not be blank")
             .max(255, "The front side is too long"),
 
         back: z.string()
-            .min(1, "Tha back side can not be blank")
+            .min(1, "The back side can not be blank")
             .max(255, "The back side is too long"),
 
         details: z.string()
