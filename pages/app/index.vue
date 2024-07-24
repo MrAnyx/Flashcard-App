@@ -11,7 +11,6 @@
 <script setup lang="ts">
 definePageMeta({
     name: "dashboard",
-    middleware: "is-connected"
 });
 
 useHead({

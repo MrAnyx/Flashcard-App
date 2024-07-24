@@ -29,7 +29,6 @@ useHead({
 
 definePageMeta({
     name: "settings",
-    middleware: "is-connected"
 });
 
 const links: HorizontalNavigationLink[] = [{

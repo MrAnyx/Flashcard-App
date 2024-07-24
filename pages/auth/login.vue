@@ -7,7 +7,7 @@
             <p class="text-gray-400">
                 {{ $t('authentication.login.subtitle') }}
                 <ULink
-                    to="/auth/register"
+                    :to="{ name: 'register' }"
                     class="text-primary hover:text-primary-300"
                 >
                     {{ $t('authentication.register.action') }}
@@ -16,7 +16,7 @@
         </header>
         <UForm
             :schema="schema"
-            :state="state"
+            :state="formData"
             class="space-y-8"
             :validate-on="['submit']"
             @submit="onSubmit"
@@ -27,7 +27,7 @@
                     name="identifier"
                 >
                     <UInput
-                        v-model="state.identifier"
+                        v-model="formData.identifier"
                         autofocus
                         :placeholder="$t('authentication.login.identifier.placeholder')"
                         icon="i-heroicons-envelope"
@@ -48,7 +48,7 @@
                         </ULink>
                     </template>
                     <UInput
-                        v-model="state.password"
+                        v-model="formData.password"
                         type="password"
                         :placeholder="$t('authentication.login.password.placeholder')"
                         icon="i-heroicons-lock-closed"
@@ -59,7 +59,7 @@
             <UButton
                 type="submit"
                 block
-                :loading="state.loading"
+                :loading="formProvider.loadingForm"
             >
                 {{ $t('authentication.login.action') }}
             </UButton>
@@ -87,7 +87,6 @@ import { z } from "zod";
 definePageMeta({
     layout: "auth",
     name: "login",
-    middleware: "is-not-connected"
 });
 
 useHead({
@@ -103,29 +102,32 @@ const schema = z.object({
     password: validationRule.password
 });
 
-const state = reactive({
+const formProvider = reactive({
+    loadingForm: false
+});
+
+const formData = reactive({
     identifier: "",
     password: "",
-    loading: false
 });
 
 const onSubmit = async () =>
 {
     try
     {
-        state.loading = true;
+        formProvider.loadingForm = true;
 
         const data = await repository.auth.login({
-            identifier: state.identifier,
-            password: state.password
+            identifier: formData.identifier,
+            password: formData.password
         });
 
-        authStore.user = data.data;
+        authStore.login(data.data);
         navigateTo({ name: "dashboard" });
     }
     finally
     {
-        state.loading = false;
+        formProvider.loadingForm = false;
     }
 };
 </script>

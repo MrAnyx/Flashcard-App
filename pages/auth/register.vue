@@ -7,7 +7,7 @@
             <p class="text-gray-400">
                 {{ $t('authentication.register.subtitle') }}
                 <ULink
-                    to="/auth/login"
+                    :to="{ name: 'login' }"
                     class="text-primary hover:text-primary-300"
                 >
                     {{ $t('authentication.login.action') }}
@@ -16,7 +16,7 @@
         </header>
         <UForm
             :schema="schema"
-            :state="state"
+            :state="formData"
             class="space-y-8"
             :validate-on="['submit']"
             @submit="onSubmit"
@@ -27,7 +27,7 @@
                     name="username"
                 >
                     <UInput
-                        v-model="state.username"
+                        v-model="formData.username"
                         autofocus
                         :placeholder="$t('authentication.register.username.placeholder')"
                         icon="i-heroicons-user"
@@ -39,7 +39,7 @@
                     name="email"
                 >
                     <UInput
-                        v-model="state.email"
+                        v-model="formData.email"
                         :placeholder="$t('authentication.register.email.placeholder')"
                         icon="i-heroicons-envelope"
                     />
@@ -50,7 +50,7 @@
                     name="password"
                 >
                     <UInput
-                        v-model="state.password"
+                        v-model="formData.password"
                         type="password"
                         :placeholder="$t('authentication.register.password.placeholder')"
                         icon="i-heroicons-lock-closed"
@@ -62,7 +62,7 @@
                     name="passwordConfirm"
                 >
                     <UInput
-                        v-model="state.passwordConfirm"
+                        v-model="formData.passwordConfirm"
                         type="password"
                         :placeholder="$t('authentication.register.passwordConf.placeholder')"
                         icon="i-heroicons-lock-closed"
@@ -73,7 +73,7 @@
             <UButton
                 type="submit"
                 block
-                :loading="state.loading"
+                :loading="formProvider.loadingForm"
             >
                 {{ $t('authentication.register.action') }}
             </UButton>
@@ -101,7 +101,6 @@ import { z } from "zod";
 definePageMeta({
     layout: "auth",
     name: "register",
-    middleware: "is-not-connected"
 });
 
 const authStore = useAuthStore();
@@ -121,32 +120,35 @@ const schema = z
         path: ["passwordConfirm"] // path of error
     });
 
-const state = reactive({
+const formProvider = reactive({
+    loadingForm: false
+});
+
+const formData = reactive({
     username: "",
     email: "",
     password: "",
     passwordConfirm: "",
-    loading: false
 });
 
 const onSubmit = async () =>
 {
     try
     {
-        state.loading = true;
+        formProvider.loadingForm = true;
 
         const data = await repository.auth.register({
-            username: state.username,
-            email: state.email,
-            password: state.password
+            username: formData.username,
+            email: formData.email,
+            password: formData.password
         });
 
-        authStore.user = data.data;
+        authStore.login(data.data);
         navigateTo({ name: "dashboard" });
     }
     finally
     {
-        state.loading = false;
+        formProvider.loadingForm = false;
     }
 };
 </script>

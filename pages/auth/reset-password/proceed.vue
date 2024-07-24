@@ -11,7 +11,7 @@
         </p>
         <UForm
             :schema="schema"
-            :state="state"
+            :state="formData"
             class="space-y-8"
             :validate-on="['submit']"
             @submit="onSubmit"
@@ -22,7 +22,7 @@
                     name="token"
                 >
                     <UInput
-                        v-model="state.token"
+                        v-model="formData.token"
                         autofocus
                         placeholder="Enter the token sent by email"
                         icon="i-heroicons-shield-check"
@@ -33,7 +33,7 @@
                     name="password"
                 >
                     <UInput
-                        v-model="state.password"
+                        v-model="formData.password"
                         type="password"
                         placeholder="New password"
                         icon="i-heroicons-lock-closed"
@@ -44,7 +44,7 @@
                     name="passwordConfirm"
                 >
                     <UInput
-                        v-model="state.passwordConfirm"
+                        v-model="formData.passwordConfirm"
                         type="password"
                         placeholder="Confirm your password"
                         icon="i-heroicons-lock-closed"
@@ -55,7 +55,7 @@
             <UButton
                 type="submit"
                 block
-                :loading="state.loading"
+                :loading="formProvider.loadingForm"
             >
                 Reset my password
             </UButton>
@@ -67,7 +67,7 @@
             <p class="text-sm text-gray-400 text-center">
                 Go back to the
                 <ULink
-                    to="/auth/login"
+                    :to="{ name: 'login' }"
                     class="text-primary hover:text-primary-300"
                 >
                     login page
@@ -83,7 +83,6 @@ import { z } from "zod";
 definePageMeta({
     layout: "auth",
     name: "reset-password-proceed",
-    middleware: "is-not-connected"
 });
 
 const authStore = useAuthStore();
@@ -102,25 +101,28 @@ const schema = z
         path: ["passwordConfirm"] // path of error
     });
 
-const state = reactive({
+const formProvider = reactive({
+    loadingForm: false
+});
+
+const formData = reactive({
     token: "",
     password: "",
     passwordConfirm: "",
-    loading: false
 });
 
 const onSubmit = async () =>
 {
     try
     {
-        state.loading = true;
+        formProvider.loadingForm = true;
 
         const data = await repository.auth.proceedResetPassword({
-            token: state.token,
-            password: state.password
+            token: formData.token,
+            password: formData.password
         });
 
-        authStore.user = data.data;
+        authStore.login(data.data);
         useStandardToast("success", {
             description: "Your password has beed reset successfully"
         });
@@ -128,7 +130,7 @@ const onSubmit = async () =>
     }
     finally
     {
-        state.loading = false;
+        formProvider.loadingForm = false;
     }
 };
 </script>

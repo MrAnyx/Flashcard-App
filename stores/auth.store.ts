@@ -12,7 +12,11 @@ export const useAuthStore = defineStore("auth", {
         logout()
         {
             this.user = null;
-        }
+        },
+        login(user: User)
+        {
+            this.user = user;
+        },
     },
     getters: {
         token: (state) =>

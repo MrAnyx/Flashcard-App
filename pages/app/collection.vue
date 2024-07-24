@@ -10,7 +10,6 @@
 <script setup lang="ts">
 definePageMeta({
     name: "collection",
-    middleware: "is-connected"
 });
 
 useHead({

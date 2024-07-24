@@ -29,7 +29,6 @@ useHead({
 
 definePageMeta({
     name: "admin-dashboard",
-    middleware: "is-admin"
 });
 
 const links: HorizontalNavigationLink[] = [{

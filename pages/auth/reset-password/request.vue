@@ -61,7 +61,6 @@ import { z } from "zod";
 definePageMeta({
     layout: "auth",
     name: "reset-password-request",
-    middleware: "is-not-connected"
 });
 
 useHead({

@@ -10,7 +10,6 @@
 <script setup lang="ts">
 definePageMeta({
     name: "favorites",
-    middleware: "is-connected"
 });
 
 useHead({
