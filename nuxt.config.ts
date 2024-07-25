@@ -7,8 +7,8 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             apiBaseUrl: process.env.API_BASE_URL,
-            appVersion: pkg.version
-        }
+            appVersion: pkg.version,
+        },
     },
     eslint: {
         config: {
@@ -54,11 +54,11 @@ export default defineNuxtConfig({
         client: false
     },
     devtools: {
-      enabled: true,
+        enabled: true,
 
-      timeline: {
-        enabled: true
-      }
+        timeline: {
+            enabled: true
+        }
     },
     vite: {
         server: {

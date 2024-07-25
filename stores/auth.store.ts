@@ -15,7 +15,9 @@ export const useAuthStore = defineStore("auth", {
         },
         login(user: User)
         {
+            const tokenCookie = useToken();
             this.user = user;
+            tokenCookie.value = user.token;
         },
     },
     getters: {
