@@ -7,7 +7,7 @@
             <p class="text-gray-400">
                 {{ $t('authentication.login.subtitle') }}
                 <ULink
-                    :to="{ name: 'register' }"
+                    :to="{ name: 'register', query: route.query }"
                     class="text-primary hover:text-primary-300"
                 >
                     {{ $t('authentication.register.action') }}
@@ -96,6 +96,7 @@ useHead({
 const authStore = useAuthStore();
 const repository = useRepository();
 const validationRule = useValidationRule();
+const route = useRoute();
 
 const schema = z.object({
     identifier: validationRule.identifier,
@@ -123,7 +124,15 @@ const onSubmit = async () =>
         });
 
         authStore.login(data.data);
-        navigateTo({ name: "dashboard" });
+
+        if (route.query.forward)
+        {
+            await navigateTo(route.query.forward as string);
+        }
+        else
+        {
+            await navigateTo({ name: "dashboard" });
+        }
     }
     finally
     {

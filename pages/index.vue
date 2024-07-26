@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-    name: "landing"
+    name: "landing",
 });
 
 useHead({

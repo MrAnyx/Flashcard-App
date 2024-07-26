@@ -1,23 +1,25 @@
 import type { User } from "~/types/entity";
 
 type State = {
-    user: User | null;
+    user?: User;
 };
 
 export const useAuthStore = defineStore("auth", {
     state: (): State => ({
-        user: null
+        user: undefined
     }),
     actions: {
         logout()
         {
-            this.user = null;
+            const token = useToken();
+            this.user = undefined;
+            token.value = null;
         },
         login(user: User)
         {
-            const tokenCookie = useToken();
+            const token = useToken();
             this.user = user;
-            tokenCookie.value = user.token;
+            token.value = user.token;
         },
     },
     getters: {

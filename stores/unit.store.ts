@@ -4,7 +4,7 @@ type State = {
     recents: Unit[];
     units: Unit[];
     total: number;
-    selectedUnit: Unit | undefined;
+    selectedUnit?: Unit;
 };
 
 export const useUnitStore = defineStore("unit", {

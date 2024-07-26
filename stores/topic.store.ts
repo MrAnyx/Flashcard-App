@@ -4,7 +4,7 @@ type State = {
     recents: Topic[];
     topics: Topic[];
     total: number;
-    selectedTopic: Topic | undefined;
+    selectedTopic?: Topic;
 };
 
 export const useTopicStore = defineStore("topic", {

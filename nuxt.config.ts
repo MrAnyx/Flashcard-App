@@ -23,10 +23,6 @@ export default defineNuxtConfig({
         },
     },
     piniaPersistedstate: {
-        cookieOptions: {
-            sameSite: "strict"
-        },
-        // Cookie has better performances
         storage: "localStorage"
     },
     router: {

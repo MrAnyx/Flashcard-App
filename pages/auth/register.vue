@@ -7,7 +7,7 @@
             <p class="text-gray-400">
                 {{ $t('authentication.register.subtitle') }}
                 <ULink
-                    :to="{ name: 'login' }"
+                    :to="{ name: 'login', query: route.query }"
                     class="text-primary hover:text-primary-300"
                 >
                     {{ $t('authentication.login.action') }}
@@ -106,6 +106,7 @@ definePageMeta({
 const authStore = useAuthStore();
 const repository = useRepository();
 const validationRule = useValidationRule();
+const route = useRoute();
 
 // Form definition
 const schema = z

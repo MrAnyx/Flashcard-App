@@ -11,6 +11,7 @@
 <script setup lang="ts">
 definePageMeta({
     name: "dashboard",
+    middleware: ["initialize"]
 });
 
 useHead({
