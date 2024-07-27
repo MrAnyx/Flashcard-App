@@ -28,6 +28,21 @@
                 </template>
             </UButton>
         </div>
+
+        <UButton
+            icon="i-heroicons-magnifying-glass"
+            color="gray"
+            @click="modal.open(ModalSearchCommandPalette)"
+        >
+            <div class="flex justify-between items-center w-full">
+                Search
+                <div class="flex gap-x-1">
+                    <UKbd>Ctrl</UKbd>
+                    <UKbd>K</UKbd>
+                </div>
+            </div>
+        </UButton>
+
         <UVerticalNavigation :links="navigationLinks">
             <template #default="{ link }">
                 <UTooltip
@@ -57,7 +72,6 @@
                 truncate
                 class="justify-start"
                 block
-                :label="authStore.user?.username"
             >
                 <template #leading>
                     <UAvatar
@@ -66,24 +80,26 @@
                     />
                 </template>
 
-                <template
-                    v-if="authStore.isPremium"
-                    #trailing
-                >
-                    <UTooltip text="Premium account">
+                <div class="flex justify-between items-center w-full">
+                    {{ authStore.user?.username }}
+
+                    <UTooltip
+                        v-if="authStore.isPremium"
+                        text="Premium account"
+                    >
                         <UIcon
                             name="i-heroicons-check-badge"
-                            class="text-yellow-500"
+                            class="text-yellow-600 dark:text-yellow-500 w-4 h-4"
                         />
                     </UTooltip>
-                </template>
+                </div>
             </UButton>
         </UDropdown>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ModalShortcuts } from "#components";
+import { ModalSearchCommandPalette, ModalShortcuts } from "#components";
 import type { DropdownItem, VerticalNavigationLink } from "#ui/types";
 
 defineEmits(["close"]);

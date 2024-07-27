@@ -1,5 +1,5 @@
 <template>
-    <UModal prevent-close>
+    <UModal>
         <UCard :ui="{ body: { base: 'max-h-[600px]' } }">
             <template #header>
                 <div class="flex justify-between items-center">

@@ -3,8 +3,6 @@ export default defineNuxtRouteMiddleware((to, _from) =>
     const token = useToken();
     const applicationStore = useApplicationStore();
 
-    console.log(token.value);
-
     if (!token.value)
     {
         return navigateTo({

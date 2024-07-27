@@ -11,6 +11,7 @@
 <script setup lang="ts">
 definePageMeta({
     name: "practice",
+    middleware: ["initialize"]
 });
 
 useHead({

@@ -1,4 +1,4 @@
-import { ModalFlashcardForm, ModalTopicForm, ModalUnitForm } from "#components";
+import { ModalFlashcardForm, ModalSearchCommandPalette, ModalTopicForm, ModalUnitForm } from "#components";
 import type { ShortcutSection } from "~/types/shortcut";
 
 // Shortcuts must be unique to prevent bad behavior
@@ -90,6 +90,18 @@ export const AppShortcutSections: ShortcutSection[] = [
                 {
                     const currentTheme = useColorMode().value;
                     useColorMode().preference = currentTheme === "light" ? "dark" : "light";
+                }
+            },
+            ctrl_k: {
+                shortcut: ["Ctrl", "K"],
+                global: true,
+                usingInput: false,
+                name: "Global search",
+                description: "Open search command palette",
+                action: () =>
+                {
+                    useModal().close();
+                    setTimeout(() => useModal().open(ModalSearchCommandPalette), 0);
                 }
             },
             "c-t": {

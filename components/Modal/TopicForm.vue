@@ -1,12 +1,12 @@
 <template>
-    <UModal prevent-close>
+    <UModals>
         <UCard>
             <template #header>
                 <div class="flex justify-between items-center">
                     <span class="font-medium">{{ props.topic ? "Edit" : "Create" }} a topic</span>
                     <UButton
                         icon="i-heroicons-x-mark"
-                        color="white"
+                        color="black"
                         variant="ghost"
                         @click="modal.close()"
                     />
@@ -57,7 +57,7 @@
                 </UButton>
             </UForm>
         </UCard>
-    </UModal>
+    </UModals>
 </template>
 
 <script setup lang="ts">

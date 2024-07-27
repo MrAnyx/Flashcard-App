@@ -8,6 +8,7 @@ definePageMeta({
 });
 
 const route = useRoute();
+const router = useRouter();
 const applicationStore = useApplicationStore();
 const repository = useRepository();
 const authStore = useAuthStore();
@@ -27,7 +28,7 @@ const initialize = async () =>
         setTimeout(() =>
         {
             applicationStore.initialized = true;
-            return navigateTo(route.query.forward as string ?? "/");
+            return navigateTo(route.query.forward as string ?? router.resolve("landing").href);
         }, 1000);
     }
     catch
