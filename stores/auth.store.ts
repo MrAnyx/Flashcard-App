@@ -12,14 +12,16 @@ export const useAuthStore = defineStore("auth", {
         logout()
         {
             const token = useToken();
-            this.user = undefined;
             token.value = null;
+
+            this.user = undefined;
         },
         login(user: User)
         {
             const token = useToken();
-            this.user = user;
             token.value = user.token;
+
+            this.user = user;
         },
     },
     getters: {

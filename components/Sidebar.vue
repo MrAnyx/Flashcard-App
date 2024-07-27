@@ -57,12 +57,12 @@
                 truncate
                 class="justify-start"
                 block
-                :label="authStore.user!.username"
+                :label="authStore.user?.username"
             >
                 <template #leading>
                     <UAvatar
                         size="2xs"
-                        :alt="authStore.user!.username"
+                        :alt="authStore.user?.username"
                     />
                 </template>
 
@@ -174,7 +174,7 @@ const profileDropdownOptions: DropdownItem[][] = [
         icon: "i-heroicons-arrow-left-start-on-rectangle",
         click: () =>
         {
-            useAuthStore().logout();
+            authStore.logout();
             return navigateTo({ name: "landing" });
         }
     }]
