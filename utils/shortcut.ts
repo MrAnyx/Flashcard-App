@@ -1,4 +1,4 @@
-import { ModalFlashcardForm, ModalSearchCommandPalette, ModalTopicForm, ModalUnitForm } from "#components";
+import { ModalFlashcardForm, ModalSearchCommandPalette, ModalShortcuts, ModalTopicForm, ModalUnitForm } from "#components";
 import type { ShortcutSection } from "~/types/shortcut";
 
 // Shortcuts must be unique to prevent bad behavior
@@ -102,6 +102,18 @@ export const AppShortcutSections: ShortcutSection[] = [
                 {
                     useModal().close();
                     setTimeout(() => useModal().open(ModalSearchCommandPalette), 0);
+                }
+            },
+            "?": {
+                shortcut: ["?"],
+                global: true,
+                usingInput: false,
+                name: "Shortcuts",
+                description: "Open list of shortcuts",
+                action: () =>
+                {
+                    useModal().close();
+                    setTimeout(() => useModal().open(ModalShortcuts), 0);
                 }
             },
             "c-t": {

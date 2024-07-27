@@ -180,6 +180,7 @@ const profileDropdownOptions: DropdownItem[][] = [
         }, {
             label: "Shortcuts",
             icon: "i-heroicons-command-line",
+            shortcuts: ["?"],
             click: () =>
             {
                 modal.open(ModalShortcuts);

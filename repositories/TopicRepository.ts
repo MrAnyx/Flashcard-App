@@ -60,4 +60,11 @@ export class TopicRepository extends AbstractRepository
             method: "PATCH"
         });
     };
+
+    async countTopics()
+    {
+        return this.fetch<JsonStandard<number>>(`/topics/count`, {
+            method: "GET"
+        });
+    }
 }
