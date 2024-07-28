@@ -34,6 +34,46 @@
                                 </div>
                             </div>
                         </UCard>
+                        <UCard
+                            class="h-full"
+                            :ui="{ body: { padding: 'p-3 sm:p-4', base: 'h-full flex flex-col justify-center' } }"
+                        >
+                            <div class="flex items-center space-x-4">
+                                <UIcon
+                                    name="i-heroicons-folder"
+                                    class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
+                                />
+
+                                <div class="flex-1 flex flex-col min-w-0 text-left">
+                                    <span class="truncate dark:text-gray-300 text-gray-500">Total units</span>
+                                    <span
+                                        class="text-xl dark:text-gray-300 text-gray-700 truncate"
+                                    >
+                                        {{ formatNumber(data.totalUnits) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </UCard>
+                        <UCard
+                            class="h-full"
+                            :ui="{ body: { padding: 'p-3 sm:p-4', base: 'h-full flex flex-col justify-center' } }"
+                        >
+                            <div class="flex items-center space-x-4">
+                                <UIcon
+                                    name="i-heroicons-folder"
+                                    class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
+                                />
+
+                                <div class="flex-1 flex flex-col min-w-0 text-left">
+                                    <span class="truncate dark:text-gray-300 text-gray-500">Total flashcards</span>
+                                    <span
+                                        class="text-xl dark:text-gray-300 text-gray-700 truncate"
+                                    >
+                                        {{ formatNumber(data.totalFlashcards) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </UCard>
                     </template>
                 </div>
             </section>
@@ -58,7 +98,9 @@ const provider = reactive({
 });
 
 const data = reactive({
-    totalTopics: 0
+    totalTopics: 0,
+    totalUnits: 0,
+    totalFlashcards: 0
 });
 
 onMounted(async () =>
@@ -71,8 +113,17 @@ const loadDashboard = async () =>
     try
     {
         provider.loading = true;
-        const topicData = await repository.topic.countTopics();
-        data.totalTopics = topicData.data;
+
+        const [countTopics, countUnits, countFlashcards] = await Promise.all([
+            repository.topic.countTopics(),
+            repository.unit.countUnits(),
+            repository.flashcard.countFlashcards()
+        ]);
+
+        data.totalTopics = countTopics.data;
+        data.totalUnits = countUnits.data;
+        data.totalFlashcards = countFlashcards.data;
+
         provider.loading = false;
     }
     catch

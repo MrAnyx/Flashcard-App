@@ -71,4 +71,11 @@ export class UnitRepository extends AbstractRepository
             method: "PATCH"
         });
     };
+
+    async countUnits()
+    {
+        return this.fetch<JsonStandard<number>>(`/units/count`, {
+            method: "GET"
+        });
+    };
 }
