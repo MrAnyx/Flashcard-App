@@ -4,13 +4,15 @@ type State = {
     recents: Flashcard[];
     flashcards: Flashcard[];
     total: number;
+    totalToReview: number;
 };
 
 export const useFlashcardStore = defineStore("flashcard", {
     state: (): State => ({
         recents: [],
         flashcards: [],
-        total: 0
+        total: 0,
+        totalToReview: 0
     }),
     actions: {
         prepend(item: Flashcard)

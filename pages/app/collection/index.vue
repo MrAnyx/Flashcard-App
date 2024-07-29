@@ -150,7 +150,6 @@ const loadTable = async () =>
             itemsPerPage: paginationStore.itemsPerPage
         });
 
-        topicStore.total = response["@pagination"]!.total;
         topicStore.topics = response.data;
     }
     finally

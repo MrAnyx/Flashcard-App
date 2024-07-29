@@ -152,7 +152,6 @@ const loadTable = async () =>
             itemsPerPage: paginationStore.itemsPerPage
         });
 
-        flashcardStore.total = response["@pagination"]!.total;
         flashcardStore.flashcards = response.data;
     }
     finally

@@ -17,6 +17,12 @@ export default defineAppConfig({
         //         base: "flex border-gray-200 dark:border-gray-700"
         //     }
         // },
+        table: {
+            base: "w-full",
+            td: {
+                base: "truncate"
+            }
+        },
         card: {
             // background: "bg-white dark:bg-gray-800",
             // shadow: "shadow",

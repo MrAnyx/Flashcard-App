@@ -2,6 +2,7 @@
     <UModal>
         <UCommandPalette
             :groups="[{ key: 'people', commands: people }]"
+            :close-button="{ icon: 'i-heroicons-x-mark-20-solid', color: 'gray', variant: 'link', padded: false }"
             icon="i-heroicons-magnifying-glass"
             :autoselect="false"
             placeholder="Search anything"

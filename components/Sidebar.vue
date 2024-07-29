@@ -53,6 +53,14 @@
                     <span>{{ link.label }}</span>
                 </UTooltip>
             </template>
+            <template #badge="{ link }">
+                <UKbd
+                    v-if="link.badge"
+                    class="px-1.5 py-1 ml-auto relative"
+                >
+                    {{ formatNumber(link.badge) }}
+                </UKbd>
+            </template>
         </UVerticalNavigation>
         <div class="flex-1" />
         <UVerticalNavigation :links="otherLinks" />
@@ -107,21 +115,22 @@ defineEmits(["close"]);
 const authStore = useAuthStore();
 const modal = useModal();
 const version = useVersion();
+const flashcardStore = useFlashcardStore();
 
 const navigationLinks: VerticalNavigationLink[][] = [[{
     label: "Collection",
     icon: "i-heroicons-squares-2x2",
-    badge: 100,
+    badge: flashcardStore.total,
     to: "/app/collection"
 }, {
     label: "Practice",
     icon: "i-heroicons-academic-cap",
-    badge: 86,
+    badge: flashcardStore.totalToReview,
     to: "/app/practice"
 }, {
     label: "Favorites",
     icon: "i-heroicons-star",
-    badge: 56,
+    badge: 5,
     to: "/app/favorites"
 },
 ...(authStore.isPremium

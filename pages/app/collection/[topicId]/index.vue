@@ -90,7 +90,6 @@
 <script setup lang="ts">
 import { ModalUnitForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
-import { usePaginationStore } from "~/stores/pagination.store";
 import type { Unit } from "~/types/entity";
 
 // Meta methods for page
@@ -155,7 +154,6 @@ const loadTable = async () =>
             itemsPerPage: paginationStore.itemsPerPage
         });
 
-        unitStore.total = repsonse["@pagination"]!.total;
         unitStore.units = repsonse.data;
     }
     finally

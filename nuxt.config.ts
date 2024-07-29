@@ -3,13 +3,15 @@ import pkg from "./package.json";
 
 export default defineNuxtConfig({
     modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "@nuxt/eslint"],
-    ssr: true,
+    ssr: false,
+
     runtimeConfig: {
         public: {
             apiBaseUrl: process.env.API_BASE_URL,
             appVersion: pkg.version,
         },
     },
+
     eslint: {
         config: {
             stylistic: {
@@ -22,40 +24,49 @@ export default defineNuxtConfig({
             }
         },
     },
+
     piniaPersistedstate: {
         storage: "localStorage"
     },
+
     router: {
         options: {
             scrollBehaviorType: "smooth"
         }
     },
+
     i18n: {
         defaultLocale: "en",
         locales: ["en", "fr"],
         vueI18n: "./i18n/i18n.config.ts",
         strategy: "no_prefix"
     },
+
     pinia: {
         storesDirs: ["./stores/**"]
     },
+
     colorMode: {
         preference: "dark"
     },
+
     tailwindcss: {
         viewer: false
     },
+
     sourcemap: {
         server: false,
         client: false
     },
+
     devtools: {
-        enabled: true,
+        enabled: false,
 
         timeline: {
             enabled: true
         }
     },
+
     vite: {
         server: {
             middlewareMode: true,
@@ -63,5 +74,7 @@ export default defineNuxtConfig({
                 port: 3001
             }
         }
-    }
+    },
+
+    compatibilityDate: "2024-07-28"
 });

@@ -78,4 +78,11 @@ export class FlashcardRepository extends AbstractRepository
             method: "GET"
         });
     };
+
+    async countFlashcardsToReview()
+    {
+        return this.fetch<JsonStandard<number>>(`/flashcards/reviews/count`, {
+            method: "GET"
+        });
+    };
 }

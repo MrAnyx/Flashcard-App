@@ -3,6 +3,7 @@ import { FlashcardRepository } from "~/repositories/FlashcardRepository";
 import { TopicRepository } from "~/repositories/TopicRepository";
 import { UnitRepository } from "~/repositories/UnitRepository";
 import { UserRepository } from "~/repositories/UserRepository";
+import { ReviewRepository } from "~/repositories/ReviewRepository";
 
 export const useRepository = () =>
 {
@@ -11,6 +12,7 @@ export const useRepository = () =>
         unit: new UnitRepository(),
         flashcard: new FlashcardRepository(),
         user: new UserRepository(),
-        auth: new AuthRepository()
+        auth: new AuthRepository(),
+        review: new ReviewRepository()
     };
 };

@@ -4,7 +4,7 @@
             <template #header>
                 Personal dashboard
             </template>
-            <section class="p-6">
+            <section class="p-6 flex flex-col gap-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                     <template v-if="provider.loading">
                         <USkeleton
@@ -29,7 +29,7 @@
                                     <span
                                         class="text-xl dark:text-gray-300 text-gray-700 truncate"
                                     >
-                                        {{ formatNumber(data.totalTopics) }}
+                                        {{ formatNumber(topicStore.total) }}
                                     </span>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon
-                                    name="i-heroicons-folder"
+                                    name="i-heroicons-swatch"
                                     class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
                                 />
 
@@ -49,7 +49,7 @@
                                     <span
                                         class="text-xl dark:text-gray-300 text-gray-700 truncate"
                                     >
-                                        {{ formatNumber(data.totalUnits) }}
+                                        {{ formatNumber(unitStore.total) }}
                                     </span>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon
-                                    name="i-heroicons-folder"
+                                    name="i-heroicons-document"
                                     class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
                                 />
 
@@ -69,10 +69,56 @@
                                     <span
                                         class="text-xl dark:text-gray-300 text-gray-700 truncate"
                                     >
-                                        {{ formatNumber(data.totalFlashcards) }}
+                                        {{ formatNumber(flashcardStore.total) }}
                                     </span>
                                 </div>
                             </div>
+                        </UCard><UCard
+                            class="h-full"
+                            :ui="{ body: { padding: 'p-3 sm:p-4', base: 'h-full flex flex-col justify-center' } }"
+                        >
+                            <div class="flex items-center space-x-4">
+                                <UIcon
+                                    name="i-heroicons-calendar"
+                                    class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
+                                />
+
+                                <div class="flex-1 flex flex-col min-w-0 text-left">
+                                    <span class="truncate dark:text-gray-300 text-gray-500">Total reviews</span>
+                                    <span
+                                        class="text-xl dark:text-gray-300 text-gray-700 truncate"
+                                    >
+                                        {{ formatNumber(reviewStore.total) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </UCard>
+                    </template>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <template v-if="provider.loading">
+                        <USkeleton
+                            v-for="i in 2"
+                            :key="i"
+                            class="h-[84px]"
+                        />
+                    </template>
+                    <template v-else>
+                        <UCard
+                            :ui="{ body: { padding: '!p-0' } }"
+                        >
+                            <UTable
+                                :rows="people"
+                                :columns="tableColumns"
+                            />
+                        </UCard>
+                        <UCard
+                            :ui="{ body: { padding: '!p-0' } }"
+                        >
+                            <UTable
+                                :rows="people"
+                                :columns="tableColumns"
+                            />
                         </UCard>
                     </template>
                 </div>
@@ -92,16 +138,43 @@ useHead({
 });
 
 const repository = useRepository();
+const topicStore = useTopicStore();
+const unitStore = useUnitStore();
+const flashcardStore = useFlashcardStore();
+const reviewStore = useReviewStore();
 
 const provider = reactive({
     loading: true,
 });
 
-const data = reactive({
-    totalTopics: 0,
-    totalUnits: 0,
-    totalFlashcards: 0
-});
+const tableColumns = [
+    {
+        key: "front",
+        label: "Front",
+    },
+    {
+        key: "difficulty",
+        label: "Difficulty",
+        class: "w-[90px]"
+    }
+];
+
+const people = [{
+    front: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+    difficulty: 9.65,
+}, {
+    front: "quia consequuntur magni dolores eos qui ratione voluptatem",
+    difficulty: 9.23,
+}, {
+    front: "quaerat voluptatem. Ut enim ad minima veniam, quis nostrum",
+    difficulty: 8.59,
+}, {
+    front: "vel illum qui dolorem eum fugiat quo voluptas nulla pariatur",
+    difficulty: 6.12,
+}, {
+    front: "or avoids pleasure itself, because it is pleasure, but because those who do not know",
+    difficulty: 2.61,
+}];
 
 onMounted(async () =>
 {
@@ -114,15 +187,7 @@ const loadDashboard = async () =>
     {
         provider.loading = true;
 
-        const [countTopics, countUnits, countFlashcards] = await Promise.all([
-            repository.topic.countTopics(),
-            repository.unit.countUnits(),
-            repository.flashcard.countFlashcards()
-        ]);
-
-        data.totalTopics = countTopics.data;
-        data.totalUnits = countUnits.data;
-        data.totalFlashcards = countFlashcards.data;
+        // Additional queries
 
         provider.loading = false;
     }
