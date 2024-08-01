@@ -25,7 +25,7 @@
                         v-model="formData.token"
                         autofocus
                         placeholder="Enter the token sent by email"
-                        icon="i-heroicons-shield-check"
+                        icon="i-tabler-key"
                     />
                 </UFormGroup>
                 <UFormGroup
@@ -36,7 +36,7 @@
                         v-model="formData.password"
                         type="password"
                         placeholder="New password"
-                        icon="i-heroicons-lock-closed"
+                        icon="i-tabler-lock"
                     />
                 </UFormGroup>
                 <UFormGroup
@@ -47,7 +47,7 @@
                         v-model="formData.passwordConfirm"
                         type="password"
                         placeholder="Confirm your password"
-                        icon="i-heroicons-lock-closed"
+                        icon="i-tabler-lock"
                     />
                 </UFormGroup>
             </div>

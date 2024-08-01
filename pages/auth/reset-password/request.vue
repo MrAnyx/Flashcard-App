@@ -25,7 +25,7 @@
                         v-model="state.identifier"
                         autofocus
                         :placeholder="$t('authentication.login.identifier.placeholder')"
-                        icon="i-heroicons-envelope"
+                        icon="i-tabler-mail"
                     />
                 </UFormGroup>
             </div>

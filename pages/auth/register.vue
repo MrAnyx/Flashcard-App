@@ -30,7 +30,7 @@
                         v-model="formData.username"
                         autofocus
                         :placeholder="$t('authentication.register.username.placeholder')"
-                        icon="i-heroicons-user"
+                        icon="i-tabler-user"
                     />
                 </UFormGroup>
 
@@ -41,7 +41,7 @@
                     <UInput
                         v-model="formData.email"
                         :placeholder="$t('authentication.register.email.placeholder')"
-                        icon="i-heroicons-envelope"
+                        icon="i-tabler-mail"
                     />
                 </UFormGroup>
 
@@ -53,7 +53,7 @@
                         v-model="formData.password"
                         type="password"
                         :placeholder="$t('authentication.register.password.placeholder')"
-                        icon="i-heroicons-lock-closed"
+                        icon="i-tabler-lock"
                     />
                 </UFormGroup>
 
@@ -65,7 +65,7 @@
                         v-model="formData.passwordConfirm"
                         type="password"
                         :placeholder="$t('authentication.register.passwordConf.placeholder')"
-                        icon="i-heroicons-lock-closed"
+                        icon="i-tabler-lock"
                     />
                 </UFormGroup>
             </div>

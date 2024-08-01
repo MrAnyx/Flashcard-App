@@ -30,7 +30,7 @@
                         v-model="formData.identifier"
                         autofocus
                         :placeholder="$t('authentication.login.identifier.placeholder')"
-                        icon="i-heroicons-envelope"
+                        icon="i-tabler-mail"
                     />
                 </UFormGroup>
 
@@ -51,7 +51,7 @@
                         v-model="formData.password"
                         type="password"
                         :placeholder="$t('authentication.login.password.placeholder')"
-                        icon="i-heroicons-lock-closed"
+                        icon="i-tabler-lock"
                     />
                 </UFormGroup>
             </div>

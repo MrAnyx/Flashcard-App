@@ -20,7 +20,7 @@
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon
-                                    name="i-heroicons-folder"
+                                    name="i-tabler-folder"
                                     class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
                                 />
 
@@ -40,7 +40,7 @@
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon
-                                    name="i-heroicons-swatch"
+                                    name="i-tabler-color-swatch"
                                     class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
                                 />
 
@@ -60,7 +60,7 @@
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon
-                                    name="i-heroicons-document"
+                                    name="i-tabler-cards"
                                     class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
                                 />
 
@@ -79,7 +79,7 @@
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon
-                                    name="i-heroicons-calendar"
+                                    name="i-tabler-calendar"
                                     class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
                                 />
 

@@ -31,7 +31,7 @@
                 >
                     <template #leading>
                         <UIcon
-                            name="i-heroicons-plus"
+                            name="i-tabler-plus"
                             class="w-5 h-5"
                         />
                     </template>
@@ -50,12 +50,12 @@
                     <button @click.stop="toggleFavorite(row)">
                         <UIcon
                             v-if="row.favorite"
-                            name="i-heroicons-star-solid"
+                            name="i-tabler-star-filled"
                             class="text-xl text-yellow-400"
                         />
                         <UIcon
                             v-else
-                            name="i-heroicons-star"
+                            name="i-tabler-star"
                             class="text-xl"
                         />
                     </button>
@@ -68,7 +68,7 @@
                         <UButton
                             color="gray"
                             variant="ghost"
-                            icon="i-heroicons-ellipsis-horizontal"
+                            icon="i-tabler-dots"
                         />
                     </UDropdown>
                 </template>
@@ -207,22 +207,22 @@ const resetRow = async (row: Flashcard) =>
 const rowOptions = (row: Flashcard): DropdownItem[][] => [
     [{
         label: "Edit",
-        icon: "i-heroicons-pencil-square-20-solid",
+        icon: "i-tabler-edit",
         click: () => showCreateUpdateModal(row)
     }, {
         label: "Duplicate",
-        icon: "i-heroicons-document-duplicate-20-solid",
+        icon: "i-tabler-copy",
         click: () => duplicateRow(row)
     }], [{
         label: "Reset",
-        icon: "i-heroicons-sparkles",
+        icon: "i-tabler-sparkles",
         click: () => resetRow(row)
     }, {
         label: "Delete",
         class: "bg-red-500/15",
         labelClass: "text-red-500",
         iconClass: "bg-red-500",
-        icon: "i-heroicons-trash-20-solid",
+        icon: "i-tabler-trash",
         click: () => deleteRow(row)
     }]
 ];
@@ -241,7 +241,7 @@ const showCreateUpdateModal = (row?: Flashcard) =>
 const breadcrumbItems: BreadcrumbLink[] = [
     {
         label: "Collection",
-        icon: "i-heroicons-folder",
+        icon: "i-tabler-folder",
         to: {
             name: "topics",
         }

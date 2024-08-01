@@ -15,7 +15,7 @@
                 <UInput
                     v-model="profileState.email"
                     type="email"
-                    icon="i-heroicons-envelope"
+                    icon="i-tabler-mail"
                 />
             </div>
             <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 items-center">
@@ -25,7 +25,7 @@
                 </div>
                 <UInput
                     v-model="profileState.username"
-                    icon="i-heroicons-user"
+                    icon="i-tabler-user"
                 />
             </div>
         </section>
@@ -44,12 +44,12 @@
                 </div>
                 <div>
                     <UInput
-                        icon="i-heroicons-lock-closed"
+                        icon="i-tabler-lock"
                         placeholder="Current password"
                         class="mb-2"
                     />
                     <UInput
-                        icon="i-heroicons-lock-closed"
+                        icon="i-tabler-lock"
                         placeholder="New password"
                     />
                 </div>
@@ -58,7 +58,7 @@
         <UDivider />
         <UAlert
             title="Danger zone"
-            icon="i-heroicons-exclamation-triangle"
+            icon="i-tabler-alert-triangle"
             description="Permanently delete your account with all your data"
             color="red"
             variant="subtle"
@@ -100,7 +100,7 @@ const profileState = reactive({
 const deleteAccountActions: AlertAction[] = [
     {
         label: "Delete my account",
-        icon: "i-heroicons-trash",
+        icon: "i-tabler-trash",
         color: "red",
         variant: "solid",
         click: () =>

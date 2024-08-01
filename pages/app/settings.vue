@@ -34,16 +34,16 @@ definePageMeta({
 
 const links: HorizontalNavigationLink[] = [{
     label: "Account",
-    icon: "i-heroicons-user",
+    icon: "i-tabler-user",
     to: "/app/settings/account",
     exact: true
 }, {
     label: "General",
-    icon: "i-heroicons-cog-6-tooth",
+    icon: "i-tabler-settings",
     to: "/app/settings/general"
 }, {
     label: "Appearance",
-    icon: "i-heroicons-swatch",
+    icon: "i-tabler-color-swatch",
     to: "/app/settings/appearance"
 }];
 </script>
