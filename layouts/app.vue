@@ -19,7 +19,7 @@
                     color="gray"
                     variant="ghost"
                     square
-                    icon="i-heroicons-bars-3"
+                    icon="i-tabler-layout-sidebar-left-expand"
                     size="sm"
                     class="mr-4 lg:hidden"
                     @click.prevent="isSidebarOpen = !isSidebarOpen"

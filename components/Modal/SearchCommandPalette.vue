@@ -2,8 +2,8 @@
     <UModal>
         <UCommandPalette
             :groups="[{ key: 'people', commands: people }]"
-            :close-button="{ icon: 'i-heroicons-x-mark-20-solid', color: 'gray', variant: 'link', padded: false }"
-            icon="i-heroicons-magnifying-glass"
+            :close-button="{ icon: 'i-tabler-x', color: 'gray', variant: 'link', padded: false }"
+            icon="i-tabler-search"
             :autoselect="false"
             placeholder="Search anything"
             :fuse="{ resultLimit: 6, fuseOptions: { threshold: 0.1 } }"

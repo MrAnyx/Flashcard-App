@@ -5,7 +5,7 @@
                 <div class="flex justify-between items-center">
                     <span class="font-medium">Delete my account</span>
                     <UButton
-                        icon="i-heroicons-x-mark"
+                        icon="i-tabler-x"
                         color="white"
                         variant="ghost"
                         @click="modal.close()"

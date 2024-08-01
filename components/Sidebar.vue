@@ -6,7 +6,7 @@
                 color="gray"
                 variant="ghost"
                 square
-                icon="i-heroicons-bars-3"
+                icon="i-tabler-layout-sidebar-left-collapse"
                 size="sm"
                 class="lg:hidden"
                 @click.prevent="$emit('close')"
@@ -30,7 +30,7 @@
         </div>
 
         <UButton
-            icon="i-heroicons-magnifying-glass"
+            icon="i-tabler-search"
             color="gray"
             @click="modal.open(ModalSearchCommandPalette)"
         >
@@ -96,7 +96,7 @@
                         text="Premium account"
                     >
                         <UIcon
-                            name="i-heroicons-check-badge"
+                            name="i-tabler-rosette-discount-check"
                             class="text-yellow-600 dark:text-yellow-500 w-4 h-4"
                         />
                     </UTooltip>
@@ -119,29 +119,29 @@ const flashcardStore = useFlashcardStore();
 
 const navigationLinks: VerticalNavigationLink[][] = [[{
     label: "Collection",
-    icon: "i-heroicons-squares-2x2",
+    icon: "i-tabler-layout-dashboard",
     badge: flashcardStore.total,
     to: "/app/collection"
 }, {
     label: "Practice",
-    icon: "i-heroicons-academic-cap",
+    icon: "i-tabler-school",
     badge: flashcardStore.totalToReview,
     to: "/app/practice"
 }, {
     label: "Favorites",
-    icon: "i-heroicons-star",
+    icon: "i-tabler-star",
     badge: 5,
     to: "/app/favorites"
 },
 ...(authStore.isPremium
     ? [{
             label: "Analytics",
-            icon: "i-heroicons-chart-pie",
+            icon: "i-tabler-chart-pie",
         }]
     : []),
 {
     label: "Settings",
-    icon: "i-heroicons-cog-6-tooth",
+    icon: "i-tabler-settings",
     to: "/app/settings/account"
 }]];
 
@@ -150,7 +150,7 @@ const otherLinks: VerticalNavigationLink[][] = [
         ...(authStore.isAdmin
             ? [{
                     label: "Admin dashboard",
-                    icon: "i-heroicons-adjustments-horizontal",
+                    icon: "i-tabler-table",
                     to: {
                         name: "admin-dashboard"
                     }
@@ -159,17 +159,17 @@ const otherLinks: VerticalNavigationLink[][] = [
         ...(!authStore.isPremium
             ? [{
                     label: "Upgrade to premium",
-                    icon: "i-heroicons-check-badge",
+                    icon: "i-tabler-rosette-discount-check",
                     labelClass: "text-yellow-500",
                     iconClass: "bg-yellow-500",
                 }]
             : []),
         {
             label: "Help & Documentation",
-            icon: "i-heroicons-question-mark-circle"
+            icon: "i-tabler-info-square-rounded"
         }, {
             label: "Terms of use",
-            icon: "i-heroicons-document-check"
+            icon: "i-tabler-file-check"
         }
     ]
 ];
@@ -185,10 +185,10 @@ const profileDropdownOptions: DropdownItem[][] = [
     }], [
         {
             label: "Profile",
-            icon: "i-heroicons-user",
+            icon: "i-tabler-user",
         }, {
             label: "Shortcuts",
-            icon: "i-heroicons-command-line",
+            icon: "i-tabler-terminal-2",
             shortcuts: ["?"],
             click: () =>
             {
@@ -197,7 +197,7 @@ const profileDropdownOptions: DropdownItem[][] = [
         }
     ], [{
         label: "Sign out",
-        icon: "i-heroicons-arrow-left-start-on-rectangle",
+        icon: "i-tabler-logout-2",
         click: () =>
         {
             authStore.logout();

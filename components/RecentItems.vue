@@ -16,7 +16,7 @@
                 >
                     <div class="flex items-center space-x-4">
                         <UIcon
-                            name="i-heroicons-folder"
+                            name="i-tabler-folder"
                             class="bg-gray-300 text-2xl shrink-0"
                         />
 
