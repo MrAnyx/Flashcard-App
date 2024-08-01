@@ -2,12 +2,6 @@
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Prerequisites
-
-```bash
-docker network create -d bridge flashcard-net
-```
-
 ## Setup
 
 Make sure to install the dependencies:
@@ -79,4 +73,3 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-
