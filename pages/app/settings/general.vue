@@ -13,10 +13,11 @@
                     <span class="text-gray-400 text-sm">Specify the number of items per mage</span>
                 </div>
                 <USelectMenu
-                    v-model="paginationStore.itemsPerPage"
+                    v-model="itemsPerPage"
                     :options="itemsPerPageObject"
                     value-attribute="value"
                     option-attribute="label"
+                    @change="updatePagination"
                 />
             </div>
         </section>
@@ -33,7 +34,9 @@ useHead({
     title: "General"
 });
 
-const paginationStore = usePaginationStore();
+const authStore = useAuthStore();
+const repository = useRepository();
+
 const itemsPerPageOptions = [25, 50, 100, 200];
 const itemsPerPageObject = itemsPerPageOptions.map((o) =>
 {
@@ -42,4 +45,20 @@ const itemsPerPageObject = itemsPerPageOptions.map((o) =>
         value: o
     };
 });
+const itemsPerPage = ref(authStore.getSetting<number>("items_per_page"));
+
+const updatePagination = async () =>
+{
+    try
+    {
+        await repository.user.updateSetting("items_per_page", itemsPerPage.value);
+        authStore.setSetting("items_per_page", itemsPerPage.value);
+    }
+    catch
+    {
+        useStandardToast("error", {
+            description: `Unable to update setting items_per_page`
+        });
+    }
+};
 </script>

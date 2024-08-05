@@ -70,12 +70,12 @@
                 </template>
             </UTable>
             <div
-                v-if="(topicStore.total / paginationStore.itemsPerPage) > 1"
+                v-if="(topicStore.total / itemsPerPage) > 1"
                 class="mt-4 flex justify-center"
             >
                 <UPagination
                     v-model="page"
-                    :page-count="paginationStore.itemsPerPage"
+                    :page-count="itemsPerPage"
                     :total="topicStore.total"
                     @update:model-value="loadTable"
                 />
@@ -87,7 +87,6 @@
 <script setup lang="ts">
 import { ModalTopicForm } from "#components";
 import type { DropdownItem } from "#ui/types";
-import { usePaginationStore } from "~/stores/pagination.store";
 import type { Topic } from "~/types/entity";
 
 // Meta methods for page
@@ -102,7 +101,7 @@ useHead({
 // Stores and composables
 const repository = useRepository();
 const topicStore = useTopicStore();
-const paginationStore = usePaginationStore();
+const authStore = useAuthStore();
 const modal = useModal();
 
 // Lifecycle hooks
@@ -118,6 +117,7 @@ const sort = ref({
     column: "name",
     direction: "asc" as const
 });
+const itemsPerPage = authStore.getSetting<number>("items_per_page");
 
 // Table data
 const columns = [{
@@ -147,7 +147,7 @@ const loadTable = async () =>
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
-            itemsPerPage: paginationStore.itemsPerPage
+            itemsPerPage
         });
 
         topicStore.topics = response.data;

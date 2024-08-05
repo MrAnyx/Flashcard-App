@@ -1,3 +1,5 @@
+import type { SettingName } from "./settings";
+
 export type Role = "ROLE_USER" | "ROLE_ADMIN";
 
 export type User = {
@@ -8,6 +10,7 @@ export type User = {
     createdAt: string;
     updatedAt: string;
     roles: Role[];
+    settings: Record<SettingName, string | number | boolean>;
 };
 
 export type Topic = {

@@ -1,4 +1,5 @@
 import type { User } from "~/types/entity";
+import type { SettingName } from "~/types/settings";
 
 type State = {
     user?: User;
@@ -23,6 +24,17 @@ export const useAuthStore = defineStore("auth", {
 
             this.user = user;
         },
+        setSetting(name: SettingName, value: number | string | boolean)
+        {
+            if (this.user)
+            {
+                this.user.settings[name] = value;
+            }
+        },
+        getSetting<TValue>(name: SettingName)
+        {
+            return this.user?.settings[name] as TValue;
+        }
     },
     getters: {
         token: (state) =>

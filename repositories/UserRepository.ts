@@ -1,6 +1,7 @@
 import { AbstractRepository } from "./AbstractRepository";
 import type { User } from "~/types/entity";
 import type { JsonStandard } from "~/types/request";
+import type { SettingName } from "~/types/settings";
 
 export class UserRepository extends AbstractRepository
 {
@@ -15,6 +16,17 @@ export class UserRepository extends AbstractRepository
     {
         return this.fetch<JsonStandard<User>>(`/users/me`, {
             method: "GET"
+        });
+    };
+
+    async updateSetting(name: SettingName, value: string | number | boolean)
+    {
+        return this.fetch<JsonStandard<User>>(`/users/settings`, {
+            method: "POST",
+            body: {
+                name,
+                value
+            }
         });
     };
 }

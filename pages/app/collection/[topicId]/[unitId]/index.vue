@@ -75,9 +75,9 @@
             </UTable>
             <div class="mt-4 flex justify-center">
                 <UPagination
-                    v-if="(flashcardStore.total / paginationStore.itemsPerPage) > 1"
+                    v-if="(flashcardStore.total / itemsPerPage) > 1"
                     v-model="page"
-                    :page-count="paginationStore.itemsPerPage"
+                    :page-count="itemsPerPage"
                     :total="flashcardStore.total"
                     @update:model-value="loadTable"
                 />
@@ -89,7 +89,6 @@
 <script setup lang="ts">
 import { ModalFlashcardForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
-import { usePaginationStore } from "~/stores/pagination.store";
 import type { Flashcard } from "~/types/entity";
 
 // Meta methods for page
@@ -106,7 +105,7 @@ const repository = useRepository();
 const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
-const paginationStore = usePaginationStore();
+const authStore = useAuthStore();
 const modal = useModal();
 
 // Lifecycle hooks
@@ -124,6 +123,7 @@ const sort = ref({
     column: "front",
     direction: "asc" as const
 });
+const itemsPerPage = authStore.getSetting<number>("items_per_page");
 
 // Table data
 const columns = [{
@@ -149,7 +149,7 @@ const loadTable = async () =>
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
-            itemsPerPage: paginationStore.itemsPerPage
+            itemsPerPage
         });
 
         flashcardStore.flashcards = response.data;
