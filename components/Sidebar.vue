@@ -117,7 +117,7 @@ const modal = useModal();
 const version = useVersion();
 const flashcardStore = useFlashcardStore();
 
-const navigationLinks: VerticalNavigationLink[][] = [[{
+const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[{
     label: "Collection",
     icon: "i-tabler-layout-dashboard",
     badge: flashcardStore.total,
@@ -132,7 +132,6 @@ const navigationLinks: VerticalNavigationLink[][] = [[{
 }, {
     label: "Favorites",
     icon: "i-tabler-star",
-    badge: 5,
     to: "/app/favorites"
 },
 ...(authStore.isPremium
@@ -147,9 +146,9 @@ const navigationLinks: VerticalNavigationLink[][] = [[{
     to: {
         name: "settings-account"
     }
-}]];
+}]]);
 
-const otherLinks: VerticalNavigationLink[][] = [
+const otherLinks = computed<VerticalNavigationLink[][]>(() => [
     [
         ...(authStore.isAdmin
             ? [{
@@ -176,11 +175,11 @@ const otherLinks: VerticalNavigationLink[][] = [
             icon: "i-tabler-file-check"
         }
     ]
-];
+]);
 
-const profileDropdownOptions: DropdownItem[][] = [
+const profileDropdownOptions = computed<DropdownItem[][]>(() => [
     [{
-        label: "email", // The email is display in the dropdown slot using the AuthStore
+        label: authStore.user?.email ?? "",
         slot: "account",
         disabled: true,
     }, {
@@ -211,5 +210,5 @@ const profileDropdownOptions: DropdownItem[][] = [
             return navigateTo({ name: "landing" });
         }
     }]
-];
+]);
 </script>
