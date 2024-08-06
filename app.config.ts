@@ -18,9 +18,8 @@ export default defineAppConfig({
         //     }
         // },
         table: {
-            base: "w-full",
             td: {
-                base: "truncate"
+                base: "max-w-[0] truncate"
             }
         },
         card: {

@@ -38,7 +38,6 @@
                 :columns="columns"
                 :loading="loading"
                 sort-mode="manual"
-                :ui="{ td: { base: 'max-w-[0] truncate' } }"
                 @update:sort="loadTable"
                 @select="select"
             >
@@ -124,17 +123,21 @@ const columns = [{
     key: "name",
     label: "Name",
     sortable: true,
+    class: "w-[20%]"
 }, {
     key: "description",
     label: "Description",
     sortable: true,
+    class: "w-full"
 }, {
     key: "favorite",
     label: "Favorite",
     sortable: true,
+    class: "w-0"
 }, {
-    key: "actions",
     label: "Actions",
+    key: "actions",
+    class: "w-0"
 }];
 
 const loadTable = async () =>

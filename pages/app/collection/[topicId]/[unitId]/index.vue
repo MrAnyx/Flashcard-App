@@ -129,14 +129,17 @@ const itemsPerPage = authStore.getSetting<number>("items_per_page");
 const columns = [{
     key: "front",
     label: "Front",
-    sortable: true
+    sortable: true,
+    class: "w-full"
 }, {
     key: "favorite",
     label: "Favorite",
     sortable: true,
+    class: "w-0"
 }, {
     key: "actions",
     label: "Actions",
+    class: "w-0"
 }];
 
 const loadTable = async () =>

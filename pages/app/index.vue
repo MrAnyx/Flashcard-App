@@ -151,11 +151,12 @@ const tableColumns = [
     {
         key: "front",
         label: "Front",
+        class: "w-full"
     },
     {
         key: "difficulty",
         label: "Difficulty",
-        class: "w-[90px]"
+        class: "w-0"
     }
 ];
 
