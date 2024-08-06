@@ -53,6 +53,10 @@ const updatePagination = async () =>
     {
         await repository.user.updateSetting("items_per_page", itemsPerPage.value);
         authStore.setSetting("items_per_page", itemsPerPage.value);
+
+        useStandardToast("success", {
+            description: "Settings saved"
+        });
     }
     catch
     {

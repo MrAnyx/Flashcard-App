@@ -13,6 +13,10 @@ export type User = {
     settings: Record<SettingName, string | number | boolean>;
 };
 
+export type UserExtended = User & {
+    password: string;
+};
+
 export type Topic = {
     id: number;
     name: string;

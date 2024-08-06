@@ -66,11 +66,11 @@
         <UVerticalNavigation :links="otherLinks" />
 
         <UDropdown :items="profileDropdownOptions">
-            <template #account="{ item }">
+            <template #account>
                 <div class="text-left truncate">
                     <p>Signed in as</p>
                     <p class="truncate font-medium text-gray-900 dark:text-white">
-                        {{ item.label }}
+                        {{ authStore.user?.email }}
                     </p>
                 </div>
             </template>
@@ -121,7 +121,9 @@ const navigationLinks: VerticalNavigationLink[][] = [[{
     label: "Collection",
     icon: "i-tabler-layout-dashboard",
     badge: flashcardStore.total,
-    to: "/app/collection"
+    to: {
+        name: "topics"
+    }
 }, {
     label: "Practice",
     icon: "i-tabler-school",
@@ -142,7 +144,9 @@ const navigationLinks: VerticalNavigationLink[][] = [[{
 {
     label: "Settings",
     icon: "i-tabler-settings",
-    to: "/app/settings/account"
+    to: {
+        name: "settings-account"
+    }
 }]];
 
 const otherLinks: VerticalNavigationLink[][] = [
@@ -176,7 +180,7 @@ const otherLinks: VerticalNavigationLink[][] = [
 
 const profileDropdownOptions: DropdownItem[][] = [
     [{
-        label: authStore.user!.email,
+        label: "email", // The email is display in the dropdown slot using the AuthStore
         slot: "account",
         disabled: true,
     }, {
@@ -184,8 +188,11 @@ const profileDropdownOptions: DropdownItem[][] = [
         disabled: true
     }], [
         {
-            label: "Profile",
+            label: "Account",
             icon: "i-tabler-user",
+            to: {
+                name: "settings-account"
+            }
         }, {
             label: "Shortcuts",
             icon: "i-tabler-terminal-2",

@@ -6,29 +6,46 @@
             </h2>
             <span class="text-gray-400 text-sm">Customize your personal informations</span>
         </div>
-        <section class="flex flex-col gap-y-6">
-            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 items-center">
+        <UForm
+            :state="profileFormData"
+            :schema="profileSchema"
+            :validate-on="['submit']"
+            class="flex flex-col gap-y-6"
+            @submit="saveProfile"
+        >
+            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                 <div>
                     <h4>Email</h4>
                     <span class="text-gray-400 text-sm">Used to login and receive notifications</span>
                 </div>
-                <UInput
-                    v-model="profileState.email"
-                    type="email"
-                    icon="i-tabler-mail"
-                />
+                <UFormGroup name="email">
+                    <UInput
+                        v-model="profileFormData.email"
+                        type="email"
+                        icon="i-tabler-mail"
+                    />
+                </UFormGroup>
             </div>
-            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 items-center">
+            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                 <div>
                     <h4>Username</h4>
                     <span class="text-gray-400 text-sm">Your unique identifier used to login</span>
                 </div>
-                <UInput
-                    v-model="profileState.username"
-                    icon="i-tabler-user"
-                />
+                <UFormGroup name="username">
+                    <UInput
+                        v-model="profileFormData.username"
+                        icon="i-tabler-user"
+                    />
+                </UFormGroup>
             </div>
-        </section>
+
+            <UButton
+                class="self-end"
+                label="Save"
+                icon="i-tabler-device-floppy"
+                type="submit"
+            />
+        </UForm>
         <UDivider />
         <div>
             <h2 class="font-medium text-xl">
@@ -36,25 +53,45 @@
             </h2>
             <span class="text-gray-400 text-sm">Customize your personal informations</span>
         </div>
-        <section class="flex flex-col gap-y-6">
-            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 items-center">
+        <UForm
+            :state="securityFormData"
+            :schema="securitySchema"
+            :validate-on="['submit']"
+            class="flex flex-col gap-y-6"
+            @submit="saveSecurity"
+        >
+            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                 <div>
                     <h4>Password</h4>
                     <span class="text-gray-400 text-sm">Used to securely login to your account</span>
                 </div>
-                <div>
-                    <UInput
-                        icon="i-tabler-lock"
-                        placeholder="Current password"
-                        class="mb-2"
-                    />
-                    <UInput
-                        icon="i-tabler-lock"
-                        placeholder="New password"
-                    />
+                <div class="flex flex-col gap-y-3">
+                    <UFormGroup name="password">
+                        <UInput
+                            v-model="securityFormData.password"
+                            icon="i-tabler-lock"
+                            placeholder="Current password"
+                            type="password"
+                        />
+                    </UFormGroup>
+
+                    <UFormGroup name="passwordConfirm">
+                        <UInput
+                            v-model="securityFormData.passwordConfirm"
+                            icon="i-tabler-lock"
+                            placeholder="New password"
+                            type="password"
+                        />
+                    </UFormGroup>
                 </div>
             </div>
-        </section>
+            <UButton
+                class="self-end"
+                label="Save"
+                icon="i-tabler-device-floppy"
+                type="submit"
+            />
+        </UForm>
         <UDivider />
         <UAlert
             title="Danger zone"
@@ -69,7 +106,7 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import type { AlertAction } from "#ui/types";
+import type { AlertAction, Form } from "#ui/types";
 import { ModalDeleteAccount } from "#components";
 
 definePageMeta({
@@ -83,19 +120,87 @@ useHead({
 
 const authStore = useAuthStore();
 const modal = useModal();
+const repository = useRepository();
+const validationRule = useValidationRule();
 
-// const schema = z.object({
-//     username: z.string()
-//         .min(1, "Identifier can not be blank")
-//         .max(180, "Identifier is too long"),
-//     email: z.string()
-//         .min(1, "Password can not be blank")
-// });
-
-const profileState = reactive({
-    username: authStore.user!.username,
-    email: authStore.user!.email
+// Profile section
+const profileSchema = z.object({
+    email: validationRule.email,
+    username: validationRule.username,
 });
+
+type ProfileSchema = z.output<typeof profileSchema>;
+
+const profileFormData = reactive<ProfileSchema>({
+    email: authStore.user!.email,
+    username: authStore.user!.username,
+});
+
+const saveProfile = async () =>
+{
+    try
+    {
+        const response = await repository.user.updatePartialMe({
+            email: profileFormData.email,
+            username: profileFormData.username
+        });
+
+        authStore.user = response.data;
+
+        useStandardToast("success", {
+            description: "Settings saved"
+        });
+    }
+    catch
+    {
+        useStandardToast("error", {
+            description: "Unable to save settings"
+        });
+    }
+};
+
+// Security section
+const securitySchema = z
+    .object({
+        password: validationRule.password,
+        passwordConfirm: validationRule.password,
+    })
+    .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
+        message: "Passwords don't match",
+        path: ["passwordConfirm"] // path of error
+    }); ;
+
+type SecuritySchema = z.output<typeof securitySchema>;
+
+const securityFormData = reactive<SecuritySchema>({
+    password: "",
+    passwordConfirm: "",
+});
+
+const saveSecurity = async () =>
+{
+    try
+    {
+        await repository.user.updatePartialMe({
+            password: profileFormData.email,
+        });
+
+        useStandardToast("success", {
+            description: "Settings saved"
+        });
+    }
+    catch
+    {
+        useStandardToast("error", {
+            description: "Unable to save settings"
+        });
+    }
+    finally
+    {
+        securityFormData.password = "";
+        securityFormData.passwordConfirm = "";
+    }
+};
 
 const deleteAccountActions: AlertAction[] = [
     {
