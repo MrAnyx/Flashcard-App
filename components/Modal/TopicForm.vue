@@ -1,5 +1,5 @@
 <template>
-    <UModals>
+    <UModal>
         <UCard>
             <template #header>
                 <div class="flex justify-between items-center">
@@ -57,7 +57,7 @@
                 </UButton>
             </UForm>
         </UCard>
-    </UModals>
+    </UModal>
 </template>
 
 <script setup lang="ts">
