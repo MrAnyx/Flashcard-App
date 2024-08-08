@@ -129,10 +129,6 @@ const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[{
     icon: "i-tabler-school",
     badge: flashcardStore.totalToReview,
     to: "/app/practice"
-}, {
-    label: "Favorites",
-    icon: "i-tabler-star",
-    to: "/app/favorites"
 },
 ...(authStore.isPremium
     ? [{

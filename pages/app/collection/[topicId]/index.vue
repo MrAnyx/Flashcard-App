@@ -2,7 +2,7 @@
     <div>
         <UBreadcrumb
             :links="breadcrumbItems"
-            class="px-6 py-4 border-b border-gray-800"
+            class="px-6 py-4 border-b border-gray-200 dark:border-gray-800"
         />
         <!-- <RecentItems
             v-if="unitStore.recents.length >= 4"
@@ -13,7 +13,7 @@
         <div class="py-6 flex-1">
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
-                    <h4 class="font-medium text-lg text-gray-200">
+                    <h4 class="font-medium text-lg">
                         Units
                     </h4>
                     <UBadge

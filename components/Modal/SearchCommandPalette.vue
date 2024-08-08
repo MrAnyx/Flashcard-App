@@ -1,8 +1,9 @@
 <template>
     <UModal>
         <UCommandPalette
+            ref="globalCommandPalette"
             :groups="[{ key: 'people', commands: people }]"
-            :close-button="{ icon: 'i-tabler-x', color: 'gray', variant: 'link', padded: false }"
+            :close-button="globalCommandPalette?.query ? { icon: 'i-tabler-x', color: 'gray', variant: 'link', padded: false } : null"
             icon="i-tabler-search"
             :autoselect="false"
             placeholder="Search anything"
@@ -12,6 +13,8 @@
 </template>
 
 <script lang="ts" setup>
+const globalCommandPalette = ref();
+
 const people = [
     { id: 1, label: "Wade Cooper" },
     { id: 2, label: "Arlene Mccoy" },
