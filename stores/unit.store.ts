@@ -8,6 +8,9 @@ type State = {
 };
 
 export const useUnitStore = defineStore("unit", {
+    persist: {
+        paths: ["selectedUnit"]
+    },
     state: (): State => ({
         recents: [],
         units: [],

@@ -47,6 +47,7 @@ const initialize = async () =>
         flashcardStore.total = totalFlashcards.data;
         flashcardStore.totalToReview = totalFlashcardsToReview.data;
         reviewStore.total = totalReviews.data;
+        useColorMode().preference = authStore.getSetting("color_theme");
 
         applicationStore.initialized = true;
         return navigateTo(route.query.forward as string ?? router.resolve("landing").href);

@@ -10,6 +10,8 @@ export type User = {
     createdAt: string;
     updatedAt: string;
     roles: Role[];
+    premium: boolean;
+    premiumAt: string;
     settings: Record<SettingName, string | number | boolean>;
 };
 

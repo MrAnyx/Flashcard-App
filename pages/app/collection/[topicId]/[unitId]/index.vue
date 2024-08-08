@@ -20,7 +20,7 @@
                         color="primary"
                         variant="subtle"
                     >
-                        {{ flashcardStore.total }} flashcard{{ flashcardStore.total > 1 ? 's' : '' }}
+                        {{ totalFlashcardByUnit }} flashcard{{ totalFlashcardByUnit > 1 ? 's' : '' }}
                     </UBadge>
                 </div>
                 <UButton
@@ -124,6 +124,7 @@ const sort = ref({
     direction: "asc" as const
 });
 const itemsPerPage = authStore.getSetting<number>("items_per_page");
+const totalFlashcardByUnit = ref(0);
 
 // Table data
 const columns = [{
@@ -156,6 +157,7 @@ const loadTable = async () =>
         });
 
         flashcardStore.flashcards = response.data;
+        totalFlashcardByUnit.value = response["@pagination"]!.total;
     }
     finally
     {

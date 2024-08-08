@@ -67,7 +67,7 @@ export class UnitRepository extends AbstractRepository
 
     async resetUnit(id: number)
     {
-        return this.fetch<JsonStandard<null>>(`/units/${id}/flashcards/reset`, {
+        return this.fetch<JsonStandard<null>>(`/units/${id}/reset`, {
             method: "PATCH"
         });
     };

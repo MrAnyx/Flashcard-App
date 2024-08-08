@@ -37,7 +37,7 @@ export const useAuthStore = defineStore("auth", {
         }
     },
     getters: {
-        token: (state) =>
+        token(state)
         {
             return state.user?.token || null;
         },
@@ -53,9 +53,9 @@ export const useAuthStore = defineStore("auth", {
         {
             return this.token !== null;
         },
-        isPremium()
+        isPremium(state)
         {
-            return true;
+            return state.user?.premium || false;
         }
     }
 });

@@ -68,7 +68,14 @@ export class FlashcardRepository extends AbstractRepository
     async resetFlashcard(id: number)
     {
         return this.fetch<JsonStandard<null>>(`/flashcards/${id}/reset`, {
-            method: "PATCH"
+            method: "POST"
+        });
+    };
+
+    async resetAllFlashcards()
+    {
+        return this.fetch<JsonStandard<null>>(`/flashcards/reset`, {
+            method: "POST"
         });
     };
 

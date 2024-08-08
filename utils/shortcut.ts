@@ -80,18 +80,6 @@ export const AppShortcutSections: ShortcutSection[] = [
     }, {
         section: "Common",
         shortcuts: {
-            shift_t: {
-                shortcut: ["Shift", "T"],
-                global: true,
-                usingInput: false,
-                name: "Switch theme",
-                description: "Switch to dark/light theme",
-                action: () =>
-                {
-                    const currentTheme = useColorMode().value;
-                    useColorMode().preference = currentTheme === "light" ? "dark" : "light";
-                }
-            },
             ctrl_k: {
                 shortcut: ["Ctrl", "K"],
                 global: true,

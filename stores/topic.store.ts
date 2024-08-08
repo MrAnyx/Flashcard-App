@@ -8,6 +8,9 @@ type State = {
 };
 
 export const useTopicStore = defineStore("topic", {
+    persist: {
+        paths: ["selectedTopic"]
+    },
     state: (): State => ({
         recents: [],
         topics: [],

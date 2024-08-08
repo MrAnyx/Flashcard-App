@@ -20,7 +20,7 @@
                         color="primary"
                         variant="subtle"
                     >
-                        {{ unitStore.total }} unit{{ unitStore.total > 1 ? 's' : '' }}
+                        {{ totalUnitsByTopic }} unit{{ totalUnitsByTopic > 1 ? 's' : '' }}
                     </UBadge>
                 </div>
                 <UButton
@@ -122,6 +122,7 @@ const sort = ref({
     column: "name",
     direction: "asc" as const
 });
+const totalUnitsByTopic = ref(0);
 const itemsPerPage = authStore.getSetting<number>("items_per_page");
 
 // Table data
@@ -160,6 +161,7 @@ const loadTable = async () =>
         });
 
         unitStore.units = repsonse.data;
+        totalUnitsByTopic.value = repsonse["@pagination"]!.total;
     }
     finally
     {

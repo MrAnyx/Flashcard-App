@@ -44,6 +44,7 @@
                 label="Save"
                 icon="i-tabler-device-floppy"
                 type="submit"
+                variant="soft"
             />
         </UForm>
         <UDivider />
@@ -90,6 +91,7 @@
                 label="Save"
                 icon="i-tabler-device-floppy"
                 type="submit"
+                variant="soft"
             />
         </UForm>
         <UDivider />
@@ -106,7 +108,7 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import type { AlertAction, Form } from "#ui/types";
+import type { AlertAction } from "#ui/types";
 import { ModalDeleteAccount } from "#components";
 
 definePageMeta({

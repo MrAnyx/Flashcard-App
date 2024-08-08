@@ -56,7 +56,7 @@ export class TopicRepository extends AbstractRepository
 
     async resetTopic(id: number)
     {
-        return this.fetch<JsonStandard<null>>(`/topics/${id}/flashcards/reset`, {
+        return this.fetch<JsonStandard<null>>(`/topics/${id}/reset`, {
             method: "PATCH"
         });
     };
