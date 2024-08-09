@@ -6,7 +6,7 @@
                     <span class="font-medium">Keyboard shortcuts</span>
                     <UButton
                         icon="i-tabler-x"
-                        color="white"
+                        color="gray"
                         variant="ghost"
                         @click="modal.close()"
                     />

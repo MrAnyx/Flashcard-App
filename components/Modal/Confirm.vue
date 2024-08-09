@@ -3,10 +3,17 @@
         <UCard>
             <template #header>
                 <div class="flex justify-between items-center">
-                    <span class="font-medium">{{ props.title ?? "Confirm" }}</span>
+                    <div class="flex gap-x-2 items-center">
+                        <UIcon
+                            v-if="props.icon"
+                            :class="`h-5 w-5`"
+                            :name="props.icon"
+                        />
+                        <span class="font-medium">{{ props.title ?? "Confirm" }}</span>
+                    </div>
                     <UButton
                         icon="i-tabler-x"
-                        color="white"
+                        color="gray"
                         variant="ghost"
                         @click="modal.close()"
                     />
@@ -44,6 +51,7 @@ const props = defineProps<{
     description?: string;
     confirmLabel?: string;
     cancelLabel?: string;
+    icon?: string;
 }>();
 
 const confirm = () =>

@@ -6,7 +6,7 @@
                     <span class="font-medium">Delete my account</span>
                     <UButton
                         icon="i-tabler-x"
-                        color="white"
+                        color="gray"
                         variant="ghost"
                         @click="modal.close()"
                     />

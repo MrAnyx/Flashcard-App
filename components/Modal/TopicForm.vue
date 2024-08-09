@@ -6,7 +6,7 @@
                     <span class="font-medium">{{ props.topic ? "Edit" : "Create" }} a topic</span>
                     <UButton
                         icon="i-tabler-x"
-                        color="black"
+                        color="gray"
                         variant="ghost"
                         @click="modal.close()"
                     />

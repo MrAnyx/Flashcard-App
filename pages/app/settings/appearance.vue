@@ -18,12 +18,12 @@
                     @change="updateTheme"
                 >
                     <template #label>
-                        <span :class="`w-3 h-3 rounded theme-${selectedColorTheme?.value}`" />
+                        <UIcon :name="selectedColorTheme.icon" />
                         <span class="truncate">{{ selectedColorTheme?.label }}</span>
                     </template>
 
                     <template #option="{ option: theme }">
-                        <span :class="`w-3 h-3 rounded theme-${theme?.value}`" />
+                        <UIcon :name="theme.icon" />
                         <span class="truncate">{{ theme.label }}</span>
                     </template>
                 </USelectMenu>
@@ -48,15 +48,18 @@ const repository = useRepository();
 const colorThemeOptions = [
     {
         value: "light",
-        label: "Light"
+        label: "Light",
+        icon: "i-tabler-sun"
     },
     {
         value: "dark",
-        label: "Dark"
+        label: "Dark",
+        icon: "i-tabler-moon"
     },
     {
         value: "system",
-        label: "System"
+        label: "System",
+        icon: "i-tabler-device-desktop"
     }
 ];
 const colorTheme = authStore.getSetting<string>("color_theme");
@@ -83,32 +86,3 @@ const updateTheme = async () =>
     }
 };
 </script>
-
-<style lang="scss" scoped>
-.theme-light {
-    background-color: #cbd5e1
-}
-.theme-dark {
-    background-color: #475569
-}
-.theme-system {
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-
-    &:after, &:before {
-        content: '';
-        position: absolute;
-        height: 100%;
-        width: 50%;
-    }
-    &:after {
-        background: #cbd5e1;
-        left: 0;
-    }
-    &:before {
-        background: #475569;
-        right: 0;
-    }
-}
-</style>

@@ -6,7 +6,7 @@
                     <span class="font-medium">{{ props.unit ? "Edit" : "Create" }} a unit</span>
                     <UButton
                         icon="i-tabler-x"
-                        color="white"
+                        color="gray"
                         variant="ghost"
                         @click="modal.close()"
                     />

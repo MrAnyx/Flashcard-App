@@ -16,11 +16,13 @@
         "@nuxt/ui": "^2.18.2",
         "@nuxtjs/color-mode": "^3.4.2",
         "@pinia/nuxt": "^0.5.2",
+        "apexcharts": "^3.52.0",
         "luxon": "^3.4.4",
         "nanoid": "^5.0.7",
         "nuxt": "^3.12.4",
         "vue": "^3.4.34",
         "vue-router": "^4.4.0",
+        "vue3-apexcharts": "^1.5.3",
         "zod": "^3.23.8"
     },
     "devDependencies": {

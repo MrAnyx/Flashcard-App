@@ -96,6 +96,7 @@ const eraseReviews = async () =>
 {
     modal.open(ModalConfirm, {
         description: "Are you sure ? This action can not be undone",
+        icon: "i-tabler-alert-triangle",
         async onConfirm()
         {
             try

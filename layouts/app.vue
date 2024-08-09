@@ -1,6 +1,6 @@
 <template>
     <main class="fixed inset-0 flex overflow-hidden">
-        <aside class="border-r border-gray-200 dark:border-gray-800 w-[350px] p-4 hidden lg:block">
+        <aside class="border-r border-gray-200 dark:border-gray-800 !min-w-[350px] p-4 hidden lg:block">
             <Sidebar />
         </aside>
         <USlideover
