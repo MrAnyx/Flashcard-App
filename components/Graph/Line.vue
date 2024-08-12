@@ -68,7 +68,7 @@ const options = computed(() => ({
             highlightDataSeries: true,
         },
         x: {
-            show: false
+            show: true
         },
         y: {
             formatter: (val: number) => val,
@@ -103,22 +103,30 @@ const series = computed(() => [{
 
 <style lang="scss">
 .apexcharts-tooltip.apexcharts-theme-dark {
-    background: rgb(var(--color-gray-800)) !important;
+    border: 1px solid rgb(var(--color-gray-800)) !important;
+    box-shadow: none !important;
+
+    .apexcharts-tooltip-title {
+        background: rgb(var(--color-gray-900)) !important;
+        margin-bottom: 0;
+    }
 
     .apexcharts-tooltip-series-group {
-        * {
-            background: rgb(var(--color-gray-800)) !important;
-        }
+        background: rgb(var(--color-gray-800)) !important;
     }
 }
 
 .apexcharts-tooltip.apexcharts-theme-light {
-    background: rgb(var(--color-gray-50)) !important;
+    border: 1px solid rgb(var(--color-gray-200)) !important;
+    box-shadow: none !important;
+
+    .apexcharts-tooltip-title {
+        background: rgb(var(--color-gray-100)) !important;
+        margin-bottom: 0;
+    }
 
     .apexcharts-tooltip-series-group {
-        * {
-            background: rgb(var(--color-gray-50)) !important;
-        }
+        background: rgb(var(--color-gray-50)) !important;
     }
 }
 </style>

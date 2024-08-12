@@ -4,9 +4,9 @@
             <template #header>
                 Practice
             </template>
-            <div class="p-5">
+            <div class="p-6">
                 <UCard class="w-full">
-                    <GraphTest />
+                    <GraphLine />
                 </UCard>
             </div>
         </NuxtLayout>
