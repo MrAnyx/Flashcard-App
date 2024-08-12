@@ -3,7 +3,7 @@ const theme = useColorMode();
 
 const options = computed(() => ({
     chart: {
-        foreColor: theme.value === "light" ? `rgb(${useCssVar("--color-gray-500").value.split(" ")})` : `rgb(${useCssVar("--color-gray-500").value.split(" ")})`,
+        foreColor: theme.value === "light" ? graphColor("gray", 500) : graphColor("gray", 500),
         animations: {
             enabled: false
         },
@@ -20,14 +20,14 @@ const options = computed(() => ({
             enabled: false
         },
         axisBorder: {
-            color: "#ff0000",
+            color: theme.value === "light" ? graphColor("gray", 400) : graphColor("gray", 700),
         },
         axisTicks: {
-            color: "#ff0000",
+            color: theme.value === "light" ? graphColor("gray", 400) : graphColor("gray", 700),
         },
     },
     grid: {
-        borderColor: "#ff0000",
+        borderColor: theme.value === "light" ? graphColor("gray", 300) : graphColor("gray", 700),
         xaxis: {
             lines: {
                 show: true
@@ -44,21 +44,29 @@ const options = computed(() => ({
         show: true,
         width: 3,
         dashArray: 0,
-        colors: ["#ff0000"]
+        colors: [theme.value === "light" ? graphColor("primary", 500) : graphColor("primary", 500)]
     },
     fill: {
-        colors: ["#ff0000"],
-        opacity: 0.1,
-        type: "solid",
+        colors: [theme.value === "light" ? graphColor("primary", 500) : graphColor("primary", 500)],
+        type: "gradient",
     },
     dataLabels: {
         enabled: false
     },
     markers: {
-        colors: "#ff0000"
+        colors: [theme.value === "light" ? graphColor("primary", 400) : graphColor("primary", 400)],
+        strokeWidth: 2,
+        hover: {
+            size: 5
+        }
     },
     tooltip: {
         enabled: true,
+        theme: theme.value,
+        followCursor: true,
+        onDatasetHover: {
+            highlightDataSeries: true,
+        },
         x: {
             show: false
         },
@@ -94,6 +102,23 @@ const series = computed(() => [{
 </template>
 
 <style lang="scss">
-.apexcharts-tooltip {
+.apexcharts-tooltip.apexcharts-theme-dark {
+    background: rgb(var(--color-gray-800)) !important;
+
+    .apexcharts-tooltip-series-group {
+        * {
+            background: rgb(var(--color-gray-800)) !important;
+        }
+    }
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+    background: rgb(var(--color-gray-50)) !important;
+
+    .apexcharts-tooltip-series-group {
+        * {
+            background: rgb(var(--color-gray-50)) !important;
+        }
+    }
 }
 </style>
