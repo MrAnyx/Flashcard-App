@@ -16,7 +16,7 @@
                     <template v-else>
                         <UCard
                             class="h-full"
-                            :ui="{ body: { padding: 'p-3 sm:p-4', base: 'h-full flex flex-col justify-center' } }"
+                            :ui="{ body: { padding: 'p-3 sm:p-4' } }"
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon
@@ -36,7 +36,7 @@
                         </UCard>
                         <UCard
                             class="h-full"
-                            :ui="{ body: { padding: 'p-3 sm:p-4', base: 'h-full flex flex-col justify-center' } }"
+                            :ui="{ body: { padding: 'p-3 sm:p-4' } }"
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon
@@ -56,7 +56,7 @@
                         </UCard>
                         <UCard
                             class="h-full"
-                            :ui="{ body: { padding: 'p-3 sm:p-4', base: 'h-full flex flex-col justify-center' } }"
+                            :ui="{ body: { padding: 'p-3 sm:p-4' } }"
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon
@@ -75,7 +75,7 @@
                             </div>
                         </UCard><UCard
                             class="h-full"
-                            :ui="{ body: { padding: 'p-3 sm:p-4', base: 'h-full flex flex-col justify-center' } }"
+                            :ui="{ body: { padding: 'p-3 sm:p-4' } }"
                         >
                             <div class="flex items-center space-x-4">
                                 <UIcon

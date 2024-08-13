@@ -1,6 +1,6 @@
 export default (num: number) =>
 {
-    const locale = Intl.DateTimeFormat().resolvedOptions().locale;
+    const locale = browserLocale();
     const formatter = Intl.NumberFormat(locale, {
         maximumFractionDigits: 2,
         notation: "compact"
