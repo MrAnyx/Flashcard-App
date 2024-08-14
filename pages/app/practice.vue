@@ -4,18 +4,30 @@
             <template #header>
                 Practice
             </template>
-            <div class="bg-gray-100 border-b border-gray-300 p-6">
-                <h2 class="text-2xl text-gray-700">
-                    Welcome back MrAnyx
-                </h2>
-                <p class="text-gray-500">
-                    {{ DateTime.now().setLocale('fr').toFormat(' DDDD') }}
-                </p>
-            </div>
 
             <section class="p-6 flex flex-col gap-y-4">
                 <UCard>
-                    toto
+                    <div class="flex flex-col gap-y-3">
+                        <h2 class="text-2xl text-gray-700 dark:text-gray-300">
+                            Welcome back MrAnyx
+                        </h2>
+                        <p class="text-gray-500 dark:text-gray-400">
+                            {{ DateTime.now().setLocale('fr').toFormat(' DDDD') }}
+                        </p>
+
+                        <div class="flex gap-x-3">
+                            <UButton
+                                label="Start a session"
+                                variant="soft"
+                            />
+                            <UButton
+                                label="Manage settings"
+                                variant="ghost"
+                                color="gray"
+                                :to="{ name: 'settings-general' }"
+                            />
+                        </div>
+                    </div>
                 </UCard>
                 <!-- <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                     <template v-if="provider.loading">
