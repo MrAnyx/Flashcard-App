@@ -54,9 +54,9 @@ const initialize = async () =>
         reviewStore.total = totalReviews.data;
 
         // Theme
-        colorMode.preference = authStore.getSetting("color_theme");
-        appConfig.ui.primary = authStore.getSetting("primary_color");
-        appConfig.ui.gray = authStore.getSetting("gray_color");
+        colorMode.preference = authStore.getSetting<string>("color_theme");
+        appConfig.ui.primary = authStore.getSetting<string>("primary_color");
+        appConfig.ui.gray = authStore.getSetting<string>("gray_color");
 
         applicationStore.initialized = true;
         return navigateTo(route.query.forward as string ?? router.resolve("landing").href);

@@ -19,8 +19,7 @@ export const useAuthStore = defineStore("auth", {
         },
         login(user: User)
         {
-            const token = useToken();
-            token.value = user.token;
+            useToken().value = user.token;
 
             this.user = user;
         },
