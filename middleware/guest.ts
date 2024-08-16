@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware(() =>
         });
 
         return navigateTo({
-            name: "dashboard"
+            name: "overview"
         });
     }
 });

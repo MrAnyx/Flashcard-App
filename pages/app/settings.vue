@@ -29,7 +29,7 @@ useHead({
 
 definePageMeta({
     name: "settings",
-    middleware: ["initialize"]
+    middleware: ["auth", "initialize"]
 });
 
 const links: HorizontalNavigationLink[] = [{

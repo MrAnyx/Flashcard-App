@@ -6,41 +6,11 @@
             </template>
 
             <section class="p-6 flex flex-col gap-y-4">
-                <UCard>
-                    <div class="flex flex-col gap-y-3">
-                        <h2 class="text-2xl text-gray-700 dark:text-gray-300">
-                            Welcome back MrAnyx
-                        </h2>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm">
-                            {{ DateTime.now().setLocale('fr').toFormat(' DDDD') }}
-                        </p>
-                        <p class="text-gray-500 dark:text-gray-400">
-                            Boost your skills with your flashcards! Review in a flash and master your knowledge in no time. Each practice session brings you one step closer to your goals. So, are you ready to take on the challenge?
-                        </p>
-
-                        <div class="flex gap-x-3">
-                            <UButton
-                                label="Start a session"
-                                variant="soft"
-                            />
-                            <UButton
-                                label="Manage settings"
-                                variant="ghost"
-                                color="gray"
-                                :to="{ name: 'settings-general' }"
-                            />
-                        </div>
-                    </div>
-                </UCard>
-
-                <UDivider />
-
                 <USelectMenu
                     v-model="selectedPeriod"
                     :options="periods"
                     class="w-32"
                 />
-
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                     <UCard
                         class="h-full"
@@ -148,23 +118,31 @@
                     </UCard>
                 </div>
 
-                <UCard
-                    class="w-full"
-                    :ui="{ header: { padding: 'p-3' } }"
-                >
-                    <template #header>
-                        Number of reviews
-                    </template>
-                    <GraphLine />
-                </UCard>
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                    <UCard
+                        class="w-full"
+                        :ui="{ header: { padding: 'p-3' } }"
+                    >
+                        <template #header>
+                            Number of reviews
+                        </template>
+                        <GraphLine />
+                    </UCard>
+                    <UCard
+                        class="w-full"
+                        :ui="{ header: { padding: 'p-3' } }"
+                    >
+                        <template #header>
+                            Last sessions
+                        </template>
+                    </UCard>
+                </div>
             </section>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { DateTime } from "luxon";
-
 definePageMeta({
     name: "practice",
     middleware: ["initialize"]
@@ -173,6 +151,8 @@ definePageMeta({
 useHead({
     title: "Practice"
 });
+
+console.log(useAppConfig().ui.colors.join(", "));
 
 const periods = ["Today", "Last 7 days", "Last 30 days"];
 const selectedPeriod = ref(periods[0]);

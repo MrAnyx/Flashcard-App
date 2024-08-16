@@ -2,9 +2,35 @@
     <div>
         <NuxtLayout name="app">
             <template #header>
-                Personal dashboard
+                Overview
             </template>
             <section class="p-6 flex flex-col gap-y-4">
+                <UCard>
+                    <div class="flex flex-col gap-y-3">
+                        <h2 class="text-2xl text-gray-700 dark:text-gray-300">
+                            Welcome back MrAnyx
+                        </h2>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm capitalize">
+                            {{ DateTime.now().setLocale('fr').toFormat('DDDD') }}
+                        </p>
+                        <p class="text-gray-500 dark:text-gray-400">
+                            Boost your skills with your flashcards! Each practice session brings you one step closer to your goals. So, are you ready to take on the challenge?
+                        </p>
+
+                        <div class="flex gap-x-3">
+                            <UButton
+                                label="Start a session"
+                                variant="soft"
+                            />
+                            <UButton
+                                label="Manage settings"
+                                variant="ghost"
+                                color="gray"
+                                :to="{ name: 'settings-general' }"
+                            />
+                        </div>
+                    </div>
+                </UCard>
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                     <template v-if="provider.loading">
                         <USkeleton
@@ -128,13 +154,15 @@
 </template>
 
 <script setup lang="ts">
+import { DateTime } from "luxon";
+
 definePageMeta({
-    name: "dashboard",
-    middleware: ["initialize"]
+    name: "overview",
+    middleware: ["auth", "initialize"]
 });
 
 useHead({
-    title: "Dashboard"
+    title: "Overview"
 });
 
 const repository = useRepository();

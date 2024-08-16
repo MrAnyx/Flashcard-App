@@ -131,7 +131,7 @@ const onSubmit = async () =>
         }
         else
         {
-            await navigateTo({ name: "dashboard" });
+            await navigateTo({ name: "overview" });
         }
     }
     finally

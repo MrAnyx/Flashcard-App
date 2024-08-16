@@ -145,7 +145,7 @@ const onSubmit = async () =>
         });
 
         authStore.login(data.data);
-        navigateTo({ name: "dashboard" });
+        navigateTo({ name: "overview" });
     }
     finally
     {

@@ -17,7 +17,7 @@ export default defineNuxtRouteMiddleware(() =>
             description: "You can now access this page"
         });
         return navigateTo({
-            name: "dashboard"
+            name: "overview"
         });
     }
 });

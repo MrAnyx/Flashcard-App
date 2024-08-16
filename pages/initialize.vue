@@ -22,6 +22,8 @@ const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
 const reviewStore = useReviewStore();
+const colorMode = useColorMode();
+const appConfig = useAppConfig();
 
 onMounted(async () =>
 {
@@ -41,13 +43,20 @@ const initialize = async () =>
             repository.review.countReviews(false),
         ]);
 
+        // Authentication
         authStore.login(user.data);
+
+        // Data
         topicStore.total = totalTopic.data;
         unitStore.total = totalUnits.data;
         flashcardStore.total = totalFlashcards.data;
         flashcardStore.totalToReview = totalFlashcardsToReview.data;
         reviewStore.total = totalReviews.data;
-        useColorMode().preference = authStore.getSetting("color_theme");
+
+        // Theme
+        colorMode.preference = authStore.getSetting("color_theme");
+        appConfig.ui.primary = authStore.getSetting("primary_color");
+        appConfig.ui.gray = authStore.getSetting("gray_color");
 
         applicationStore.initialized = true;
         return navigateTo(route.query.forward as string ?? router.resolve("landing").href);

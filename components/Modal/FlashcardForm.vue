@@ -85,6 +85,7 @@
                 </div>
 
                 <UCheckbox
+                    v-if="!props.flashcard"
                     v-model="formProvider.keepCreating"
                     label="Keep creating flashcards ?"
                 />

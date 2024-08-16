@@ -126,7 +126,7 @@ const onSubmit = async () =>
         useStandardToast("success", {
             description: "Your password has beed reset successfully"
         });
-        navigateTo({ name: "dashboard" });
+        navigateTo({ name: "overview" });
     }
     finally
     {

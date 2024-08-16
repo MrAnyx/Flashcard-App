@@ -13,7 +13,7 @@
                 <Sidebar @close="isSidebarOpen = !isSidebarOpen" />
             </aside>
         </USlideover>
-        <section class="flex-1 flex flex-col w-full">
+        <section class="flex-1 flex flex-col w-full h-full">
             <header class="h-16 shrink-0 flex items-center border-b border-gray-200 dark:border-gray-800 px-6">
                 <UButton
                     color="gray"
@@ -29,7 +29,7 @@
                     <slot name="header" />
                 </h1>
             </header>
-            <div class="overflow-y-auto">
+            <div class="overflow-y-auto h-full">
                 <slot />
             </div>
         </section>

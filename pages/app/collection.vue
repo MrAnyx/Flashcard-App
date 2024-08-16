@@ -10,7 +10,7 @@
 <script setup lang="ts">
 definePageMeta({
     name: "collection",
-    middleware: ["initialize"]
+    middleware: ["auth", "initialize"]
 });
 
 useHead({

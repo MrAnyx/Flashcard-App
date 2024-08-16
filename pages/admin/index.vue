@@ -7,7 +7,7 @@
 
             <UHorizontalNavigation
                 :links="links"
-                class="border-b border-gray-800"
+                class="border-b dark:border-gray-800"
                 :ui="{ inner: 'shrink-0', container: 'px-3 overflow-auto' }"
             />
             <section class="p-6">
@@ -29,6 +29,7 @@ useHead({
 
 definePageMeta({
     name: "admin-dashboard",
+    middleware: ["admin", "initialize"]
 });
 
 const links: HorizontalNavigationLink[] = [{

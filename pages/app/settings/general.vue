@@ -17,6 +17,7 @@
                     :options="itemsPerPageObject"
                     value-attribute="value"
                     option-attribute="label"
+                    size="md"
                     @change="updatePagination"
                 />
             </div>

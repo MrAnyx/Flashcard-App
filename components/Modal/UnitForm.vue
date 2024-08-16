@@ -60,6 +60,7 @@
                 </div>
 
                 <UCheckbox
+                    v-if="!props.unit"
                     v-model="formProvider.keepCreating"
                     label="Keep creating units ?"
                 />

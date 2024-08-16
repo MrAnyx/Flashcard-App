@@ -44,6 +44,9 @@ export const useValidationRule = () =>
             .min(1, "The name can not be blank")
             .max(35, "The name is too long"),
 
+        color: z.string()
+            .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, "Invalid color"),
+
         description: z.string()
             .max(300, "The description is too long")
     };
