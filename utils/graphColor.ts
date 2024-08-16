@@ -1,4 +1,4 @@
-export default (color: string, brightness: number) =>
+export default (color: string, brightness: number): string =>
 {
     const formattedColor = `--color-${color}-${brightness}`;
 

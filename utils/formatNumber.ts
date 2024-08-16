@@ -1,4 +1,4 @@
-export default (num: number) =>
+export default (num: number): string =>
 {
     const locale = browserLocale();
     const formatter = Intl.NumberFormat(locale, {

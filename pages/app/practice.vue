@@ -121,7 +121,6 @@
                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
                     <UCard
                         class="w-full"
-                        :ui="{ header: { padding: 'p-3' } }"
                     >
                         <template #header>
                             Number of reviews
@@ -130,7 +129,6 @@
                     </UCard>
                     <UCard
                         class="w-full"
-                        :ui="{ header: { padding: 'p-3' } }"
                     >
                         <template #header>
                             Last sessions
@@ -151,8 +149,6 @@ definePageMeta({
 useHead({
     title: "Practice"
 });
-
-console.log(useAppConfig().ui.colors.join(", "));
 
 const periods = ["Today", "Last 7 days", "Last 30 days"];
 const selectedPeriod = ref(periods[0]);

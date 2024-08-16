@@ -67,4 +67,11 @@ export class TopicRepository extends AbstractRepository
             method: "GET"
         });
     }
+
+    async recentTopics()
+    {
+        return this.fetch<JsonStandard<Topic[]>>(`/topics/recent`, {
+            method: "GET"
+        });
+    }
 }

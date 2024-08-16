@@ -4,19 +4,14 @@
             :links="breadcrumbItems"
             class="px-6 py-4 border-b border-gray-200 dark:border-gray-800"
         />
-        <!-- <RecentItems
-            v-if="unitStore.recents.length >= 4"
-            title="Recent units"
-            :items="unitStore.recents"
-        /> -->
-
-        <div class="py-6 flex-1">
+        <div class="py-6">
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
                     <h4 class="font-medium text-lg">
                         Units
                     </h4>
                     <UBadge
+                        v-if="!loading"
                         color="primary"
                         variant="subtle"
                     >
@@ -76,10 +71,10 @@
             </UTable>
             <div class="mt-4 flex justify-center">
                 <UPagination
-                    v-if="(unitStore.total / itemsPerPage) > 1"
+                    v-if="(totalUnitsByTopic / itemsPerPage) > 1"
                     v-model="page"
                     :page-count="itemsPerPage"
-                    :total="unitStore.total"
+                    :total="totalUnitsByTopic"
                     @update:model-value="loadTable"
                 />
             </div>

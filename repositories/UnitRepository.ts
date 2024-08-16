@@ -78,4 +78,11 @@ export class UnitRepository extends AbstractRepository
             method: "GET"
         });
     };
+
+    async recentUnits()
+    {
+        return this.fetch<JsonStandard<Unit[]>>(`/units/recent`, {
+            method: "GET"
+        });
+    };
 }

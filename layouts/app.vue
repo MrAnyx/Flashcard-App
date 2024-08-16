@@ -29,16 +29,14 @@
                     <slot name="header" />
                 </h1>
             </header>
-            <div class="overflow-y-auto h-full">
+            <main class="overflow-y-auto h-full">
                 <slot />
-            </div>
+            </main>
         </section>
     </main>
 </template>
 
 <script setup lang="ts">
-import Sidebar from "@/components/Sidebar.vue";
-
 const isSidebarOpen = ref(false);
 
 let shortcuts = {};

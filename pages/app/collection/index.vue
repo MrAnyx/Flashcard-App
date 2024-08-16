@@ -1,21 +1,17 @@
 <template>
     <div>
-        <!-- <RecentItems
-            v-if="topicStore.recents.length >= 4"
-            title="Recent topics"
-            :items="topicStore.recents"
-        /> -->
-        <div class="py-6 flex-1">
+        <div class="py-6">
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">
                     <h4 class="font-medium text-lg">
                         Topics
                     </h4>
                     <UBadge
+                        v-if="!loading"
                         color="primary"
                         variant="subtle"
                     >
-                        {{ topicStore.total }} topic{{ topicStore.total > 1 ? 's' : '' }}
+                        {{ total }} topic{{ total > 1 ? 's' : '' }}
                     </UBadge>
                 </div>
                 <UButton
@@ -69,13 +65,13 @@
                 </template>
             </UTable>
             <div
-                v-if="(topicStore.total / itemsPerPage) > 1"
+                v-if="(total / itemsPerPage) > 1"
                 class="mt-4 flex justify-center"
             >
                 <UPagination
                     v-model="page"
                     :page-count="itemsPerPage"
-                    :total="topicStore.total"
+                    :total="total"
                     @update:model-value="loadTable"
                 />
             </div>
@@ -116,6 +112,7 @@ const sort = ref({
     column: "name",
     direction: "asc" as const
 });
+const total = ref<number>(0);
 const itemsPerPage = authStore.getSetting<number>("items_per_page");
 
 // Table data
@@ -152,6 +149,8 @@ const loadTable = async () =>
             page: page.value,
             itemsPerPage
         });
+
+        total.value = response["@pagination"]!.total;
 
         topicStore.topics = response.data;
     }
