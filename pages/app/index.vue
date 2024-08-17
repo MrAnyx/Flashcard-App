@@ -169,7 +169,7 @@
                                 <span
                                     class="text-xl dark:text-gray-300 text-gray-700 truncate"
                                 >
-                                    {{ formatNumber(correctFlashcards) }}
+                                    {{ formatNumber(correctFlashcards / flashcardStore.total) }}%
                                 </span>
                             </div>
                         </div>
