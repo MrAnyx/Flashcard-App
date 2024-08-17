@@ -92,4 +92,18 @@ export class FlashcardRepository extends AbstractRepository
             method: "GET"
         });
     };
+
+    async countCorrectFlashcards()
+    {
+        return this.fetch<JsonStandard<number>>(`/flashcards/correct/count`, {
+            method: "GET"
+        });
+    };
+
+    async getAverageGrade()
+    {
+        return this.fetch<JsonStandard<number>>(`/flashcards/averageGrade`, {
+            method: "GET"
+        });
+    };
 }
