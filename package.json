@@ -5,7 +5,8 @@
     "version": "0.0.1-alpha",
     "scripts": {
         "build": "nuxt build",
-        "dev": "nuxt dev --no-fork -o",
+        "dev": "nuxt dev --no-fork -o --https",
+        "dev:tunnel": "nuxt dev --no-fork --tunnel",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
