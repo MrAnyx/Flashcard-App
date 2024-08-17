@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { ModalUnitForm } from "#components";
+import { ModalConfirm, ModalUnitForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
 import type { Unit } from "~/types/entity";
 
@@ -189,21 +189,41 @@ const duplicateRow = async (row: Unit) =>
 
 const deleteRow = async (row: Unit) =>
 {
-    await repository.unit.deleteUnit(row.id);
+    modal.open(ModalConfirm, {
+        title: "Delete",
+        description: `You are about to delete the unit ${row.name}. This action can not be undone`,
+        icon: "i-tabler-trash",
+        confirmLabel: "Delete",
+        color: "red",
+        async onConfirm()
+        {
+            await repository.unit.deleteUnit(row.id);
 
-    unitStore.delete(row);
+            unitStore.delete(row);
 
-    useStandardToast("success", {
-        description: `The unit ${row.name} has been deleted`
+            useStandardToast("success", {
+                description: `The unit ${row.name} has been deleted`
+            });
+        }
     });
 };
 
 const resetRow = async (row: Unit) =>
 {
-    await repository.unit.resetUnit(row.id);
+    modal.open(ModalConfirm, {
+        title: "Reset",
+        description: `You are about to reset the unit ${row.name}. This action can not be undone`,
+        icon: "i-tabler-sparkles",
+        confirmLabel: "Reset",
+        color: "red",
+        async onConfirm()
+        {
+            await repository.unit.resetUnit(row.id);
 
-    useStandardToast("success", {
-        description: `The unit ${row.name} has been reset`
+            useStandardToast("success", {
+                description: `The unit ${row.name} has been reset`
+            });
+        }
     });
 };
 
@@ -220,26 +240,39 @@ const selectRow = (row: Unit) =>
 };
 
 const rowOptions = (row: Unit): DropdownItem[][] => [
-    [{
-        label: "Edit",
-        icon: "i-tabler-edit",
-        click: () => showCreateUpdateModal(row)
-    }, {
-        label: "Duplicate",
-        icon: "i-tabler-copy",
-        click: () => duplicateRow(row)
-    }], [{
-        label: "Reset",
-        icon: "i-tabler-sparkles",
-        click: () => resetRow(row)
-    }, {
-        label: "Delete",
-        class: "bg-red-500/15",
-        labelClass: "text-red-500",
-        iconClass: "bg-red-500",
-        icon: "i-tabler-trash",
-        click: () => deleteRow(row)
-    }]
+    [
+        {
+            label: "Start a session",
+            icon: "i-tabler-device-gamepad-2",
+            class: "bg-primary-300/15 hover:!bg-gray-100 dark:hover:!bg-gray-900",
+            labelClass: "text-primary-500",
+            iconClass: "bg-primary-500",
+        }
+    ],
+    [
+        {
+            label: "Edit",
+            icon: "i-tabler-edit",
+            click: () => showCreateUpdateModal(row)
+        }, {
+            label: "Duplicate",
+            icon: "i-tabler-copy",
+            click: () => duplicateRow(row)
+        }
+    ], [
+        {
+            label: "Reset",
+            icon: "i-tabler-sparkles",
+            click: () => resetRow(row)
+        }, {
+            label: "Delete",
+            class: "bg-red-500/15 hover:!bg-gray-100 dark:hover:!bg-gray-900",
+            labelClass: "text-red-500",
+            iconClass: "bg-red-500",
+            icon: "i-tabler-trash",
+            click: () => deleteRow(row)
+        }
+    ]
 ];
 
 // Modal

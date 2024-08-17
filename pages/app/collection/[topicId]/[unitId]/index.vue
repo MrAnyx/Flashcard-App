@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { ModalFlashcardForm } from "#components";
+import { ModalConfirm, ModalFlashcardForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
 import type { Flashcard } from "~/types/entity";
 
@@ -186,21 +186,41 @@ const duplicateRow = async (row: Flashcard) =>
 
 const deleteRow = async (row: Flashcard) =>
 {
-    await repository.flashcard.deleteFlashcard(row.id);
+    modal.open(ModalConfirm, {
+        title: "Delete",
+        description: `You are about to delete the flashcard ${row.front}. This action can not be undone`,
+        icon: "i-tabler-trash",
+        confirmLabel: "Delete",
+        color: "red",
+        async onConfirm()
+        {
+            await repository.flashcard.deleteFlashcard(row.id);
 
-    flashcardStore.delete(row);
+            flashcardStore.delete(row);
 
-    useStandardToast("success", {
-        description: `The flashcard ${row.front} has been deleted`
+            useStandardToast("success", {
+                description: `The flashcard ${row.front} has been deleted`
+            });
+        }
     });
 };
 
 const resetRow = async (row: Flashcard) =>
 {
-    await repository.flashcard.resetFlashcard(row.id);
+    modal.open(ModalConfirm, {
+        title: "Reset",
+        description: `You are about to reset the flashcard ${row.front}. This action can not be undone`,
+        icon: "i-tabler-sparkles",
+        confirmLabel: "Reset",
+        color: "red",
+        async onConfirm()
+        {
+            await repository.flashcard.resetFlashcard(row.id);
 
-    useStandardToast("success", {
-        description: `The flashcard ${row.front} has been reset`
+            useStandardToast("success", {
+                description: `The flashcard ${row.front} has been reset`
+            });
+        }
     });
 };
 

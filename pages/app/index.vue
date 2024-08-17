@@ -149,7 +149,7 @@
                                 <span
                                     class="text-xl dark:text-gray-300 text-gray-700 truncate"
                                 >
-                                    {{ formatNumber(12235) }}
+                                    {{ formatNumber(totalSessions) }}
                                 </span>
                             </div>
                         </div>
@@ -189,7 +189,7 @@
                                     Average answer
                                     <UTooltip
                                         :ui="{ width: 'max-w-md' }"
-                                        text="The average grade is between 1 and 4. 4 being better than 1."
+                                        text="The average grade is normalized between 0 and 10. 10 being better than 0."
                                     >
                                         <UIcon
                                             name="i-tabler-info-circle"
@@ -199,7 +199,7 @@
                                 <span
                                     class="text-xl dark:text-gray-300 text-gray-700 truncate"
                                 >
-                                    {{ formatNumber(averageGrade) }}
+                                    {{ averageGrade !== 0 ? formatNumber(normalizeValue(averageGrade, { min: 1, max: 4 }, { min: 0, max: 10 })) : 0 }}
                                 </span>
                             </div>
                         </div>
@@ -289,6 +289,7 @@ const recentTopics = ref<Topic[]>([]);
 const recentUnits = ref<Unit[]>([]);
 const correctFlashcards = ref<number>(0);
 const averageGrade = ref<number>(0);
+const totalSessions = ref<number>(0);
 const easiestFlashcards = ref<Flashcard[]>([]);
 const hardestFlashcards = ref<Flashcard[]>([]);
 
@@ -344,6 +345,7 @@ const loadDashboard = async () =>
         });
         const totalCorrectFlashcardsRes = await repository.flashcard.countCorrectFlashcards();
         const averageGradeRes = await repository.flashcard.getAverageGrade();
+        const totalSessionsRes = await repository.session.countSessions();
 
         // Additional queries
 
@@ -355,6 +357,7 @@ const loadDashboard = async () =>
         hardestFlashcards.value = hardestFlashcardsRes.data!.filter(f => !!f.difficulty);
         correctFlashcards.value = totalCorrectFlashcardsRes.data!;
         averageGrade.value = averageGradeRes.data!;
+        totalSessions.value = totalSessionsRes.data!;
     }
     catch
     {

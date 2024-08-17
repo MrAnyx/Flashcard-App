@@ -25,14 +25,14 @@
                 </p>
                 <div class="flex gap-x-2 justify-end">
                     <UButton
-                        :label="confirmLabel ?? 'Cancel'"
+                        :label="cancelLabel ?? 'Cancel'"
                         variant="ghost"
                         color="gray"
                         @click="modal.close()"
                     />
                     <UButton
                         :label="confirmLabel ?? 'Confirm'"
-                        color="primary"
+                        :color="color ?? 'primary'"
                         @click="confirm"
                     />
                 </div>
@@ -42,6 +42,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { ButtonColor } from "#ui/types";
+
 const modal = useModal();
 
 const emit = defineEmits(["confirm"]);
@@ -52,6 +54,7 @@ const props = defineProps<{
     confirmLabel?: string;
     cancelLabel?: string;
     icon?: string;
+    color?: ButtonColor;
 }>();
 
 const confirm = () =>

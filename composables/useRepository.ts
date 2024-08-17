@@ -4,6 +4,7 @@ import { TopicRepository } from "~/repositories/TopicRepository";
 import { UnitRepository } from "~/repositories/UnitRepository";
 import { UserRepository } from "~/repositories/UserRepository";
 import { ReviewRepository } from "~/repositories/ReviewRepository";
+import { SessionRepository } from "~/repositories/SessionRepository";
 
 export const useRepository = () =>
 {
@@ -13,6 +14,7 @@ export const useRepository = () =>
         flashcard: new FlashcardRepository(),
         user: new UserRepository(),
         auth: new AuthRepository(),
-        review: new ReviewRepository()
+        review: new ReviewRepository(),
+        session: new SessionRepository()
     };
 };
