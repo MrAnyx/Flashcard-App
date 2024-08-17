@@ -10,8 +10,8 @@ export const AppShortcutSections: ShortcutSection[] = [
                 shortcut: ["G", "O"],
                 global: true,
                 usingInput: false,
-                name: "Go to personal dashboard",
-                description: "Naviguate to your personal dashboard",
+                name: "Go to overview",
+                description: "Naviguate to your overview",
                 action: () =>
                 {
                     useModal().close();
