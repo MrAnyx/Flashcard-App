@@ -1,51 +1,38 @@
 <template>
-    <UModal>
-        <UCard>
-            <template #header>
-                <div class="flex justify-between items-center">
-                    <span class="font-medium">Delete my account</span>
-                    <UButton
-                        icon="i-tabler-x"
-                        color="gray"
-                        variant="ghost"
-                        @click="modal.close()"
-                    />
-                </div>
-            </template>
-            <UForm
-                :schema="schema"
-                :state="state"
-                class="space-y-8"
-                :validate-on="['submit']"
-                @submit="onSubmit"
-            >
-                <div class="flex flex-col space-y-4">
-                    <p>Deleting your account will remove all the data from the system. This operation <b class="text-red-500">can not be undone</b>.</p>
-                    <p>Confirm your email to delete your account.</p>
+    <BaseModal title="Delete my account">
+        <UForm
+            :schema="schema"
+            :state="state"
+            class="space-y-8"
+            :validate-on="['submit']"
+            @submit="onSubmit"
+        >
+            <div class="flex flex-col space-y-4">
+                <p>Deleting your account will remove all the data from the system. This operation <b class="text-red-500">can not be undone</b>.</p>
+                <p>Confirm your email to delete your account.</p>
 
-                    <UFormGroup
-                        label="Email"
-                        name="email"
-                    >
-                        <UInput
-                            v-model="state.email"
-                            autofocus
-                            placeholder="Confirm your email"
-                        />
-                    </UFormGroup>
-                </div>
-
-                <UButton
-                    type="submit"
-                    block
-                    color="red"
-                    :loading="state.loading"
+                <UFormGroup
+                    label="Email"
+                    name="email"
                 >
-                    Confirm
-                </UButton>
-            </UForm>
-        </UCard>
-    </UModal>
+                    <UInput
+                        v-model="state.email"
+                        autofocus
+                        placeholder="Confirm your email"
+                    />
+                </UFormGroup>
+            </div>
+
+            <UButton
+                type="submit"
+                block
+                color="red"
+                :loading="state.loading"
+            >
+                Confirm
+            </UButton>
+        </UForm>
+    </BaseModal>
 </template>
 
 <script setup lang="ts">

@@ -141,6 +141,8 @@
 </template>
 
 <script setup lang="ts">
+import { formatNumber } from "#imports";
+
 definePageMeta({
     name: "practice",
     middleware: ["initialize"]

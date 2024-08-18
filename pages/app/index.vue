@@ -32,178 +32,62 @@
                     </div>
                 </UCard>
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                    <UCard
-                        class="h-full"
-                        :ui="{ body: { padding: 'p-3 sm:p-4' } }"
-                    >
-                        <div class="flex items-center space-x-4">
-                            <UIcon
-                                name="i-tabler-folder"
-                                class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
-                            />
-
-                            <div class="flex-1 flex flex-col min-w-0 text-left">
-                                <span class="truncate dark:text-gray-300 text-gray-500">Total topics</span>
-                                <span
-                                    class="text-xl dark:text-gray-300 text-gray-700 truncate"
-                                >
-                                    {{ formatNumber(topicStore.total) }}
-                                </span>
-                            </div>
-                        </div>
-                    </UCard>
-                    <UCard
-                        class="h-full"
-                        :ui="{ body: { padding: 'p-3 sm:p-4' } }"
-                    >
-                        <div class="flex items-center space-x-4">
-                            <UIcon
-                                name="i-tabler-color-swatch"
-                                class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
-                            />
-
-                            <div class="flex-1 flex flex-col min-w-0 text-left">
-                                <span class="truncate dark:text-gray-300 text-gray-500">Total units</span>
-                                <span
-                                    class="text-xl dark:text-gray-300 text-gray-700 truncate"
-                                >
-                                    {{ formatNumber(unitStore.total) }}
-                                </span>
-                            </div>
-                        </div>
-                    </UCard>
-                    <UCard
-                        class="h-full"
-                        :ui="{ body: { padding: 'p-3 sm:p-4' } }"
-                    >
-                        <div class="flex items-center space-x-4">
-                            <UIcon
-                                name="i-tabler-cards"
-                                class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
-                            />
-
-                            <div class="flex-1 flex flex-col min-w-0 text-left">
-                                <span class="truncate dark:text-gray-300 text-gray-500">Total flashcards</span>
-                                <span
-                                    class="text-xl dark:text-gray-300 text-gray-700 truncate"
-                                >
-                                    {{ formatNumber(flashcardStore.total) }}
-                                </span>
-                            </div>
-                        </div>
-                    </UCard>
-                    <UCard
-                        class="h-full"
-                        :ui="{ body: { padding: 'p-3 sm:p-4' } }"
-                    >
-                        <div class="flex items-center space-x-4">
-                            <UIcon
-                                name="i-tabler-calendar"
-                                class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
-                            />
-
-                            <div class="flex-1 flex flex-col min-w-0 text-left">
-                                <span class="truncate dark:text-gray-300 text-gray-500">Total reviews</span>
-                                <span
-                                    class="text-xl dark:text-gray-300 text-gray-700 truncate"
-                                >
-                                    {{ formatNumber(reviewStore.total) }}
-                                </span>
-                            </div>
-                        </div>
-                    </UCard>
+                    <BaseDataCard
+                        icon="i-tabler-folder"
+                        label="Total topics"
+                        :value="formatNumber(topicStore.total)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-color-swatch"
+                        label="Total units"
+                        :value="formatNumber(unitStore.total)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-cards"
+                        label="Total flashcards"
+                        :value="formatNumber(flashcardStore.total)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-calendar"
+                        label="Total reviews"
+                        :value="formatNumber(reviewStore.total)"
+                    />
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                    <UCard
-                        class="h-full"
-                        :ui="{ body: { padding: 'p-3 sm:p-4' } }"
+                    <BaseDataCard
+                        icon="i-tabler-calendar-repeat"
+                        label="Flashcards to review"
+                        :value="formatNumber(flashcardStore.totalToReview)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-versions"
+                        label="Total sessions"
+                        :value="formatNumber(totalSessions)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-circle-check"
+                        label="Correct flashcards"
+                        :value="formatNumber(correctFlashcards / (flashcardStore.total > 0 ? flashcardStore.total : 1))"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-stars"
+                        :value="averageGrade !== 0 ? formatNumber(normalizeValue(averageGrade, { min: 1, max: 4 }, { min: 0, max: 10 })) : 0"
                     >
-                        <div class="flex items-center space-x-4">
-                            <UIcon
-                                name="i-tabler-calendar-repeat"
-                                class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
-                            />
-
-                            <div class="flex-1 flex flex-col min-w-0 text-left">
-                                <span class="truncate dark:text-gray-300 text-gray-500">Flashcards to review</span>
-                                <span
-                                    class="text-xl dark:text-gray-300 text-gray-700 truncate"
+                        <template #label>
+                            <div class=" dark:text-gray-300 text-gray-500 inline-flex items-center gap-x-2">
+                                <span class="truncate">Average answer</span>
+                                <UTooltip
+                                    :ui="{ width: 'max-w-md' }"
+                                    text="The average grade is normalized between 0 and 10. 10 being better than 0."
                                 >
-                                    {{ formatNumber(flashcardStore.totalToReview) }}
-                                </span>
+                                    <UIcon
+                                        name="i-tabler-info-circle"
+                                        class="shrink-0"
+                                    />
+                                </UTooltip>
                             </div>
-                        </div>
-                    </UCard>
-                    <UCard
-                        class="h-full"
-                        :ui="{ body: { padding: 'p-3 sm:p-4' } }"
-                    >
-                        <div class="flex items-center space-x-4">
-                            <UIcon
-                                name="i-tabler-versions"
-                                class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
-                            />
-
-                            <div class="flex-1 flex flex-col min-w-0 text-left">
-                                <span class="truncate dark:text-gray-300 text-gray-500">Total sessions</span>
-                                <span
-                                    class="text-xl dark:text-gray-300 text-gray-700 truncate"
-                                >
-                                    {{ formatNumber(totalSessions) }}
-                                </span>
-                            </div>
-                        </div>
-                    </UCard>
-                    <UCard
-                        class="h-full"
-                        :ui="{ body: { padding: 'p-3 sm:p-4' } }"
-                    >
-                        <div class="flex items-center space-x-4">
-                            <UIcon
-                                name="i-tabler-circle-check"
-                                class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
-                            />
-
-                            <div class="flex-1 flex flex-col min-w-0 text-left">
-                                <span class="truncate dark:text-gray-300 text-gray-500">Correct flashcards</span>
-                                <span
-                                    class="text-xl dark:text-gray-300 text-gray-700 truncate"
-                                >
-                                    {{ formatNumber(correctFlashcards / flashcardStore.total) }}%
-                                </span>
-                            </div>
-                        </div>
-                    </UCard>
-                    <UCard
-                        class="h-full"
-                        :ui="{ body: { padding: 'p-3 sm:p-4' } }"
-                    >
-                        <div class="flex items-center space-x-4">
-                            <UIcon
-                                name="i-tabler-stars"
-                                class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
-                            />
-
-                            <div class="flex-1 flex flex-col min-w-0 text-left">
-                                <span class="truncate dark:text-gray-300 text-gray-500 inline-flex items-center gap-x-2">
-                                    Average answer
-                                    <UTooltip
-                                        :ui="{ width: 'max-w-md' }"
-                                        text="The average grade is normalized between 0 and 10. 10 being better than 0."
-                                    >
-                                        <UIcon
-                                            name="i-tabler-info-circle"
-                                        />
-                                    </UTooltip>
-                                </span>
-                                <span
-                                    class="text-xl dark:text-gray-300 text-gray-700 truncate"
-                                >
-                                    {{ averageGrade !== 0 ? formatNumber(normalizeValue(averageGrade, { min: 1, max: 4 }, { min: 0, max: 10 })) : 0 }}
-                                </span>
-                            </div>
-                        </div>
-                    </UCard>
+                        </template>
+                    </BaseDataCard>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <UCard
@@ -264,6 +148,7 @@
 
 <script setup lang="ts">
 import { DateTime } from "luxon";
+import { formatNumber, normalizeValue } from "#imports";
 import type { Flashcard, Topic, Unit } from "~/types/entity";
 
 definePageMeta({
@@ -329,25 +214,25 @@ const loadDashboard = async () =>
     {
         provider.loading = true;
 
-        const recentTopicsRes = await repository.topic.recentTopics();
-        const recentUnitsRes = await repository.unit.recentUnits();
-        const easyFlashcardsRes = await repository.flashcard.getFlashcards({
-            itemsPerPage: 5,
-            order: "asc",
-            page: 1,
-            sort: "difficulty"
-        });
-        const hardestFlashcardsRes = await repository.flashcard.getFlashcards({
-            itemsPerPage: 5,
-            order: "desc",
-            page: 1,
-            sort: "difficulty"
-        });
-        const totalCorrectFlashcardsRes = await repository.flashcard.countCorrectFlashcards();
-        const averageGradeRes = await repository.flashcard.getAverageGrade();
-        const totalSessionsRes = await repository.session.countSessions();
-
-        // Additional queries
+        const [recentTopicsRes, recentUnitsRes, easyFlashcardsRes, hardestFlashcardsRes, totalCorrectFlashcardsRes, averageGradeRes, totalSessionsRes] = await Promise.all([
+            repository.topic.recentTopics(),
+            repository.unit.recentUnits(),
+            repository.flashcard.getFlashcards({
+                itemsPerPage: 5,
+                order: "asc",
+                page: 1,
+                sort: "difficulty"
+            }),
+            repository.flashcard.getFlashcards({
+                itemsPerPage: 5,
+                order: "desc",
+                page: 1,
+                sort: "difficulty"
+            }),
+            repository.flashcard.countCorrectFlashcards(),
+            repository.flashcard.getAverageGrade(),
+            repository.session.countSessions()
+        ]);
 
         provider.loading = false;
 

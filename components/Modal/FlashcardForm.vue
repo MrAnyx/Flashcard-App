@@ -1,105 +1,92 @@
 <template>
-    <UModal>
-        <UCard>
-            <template #header>
-                <div class="flex justify-between items-center">
-                    <span class="font-medium">{{ props.flashcard ? "Edit" : "Create" }} a flashcard</span>
-                    <UButton
-                        icon="i-tabler-x"
-                        color="gray"
-                        variant="ghost"
-                        @click="modal.close()"
-                    />
-                </div>
-            </template>
-            <UForm
-                :schema="schema"
-                :state="formData"
-                class="space-y-8"
-                :validate-on="['submit']"
-                @submit="onSubmit"
-            >
-                <div class="flex flex-col space-y-4">
-                    <UFormGroup
-                        v-if="props.topic === undefined"
-                        name="topicId"
-                        label="Topic"
-                    >
-                        <USelectMenu
-                            v-model="formData.topicId"
-                            :options="formProvider.topics"
-                            placeholder="Select a topic"
-                            option-attribute="name"
-                            value-attribute="id"
-                            size="md"
-                            :loading="formProvider.loadingTopics"
-                            @change="loadUnits"
-                        />
-                    </UFormGroup>
-                    <UFormGroup
-                        v-if="props.unit === undefined"
-                        name="unitId"
-                        label="Unit"
-                    >
-                        <USelectMenu
-                            v-model="formData.unitId"
-                            :options="formProvider.units"
-                            placeholder="Select a unit"
-                            option-attribute="name"
-                            size="md"
-                            :disabled="formData.topicId === undefined"
-                            :loading="formProvider.loadingUnits"
-                        />
-                    </UFormGroup>
-                    <UFormGroup
-                        label="Front side"
-                        name="front"
-                    >
-                        <UInput
-                            v-model="formData.front"
-                            autofocus
-                            placeholder="Front side of the card"
-                        />
-                    </UFormGroup>
-
-                    <UFormGroup
-                        label="Back side"
-                        name="back"
-                    >
-                        <UInput
-                            v-model="formData.back"
-                            placeholder="Back side of the card"
-                        />
-                    </UFormGroup>
-
-                    <UFormGroup
-                        label="Details"
-                        name="details"
-                    >
-                        <UTextarea
-                            v-model="formData.details"
-                            :rows="7"
-                            placeholder="Some details and explanations..."
-                        />
-                    </UFormGroup>
-                </div>
-
-                <UCheckbox
-                    v-if="!props.flashcard"
-                    v-model="formProvider.keepCreating"
-                    label="Keep creating flashcards ?"
-                />
-
-                <UButton
-                    type="submit"
-                    block
-                    :loading="formProvider.loadingForm"
+    <BaseModal title="Create a  flashcard">
+        <UForm
+            :schema="schema"
+            :state="formData"
+            class="space-y-8"
+            :validate-on="['submit']"
+            @submit="onSubmit"
+        >
+            <div class="flex flex-col space-y-4">
+                <UFormGroup
+                    v-if="props.topic === undefined"
+                    name="topicId"
+                    label="Topic"
                 >
-                    {{ props.flashcard ? "Update" : "Create" }}
-                </UButton>
-            </UForm>
-        </UCard>
-    </UModal>
+                    <USelectMenu
+                        v-model="formData.topicId"
+                        :options="formProvider.topics"
+                        placeholder="Select a topic"
+                        option-attribute="name"
+                        value-attribute="id"
+                        size="md"
+                        :loading="formProvider.loadingTopics"
+                        @change="loadUnits"
+                    />
+                </UFormGroup>
+                <UFormGroup
+                    v-if="props.unit === undefined"
+                    name="unitId"
+                    label="Unit"
+                >
+                    <USelectMenu
+                        v-model="formData.unitId"
+                        :options="formProvider.units"
+                        placeholder="Select a unit"
+                        option-attribute="name"
+                        size="md"
+                        :disabled="formData.topicId === undefined"
+                        :loading="formProvider.loadingUnits"
+                    />
+                </UFormGroup>
+                <UFormGroup
+                    label="Front side"
+                    name="front"
+                >
+                    <UInput
+                        v-model="formData.front"
+                        autofocus
+                        placeholder="Front side of the card"
+                    />
+                </UFormGroup>
+
+                <UFormGroup
+                    label="Back side"
+                    name="back"
+                >
+                    <UInput
+                        v-model="formData.back"
+                        placeholder="Back side of the card"
+                    />
+                </UFormGroup>
+
+                <UFormGroup
+                    label="Details"
+                    name="details"
+                >
+                    <UTextarea
+                        v-model="formData.details"
+                        :rows="7"
+                        placeholder="Some details and explanations..."
+                    />
+                </UFormGroup>
+            </div>
+
+            <UCheckbox
+                v-if="!props.flashcard"
+                v-model="formProvider.keepCreating"
+                label="Keep creating flashcards ?"
+            />
+
+            <UButton
+                type="submit"
+                block
+                :loading="formProvider.loadingForm"
+            >
+                {{ props.flashcard ? "Update" : "Create" }}
+            </UButton>
+        </UForm>
+    </BaseModal>
 </template>
 
 <script setup lang="ts">

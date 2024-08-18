@@ -1,44 +1,27 @@
 <template>
-    <UModal>
-        <UCard>
-            <template #header>
-                <div class="flex justify-between items-center">
-                    <div class="flex gap-x-2 items-center">
-                        <UIcon
-                            v-if="props.icon"
-                            :class="`h-5 w-5`"
-                            :name="props.icon"
-                        />
-                        <span class="font-medium">{{ props.title ?? "Confirm" }}</span>
-                    </div>
-                    <UButton
-                        icon="i-tabler-x"
-                        color="gray"
-                        variant="ghost"
-                        @click="modal.close()"
-                    />
-                </div>
-            </template>
-            <div class="flex flex-col gap-y-4">
-                <p>
-                    {{ description ?? "Do you want to proceed ?" }}
-                </p>
-                <div class="flex gap-x-2 justify-end">
-                    <UButton
-                        :label="cancelLabel ?? 'Cancel'"
-                        variant="ghost"
-                        color="gray"
-                        @click="modal.close()"
-                    />
-                    <UButton
-                        :label="confirmLabel ?? 'Confirm'"
-                        :color="color ?? 'primary'"
-                        @click="confirm"
-                    />
-                </div>
+    <BaseModal
+        :title="props.title ?? 'Confirm'"
+        :icon="props.icon"
+    >
+        <div class="flex flex-col gap-y-4">
+            <p>
+                {{ description ?? "Do you want to proceed ?" }}
+            </p>
+            <div class="flex gap-x-2 justify-end">
+                <UButton
+                    :label="cancelLabel ?? 'Cancel'"
+                    variant="ghost"
+                    color="gray"
+                    @click="modal.close()"
+                />
+                <UButton
+                    :label="confirmLabel ?? 'Confirm'"
+                    :color="color ?? 'primary'"
+                    @click="confirm"
+                />
             </div>
-        </UCard>
-    </UModal>
+        </div>
+    </BaseModal>
 </template>
 
 <script lang="ts" setup>

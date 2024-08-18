@@ -1,64 +1,51 @@
 <template>
-    <UModal>
-        <UCard>
-            <template #header>
-                <div class="flex justify-between items-center">
-                    <span class="font-medium">{{ props.topic ? "Edit" : "Create" }} a topic</span>
-                    <UButton
-                        icon="i-tabler-x"
-                        color="gray"
-                        variant="ghost"
-                        @click="modal.close()"
-                    />
-                </div>
-            </template>
-            <UForm
-                :schema="schema"
-                :state="formData"
-                class="space-y-8"
-                :validate-on="['submit']"
-                @submit="onSubmit"
-            >
-                <div class="flex flex-col space-y-4">
-                    <UFormGroup
-                        label="Name"
-                        name="name"
-                    >
-                        <UInput
-                            v-model="formData.name"
-                            autofocus
-                            placeholder="You topic name"
-                        />
-                    </UFormGroup>
-
-                    <UFormGroup
-                        label="Description"
-                        name="description"
-                    >
-                        <UTextarea
-                            v-model="formData.description"
-                            :rows="7"
-                            placeholder="You topic description"
-                        />
-                    </UFormGroup>
-                </div>
-
-                <UCheckbox
-                    v-if="!props.topic"
-                    v-model="formProvider.keepCreating"
-                    label="Keep creating topics  ?"
-                />
-
-                <UButton
-                    type="submit"
-                    block
-                    :loading="formProvider.loading"
+    <BaseModal title="Create a topic">
+        <UForm
+            :schema="schema"
+            :state="formData"
+            class="space-y-8"
+            :validate-on="['submit']"
+            @submit="onSubmit"
+        >
+            <div class="flex flex-col space-y-4">
+                <UFormGroup
+                    label="Name"
+                    name="name"
                 >
-                    {{ props.topic ? "Update" : "Create" }}
-                </UButton>
-            </UForm>
-        </UCard>
-    </UModal>
+                    <UInput
+                        v-model="formData.name"
+                        autofocus
+                        placeholder="You topic name"
+                    />
+                </UFormGroup>
+
+                <UFormGroup
+                    label="Description"
+                    name="description"
+                >
+                    <UTextarea
+                        v-model="formData.description"
+                        :rows="7"
+                        placeholder="You topic description"
+                    />
+                </UFormGroup>
+            </div>
+
+            <UCheckbox
+                v-if="!props.topic"
+                v-model="formProvider.keepCreating"
+                label="Keep creating topics  ?"
+            />
+
+            <UButton
+                type="submit"
+                block
+                :loading="formProvider.loading"
+            >
+                {{ props.topic ? "Update" : "Create" }}
+            </UButton>
+        </UForm>
+    </BaseModal>
 </template>
 
 <script setup lang="ts">

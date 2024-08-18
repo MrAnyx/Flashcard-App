@@ -1,80 +1,67 @@
 <template>
-    <UModal>
-        <UCard>
-            <template #header>
-                <div class="flex justify-between items-center">
-                    <span class="font-medium">{{ props.unit ? "Edit" : "Create" }} a unit</span>
-                    <UButton
-                        icon="i-tabler-x"
-                        color="gray"
-                        variant="ghost"
-                        @click="modal.close()"
-                    />
-                </div>
-            </template>
-            <UForm
-                :schema="schema"
-                :state="formData"
-                class="space-y-8"
-                :validate-on="['submit']"
-                @submit="onSubmit"
-            >
-                <div class="flex flex-col space-y-4">
-                    <UFormGroup
-                        v-if="props.topic === undefined"
-                        name="topicId"
-                        label="Topic"
-                    >
-                        <USelectMenu
-                            v-model="formData.topicId"
-                            :options="formProvider.topics"
-                            placeholder="Select a topic"
-                            option-attribute="name"
-                            value-attribute="id"
-                            size="md"
-                            :loading="formProvider.loadingTopics"
-                        />
-                    </UFormGroup>
-
-                    <UFormGroup
-                        label="Name"
-                        name="name"
-                    >
-                        <UInput
-                            v-model="formData.name"
-                            autofocus
-                            placeholder="Your unit name"
-                        />
-                    </UFormGroup>
-
-                    <UFormGroup
-                        label="Description"
-                        name="description"
-                    >
-                        <UTextarea
-                            v-model="formData.description"
-                            :rows="7"
-                            placeholder="Your unit description"
-                        />
-                    </UFormGroup>
-                </div>
-
-                <UCheckbox
-                    v-if="!props.unit"
-                    v-model="formProvider.keepCreating"
-                    label="Keep creating units ?"
-                />
-
-                <UButton
-                    type="submit"
-                    block
-                    :loading="formProvider.loadingForm"
+    <BaseModal title="Create a unit">
+        <UForm
+            :schema="schema"
+            :state="formData"
+            class="space-y-8"
+            :validate-on="['submit']"
+            @submit="onSubmit"
+        >
+            <div class="flex flex-col space-y-4">
+                <UFormGroup
+                    v-if="props.topic === undefined"
+                    name="topicId"
+                    label="Topic"
                 >
-                    {{ props.unit ? "Update" : "Create" }}
-                </UButton>
-            </UForm>
-        </UCard>
-    </UModal>
+                    <USelectMenu
+                        v-model="formData.topicId"
+                        :options="formProvider.topics"
+                        placeholder="Select a topic"
+                        option-attribute="name"
+                        value-attribute="id"
+                        size="md"
+                        :loading="formProvider.loadingTopics"
+                    />
+                </UFormGroup>
+
+                <UFormGroup
+                    label="Name"
+                    name="name"
+                >
+                    <UInput
+                        v-model="formData.name"
+                        autofocus
+                        placeholder="Your unit name"
+                    />
+                </UFormGroup>
+
+                <UFormGroup
+                    label="Description"
+                    name="description"
+                >
+                    <UTextarea
+                        v-model="formData.description"
+                        :rows="7"
+                        placeholder="Your unit description"
+                    />
+                </UFormGroup>
+            </div>
+
+            <UCheckbox
+                v-if="!props.unit"
+                v-model="formProvider.keepCreating"
+                label="Keep creating units ?"
+            />
+
+            <UButton
+                type="submit"
+                block
+                :loading="formProvider.loadingForm"
+            >
+                {{ props.unit ? "Update" : "Create" }}
+            </UButton>
+        </UForm>
+    </BaseModal>
 </template>
 
 <script setup lang="ts">
