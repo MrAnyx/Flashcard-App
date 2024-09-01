@@ -184,7 +184,7 @@ const saveSecurity = async () =>
     try
     {
         await repository.user.updatePartialMe({
-            password: profileFormData.email,
+            password: securityFormData.password,
         });
 
         useStandardToast("success", {

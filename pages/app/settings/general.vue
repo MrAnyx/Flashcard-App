@@ -10,7 +10,7 @@
             <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                 <div>
                     <h4>Items per page</h4>
-                    <span class="text-gray-400 text-sm">Specify the number of items per mage</span>
+                    <span class="text-gray-400 text-sm">Specify the number of items per page</span>
                 </div>
                 <USelectMenu
                     v-model="itemsPerPage"
@@ -20,6 +20,25 @@
                     size="md"
                     @change="updatePagination"
                 />
+            </div>
+        </section>
+        <section>
+            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                <div>
+                    <h4>Flashcards per session</h4>
+                    <span class="text-gray-400 text-sm">Specify the number of flashcards per session</span>
+                </div>
+                <UForm
+                    :state="null"
+                    :schema="null"
+                >
+                    <UInput
+                        v-model="flashcardsPerSession"
+                        type="number"
+                        size="md"
+                        @change="updateFlashcardsPerSession"
+                    />
+                </UForm>
             </div>
         </section>
         <UDivider />
@@ -73,6 +92,7 @@ const itemsPerPageObject = itemsPerPageOptions.map((o) =>
     };
 });
 const itemsPerPage = ref(authStore.getSetting<number>("items_per_page"));
+const flashcardsPerSession = ref(authStore.getSetting<number>("flashcard_per_session"));
 
 const updatePagination = async () =>
 {
@@ -92,6 +112,25 @@ const updatePagination = async () =>
         });
     }
 };
+
+const updateFlashcardsPerSession = useDebounceFn(async () =>
+{
+    try
+    {
+        await repository.user.updateSetting("flashcard_per_session", flashcardsPerSession.value);
+        authStore.setSetting("flashcard_per_session", flashcardsPerSession.value);
+
+        useStandardToast("success", {
+            description: "Settings saved"
+        });
+    }
+    catch
+    {
+        useStandardToast("error", {
+            description: `Unable to update setting flashcard_per_session`
+        });
+    }
+}, 1000);
 
 const eraseReviews = async () =>
 {
