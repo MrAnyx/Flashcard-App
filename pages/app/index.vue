@@ -11,7 +11,7 @@
                             Welcome back MrAnyx
                         </h2>
                         <p class="text-gray-500 dark:text-gray-400 text-sm capitalize">
-                            {{ DateTime.now().setLocale('fr').toFormat('DDDD') }}
+                            {{ DateTime.now().toFormat('DDDD') }}
                         </p>
                         <p class="text-gray-500 dark:text-gray-400">
                             Boost your skills with your flashcards! Each practice session brings you one step closer to your goals. So, are you ready to take on the challenge?
@@ -21,6 +21,7 @@
                             <UButton
                                 label="Start a session"
                                 variant="soft"
+                                @click="openSessionModal"
                             />
                             <UButton
                                 label="Manage collection"
@@ -150,6 +151,7 @@
 import { DateTime } from "luxon";
 import { formatNumber, normalizeValue } from "#imports";
 import type { Flashcard, Topic, Unit } from "~/types/entity";
+import { ModalSessionConfiguration } from "#components";
 
 definePageMeta({
     name: "overview",
@@ -165,6 +167,7 @@ const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
 const reviewStore = useReviewStore();
+const modal = useModal();
 
 const provider = reactive({
     loading: true,
@@ -248,5 +251,10 @@ const loadDashboard = async () =>
     {
         useStandardToast("error");
     }
+};
+
+const openSessionModal = async () =>
+{
+    modal.open(ModalSessionConfiguration);
 };
 </script>
