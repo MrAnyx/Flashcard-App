@@ -6,7 +6,7 @@
             </h2>
             <span class="text-gray-400 text-sm">Customize how requests are made</span>
         </div>
-        <section>
+        <section class="flex flex-col gap-y-6">
             <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                 <div>
                     <h4>Items per page</h4>
@@ -22,23 +22,38 @@
                 />
             </div>
         </section>
-        <section>
+        <UDivider />
+        <div>
+            <h2 class="font-medium text-xl">
+                Session
+            </h2>
+            <span class="text-gray-400 text-sm">Customize your session</span>
+        </div>
+        <section class="flex flex-col gap-y-6">
             <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                 <div>
                     <h4>Flashcards per session</h4>
                     <span class="text-gray-400 text-sm">Specify the number of flashcards per session</span>
                 </div>
-                <UForm
-                    :state="null"
-                    :schema="null"
-                >
+                <div :state="null" :schema="null">
                     <UInput
                         v-model="flashcardsPerSession"
                         type="number"
                         size="md"
                         @change="updateFlashcardsPerSession"
                     />
-                </UForm>
+                </div>
+            </div><div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                <div>
+                    <h4>Display session introduction</h4>
+                    <span class="text-gray-400 text-sm">Specify the number of flashcards per session</span>
+                </div>
+                <div :state="null" :schema="null">
+                    <UToggle
+                        v-model="showSessionIntroduction"
+                        @change="updateShowSessionIntroduction"
+                    />
+                </div>
             </div>
         </section>
         <UDivider />
@@ -92,45 +107,13 @@ const itemsPerPageObject = itemsPerPageOptions.map((o) =>
     };
 });
 const itemsPerPage = ref(authStore.getSetting<number>("items_per_page"));
+const updatePagination = useDebounceFn(async () => await setSetting("items_per_page", itemsPerPage.value), 1000);
+
 const flashcardsPerSession = ref(authStore.getSetting<number>("flashcard_per_session"));
+const updateFlashcardsPerSession = useDebounceFn(async () => await setSetting("flashcard_per_session", flashcardsPerSession.value), 1000);
 
-const updatePagination = async () =>
-{
-    try
-    {
-        await repository.user.updateSetting("items_per_page", itemsPerPage.value);
-        authStore.setSetting("items_per_page", itemsPerPage.value);
-
-        useStandardToast("success", {
-            description: "Settings saved"
-        });
-    }
-    catch
-    {
-        useStandardToast("error", {
-            description: `Unable to update setting items_per_page`
-        });
-    }
-};
-
-const updateFlashcardsPerSession = useDebounceFn(async () =>
-{
-    try
-    {
-        await repository.user.updateSetting("flashcard_per_session", flashcardsPerSession.value);
-        authStore.setSetting("flashcard_per_session", flashcardsPerSession.value);
-
-        useStandardToast("success", {
-            description: "Settings saved"
-        });
-    }
-    catch
-    {
-        useStandardToast("error", {
-            description: `Unable to update setting flashcard_per_session`
-        });
-    }
-}, 1000);
+const showSessionIntroduction = ref(authStore.getSetting<boolean>("show_session_introduction"));
+const updateShowSessionIntroduction = useDebounceFn(async () => await setSetting("show_session_introduction", showSessionIntroduction.value), 1000);
 
 const eraseReviews = async () =>
 {

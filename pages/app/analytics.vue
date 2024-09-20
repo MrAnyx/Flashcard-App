@@ -2,7 +2,7 @@
     <div>
         <NuxtLayout name="app">
             <template #header>
-                Practice
+                Analytics
             </template>
 
             <section class="p-6 flex flex-col gap-y-4">
@@ -144,12 +144,12 @@
 import { formatNumber } from "#imports";
 
 definePageMeta({
-    name: "practice",
-    middleware: ["initialize"]
+    name: "analytics",
+    middleware: ["initialize", "premium"]
 });
 
 useHead({
-    title: "Practice"
+    title: "Analytics"
 });
 
 const periods = ["Today", "Last 7 days", "Last 30 days"];

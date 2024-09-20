@@ -1,11 +1,11 @@
-export default defineNuxtRouteMiddleware(() =>
+export default defineNuxtRouteMiddleware((to, from) =>
 {
     const authStore = useAuthStore();
 
-    if (!authStore.isAdmin)
+    if (!authStore.isPremium)
     {
         useStandardToast("error", {
-            description: "You can't access this page."
+            description: "You must be a premium member to access this page."
         });
         return navigateTo({
             name: "overview"

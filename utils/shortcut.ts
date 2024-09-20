@@ -1,4 +1,4 @@
-import { ModalFlashcardForm, ModalSearchCommandPalette, ModalShortcuts, ModalTopicForm, ModalUnitForm } from "#components";
+import { ModalFlashcardForm, ModalSearchCommandPalette, ModalSessionIntroduction, ModalShortcuts, ModalTopicForm, ModalUnitForm } from "#components";
 import type { ShortcutSection } from "~/types/shortcut";
 
 // Shortcuts must be unique to prevent bad behavior
@@ -102,6 +102,19 @@ export const AppShortcutSections: ShortcutSection[] = [
                 {
                     useModal().close();
                     setTimeout(() => useModal().open(ModalShortcuts), 0);
+                }
+            },
+            "c-s": {
+                shortcut: ["C", "S"],
+                global: true,
+                usingInput: false,
+                name: "Start a session",
+                description: "Start a session",
+                action: () =>
+                {
+                    useModal().close();
+
+                    setTimeout(() => startSession(), 0);
                 }
             },
             "c-t": {

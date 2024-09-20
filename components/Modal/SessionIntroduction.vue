@@ -37,9 +37,14 @@
 
             <p>Time to outwit your own memory!</p>
 
-            <UCheckbox label="Don't show again?" />
+            <p>
+                <span v-if="lowRange !== highRange">This session will last between <b>{{ lowRange }}-{{ highRange }} minutes</b>.</span>
+                <span v-else>This session will last approximately <b>{{ lowRange }} minutes</b>.</span>
+            </p>
 
-            <UButton type="submit" block icon="i-tabler-device-gamepad-2">
+            <UCheckbox v-model="dontShowAgain" label="Don't show again?" />
+
+            <UButton block icon="i-tabler-device-gamepad-2" @click="startSession">
                 Let's play
             </UButton>
         </div>
@@ -49,4 +54,21 @@
 <script setup lang="ts">
 const modal = useModal();
 const repository = useRepository();
+const authStore = useAuthStore();
+
+const dontShowAgain = ref(false);
+
+const flashcardsPerSession = authStore.getSetting<number>("flashcard_per_session");
+const lowRange = secondsToMinutes(flashcardsPerSession * 5); // 5s per flashcard
+const highRange = secondsToMinutes(flashcardsPerSession * 20); // 20s per flashcard
+
+const startSession = async () =>
+{
+    if (dontShowAgain.value)
+    {
+        setSetting("show_session_introduction", !dontShowAgain.value);
+    }
+
+    return;
+};
 </script>

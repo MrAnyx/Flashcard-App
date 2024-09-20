@@ -124,16 +124,14 @@ const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[{
     to: {
         name: "topics"
     }
-}, {
-    label: "Practice",
-    icon: "i-tabler-school",
-    badge: flashcardStore.totalToReview,
-    to: "/app/practice"
 },
-...(authStore.isPremium
+...(authStore.isAdmin
     ? [{
             label: "Analytics",
             icon: "i-tabler-chart-pie",
+            to: {
+                name: "analytics"
+            }
         }]
     : []),
 {

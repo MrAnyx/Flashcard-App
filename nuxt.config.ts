@@ -10,6 +10,11 @@ export default defineNuxtConfig({
             appVersion: pkg.version,
         },
     },
+    imports: {
+        dirs: [
+            "utils/**"
+        ]
+    },
     eslint: {
         config: {
             stylistic: {

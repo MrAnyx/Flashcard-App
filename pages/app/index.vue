@@ -33,62 +33,65 @@
                     </div>
                 </UCard>
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                    <BaseDataCard
-                        icon="i-tabler-folder"
-                        label="Total topics"
-                        :value="formatNumber(topicStore.total)"
-                    />
-                    <BaseDataCard
-                        icon="i-tabler-color-swatch"
-                        label="Total units"
-                        :value="formatNumber(unitStore.total)"
-                    />
-                    <BaseDataCard
-                        icon="i-tabler-cards"
-                        label="Total flashcards"
-                        :value="formatNumber(flashcardStore.total)"
-                    />
-                    <BaseDataCard
-                        icon="i-tabler-calendar"
-                        label="Total reviews"
-                        :value="formatNumber(reviewStore.total)"
-                    />
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                    <BaseDataCard
-                        icon="i-tabler-calendar-repeat"
-                        label="Flashcards to review"
-                        :value="formatNumber(flashcardStore.totalToReview)"
-                    />
-                    <BaseDataCard
-                        icon="i-tabler-versions"
-                        label="Total sessions"
-                        :value="formatNumber(totalSessions)"
-                    />
-                    <BaseDataCard
-                        icon="i-tabler-circle-check"
-                        label="Correct flashcards"
-                        :value="formatNumber(correctFlashcards / (flashcardStore.total > 0 ? flashcardStore.total : 1))"
-                    />
-                    <BaseDataCard
-                        icon="i-tabler-stars"
-                        :value="averageGrade !== 0 ? formatNumber(normalizeValue(averageGrade, { min: 1, max: 4 }, { min: 0, max: 10 })) : 0"
-                    >
-                        <template #label>
-                            <div class=" dark:text-gray-300 text-gray-500 inline-flex items-center gap-x-2">
-                                <span class="truncate">Average answer</span>
-                                <UTooltip
-                                    :ui="{ width: 'max-w-md' }"
-                                    text="The average grade is normalized between 0 and 10. 10 being better than 0."
-                                >
-                                    <UIcon
-                                        name="i-tabler-info-circle"
-                                        class="shrink-0"
-                                    />
-                                </UTooltip>
-                            </div>
-                        </template>
-                    </BaseDataCard>
+                    <template v-if="provider.loading">
+                        <USkeleton v-for="i in 8" :key="i" class="h-[84px]" />
+                    </template>
+                    <template v-else>
+                        <BaseDataCard
+                            icon="i-tabler-folder"
+                            label="Total topics"
+                            :value="formatNumber(topicStore.total)"
+                        />
+                        <BaseDataCard
+                            icon="i-tabler-color-swatch"
+                            label="Total units"
+                            :value="formatNumber(unitStore.total)"
+                        />
+                        <BaseDataCard
+                            icon="i-tabler-cards"
+                            label="Total flashcards"
+                            :value="formatNumber(flashcardStore.total)"
+                        />
+                        <BaseDataCard
+                            icon="i-tabler-calendar"
+                            label="Total reviews"
+                            :value="formatNumber(reviewStore.total)"
+                        />
+                        <BaseDataCard
+                            icon="i-tabler-calendar-repeat"
+                            label="Flashcards to review"
+                            :value="formatNumber(flashcardStore.totalToReview)"
+                        />
+                        <BaseDataCard
+                            icon="i-tabler-versions"
+                            label="Total sessions"
+                            :value="formatNumber(totalSessions)"
+                        />
+                        <BaseDataCard
+                            icon="i-tabler-circle-check"
+                            label="Correct flashcards"
+                            :value="`${formatNumber(correctFlashcards / (flashcardStore.total > 0 ? flashcardStore.total : 1))}%`"
+                        />
+                        <BaseDataCard
+                            icon="i-tabler-stars"
+                            :value="averageGrade !== 0 ? formatNumber(normalizeValue(averageGrade, { min: 1, max: 4 }, { min: 0, max: 100 })) : 0"
+                        >
+                            <template #label>
+                                <div class=" dark:text-gray-300 text-gray-500 inline-flex items-center gap-x-2">
+                                    <span class="truncate">Average answer</span>
+                                    <UTooltip
+                                        :ui="{ width: 'max-w-md' }"
+                                        text="The average grade is normalized between 0 and 100. 100 being better than 0."
+                                    >
+                                        <UIcon
+                                            name="i-tabler-info-circle"
+                                            class="shrink-0"
+                                        />
+                                    </UTooltip>
+                                </div>
+                            </template>
+                        </BaseDataCard>
+                    </template>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <UCard
@@ -151,7 +154,6 @@
 import { DateTime } from "luxon";
 import { formatNumber, normalizeValue } from "#imports";
 import type { Flashcard, Topic, Unit } from "~/types/entity";
-import { ModalSessionConfiguration } from "#components";
 
 definePageMeta({
     name: "overview",
@@ -167,7 +169,6 @@ const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
 const reviewStore = useReviewStore();
-const modal = useModal();
 
 const provider = reactive({
     loading: true,
@@ -255,6 +256,6 @@ const loadDashboard = async () =>
 
 const openSessionModal = async () =>
 {
-    modal.open(ModalSessionConfiguration);
+    startSession();
 };
 </script>

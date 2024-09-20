@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware(() =>
     if (!token.value)
     {
         useStandardToast("warning", {
-            description: "You must login before accessing this page"
+            description: "You must login before accessing this page."
         });
         return navigateTo({
             name: "login"

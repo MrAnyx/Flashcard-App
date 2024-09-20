@@ -103,28 +103,8 @@ useHead({
 });
 
 const authStore = useAuthStore();
-const repository = useRepository();
 const appConfig = useAppConfig();
 const colorMode = useColorMode();
-
-const updateSetting = async (settingName: SettingName, value: string | number | boolean) =>
-{
-    try
-    {
-        await repository.user.updateSetting(settingName, value);
-        authStore.setSetting(settingName, value);
-
-        useStandardToast("success", {
-            description: "Settings saved"
-        });
-    }
-    catch
-    {
-        useStandardToast("error", {
-            description: `Unable to update setting`
-        });
-    }
-};
 
 // Color theme
 const colorThemeOptions = [
@@ -148,7 +128,7 @@ const colorTheme = authStore.getSetting<string>("color_theme");
 const selectedColorTheme = ref(colorThemeOptions.find(t => t.value === colorTheme));
 const updateTheme = async () =>
 {
-    await updateSetting("color_theme", selectedColorTheme.value!.value);
+    await setSetting("color_theme", selectedColorTheme.value!.value);
     colorMode.preference = selectedColorTheme.value!.value;
 };
 
@@ -162,7 +142,7 @@ const primaryColorOptions = ["red", "orange", "amber", "yellow", "lime", "green"
 const selectedPrimaryColor = ref(primaryColorOptions.find(c => c.name === primaryColor));
 const updatePrimaryColor = async () =>
 {
-    await updateSetting("primary_color", selectedPrimaryColor.value!.name);
+    await setSetting("primary_color", selectedPrimaryColor.value!.name);
     appConfig.ui.primary = selectedPrimaryColor.value!.name;
 };
 
@@ -176,7 +156,7 @@ const grayColorOptions = ["slate", "cool", "zinc", "neutral", "stone"].map(color
 const selectedGrayColor = ref(grayColorOptions.find(c => c.name === grayColor));
 const updateGrayColor = async () =>
 {
-    await updateSetting("gray_color", selectedGrayColor.value!.name);
+    await setSetting("gray_color", selectedGrayColor.value!.name);
     appConfig.ui.gray = selectedGrayColor.value!.name;
 };
 </script>
