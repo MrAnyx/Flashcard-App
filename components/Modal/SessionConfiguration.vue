@@ -1,162 +1,52 @@
 <template>
-    <BaseModal title="Configure your session">
-        <UForm
-            :schema="schema"
-            :state="formData"
-            class="space-y-8"
-            :validate-on="['submit']"
-            @submit="onSubmit"
-        >
-            <div class="flex flex-col space-y-4">
-                <UTabs
-                    :items="tabs"
-                    orientation="horizontal"
-                />
-                <UFormGroup
-                    v-if="props.topic === undefined"
-                    name="topicId"
-                    label="Topic"
-                >
-                    <USelectMenu
-                        v-model="formData.topicId"
-                        :options="formProvider.topics"
-                        placeholder="Select a topic"
-                        option-attribute="name"
-                        value-attribute="id"
-                        size="md"
-                        :loading="formProvider.loadingTopics"
-                    />
-                </UFormGroup>
+    <BaseModal title="Challenge Your Knowledge">
+        <div class="flex flex-col space-y-6">
+            <p>Welcome to your session where you take on your entire brain! You'll be pulling cards from your own collection, so <b>no topic is safe</b>. Math? Korean? Cooking? That random science fact you swore you'd never forget? They're all in the mix, because you made them!</p>
 
-                <URadioGroup
-                    v-model="selected"
-                    legend="Select the session type"
-                    :options="options"
-                />
-            </div>
+            <p>
+                Each card has a question you've crafted, and your mission, should you choose to accept, is to answer without sneaking a look at the back. After each question, you'll rate your performance :
+                <span class="inline-flex space-x-1">
+                    <UTooltip text="Oops! Let's give that one another go—your brain's still warming up!" :ui="{ width: 'max-w-md' }">
+                        <UBadge color="red" variant="subtle" class="space-x-1 items-center">
+                            <UIcon name="i-tabler-reload" class="w-3 h-3" />
+                            <span>Again</span>
+                        </UBadge>
+                    </UTooltip>
+                    <UTooltip text="Close, but not quite there. It's a tough one, but you're getting it!" :ui="{ width: 'max-w-md' }">
+                        <UBadge color="orange" variant="subtle" class="space-x-1 items-center">
+                            <UIcon name="i-tabler-brain" class="w-3 h-3" />
+                            <span>Hard</span>
+                        </UBadge>
+                    </UTooltip>
+                    <UTooltip text="Nicely done! You've got the gist, but maybe a bit more practice wouldn't hurt." :ui="{ width: 'max-w-md' }">
+                        <UBadge color="sky" variant="subtle" class="space-x-1 items-center">
+                            <UIcon name="i-tabler-circle-dashed-check" class="w-3 h-3" />
+                            <span>Good</span>
+                        </UBadge>
+                    </UTooltip>
+                    <UTooltip text="Nailed it! You could answer this one in your sleep!" :ui="{ width: 'max-w-md' }">
+                        <UBadge color="green" variant="subtle" class="space-x-1 items-center">
+                            <UIcon name="i-tabler-checks" class="w-3 h-3" />
+                            <span>Easy</span>
+                        </UBadge>
+                    </UTooltip>
+                </span>
+            </p>
 
-            <UButton
-                type="submit"
-                block
-                :loading="formProvider.loadingForm"
-            >
-                {{ props.unit ? "Update" : "Create" }}
+            <p>Get it right, and bask in the glory. Get it wrong, and well… it's still your collection, so nobody else has to know!</p>
+
+            <p>Time to outwit your own memory!</p>
+
+            <UCheckbox label="Don't show again?" />
+
+            <UButton type="submit" block icon="i-tabler-device-gamepad-2">
+                Let's play
             </UButton>
-        </UForm>
+        </div>
     </BaseModal>
 </template>
 
 <script setup lang="ts">
-import { z } from "zod";
-import type { Topic, Unit } from "~/types/entity";
-import type { FormSubmitEvent } from "#ui/types";
-
-const props = defineProps<{
-    topic?: Topic;
-    unit?: Unit;
-}>();
-
 const modal = useModal();
 const repository = useRepository();
-const topicStore = useTopicStore();
-const unitStore = useUnitStore();
-const validationRule = useValidationRule();
-
-const tabs = [{
-    label: "Global",
-    icon: "i-tabler-affiliate",
-}, {
-    label: "Topic",
-    icon: "i-tabler-folder",
-}, {
-    label: "Unit",
-    icon: "i-tabler-color-swatch",
-}];
-
-const options = [{
-    value: "email",
-    label: "Evaluation"
-}, {
-    value: "sms",
-    label: "Practice"
-}];
-
-const schema = z.object({
-    topicId: z.number({ required_error: "Select a topic from the list" }),
-    name: validationRule.name,
-    description: validationRule.description,
-});
-
-type Schema = z.output<typeof schema>;
-
-const formProvider = reactive({
-    topics: [] as Topic[],
-    loadingTopics: false,
-    loadingForm: false,
-});
-
-const formData = reactive({
-    topicId: props.topic?.id,
-    name: props.unit?.name ?? "",
-    description: props.unit?.description ?? "",
-});
-
-onMounted(async () =>
-{
-    await loadTopics();
-});
-
-const loadTopics = async () =>
-{
-    try
-    {
-        formProvider.loadingTopics = true;
-
-        const response = await repository.topic.getTopics({ order: "asc", page: 1, sort: "name", itemsPerPage: 200 });
-        formProvider.topics = response.data;
-    }
-    finally
-    {
-        formProvider.loadingTopics = false;
-    }
-};
-
-const onSubmit = async (event: FormSubmitEvent<Schema>) =>
-{
-    try
-    {
-        formProvider.loadingForm = true;
-
-        if (props.unit)
-        {
-            const unit = await repository.unit.updatePartialUnit(props.unit.id, {
-                name: event.data.name,
-                description: event.data.description,
-            });
-
-            unitStore.update(props.unit.id, unit.data);
-        }
-        else
-        {
-            const unit = await repository.unit.createUnit(event.data.topicId, {
-                name: event.data.name,
-                description: event.data.description,
-                favorite: false
-            });
-
-            if (topicStore.selectedTopic?.id === event.data.topicId)
-            {
-                unitStore.prepend(unit.data);
-            }
-        }
-
-        useStandardToast("success", {
-            description: `The unit ${event.data.name} has been ${props.unit ? "updated" : "created"}`
-        });
-    }
-    finally
-    {
-        formProvider.loadingForm = false;
-    }
-};
 </script>

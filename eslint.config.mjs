@@ -7,5 +7,13 @@ export default withNuxt({
         "no-async-promise-executor": "off",
 
         "@typescript-eslint/no-unused-vars": "warn",
+        "vue/max-attributes-per-line": ["error", {
+            singleline: {
+                max: 3
+            },
+            multiline: {
+                max: 1
+            }
+        }]
     }
 });

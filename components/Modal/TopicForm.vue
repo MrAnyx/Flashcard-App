@@ -34,7 +34,7 @@
             <UCheckbox
                 v-if="!props.topic"
                 v-model="formProvider.keepCreating"
-                label="Keep creating topics  ?"
+                label="Keep creating topics ?"
             />
 
             <UButton
