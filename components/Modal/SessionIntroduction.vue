@@ -6,16 +6,10 @@
             <p>
                 Each card has a question you've crafted, and your mission, should you choose to accept, is to answer without sneaking a look at the back. After each question, you'll rate your performance :
                 <span class="inline-flex space-x-1">
-                    <UTooltip text="Oops! Let's give that one another go—your brain's still warming up!" :ui="{ width: 'max-w-md' }">
-                        <UBadge color="red" variant="subtle" class="space-x-1 items-center">
-                            <UIcon name="i-tabler-reload" class="w-3 h-3" />
-                            <span>Again</span>
-                        </UBadge>
-                    </UTooltip>
-                    <UTooltip text="Close, but not quite there. It's a tough one, but you're getting it!" :ui="{ width: 'max-w-md' }">
-                        <UBadge color="orange" variant="subtle" class="space-x-1 items-center">
-                            <UIcon name="i-tabler-brain" class="w-3 h-3" />
-                            <span>Hard</span>
+                    <UTooltip text="Nailed it! You could answer this one in your sleep!" :ui="{ width: 'max-w-md' }">
+                        <UBadge color="green" variant="subtle" class="space-x-1 items-center">
+                            <UIcon name="i-tabler-checks" class="w-3 h-3" />
+                            <span>Easy</span>
                         </UBadge>
                     </UTooltip>
                     <UTooltip text="Nicely done! You've got the gist, but maybe a bit more practice wouldn't hurt." :ui="{ width: 'max-w-md' }">
@@ -24,10 +18,16 @@
                             <span>Good</span>
                         </UBadge>
                     </UTooltip>
-                    <UTooltip text="Nailed it! You could answer this one in your sleep!" :ui="{ width: 'max-w-md' }">
-                        <UBadge color="green" variant="subtle" class="space-x-1 items-center">
-                            <UIcon name="i-tabler-checks" class="w-3 h-3" />
-                            <span>Easy</span>
+                    <UTooltip text="Close, but not quite there. It's a tough one, but you're getting it!" :ui="{ width: 'max-w-md' }">
+                        <UBadge color="orange" variant="subtle" class="space-x-1 items-center">
+                            <UIcon name="i-tabler-brain" class="w-3 h-3" />
+                            <span>Hard</span>
+                        </UBadge>
+                    </UTooltip>
+                    <UTooltip text="Oops! Let's give that one another go—your brain's still warming up!" :ui="{ width: 'max-w-md' }">
+                        <UBadge color="red" variant="subtle" class="space-x-1 items-center">
+                            <UIcon name="i-tabler-reload" class="w-3 h-3" />
+                            <span>Again</span>
                         </UBadge>
                     </UTooltip>
                 </span>

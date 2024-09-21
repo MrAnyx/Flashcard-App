@@ -124,6 +124,12 @@ const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[{
     to: {
         name: "topics"
     }
+}, {
+    label: "Practice",
+    icon: "i-tabler-brain",
+    to: {
+        name: "practice"
+    }
 },
 ...(authStore.isAdmin
     ? [{
