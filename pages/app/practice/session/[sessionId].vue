@@ -36,23 +36,37 @@
                 </div>
             </div>
 
-            <div class="grow shrink" />
-
-            <UCard class="max-w-2xl overflow-auto mt-6 sm:mt-10 min-h-[80px]" :ui="{ body: { padding: '' } }">
+            <UCard class="max-w-2xl mt-6 overflow-auto sm:mt-10 w-full min-h-[120px]" :ui="{ body: { padding: '' }, header: { padding: '' } }">
                 <template #header>
-                    <div class="flex justify-between items-center">
-                        <UTooltip text="Search on Google for more details shrink-0">
-                            <UIcon name="i-tabler-mood-puzzled" class="w-5 h-5 text-gray-400 hover:text-gray-200 cursor-help" />
-                        </UTooltip>
-                        <UTooltip text="Difficulty of 6/10 shrink-0">
+                    <div class="flex justify-between items-center gap-x-4 overflow-x-auto p-3">
+                        <Tooltip
+                            activation="click"
+                            help
+                            text="Search on Google for more details"
+                        >
+                            <UButton
+                                icon="i-tabler-mood-puzzled"
+                                size="xs"
+                                square
+                                variant="ghost"
+                                color="yellow"
+                            >
+                                Hint
+                            </UButton>
+                        </Tooltip>
+                        <Tooltip
+                            activation="click"
+                            text="Difficulty of 6/10"
+                            help
+                        >
                             <UBadge color="yellow" variant="subtle">
                                 Medium
                             </UBadge>
-                        </UTooltip>
+                        </Tooltip>
                     </div>
                 </template>
 
-                <p class="leading-8 sm:leading-10 text-lg sm:text-xl px-4 py-5">
+                <p class="leading-8 sm:leading-10 md:leading-10 text-base sm:text-lg md:text-xl p-4 md:p-5">
                     Given a non-deterministic Turing machine (NDTM), explain how it relates to solving problems in NP, and whether an NDTM can solve problems in NP-complete in polynomial time. Additionally, outline the significance of polynomial-time reductions in proving that a problem is NP-complete. Finally, provide an example of a real-world problem that is NP-complete and discuss whether quantum computing might offer a path to solving such problems efficiently
                 </p>
             </UCard>
@@ -123,6 +137,8 @@ const displayModalAsync = () =>
             title: "Leave the session",
             description: "Are you sure you want to leave this session. You'll not be able to finish it.",
             icon: "i-tabler-door-exit",
+            cancelLabel: "Stay here",
+            confirmLabel: "Leave",
             color: "red",
             onConfirm: () => resolve(true),
             onClose: () => resolve(false)
