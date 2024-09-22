@@ -1,9 +1,11 @@
 <template>
     <div class="h-full">
-        <UBreadcrumb
-            :links="breadcrumbItems"
-            class="px-6 py-4 border-b border-gray-200 dark:border-gray-800"
-        />
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-800 overflow-auto">
+            <UBreadcrumb
+                :links="breadcrumbItems"
+                class="min-w-fit"
+            />
+        </div>
         <div class="py-6">
             <div class="flex items-center mb-4 px-6 justify-between">
                 <div class="flex items-center space-x-3">

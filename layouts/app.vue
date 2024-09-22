@@ -1,5 +1,5 @@
 <template>
-    <main class="fixed inset-0 flex overflow-hidden">
+    <main class="fixed inset-0 flex overflow-hidden w-screen">
         <aside class="border-r border-gray-200 dark:border-gray-800 !min-w-[350px] hidden lg:block">
             <Sidebar class="p-4 overflow-y-auto" />
         </aside>
@@ -13,7 +13,7 @@
                 <Sidebar class="p-4 overflow-y-auto" @close="isSidebarOpen = !isSidebarOpen" />
             </aside>
         </USlideover>
-        <section class="flex-1 flex flex-col">
+        <section class="flex-1 flex flex-col w-full">
             <header class="h-16 shrink-0 flex items-center border-b border-gray-200 dark:border-gray-800 px-6">
                 <UButton
                     color="gray"
@@ -29,7 +29,7 @@
                     <slot name="header" />
                 </h1>
             </header>
-            <main class="overflow-y-auto h-full">
+            <main class="overflow-auto h-full w-full">
                 <slot />
             </main>
         </section>
