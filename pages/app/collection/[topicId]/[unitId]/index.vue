@@ -146,7 +146,7 @@ const loadTable = async () =>
 
     try
     {
-        const response = await repository.flashcard.getFlashcardsByUnit(unit.id, {
+        const response = await repository.flashcard.findByUnit(unit.id, {
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
@@ -164,7 +164,7 @@ const loadTable = async () =>
 
 const toggleFavorite = async (row: Flashcard) =>
 {
-    await repository.flashcard.updatePartialFlashcard(row.id, {
+    await repository.flashcard.partialUpdate(row.id, {
         favorite: !row.favorite
     });
     row.favorite = !row.favorite;
@@ -172,7 +172,7 @@ const toggleFavorite = async (row: Flashcard) =>
 
 const duplicateRow = async (row: Flashcard) =>
 {
-    const response = await repository.flashcard.createFlashcard(unit.id, {
+    const response = await repository.flashcard.create(unit.id, {
         front: row.front,
         back: row.back,
         details: row.details,
@@ -196,7 +196,7 @@ const deleteRow = async (row: Flashcard) =>
         color: "red",
         async onConfirm()
         {
-            await repository.flashcard.deleteFlashcard(row.id);
+            await repository.flashcard.delete(row.id);
 
             flashcardStore.delete(row);
 
@@ -217,7 +217,7 @@ const resetRow = async (row: Flashcard) =>
         color: "red",
         async onConfirm()
         {
-            await repository.flashcard.resetFlashcard(row.id);
+            await repository.flashcard.reset(row.id);
 
             useStandardToast("success", {
                 description: `The flashcard ${row.front} has been reset`

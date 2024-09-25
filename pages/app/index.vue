@@ -219,20 +219,20 @@ const loadDashboard = async () =>
         const [recentTopicsRes, recentUnitsRes, easyFlashcardsRes, hardestFlashcardsRes, totalCorrectFlashcardsRes, averageGradeRes, totalSessionsRes] = await Promise.all([
             repository.topic.recentTopics(),
             repository.unit.recentUnits(),
-            repository.flashcard.getFlashcards({
+            repository.flashcard.findAll({
                 itemsPerPage: 5,
                 order: "asc",
                 page: 1,
                 sort: "difficulty"
             }),
-            repository.flashcard.getFlashcards({
+            repository.flashcard.findAll({
                 itemsPerPage: 5,
                 order: "desc",
                 page: 1,
                 sort: "difficulty"
             }),
-            repository.flashcard.countCorrectFlashcards(),
-            repository.flashcard.getAverageGrade(),
+            repository.flashcard.countCorrect(),
+            repository.flashcard.averageGrade(),
             repository.session.countSessions()
         ]);
 

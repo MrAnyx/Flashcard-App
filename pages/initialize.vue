@@ -38,8 +38,8 @@ const initialize = async () =>
             repository.user.getMe(),
             repository.topic.countTopics(),
             repository.unit.countUnits(),
-            repository.flashcard.countFlashcards(),
-            repository.flashcard.countFlashcardsToReview(),
+            repository.flashcard.count(),
+            repository.flashcard.countToReview(),
             repository.review.countReviews(false),
         ]);
 

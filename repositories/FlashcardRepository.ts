@@ -5,7 +5,7 @@ import type { JsonStandard } from "~/types/request";
 
 export class FlashcardRepository extends AbstractRepository
 {
-    async getFlashcardsByUnit(unitId: number, pagination: Pagination)
+    async findByUnit(unitId: number, pagination: Pagination)
     {
         return this.fetch<JsonStandard<Flashcard[]>>(`/units/${unitId}/flashcards`, {
             method: "GET",
@@ -15,7 +15,7 @@ export class FlashcardRepository extends AbstractRepository
         });
     };
 
-    async getFlashcards(pagination: Pagination)
+    async findAll(pagination: Pagination)
     {
         return this.fetch<JsonStandard<Flashcard[]>>(`/flashcards`, {
             method: "GET",
@@ -25,14 +25,14 @@ export class FlashcardRepository extends AbstractRepository
         });
     };
 
-    async getFlashcard(id: number)
+    async find(id: number)
     {
         return this.fetch<JsonStandard<Flashcard>>(`/flashcards/${id}`, {
             method: "GET"
         });
     };
 
-    async updatePartialFlashcard(id: number, updatedElement: Partial<Flashcard>)
+    async partialUpdate(id: number, updatedElement: Partial<Flashcard>)
     {
         return this.fetch<JsonStandard<Flashcard>>(`/flashcards/${id}`, {
             method: "PATCH",
@@ -42,12 +42,12 @@ export class FlashcardRepository extends AbstractRepository
         });
     };
 
-    async updateFlashcard(id: number, updatedElement: Flashcard)
+    async update(id: number, updatedElement: Flashcard)
     {
-        return this.updatePartialFlashcard(id, updatedElement);
+        return this.partialUpdate(id, updatedElement);
     };
 
-    async createFlashcard(unitId: number, unit: Pick<Flashcard, "front" | "back" | "details" | "favorite">)
+    async create(unitId: number, unit: Pick<Flashcard, "front" | "back" | "details" | "favorite">)
     {
         return this.fetch<JsonStandard<Flashcard>>("/flashcards", {
             method: "POST",
@@ -58,49 +58,49 @@ export class FlashcardRepository extends AbstractRepository
         });
     };
 
-    async deleteFlashcard(id: number)
+    async delete(id: number)
     {
         return this.fetch<JsonStandard<null>>(`/flashcards/${id}`, {
             method: "DELETE"
         });
     };
 
-    async resetFlashcard(id: number)
+    async reset(id: number)
     {
         return this.fetch<JsonStandard<null>>(`/flashcards/${id}/reset`, {
             method: "POST"
         });
     };
 
-    async resetAllFlashcards()
+    async resetAll()
     {
         return this.fetch<JsonStandard<null>>(`/flashcards/reset`, {
             method: "POST"
         });
     };
 
-    async countFlashcards()
+    async count()
     {
         return this.fetch<JsonStandard<number>>(`/flashcards/count`, {
             method: "GET"
         });
     };
 
-    async countFlashcardsToReview()
+    async countToReview()
     {
         return this.fetch<JsonStandard<number>>(`/flashcards/reviews/count`, {
             method: "GET"
         });
     };
 
-    async countCorrectFlashcards()
+    async countCorrect()
     {
         return this.fetch<JsonStandard<number>>(`/flashcards/correct/count`, {
             method: "GET"
         });
     };
 
-    async getAverageGrade()
+    async averageGrade()
     {
         return this.fetch<JsonStandard<number>>(`/flashcards/averageGrade`, {
             method: "GET"

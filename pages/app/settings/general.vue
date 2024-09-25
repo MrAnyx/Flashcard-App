@@ -124,7 +124,7 @@ const eraseReviews = async () =>
         {
             try
             {
-                await repository.flashcard.resetAllFlashcards();
+                await repository.flashcard.resetAll();
 
                 useStandardToast("success", {
                     description: "All flashcards have been reset"

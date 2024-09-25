@@ -179,7 +179,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
 
         if (props.flashcard)
         {
-            const flashcard = await repository.flashcard.updatePartialFlashcard(props.flashcard.id, {
+            const flashcard = await repository.flashcard.partialUpdate(props.flashcard.id, {
                 front: event.data.front,
                 back: event.data.back,
                 details: event.data.details ?? null,
@@ -189,7 +189,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
         }
         else
         {
-            const flashcard = await repository.flashcard.createFlashcard(event.data.unitId, {
+            const flashcard = await repository.flashcard.create(event.data.unitId, {
                 front: event.data.front,
                 back: event.data.back,
                 details: event.data.details,
