@@ -3,6 +3,7 @@ import pkg from "./package.json";
 
 export default defineNuxtConfig({
     modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "@nuxt/eslint"],
+
     ssr: false,
     runtimeConfig: {
         public: {

@@ -26,7 +26,7 @@
                     </stan>
                 </UButton>
 
-                <div class="flex justify-end ">
+                <div class="flex justify-end">
                     <UBadge
                         variant="subtle"
                     >

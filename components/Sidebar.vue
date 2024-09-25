@@ -131,7 +131,7 @@ const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[{
         name: "practice"
     }
 },
-...(authStore.isAdmin
+...(authStore.isPremium
     ? [{
             label: "Analytics",
             icon: "i-tabler-chart-pie",
