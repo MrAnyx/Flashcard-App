@@ -36,11 +36,11 @@ const initialize = async () =>
     {
         const [user, totalTopic, totalUnits, totalFlashcards, totalFlashcardsToReview, totalReviews] = await Promise.all([
             repository.user.getMe(),
-            repository.topic.countTopics(),
+            repository.topic.count(),
             repository.unit.countUnits(),
             repository.flashcard.count(),
             repository.flashcard.countToReview(),
-            repository.review.countReviews(false),
+            repository.review.count(false),
         ]);
 
         // Authentication

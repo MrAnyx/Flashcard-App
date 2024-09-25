@@ -143,7 +143,7 @@ const loadTopics = async () =>
     {
         formProvider.loadingTopics = true;
 
-        const response = await repository.topic.getTopics({ order: "asc", page: 1, sort: "name", itemsPerPage: 200 });
+        const response = await repository.topic.findAll({ order: "asc", page: 1, sort: "name", itemsPerPage: 200 });
         formProvider.topics = response.data;
     }
     finally

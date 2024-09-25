@@ -64,3 +64,16 @@ export type ResetPassword = {
     token: string;
     password: string;
 };
+
+export type Session = {
+    id: number;
+    started_at: string;
+    ended_at: string;
+};
+
+export const GradeType = {
+    again: 1,
+    hard: 2,
+    good: 3,
+    easy: 4
+};

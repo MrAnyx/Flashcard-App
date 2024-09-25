@@ -1,11 +1,11 @@
 import { AbstractRepository } from "./AbstractRepository";
-import type { Topic } from "~/types/entity";
+import type { Flashcard, Session, Topic } from "~/types/entity";
 import type { Pagination } from "~/types/core";
 import type { JsonStandard } from "~/types/request";
 
 export class TopicRepository extends AbstractRepository
 {
-    async getTopics(pagination: Pagination)
+    async findAll(pagination: Pagination)
     {
         return this.fetch<JsonStandard<Topic[]>>("/topics", {
             method: "GET",
@@ -15,29 +15,14 @@ export class TopicRepository extends AbstractRepository
         });
     };
 
-    async getTopic(id: number)
+    async find(id: number)
     {
         return this.fetch<JsonStandard<Topic>>(`/topics/${id}`, {
             method: "GET"
         });
     };
 
-    async updatePartialTopic(id: number, updatedElement: Partial<Topic>)
-    {
-        return this.fetch<JsonStandard<Topic>>(`/topics/${id}`, {
-            method: "PATCH",
-            body: {
-                ...updatedElement
-            }
-        });
-    };
-
-    async updateTopic(id: number, updatedElement: Topic)
-    {
-        return this.updatePartialTopic(id, updatedElement);
-    };
-
-    async createTopic(topic: Pick<Topic, "name" | "description" | "favorite">)
+    async create(topic: Pick<Topic, "name" | "description" | "favorite">)
     {
         return this.fetch<JsonStandard<Topic>>("/topics", {
             method: "POST",
@@ -47,30 +32,52 @@ export class TopicRepository extends AbstractRepository
         });
     };
 
-    async deleteTopic(id: number)
+    async delete(id: number)
     {
         return this.fetch<JsonStandard<null>>(`/topics/${id}`, {
             method: "DELETE"
         });
     };
 
-    async resetTopic(id: number)
+    async partialUpdate(id: number, updatedElement: Partial<Topic>)
+    {
+        return this.fetch<JsonStandard<Topic>>(`/topics/${id}`, {
+            method: "PATCH",
+            body: {
+                ...updatedElement
+            }
+        });
+    };
+
+    async update(id: number, updatedElement: Topic)
+    {
+        return this.partialUpdate(id, updatedElement);
+    };
+
+    async reset(id: number)
     {
         return this.fetch<JsonStandard<null>>(`/topics/${id}/reset`, {
             method: "PATCH"
         });
     };
 
-    async countTopics()
+    async session(id: number)
     {
-        return this.fetch<JsonStandard<number>>(`/topics/count`, {
+        return this.fetch<JsonStandard<{ session: Session; flashcards: Flashcard[] }>>(`/topics/${id}/session`, {
+            method: "GET"
+        });
+    };
+
+    async findRecent()
+    {
+        return this.fetch<JsonStandard<Topic[]>>(`/topics/recent`, {
             method: "GET"
         });
     }
 
-    async recentTopics()
+    async count()
     {
-        return this.fetch<JsonStandard<Topic[]>>(`/topics/recent`, {
+        return this.fetch<JsonStandard<number>>(`/topics/count`, {
             method: "GET"
         });
     }

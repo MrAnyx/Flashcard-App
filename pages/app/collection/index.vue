@@ -143,7 +143,7 @@ const loadTable = async () =>
     {
         loading.value = true;
 
-        const response = await repository.topic.getTopics({
+        const response = await repository.topic.findAll({
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
@@ -162,7 +162,7 @@ const loadTable = async () =>
 
 const toggleFavorite = async (row: Topic) =>
 {
-    await repository.topic.updatePartialTopic(row.id, {
+    await repository.topic.partialUpdate(row.id, {
         favorite: !row.favorite
     });
     row.favorite = !row.favorite;
@@ -170,7 +170,7 @@ const toggleFavorite = async (row: Topic) =>
 
 const duplicateRow = async (row: Topic) =>
 {
-    const response = await repository.topic.createTopic({
+    const response = await repository.topic.create({
         name: row.name,
         description: row.description,
         favorite: false
@@ -193,7 +193,7 @@ const deleteRow = async (row: Topic) =>
         color: "red",
         async onConfirm()
         {
-            await repository.topic.deleteTopic(row.id);
+            await repository.topic.delete(row.id);
 
             topicStore.delete(row);
 
@@ -214,7 +214,7 @@ const resetRow = async (row: Topic) =>
         color: "red",
         async onConfirm()
         {
-            await repository.topic.resetTopic(row.id);
+            await repository.topic.reset(row.id);
 
             useStandardToast("success", {
                 description: `The topic ${row.name} has been reset`

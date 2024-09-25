@@ -87,7 +87,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
 
         if (props.topic)
         {
-            const topic = await repository.topic.updatePartialTopic(props.topic.id, {
+            const topic = await repository.topic.partialUpdate(props.topic.id, {
                 name: event.data.name,
                 description: event.data.description,
             });
@@ -96,7 +96,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
         }
         else
         {
-            const topic = await repository.topic.createTopic({
+            const topic = await repository.topic.create({
                 name: event.data.name,
                 description: event.data.description,
                 favorite: false
