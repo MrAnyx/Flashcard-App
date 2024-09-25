@@ -78,15 +78,15 @@
                         <template #label>
                             <div class=" dark:text-gray-300 text-gray-500 inline-flex items-center gap-x-2">
                                 <span class="truncate">Average answer</span>
-                                <UTooltip
-                                    :ui="{ width: 'max-w-md' }"
+                                <Tooltip
+                                    help
                                     text="The average grade is normalized between 0 and 100. 100 being better than 0."
                                 >
                                     <UIcon
                                         name="i-tabler-info-circle"
                                         class="shrink-0"
                                     />
-                                </UTooltip>
+                                </Tooltip>
                             </div>
                         </template>
                     </BaseDataCard>
