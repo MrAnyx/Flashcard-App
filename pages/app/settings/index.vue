@@ -142,7 +142,7 @@ const saveProfile = async () =>
 {
     try
     {
-        const response = await repository.user.updatePartialMe({
+        const response = await repository.user.partialUpdateMe({
             email: profileFormData.email,
             username: profileFormData.username
         });
@@ -183,7 +183,7 @@ const saveSecurity = async () =>
 {
     try
     {
-        await repository.user.updatePartialMe({
+        await repository.user.partialUpdateMe({
             password: securityFormData.password,
         });
 

@@ -5,6 +5,13 @@ import type { SettingName } from "~/types/settings";
 
 export class UserRepository extends AbstractRepository
 {
+    async findMe()
+    {
+        return this.fetch<JsonStandard<User>>(`/users/me`, {
+            method: "GET"
+        });
+    };
+
     async deleteMe()
     {
         return this.fetch<JsonStandard<null>>(`/users/me`, {
@@ -12,14 +19,7 @@ export class UserRepository extends AbstractRepository
         });
     };
 
-    async getMe()
-    {
-        return this.fetch<JsonStandard<User>>(`/users/me`, {
-            method: "GET"
-        });
-    };
-
-    async updatePartialMe(updatedElement: Partial<UserExtended>)
+    async partialUpdateMe(updatedElement: Partial<UserExtended>)
     {
         return this.fetch<JsonStandard<User>>(`/users/me`, {
             method: "PATCH",
@@ -31,7 +31,7 @@ export class UserRepository extends AbstractRepository
 
     async updateMe(updatedElement: UserExtended)
     {
-        return this.updatePartialMe(updatedElement);
+        return this.partialUpdateMe(updatedElement);
     };
 
     async updateSetting(name: SettingName, value: string | number | boolean)

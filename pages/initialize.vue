@@ -35,7 +35,7 @@ const initialize = async () =>
     try
     {
         const [user, totalTopic, totalUnits, totalFlashcards, totalFlashcardsToReview, totalReviews] = await Promise.all([
-            repository.user.getMe(),
+            repository.user.findMe(),
             repository.topic.count(),
             repository.unit.countUnits(),
             repository.flashcard.count(),
