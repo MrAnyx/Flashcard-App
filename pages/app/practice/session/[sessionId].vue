@@ -131,6 +131,7 @@ onBeforeRouteLeave(async () =>
 
 const displayModalAsync = () =>
 {
+    // TODO Créer un utils
     return new Promise<boolean>((resolve) =>
     {
         modal.open(ModalConfirm, {

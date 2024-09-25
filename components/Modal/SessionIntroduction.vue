@@ -44,7 +44,12 @@
 
             <UCheckbox v-model="dontShowAgain" label="Don't show again?" />
 
-            <UButton block icon="i-tabler-device-gamepad-2" @click="startSession">
+            <UButton
+                block
+                icon="i-tabler-device-gamepad-2"
+                :loading="provider.loading"
+                @click="startSession"
+            >
                 Let's play
             </UButton>
         </div>
@@ -52,15 +57,25 @@
 </template>
 
 <script setup lang="ts">
+import type { Collection } from "~/types/session";
+
+const props = defineProps<{
+    collection?: Collection;
+}>();
+
 const modal = useModal();
 const repository = useRepository();
 const authStore = useAuthStore();
 
 const dontShowAgain = ref(false);
 
+const provider = reactive({
+    loading: false
+});
+
 const flashcardsPerSession = authStore.getSetting<number>("flashcard_per_session");
 const lowRange = secondsToMinutes(flashcardsPerSession * 5); // 5s per flashcard
-const highRange = secondsToMinutes(flashcardsPerSession * 20); // 20s per flashcard
+const highRange = secondsToMinutes(flashcardsPerSession * 30); // 20s per flashcard
 
 const startSession = async () =>
 {
@@ -69,6 +84,29 @@ const startSession = async () =>
         setSetting("show_session_introduction", !dontShowAgain.value);
     }
 
-    return;
+    try
+    {
+        provider.loading = true;
+        const session = await getSession(props.collection);
+        // TODO Set the session in the store
+
+        await navigateTo({
+            name: "session",
+            params: {
+                sessionId: session.data.session.id
+            }
+        });
+    }
+    catch
+    {
+        useStandardToast("error", {
+            description: "Unable to start a new session"
+        });
+    }
+    finally
+    {
+        provider.loading = false;
+        modal.close();
+    }
 };
 </script>

@@ -80,6 +80,7 @@
                                 <span class="truncate">Average answer</span>
                                 <Tooltip
                                     help
+                                    activation="click"
                                     text="The average grade is normalized between 0 and 100. 100 being better than 0."
                                 >
                                     <UIcon
@@ -254,6 +255,6 @@ const loadDashboard = async () =>
 
 const openSessionModal = async () =>
 {
-    startSession();
+    showSession();
 };
 </script>

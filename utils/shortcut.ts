@@ -114,7 +114,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 {
                     useModal().close();
 
-                    setTimeout(() => startSession(), 0);
+                    setTimeout(() => showSession(), 0);
                 }
             },
             "c-t": {
