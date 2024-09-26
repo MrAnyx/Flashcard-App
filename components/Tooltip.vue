@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <UPopover :mode="props.activation">
+    <UPopover :mode="props.activation" :disabled="props.disabled">
         <template #panel="{ close }">
             <slot name="content" :close="close">
                 <div class="p-2 md:p-2 max-w-sm md:max-w-lg">
@@ -25,5 +25,6 @@ const props = defineProps<{
     activation: "hover" | "click";
     truncate?: boolean;
     help?: boolean;
+    disabled?: boolean;
 }>();
 </script>

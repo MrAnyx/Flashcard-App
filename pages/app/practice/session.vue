@@ -56,18 +56,19 @@
                         </Tooltip>
                         <Tooltip
                             activation="click"
-                            text="Difficulty of 6/10"
-                            help
+                            :disabled="currentQuestion.difficulty === null"
+                            :text="`Difficulty of ${currentQuestion.difficulty}/10`"
+                            :help="currentQuestion.difficulty !== null"
                         >
-                            <UBadge color="yellow" variant="subtle">
-                                Medium
+                            <UBadge :color="difficulty.color" variant="subtle">
+                                {{ difficulty.label }}
                             </UBadge>
                         </Tooltip>
                     </div>
                 </template>
 
                 <p class="leading-8 sm:leading-10 md:leading-10 text-base sm:text-lg md:text-xl p-4 md:p-5">
-                    Given a non-deterministic Turing machine (NDTM), explain how it relates to solving problems in NP, and whether an NDTM can solve problems in NP-complete in polynomial time. Additionally, outline the significance of polynomial-time reductions in proving that a problem is NP-complete. Finally, provide an example of a real-world problem that is NP-complete and discuss whether quantum computing might offer a path to solving such problems efficiently
+                    {{ currentQuestion.front }}
                 </p>
             </UCard>
 
@@ -80,6 +81,8 @@
                     variant="outline"
                     color="green"
                     size="lg"
+                    :loading="state.loading"
+                    @click="answer(GradeType.easy)"
                 >
                     Easy
                 </UButton>
@@ -89,6 +92,8 @@
                     variant="outline"
                     color="sky"
                     size="lg"
+                    :loading="state.loading"
+                    @click="answer(GradeType.good)"
                 >
                     Good
                 </UButton>
@@ -98,6 +103,8 @@
                     variant="outline"
                     color="orange"
                     size="lg"
+                    :loading="state.loading"
+                    @click="answer(GradeType.hard)"
                 >
                     Hard
                 </UButton>
@@ -107,6 +114,8 @@
                     variant="outline"
                     color="red"
                     size="lg"
+                    :loading="state.loading"
+                    @click="answer(GradeType.again)"
                 >
                     Again
                 </UButton>
@@ -117,12 +126,21 @@
 
 <script lang="ts" setup>
 import { ModalConfirm } from "#components";
+import type { BadgeColor } from "#ui/types";
+import { GradeType } from "~/types/entity";
 
 definePageMeta({
     name: "session",
 });
 
 const modal = useModal();
+const repository = useRepository();
+const sessionStore = useSessionStore();
+const reviewStore = useReviewStore();
+
+const state = reactive({
+    loading: false,
+});
 
 onBeforeRouteLeave(async () =>
 {
@@ -131,7 +149,6 @@ onBeforeRouteLeave(async () =>
 
 const displayModalAsync = () =>
 {
-    // TODO Créer un utils
     return new Promise<boolean>((resolve) =>
     {
         modal.open(ModalConfirm, {
@@ -145,5 +162,60 @@ const displayModalAsync = () =>
             onClose: () => resolve(false)
         });
     });
+};
+
+const currentQuestion = computed(() => sessionStore.currentSessionFlashcards[sessionStore.currentFlashcard]);
+const difficulty = computed<{ label: string; color: BadgeColor }>(() =>
+{
+    if (currentQuestion.value.difficulty === null)
+    {
+        return {
+            label: "Not trained yet",
+            color: "gray"
+        };
+    }
+
+    if (currentQuestion.value.difficulty >= 7)
+    {
+        return {
+            label: "Hard",
+            color: "red"
+        };
+    }
+    else if (currentQuestion.value.difficulty <= 4)
+    {
+        return {
+            label: "Easy",
+            color: "green"
+        };
+    }
+    else
+    {
+        return {
+            label: "Medium",
+            color: "yellow"
+        };
+    }
+});
+
+const answer = async (gradeType: number) =>
+{
+    try
+    {
+        state.loading = true;
+        await repository.flashcard.review(currentQuestion.value.id, gradeType, sessionStore.currentSession!.id);
+        reviewStore.increment();
+        sessionStore.nextFlashcards();
+    }
+    catch
+    {
+        useStandardToast("error", {
+            description: "Unable to the send the answer"
+        });
+    }
+    finally
+    {
+        state.loading = false;
+    }
 };
 </script>

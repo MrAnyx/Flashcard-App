@@ -12,10 +12,10 @@ export const AppShortcutSections: ShortcutSection[] = [
                 usingInput: false,
                 name: "Go to overview",
                 description: "Naviguate to your overview",
-                action: () =>
+                action: async () =>
                 {
                     useModal().close();
-                    navigateTo({
+                    await navigateTo({
                         name: "overview"
                     });
                 }
@@ -26,10 +26,10 @@ export const AppShortcutSections: ShortcutSection[] = [
                 usingInput: false,
                 name: "Go to collection",
                 description: "Naviguate to the collection page",
-                action: () =>
+                action: async () =>
                 {
                     useModal().close();
-                    navigateTo({
+                    await navigateTo({
                         name: "topics"
                     });
                 }
@@ -40,25 +40,11 @@ export const AppShortcutSections: ShortcutSection[] = [
                 usingInput: false,
                 name: "Go to practice",
                 description: "Naviguate to the practice page",
-                action: () =>
+                action: async () =>
                 {
                     useModal().close();
-                    navigateTo({
+                    await navigateTo({
                         name: "practice"
-                    });
-                }
-            },
-            "g-f": {
-                shortcut: ["G", "F"],
-                global: true,
-                usingInput: false,
-                name: "Go to your favorite collection",
-                description: "Naviguate to your favorite collection",
-                action: () =>
-                {
-                    useModal().close();
-                    navigateTo({
-                        name: "favorites"
                     });
                 }
             },
@@ -68,10 +54,10 @@ export const AppShortcutSections: ShortcutSection[] = [
                 usingInput: false,
                 name: "Go to settings",
                 description: "Naviguate to the settings page",
-                action: () =>
+                action: async () =>
                 {
                     useModal().close();
-                    navigateTo({
+                    await navigateTo({
                         name: "settings-account"
                     });
                 }
@@ -88,8 +74,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Open search command palette",
                 action: () =>
                 {
-                    useModal().close();
-                    setTimeout(() => useModal().open(ModalSearchCommandPalette), 0);
+                    useModal().open(ModalSearchCommandPalette);
                 }
             },
             "?": {
@@ -100,8 +85,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Open list of shortcuts",
                 action: () =>
                 {
-                    useModal().close();
-                    setTimeout(() => useModal().open(ModalShortcuts), 0);
+                    useModal().open(ModalShortcuts);
                 }
             },
             "c-s": {
@@ -110,11 +94,38 @@ export const AppShortcutSections: ShortcutSection[] = [
                 usingInput: false,
                 name: "Start a session",
                 description: "Start a session",
-                action: () =>
+                action: async () =>
                 {
-                    useModal().close();
+                    const modal = useModal();
+                    const authStore = useAuthStore();
 
-                    setTimeout(() => showSession(), 0);
+                    if (authStore.getSetting("show_session_introduction"))
+                    {
+                        modal.open(ModalSessionIntroduction);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            const session = await getSession();
+                            useSessionStore().defineSession(session);
+
+                            await navigateTo({
+                                name: "session",
+                                params: {
+                                    sessionId: session.session.id
+                                }
+                            });
+
+                            await modal.close();
+                        }
+                        catch
+                        {
+                            useStandardToast("error", {
+                                description: "Unable to start a new session"
+                            });
+                        }
+                    }
                 }
             },
             "c-t": {
@@ -125,8 +136,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Create a new topic",
                 action: () =>
                 {
-                    useModal().close();
-                    setTimeout(() => useModal().open(ModalTopicForm), 0);
+                    useModal().open(ModalTopicForm);
                 }
             },
             "c-u": {
@@ -137,8 +147,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Create a new unit",
                 action: () =>
                 {
-                    useModal().close();
-                    setTimeout(() => useModal().open(ModalUnitForm), 0);
+                    useModal().open(ModalUnitForm);
                 }
             },
             "c-f": {
@@ -149,8 +158,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Create a new flashcard",
                 action: () =>
                 {
-                    useModal().close();
-                    setTimeout(() => useModal().open(ModalFlashcardForm), 0);
+                    useModal().open(ModalFlashcardForm);
                 }
             },
         }

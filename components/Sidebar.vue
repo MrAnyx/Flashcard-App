@@ -126,7 +126,7 @@ const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[{
     }
 }, {
     label: "Practice",
-    icon: "i-tabler-brain",
+    icon: "i-tabler-device-gamepad-2",
     to: {
         name: "practice"
     }

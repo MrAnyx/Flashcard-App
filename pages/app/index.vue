@@ -7,7 +7,7 @@
             <UCard>
                 <div class="flex flex-col gap-y-3">
                     <h2 class="text-2xl text-gray-700 dark:text-gray-300">
-                        Welcome back MrAnyx
+                        Welcome back {{ authStore.user!.username }}
                     </h2>
                     <p class="text-gray-500 dark:text-gray-400 text-sm capitalize">
                         {{ DateTime.now().toFormat('DDDD') }}
@@ -20,6 +20,8 @@
                         <UButton
                             label="Start a session"
                             variant="soft"
+                            icon="i-tabler-device-gamepad-2"
+                            :loading="provider.loadingSession"
                             @click="openSessionModal"
                         />
                         <UButton
@@ -153,6 +155,7 @@
 import { DateTime } from "luxon";
 import { formatNumber, normalizeValue } from "#imports";
 import type { Flashcard, Topic, Unit } from "~/types/entity";
+import { ModalSessionIntroduction } from "#components";
 
 definePageMeta({
     name: "overview",
@@ -168,9 +171,12 @@ const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
 const reviewStore = useReviewStore();
+const authStore = useAuthStore();
+const modal = useModal();
 
 const provider = reactive({
     loading: true,
+    loadingSession: false,
 });
 
 const recentTopics = ref<Topic[]>([]);
@@ -255,6 +261,37 @@ const loadDashboard = async () =>
 
 const openSessionModal = async () =>
 {
-    showSession();
+    if (authStore.getSetting("show_session_introduction"))
+    {
+        modal.open(ModalSessionIntroduction);
+    }
+    else
+    {
+        try
+        {
+            provider.loadingSession = true;
+            const session = await getSession();
+            useSessionStore().defineSession(session);
+
+            await navigateTo({
+                name: "session",
+                params: {
+                    sessionId: session.session.id
+                }
+            });
+
+            await modal.close();
+        }
+        catch
+        {
+            useStandardToast("error", {
+                description: "Unable to start a new session"
+            });
+        }
+        finally
+        {
+            provider.loadingSession = false;
+        }
+    }
 };
 </script>

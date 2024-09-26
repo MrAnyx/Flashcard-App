@@ -4,7 +4,7 @@ export type ShortcutItem = {
     usingInput: boolean;
     name: string;
     description: string;
-    action?: (() => void);
+    action?: (() => void | Promise<void>);
 };
 
 export type ShortcutSection = {

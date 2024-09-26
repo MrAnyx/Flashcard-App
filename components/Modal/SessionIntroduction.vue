@@ -64,7 +64,6 @@ const props = defineProps<{
 }>();
 
 const modal = useModal();
-const repository = useRepository();
 const authStore = useAuthStore();
 
 const dontShowAgain = ref(false);
@@ -81,21 +80,20 @@ const startSession = async () =>
 {
     if (dontShowAgain.value)
     {
-        setSetting("show_session_introduction", !dontShowAgain.value);
+        await setSetting("show_session_introduction", !dontShowAgain.value);
     }
 
     try
     {
         provider.loading = true;
         const session = await getSession(props.collection);
-        // TODO Set the session in the store
+        useSessionStore().defineSession(session);
 
         await navigateTo({
-            name: "session",
-            params: {
-                sessionId: session.data.session.id
-            }
+            name: "session"
         });
+
+        await modal.close();
     }
     catch
     {
@@ -106,7 +104,6 @@ const startSession = async () =>
     finally
     {
         provider.loading = false;
-        modal.close();
     }
 };
 </script>

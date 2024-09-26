@@ -47,8 +47,8 @@ export type Flashcard = {
     nextReview: string;
     previousReview: string;
     state: number;
-    difficulty: number;
-    stability: number;
+    difficulty: number | null;
+    stability: number | null;
     favorite: boolean;
 };
 

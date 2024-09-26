@@ -40,9 +40,9 @@ const props = defineProps<{
     color?: ButtonColor;
 }>();
 
-const confirm = () =>
+const confirm = async () =>
 {
     emit("confirm");
-    modal.close();
+    await modal.close();
 };
 </script>
