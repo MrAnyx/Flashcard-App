@@ -1,133 +1,244 @@
 <template>
     <div class="h-full flex flex-col">
-        <UMeter :value="20" size="sm" />
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-800 overflow-auto shrink-0">
-            <UBreadcrumb
-                :links="[
-                    { label: 'Tech ', icon: 'i-tabler-folder', labelClass: 'text-gray-500 dark:text-gray-400', iconClass: 'text-gray-500 dark:text-gray-400' },
-                    { label: 'Turing machine', icon: 'i-tabler-color-swatch', labelClass: 'text-gray-500 dark:text-gray-400', iconClass: 'text-gray-500 dark:text-gray-400' }
-                ]"
-                class="min-w-fit"
-            />
-        </div>
-        <section class="p-6 grow flex flex-col items-center overflow-auto">
-            <div class="grid grid-cols-2 items-center w-full gap-x-">
-                <UButton
-                    size="sm"
-                    icon="i-tabler-arrow-left"
-                    class="justify-self-start"
-                    variant="ghost"
-                    square
-                    :to="{ name: 'practice' }"
-                    color="red"
-                >
-                    <stan class="hidden md:inline">
-                        Leave
-                    </stan>
-                </UButton>
-
-                <div class="flex justify-end">
-                    <UBadge
-                        variant="subtle"
+        <UMeter
+            :value="sessionStore.currentFlashcard"
+            :max="sessionStore.currentSessionFlashcards.length"
+            size="sm"
+        />
+        <template v-if="sessionStore.hasNextFlashcard">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-800 overflow-auto shrink-0">
+                <UBreadcrumb
+                    :links="[
+                        { label: 'Tech ', icon: 'i-tabler-folder', labelClass: 'text-gray-500 dark:text-gray-400', iconClass: 'text-gray-500 dark:text-gray-400' },
+                        { label: 'Turing machine', icon: 'i-tabler-color-swatch', labelClass: 'text-gray-500 dark:text-gray-400', iconClass: 'text-gray-500 dark:text-gray-400' }
+                    ]"
+                    class="min-w-fit"
+                />
+            </div>
+            <section class="p-6 grow flex flex-col items-center overflow-auto">
+                <div class="grid grid-cols-2 items-center w-full gap-x-">
+                    <UButton
+                        size="sm"
+                        icon="i-tabler-arrow-left"
+                        class="justify-self-start"
+                        variant="ghost"
+                        square
+                        :to="{ name: 'practice' }"
+                        color="red"
                     >
-                        <UIcon name="i-tabler-flame" class="w-5 h-5 mr-1" />
-                        5 in a row
-                    </UBadge>
-                </div>
-            </div>
+                        <stan class="hidden md:inline">
+                            Leave
+                        </stan>
+                    </UButton>
 
-            <UCard class="max-w-2xl mt-6 overflow-auto sm:mt-10 w-full min-h-[120px]" :ui="{ body: { padding: '' }, header: { padding: '' } }">
-                <template #header>
-                    <div class="flex justify-between items-center gap-x-4 overflow-x-auto p-3">
-                        <Tooltip
-                            activation="click"
-                            help
-                            text="Search on Google for more details"
+                    <div class="flex justify-end">
+                        <UBadge
+                            variant="subtle"
                         >
-                            <UButton
-                                icon="i-tabler-mood-puzzled"
-                                size="xs"
-                                square
-                                variant="ghost"
-                                color="yellow"
-                            >
-                                Hint
-                            </UButton>
-                        </Tooltip>
-                        <Tooltip
-                            activation="click"
-                            :disabled="currentQuestion.difficulty === null"
-                            :text="`Difficulty of ${currentQuestion.difficulty}/10`"
-                            :help="currentQuestion.difficulty !== null"
-                        >
-                            <UBadge :color="difficulty.color" variant="subtle">
-                                {{ difficulty.label }}
-                            </UBadge>
-                        </Tooltip>
+                            <UIcon name="i-tabler-flame" class="w-5 h-5 mr-1" />
+                            5 in a row
+                        </UBadge>
                     </div>
-                </template>
+                </div>
 
-                <p class="leading-8 sm:leading-10 md:leading-10 text-base sm:text-lg md:text-xl p-4 md:p-5">
-                    {{ currentQuestion.front }}
-                </p>
-            </UCard>
+                <UCard class="max-w-2xl mt-6 overflow-auto sm:mt-10 w-full min-h-[120px]" :ui="{ body: { padding: '' }, header: { padding: '' } }">
+                    <template #header>
+                        <div class="flex justify-between items-center gap-x-4 overflow-x-auto p-3">
+                            <Tooltip
+                                activation="click"
+                                :disabled="currentQuestion?.difficulty === null"
+                                :text="`Difficulty of ${formatNumber(currentQuestion?.difficulty ?? 0)}/10`"
+                                :help="currentQuestion?.difficulty !== null"
+                            >
+                                <UBadge :color="difficulty.color" variant="subtle">
+                                    {{ difficulty.label }}
+                                </UBadge>
+                            </Tooltip>
+                            <Tooltip
+                                v-if="currentQuestion?.help !== null"
+                                activation="click"
+                                help
+                                :text="currentQuestion.help"
+                            >
+                                <UButton
+                                    icon="i-tabler-mood-puzzled"
+                                    size="xs"
+                                    square
+                                    variant="ghost"
+                                    color="yellow"
+                                >
+                                    Hint
+                                </UButton>
+                            </Tooltip>
+                        </div>
+                    </template>
 
-            <div class="grow shrink" />
+                    <p class="leading-8 sm:leading-10 md:leading-10 text-base sm:text-lg md:text-xl p-4 md:p-5">
+                        {{ currentQuestion?.front }}
+                    </p>
+                </UCard>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full shrink-0 mt-6 sm:mt-10">
-                <UButton
-                    class="flex justify-center h-9 sm:h-12"
-                    icon="i-tabler-checks"
-                    variant="outline"
-                    color="green"
-                    size="lg"
-                    :loading="state.loading"
-                    @click="answer(GradeType.easy)"
-                >
-                    Easy
-                </UButton>
-                <UButton
-                    class="flex justify-center h-9 sm:h-12"
-                    icon="i-tabler-circle-dashed-check"
-                    variant="outline"
-                    color="sky"
-                    size="lg"
-                    :loading="state.loading"
-                    @click="answer(GradeType.good)"
-                >
-                    Good
-                </UButton>
-                <UButton
-                    class="flex justify-center h-9 sm:h-12"
-                    icon="i-tabler-brain"
-                    variant="outline"
-                    color="orange"
-                    size="lg"
-                    :loading="state.loading"
-                    @click="answer(GradeType.hard)"
-                >
-                    Hard
-                </UButton>
-                <UButton
-                    class="flex justify-center h-9 sm:h-12"
-                    icon="i-tabler-reload"
-                    variant="outline"
-                    color="red"
-                    size="lg"
-                    :loading="state.loading"
-                    @click="answer(GradeType.again)"
-                >
-                    Again
-                </UButton>
-            </div>
-        </section>
+                <div class="grow shrink" />
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full shrink-0 mt-6 sm:mt-10">
+                    <UButton
+                        class="flex justify-center h-9 sm:h-12"
+                        icon="i-tabler-checks"
+                        variant="outline"
+                        color="green"
+                        size="lg"
+                        :loading="state.loading"
+                        @click="answer(GradeType.easy)"
+                    >
+                        Easy
+                    </UButton>
+                    <UButton
+                        class="flex justify-center h-9 sm:h-12"
+                        icon="i-tabler-circle-dashed-check"
+                        variant="outline"
+                        color="sky"
+                        size="lg"
+                        :loading="state.loading"
+                        @click="answer(GradeType.good)"
+                    >
+                        Good
+                    </UButton>
+                    <UButton
+                        class="flex justify-center h-9 sm:h-12"
+                        icon="i-tabler-brain"
+                        variant="outline"
+                        color="yellow"
+                        size="lg"
+                        :loading="state.loading"
+                        @click="answer(GradeType.hard)"
+                    >
+                        Hard
+                    </UButton>
+                    <UButton
+                        class="flex justify-center h-9 sm:h-12"
+                        icon="i-tabler-reload"
+                        variant="outline"
+                        color="red"
+                        size="lg"
+                        :loading="state.loading"
+                        @click="answer(GradeType.again)"
+                    >
+                        Again
+                    </UButton>
+                </div>
+            </section>
+        </template>
+        <template v-else>
+            <section class="p-6 grow flex flex-col items-center overflow-auto">
+                <div class="grid grid-cols-2 items-center w-full gap-x-">
+                    <!-- TODO Factoriser -->
+                    <UButton
+                        size="sm"
+                        icon="i-tabler-arrow-left"
+                        class="justify-self-start"
+                        variant="ghost"
+                        square
+                        :to="{ name: 'practice' }"
+                        color="red"
+                    >
+                        <stan class="hidden md:inline">
+                            Leave
+                        </stan>
+                    </UButton>
+                </div>
+
+                <UCard class="max-w-2xl mt-6 overflow-auto sm:mt-10 w-full" :ui="{ body: { padding: '' }, header: { padding: '' } }">
+                    <template #header>
+                        <div class="flex justify-between items-center gap-x-4 overflow-x-auto p-3">
+                            <span>Results</span>
+
+                            <Tooltip
+                                activation="click"
+                                help
+                                :text="`Accuracy of 86%`"
+                            >
+                                <UBadge color="green" variant="subtle">
+                                    Awesome
+                                </UBadge>
+                            </Tooltip>
+                        </div>
+                    </template>
+
+                    <UMeterGroup
+                        :max="sessionStore.grades.length"
+                        size="sm"
+                        :ui="{ list: 'hidden' }"
+                    >
+                        <UMeter :value="sessionStore.grades.filter(g => g.grade === GradeType.easy).length" color="green" />
+                        <UMeter :value="sessionStore.grades.filter(g => g.grade === GradeType.good).length" color="sky" />
+                        <UMeter :value="sessionStore.grades.filter(g => g.grade === GradeType.hard).length" color="yellow" />
+                        <UMeter :value="sessionStore.grades.filter(g => g.grade === GradeType.again).length" color="red" />
+                    </UMeterGroup>
+
+                    <div class="p-4 md:p-5 flex flex-col gap-y-6">
+                        <div class="grid md:grid-cols-2 gap-3 text-gray-500 dark:text-gray-400">
+                            <div class="flex gap-x-1 items-center shrink-0">
+                                <UIcon name="i-tabler-clock" />
+                                <span>Finished in ~{{ secondsToMinutes(sessionStore.grades.map(g => g.duration).reduce((acc, duration) => acc + duration) / 1000) }} minutes</span>
+                            </div>
+                            <div class="flex items-center gap-x-1 shrink-0 md:justify-end">
+                                <UIcon name="i-tabler-cards" />
+                                <span>{{ sessionStore.currentSessionFlashcards.length }} Flashcards</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <template v-for="(grade, i) in sessionStore.grades" :key="i">
+                                <div class="grow ring ring-gray-800 ring-1 rounded-md p-2 text-gray-400 dark:text-gray-300 flex items-center">
+                                    <span class="font-medium grow text-center">{{ i + 1 }}</span>
+                                    <Tooltip
+                                        v-if="grade.grade === GradeType.easy"
+                                        help
+                                        text="Easy"
+                                        activation="click"
+                                    >
+                                        <UIcon name="i-tabler-checks" :class="`text-${gradeColor(grade.grade)}-400`" />
+                                    </Tooltip>
+                                    <Tooltip
+                                        v-if="grade.grade === GradeType.good"
+                                        help
+                                        text="Good"
+                                        activation="click"
+                                    >
+                                        <UIcon name="i-tabler-circle-dashed-check" :class="`text-${gradeColor(grade.grade)}-400`" />
+                                    </Tooltip>
+                                    <Tooltip
+                                        v-if="grade.grade === GradeType.hard"
+                                        help
+                                        text="Hard"
+                                        activation="click"
+                                    >
+                                        <UIcon name="i-tabler-brain" :class="`text-${gradeColor(grade.grade)}-400`" />
+                                    </Tooltip>
+                                    <Tooltip
+                                        v-if="grade.grade === GradeType.again"
+                                        help
+                                        text="Again"
+                                        activation="click"
+                                    >
+                                        <UIcon name="i-tabler-reload" :class="`text-${gradeColor(grade.grade)}-400`" />
+                                    </Tooltip>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </UCard>
+            </section>
+        </template>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { DateTime } from "luxon";
 import { ModalConfirm } from "#components";
 import type { BadgeColor } from "#ui/types";
 import { GradeType } from "~/types/entity";
+import Tooltip from "~/components/Tooltip.vue";
 
 definePageMeta({
     name: "session",
@@ -144,7 +255,7 @@ const state = reactive({
 
 onBeforeRouteLeave(async () =>
 {
-    return await displayModalAsync();
+    return sessionStore.hasNextFlashcard ? await displayModalAsync() : true;
 });
 
 const displayModalAsync = () =>
@@ -167,7 +278,7 @@ const displayModalAsync = () =>
 const currentQuestion = computed(() => sessionStore.currentSessionFlashcards[sessionStore.currentFlashcard]);
 const difficulty = computed<{ label: string; color: BadgeColor }>(() =>
 {
-    if (currentQuestion.value.difficulty === null)
+    if (!currentQuestion.value || currentQuestion.value.difficulty === null)
     {
         return {
             label: "Not trained yet",
@@ -204,8 +315,13 @@ const answer = async (gradeType: number) =>
     {
         state.loading = true;
         await repository.flashcard.review(currentQuestion.value.id, gradeType, sessionStore.currentSession!.id);
+        sessionStore.addGrade(gradeType);
         reviewStore.increment();
-        sessionStore.nextFlashcards();
+
+        if (sessionStore.hasNextFlashcard)
+        {
+            sessionStore.nextFlashcards();
+        }
     }
     catch
     {

@@ -187,8 +187,8 @@ const profileDropdownOptions = computed<DropdownItem[][]>(() => [
         disabled: true
     }], [
         {
-            label: "Account",
-            icon: "i-tabler-user",
+            label: "Settings",
+            icon: "i-tabler-settings",
             to: {
                 name: "settings-account"
             }

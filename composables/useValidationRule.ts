@@ -40,6 +40,9 @@ export const useValidationRule = () =>
         details: z.string()
             .max(1000, "The details is too long"),
 
+        help: z.string()
+            .max(255, "The help is too long"),
+
         name: z.string()
             .min(1, "The name can not be blank")
             .max(35, "The name is too long"),

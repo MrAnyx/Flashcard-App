@@ -1,15 +1,29 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import pkg from "./package.json";
 
-export default defineNuxtConfig({
-    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "@nuxt/eslint"],
+console.log(process.env.NODE_ENV);
 
+export default defineNuxtConfig({
+    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "@nuxt/eslint", "nuxt-umami"],
     ssr: false,
     runtimeConfig: {
         public: {
             apiBaseUrl: process.env.API_BASE_URL,
             appVersion: pkg.version,
         },
+    },
+    umami: {
+        id: process.env.UMAMI_TOKEN,
+        host: process.env.UMAMI_HOST,
+        autoTrack: true,
+        enabled: process.env.NODE_ENV === "production",
+        // proxy: 'cloak',
+        // useDirective: true,
+        // ignoreLocalhost: true,
+        // excludeQueryParams: false,
+        // domains: ['cool-site.app', 'my-space.site'],
+        // customEndpoint: '/my-custom-endpoint',
+        // logErrors: true,
     },
     imports: {
         dirs: [
@@ -51,10 +65,10 @@ export default defineNuxtConfig({
     tailwindcss: {
         viewer: false
     },
-    sourcemap: {
-        server: false,
-        client: false
-    },
+    // sourcemap: {
+    //     server: false,
+    //     client: false
+    // },
     devtools: {
         enabled: false,
 
@@ -62,13 +76,13 @@ export default defineNuxtConfig({
             enabled: true
         }
     },
-    vite: {
-        server: {
-            middlewareMode: true,
-            hmr: {
-                port: 3001
-            }
-        }
-    },
+    // vite: {
+    //     server: {
+    //         middlewareMode: true,
+    //         hmr: {
+    //             port: 3001
+    //         }
+    //     }
+    // },
     compatibilityDate: "2024-07-28"
 });

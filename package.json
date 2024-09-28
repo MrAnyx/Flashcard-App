@@ -39,9 +39,9 @@
         "@vueuse/core": "^10.11.1",
         "@vueuse/nuxt": "^10.11.1",
         "nuxt": "^3.13.0",
+        "nuxt-umami": "^3.0.1",
         "sass": "^1.77.8",
         "typescript": "^5.5.4"
     },
     "packageManager": "pnpm@8.15.4+sha1.c85a4305534f76d461407b59277b954bac97b5c4"
 }
-

@@ -48,7 +48,7 @@
                 block
                 icon="i-tabler-device-gamepad-2"
                 :loading="provider.loading"
-                @click="startSession"
+                @click="playButtonClick"
             >
                 Let's play
             </UButton>
@@ -76,34 +76,16 @@ const flashcardsPerSession = authStore.getSetting<number>("flashcard_per_session
 const lowRange = secondsToMinutes(flashcardsPerSession * 5); // 5s per flashcard
 const highRange = secondsToMinutes(flashcardsPerSession * 30); // 20s per flashcard
 
-const startSession = async () =>
+const playButtonClick = async () =>
 {
     if (dontShowAgain.value)
     {
         await setSetting("show_session_introduction", !dontShowAgain.value);
     }
 
-    try
-    {
-        provider.loading = true;
-        const session = await getSession(props.collection);
-        useSessionStore().defineSession(session);
+    await startSession(props.collection);
 
-        await navigateTo({
-            name: "session"
-        });
-
-        await modal.close();
-    }
-    catch
-    {
-        useStandardToast("error", {
-            description: "Unable to start a new session"
-        });
-    }
-    finally
-    {
-        provider.loading = false;
-    }
+    await modal.close();
+    provider.loading = false;
 };
 </script>

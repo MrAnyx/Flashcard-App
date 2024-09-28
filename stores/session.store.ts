@@ -1,14 +1,14 @@
 import { DateTime } from "luxon";
 import { defineStore } from "pinia";
 import type { Flashcard, Session } from "~/types/entity";
+import type { Answer } from "~/types/session";
 
 type State = {
     total: number;
     currentSession?: Session;
     currentSessionFlashcards: Flashcard[];
     currentFlashcard: number;
-    grades: number[];
-    sessionState: "idle" | "ongoing" | "finished";
+    grades: Answer[];
 };
 
 export const useSessionStore = defineStore("session", {
@@ -19,7 +19,6 @@ export const useSessionStore = defineStore("session", {
         currentSessionFlashcards: [],
         currentFlashcard: 0,
         grades: [],
-        sessionState: "idle",
     }),
     actions: {
         defineSession(session: { session: Session; flashcards: Flashcard[] })
@@ -27,17 +26,28 @@ export const useSessionStore = defineStore("session", {
             this.increment();
             this.currentSession = session.session;
             this.currentSessionFlashcards = session.flashcards;
-            this.sessionState = "ongoing";
             this.currentFlashcard = 0;
             this.grades = [];
         },
         addGrade(gradeType: number)
         {
-            this.grades.push(gradeType);
+            const now = DateTime.now().toMillis();
+
+            this.grades.push({
+                grade: gradeType,
+                timestamp: now,
+                duration: this.currentFlashcard === 0
+                    ? now - DateTime.fromISO(this.currentSession!.started_at).toMillis()
+                    : now - this.grades[this.currentFlashcard - 1].timestamp
+            });
         },
         nextFlashcards()
         {
             this.currentFlashcard++;
+        },
+        previousFlashcard()
+        {
+            this.currentFlashcard--;
         },
         increment()
         {
@@ -48,5 +58,10 @@ export const useSessionStore = defineStore("session", {
             this.total--;
         }
     },
-    getters: {}
+    getters: {
+        hasNextFlashcard(state)
+        {
+            return state.currentFlashcard < state.currentSessionFlashcards.length;
+        }
+    }
 });

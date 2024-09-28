@@ -50,6 +50,7 @@ export type Flashcard = {
     difficulty: number | null;
     stability: number | null;
     favorite: boolean;
+    help: string | null;
 };
 
 export type Auth = {

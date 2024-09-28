@@ -105,26 +105,8 @@ export const AppShortcutSections: ShortcutSection[] = [
                     }
                     else
                     {
-                        try
-                        {
-                            const session = await getSession();
-                            useSessionStore().defineSession(session);
-
-                            await navigateTo({
-                                name: "session",
-                                params: {
-                                    sessionId: session.session.id
-                                }
-                            });
-
-                            await modal.close();
-                        }
-                        catch
-                        {
-                            useStandardToast("error", {
-                                description: "Unable to start a new session"
-                            });
-                        }
+                        await startSession();
+                        await modal.close();
                     }
                 }
             },

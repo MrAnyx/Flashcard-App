@@ -7,7 +7,7 @@
             <UCard>
                 <div class="flex flex-col gap-y-3">
                     <h2 class="text-2xl text-gray-700 dark:text-gray-300">
-                        Welcome back {{ authStore.user!.username }}
+                        Welcome back {{ authStore.user?.username ?? "" }}
                     </h2>
                     <p class="text-gray-500 dark:text-gray-400 text-sm capitalize">
                         {{ DateTime.now().toFormat('DDDD') }}
@@ -267,31 +267,10 @@ const openSessionModal = async () =>
     }
     else
     {
-        try
-        {
-            provider.loadingSession = true;
-            const session = await getSession();
-            useSessionStore().defineSession(session);
-
-            await navigateTo({
-                name: "session",
-                params: {
-                    sessionId: session.session.id
-                }
-            });
-
-            await modal.close();
-        }
-        catch
-        {
-            useStandardToast("error", {
-                description: "Unable to start a new session"
-            });
-        }
-        finally
-        {
-            provider.loadingSession = false;
-        }
+        provider.loadingSession = true;
+        await startSession();
+        provider.loadingSession = false;
+        await modal.close();
     }
 };
 </script>

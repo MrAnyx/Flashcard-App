@@ -61,6 +61,16 @@
                 </UFormGroup>
 
                 <UFormGroup
+                    label="Help"
+                    name="help"
+                >
+                    <UInput
+                        v-model="formData.help"
+                        placeholder="Any kind of hint"
+                    />
+                </UFormGroup>
+
+                <UFormGroup
                     label="Details"
                     name="details"
                 >
@@ -111,6 +121,7 @@ const schema = z.object({
     front: validationRule.front,
     back: validationRule.back,
     details: validationRule.details,
+    help: validationRule.help,
 });
 
 type Schema = z.output<typeof schema>;
@@ -129,6 +140,7 @@ const formData = reactive({
     unitId: props.unit?.id,
     front: props.flashcard?.front ?? "",
     back: props.flashcard?.back ?? "",
+    help: props.flashcard?.help ?? "",
     details: props.flashcard?.details ?? "",
 });
 
@@ -183,6 +195,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
                 front: event.data.front,
                 back: event.data.back,
                 details: event.data.details ?? null,
+                help: event.data.help ?? null
             });
 
             flashcardStore.update(props.flashcard.id, flashcard!.data);
