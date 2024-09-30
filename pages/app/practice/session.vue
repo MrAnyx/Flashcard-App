@@ -150,15 +150,50 @@
                 <UCard class="max-w-2xl mt-6 overflow-auto sm:mt-10 w-full" :ui="{ body: { padding: '' }, header: { padding: '' } }">
                     <template #header>
                         <div class="flex justify-between items-center gap-x-4 overflow-x-auto p-3">
-                            <span>Results</span>
+                            <h4 class="font-bold text-lg">
+                                Results
+                            </h4>
 
                             <Tooltip
                                 activation="click"
                                 help
                                 :text="`Accuracy of 86%`"
                             >
-                                <UBadge color="green" variant="subtle">
+                                <UBadge
+                                    v-if="mostFrequent(sessionStore.grades.map(g => g.grade)) === GradeType.easy"
+                                    color="green"
+                                    variant="subtle"
+                                    class="flex items-center gap-x-1"
+                                >
+                                    <UIcon name="i-tabler-rosette-discount-check" class="w-4 h-4" />
                                     Awesome
+                                </UBadge>
+                                <UBadge
+                                    v-if="mostFrequent(sessionStore.grades.map(g => g.grade)) === GradeType.good"
+                                    color="sky"
+                                    variant="subtle"
+                                    class="flex items-center gap-x-1"
+                                >
+                                    <UIcon name="i-tabler-thumb-up" class="w-4 h-4" />
+                                    Good
+                                </UBadge>
+                                <UBadge
+                                    v-if="mostFrequent(sessionStore.grades.map(g => g.grade)) === GradeType.hard"
+                                    color="yellow"
+                                    variant="subtle"
+                                    class="flex items-center gap-x-1"
+                                >
+                                    <UIcon name="i-tabler-shadow" class="w-4 h-4" />
+                                    Almost
+                                </UBadge>
+                                <UBadge
+                                    v-if="mostFrequent(sessionStore.grades.map(g => g.grade)) === GradeType.again"
+                                    color="red"
+                                    variant="subtle"
+                                    class="flex items-center gap-x-1"
+                                >
+                                    <UIcon name="i-tabler-repeat" class="w-4 h-4" />
+                                    Try again
                                 </UBadge>
                             </Tooltip>
                         </div>
@@ -226,6 +261,72 @@
                                 </div>
                             </template>
                         </div>
+
+                        <div class="flex gap-3">
+                            <div class="flex items-center gap-x-1">
+                                <UIcon name="i-tabler-checks" :class="`text-${gradeColor(GradeType.easy)}-400`" />
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    Easy:
+                                    {{ sessionStore.grades.filter(g => g.grade === GradeType.easy).length }}
+                                    ({{ formatNumber(100 * sessionStore.grades.filter(g => g.grade === GradeType.easy).length/sessionStore.grades.length) }}%)
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-x-1">
+                                <UIcon name="i-tabler-circle-dashed-check" :class="`text-${gradeColor(GradeType.good)}-400`" />
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    Good:
+                                    {{ sessionStore.grades.filter(g => g.grade === GradeType.good).length }}
+                                    ({{ formatNumber(100 * sessionStore.grades.filter(g => g.grade === GradeType.good).length/sessionStore.grades.length) }}%)
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-x-1">
+                                <UIcon name="i-tabler-brain" :class="`text-${gradeColor(GradeType.hard)}-400`" />
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    Hard:
+                                    {{ sessionStore.grades.filter(g => g.grade === GradeType.hard).length }}
+                                    ({{ formatNumber(100 * sessionStore.grades.filter(g => g.grade === GradeType.hard).length/sessionStore.grades.length) }}%)
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-x-1">
+                                <UIcon name="i-tabler-reload" :class="`text-${gradeColor(GradeType.again)}-400`" />
+                                <span class="text-gray-500 dark:text-gray-400">
+                                    Again:
+                                    {{ sessionStore.grades.filter(g => g.grade === GradeType.again).length }}
+                                    ({{ formatNumber(100 * sessionStore.grades.filter(g => g.grade === GradeType.again).length/sessionStore.grades.length) }}%)
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-y-8">
+                            <UCard
+                                v-for="(flashcard, i) in sessionStore.currentSessionFlashcards"
+                                :key="i"
+                                :ui="{ header: { padding: '' }, body: { padding: '' } }"
+                            >
+                                <template #header>
+                                    <div class="p-3 flex justify-between">
+                                        <div class="font-medium flex items-center gap-x-2">
+                                            <UIcon v-if="sessionStore.grades[i].grade === GradeType.easy" name="i-tabler-checks" :class="`text-${gradeColor(GradeType.easy)}-400`" />
+                                            <UIcon v-else-if="sessionStore.grades[i].grade === GradeType.good" name="i-tabler-circle-dashed-check" :class="`text-${gradeColor(GradeType.good)}-400`" />
+                                            <UIcon v-else-if="sessionStore.grades[i].grade === GradeType.hard" name="i-tabler-brain" :class="`text-${gradeColor(GradeType.hard)}-400`" />
+                                            <UIcon v-else-if="sessionStore.grades[i].grade === GradeType.again" name="i-tabler-reload" :class="`text-${gradeColor(GradeType.again)}-400`" />
+                                            <span>Question {{ i + 1 }}</span>
+                                        </div>
+                                        <div class="flex items-center gap-x-2  text-gray-500 dark:text-gray-400">
+                                            <UIcon name="i-tabler-clock" />
+                                            {{ millisecondsToHuman(sessionStore.grades[i].duration) }}
+                                        </div>
+                                    </div>
+                                </template>
+                                <p class="p-3 text-gray-300">
+                                    {{ flashcard.front }}
+                                </p>
+                                <UDivider />
+                                <p class="p-3 text-gray-300">
+                                    {{ flashcard.back }}
+                                </p>
+                            </UCard>
+                        </div>
                     </div>
                 </UCard>
             </section>
@@ -234,7 +335,6 @@
 </template>
 
 <script lang="ts" setup>
-import { DateTime } from "luxon";
 import { ModalConfirm } from "#components";
 import type { BadgeColor } from "#ui/types";
 import { GradeType } from "~/types/entity";
