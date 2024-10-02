@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import { defineStore } from "pinia";
-import type { Flashcard, Session } from "~/types/entity";
+import { GradeType, type Flashcard, type Session } from "~/types/entity";
 import type { Answer } from "~/types/session";
 
 type State = {
@@ -62,6 +62,35 @@ export const useSessionStore = defineStore("session", {
         hasNextFlashcard(state)
         {
             return state.currentFlashcard < state.currentSessionFlashcards.length;
+        },
+        accuracy(state)
+        {
+            const total = state.grades
+                .map(g => g.grade - 1) // Only keep the grades from 0 to 3 instead of 1 to 4
+                .reduce((acc, g) => acc + g);
+
+            // Calculate the accuracy between 0 and 1
+            return total / (state.grades.length * (GradeType.easy - 1));
+        },
+        currentStrike(state)
+        {
+            const grades = state.grades.map(g => g.grade).reverse();
+
+            let strike = 0;
+
+            for (const grade of grades)
+            {
+                if (IsGradeCorrect(grade))
+                {
+                    strike++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return strike;
         }
     }
 });

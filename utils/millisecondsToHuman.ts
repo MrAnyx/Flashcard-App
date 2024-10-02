@@ -2,7 +2,12 @@ import { Duration } from "luxon";
 
 export default (milliseconds: number) =>
 {
-    const duration = Duration.fromMillis(milliseconds).shiftTo("hours", "minutes", "seconds");
+    if (milliseconds <= 1000)
+    {
+        return "<1s";
+    }
+
+    const duration = Duration.fromMillis(milliseconds).shiftToAll();
 
     let formatString = "";
 
@@ -14,15 +19,9 @@ export default (milliseconds: number) =>
     {
         formatString += "m'm' "; // Add minutes if present
     }
-
-    if (duration.seconds >= 1)
+    if (duration.seconds > 0)
     {
-        // Always display seconds
-        formatString += "s's'";
-    }
-    else
-    {
-        return "<1s";
+        formatString += "s's'"; // Add seconds if present
     }
 
     return duration.toFormat(formatString.trim());
