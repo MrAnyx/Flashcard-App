@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex flex-col">
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-800 overflow-auto shrink-0">
             <UBreadcrumb
                 :links="[
@@ -33,7 +33,7 @@
                 </UBadge>
             </div>
 
-            <UCard class="max-w-2xl mt-6 overflow-auto sm:mt-10 w-full min-h-[120px]" :ui="{ body: { padding: '' }, header: { padding: '' } }">
+            <UCard class="max-w-2xl mt-6 overflow-auto w-full min-h-[120px]" :ui="{ body: { padding: '' }, header: { padding: '' } }">
                 <template #header>
                     <div class="flex justify-between items-center gap-x-4 overflow-x-auto p-3">
                         <Tooltip

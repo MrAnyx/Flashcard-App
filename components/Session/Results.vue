@@ -17,7 +17,7 @@
             </UButton>
         </div>
 
-        <UCard class="mt-6 overflow-auto sm:mt-10 w-full" :ui="{ body: { padding: '' }, header: { padding: '' } }">
+        <UCard class="mt-6 overflow-auto w-full" :ui="{ body: { padding: '' }, header: { padding: '' } }">
             <template #header>
                 <div class="flex justify-between items-center gap-x-4 overflow-x-auto p-3">
                     <h4 class="font-bold text-lg">
@@ -80,7 +80,7 @@
                 <UMeter :value="sessionStore.grades.filter(g => g.grade === GradeType.again).length" color="red" />
             </UMeterGroup>
 
-            <div class="p-4 md:p-5 flex flex-col gap-y-6">
+            <div class="p-4 md:p-5 flex flex-col gap-y-6 overflow-y-auto">
                 <div class="grid md:grid-cols-2 gap-3 text-gray-500 dark:text-gray-400">
                     <div class="flex gap-x-1 items-center shrink-0">
                         <UIcon name="i-tabler-clock" />

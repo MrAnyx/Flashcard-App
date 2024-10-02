@@ -5,8 +5,8 @@
             :max="sessionStore.currentSessionFlashcards.length"
             size="sm"
         />
-        <SessionQuestions v-if="sessionStore.hasNextFlashcard" />
-        <SessionResults v-else />
+        <SessionQuestions v-if="sessionStore.hasNextFlashcard" class="grow" />
+        <SessionResults v-else class="grow" />
     </div>
 </template>
 
@@ -15,6 +15,7 @@ import { ModalConfirm } from "#components";
 
 definePageMeta({
     name: "session",
+    middleware: ["initialize", "auth"]
 });
 
 const modal = useModal();

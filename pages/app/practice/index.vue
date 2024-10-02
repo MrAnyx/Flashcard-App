@@ -7,5 +7,6 @@
 <script lang="ts" setup>
 definePageMeta({
     name: "practice",
+    middleware: ["initialize", "auth"]
 });
 </script>
