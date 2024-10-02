@@ -11,7 +11,7 @@ export default async (collection?: Collection): Promise<void> =>
             if (session.session === null)
             {
                 useStandardToast("warning", {
-                    description: "You have no flashcards to review today"
+                    description: collection ? "You have no flashcards to review today on this collection" : "You have no flashcards to review today"
                 });
                 resolve();
                 return;

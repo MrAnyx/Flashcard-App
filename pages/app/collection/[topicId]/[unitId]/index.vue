@@ -84,9 +84,9 @@
 </template>
 
 <script setup lang="ts">
-import { ModalConfirm, ModalFlashcardForm } from "#components";
+import { ModalConfirm, ModalFlashcardForm, ModalSessionIntroduction } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
-import type { Flashcard } from "~/types/entity";
+import type { Flashcard, Unit } from "~/types/entity";
 
 // Meta methods for page
 definePageMeta({

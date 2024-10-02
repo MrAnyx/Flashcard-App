@@ -67,7 +67,7 @@ export const useSessionStore = defineStore("session", {
         {
             const total = state.grades
                 .map(g => g.grade - 1) // Only keep the grades from 0 to 3 instead of 1 to 4
-                .reduce((acc, g) => acc + g);
+                .reduce((acc, g) => acc + g, 0);
 
             // Calculate the accuracy between 0 and 1
             return total / (state.grades.length * (GradeType.easy - 1));

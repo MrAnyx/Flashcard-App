@@ -84,7 +84,7 @@
                 <div class="grid md:grid-cols-2 gap-3 text-gray-500 dark:text-gray-400">
                     <div class="flex gap-x-1 items-center shrink-0">
                         <UIcon name="i-tabler-clock" />
-                        <span>Finished in ~{{ millisecondsToHuman(sessionStore.grades.map(g => g.duration).reduce((acc, duration) => acc + duration)) }}</span>
+                        <span>Finished in ~{{ millisecondsToHuman(sessionStore.grades.map(g => g.duration).reduce((acc, duration) => acc + duration, 0)) }}</span>
                     </div>
                     <div class="flex items-center gap-x-1 shrink-0 md:justify-end">
                         <UIcon name="i-tabler-cards" />

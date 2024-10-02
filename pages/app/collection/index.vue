@@ -80,9 +80,10 @@
 </template>
 
 <script setup lang="ts">
-import { ModalConfirm, ModalTopicForm } from "#components";
+import { ModalConfirm, ModalSessionIntroduction, ModalTopicForm } from "#components";
 import type { DropdownItem } from "#ui/types";
 import type { Topic } from "~/types/entity";
+import type { Collection } from "~/types/session";
 
 // Meta methods for page
 definePageMeta({
@@ -242,6 +243,7 @@ const rowOptions = (row: Topic): DropdownItem[][] => [
             class: "bg-primary-300/15 hover:!bg-gray-100 dark:hover:!bg-gray-900",
             labelClass: "text-primary-500",
             iconClass: "bg-primary-500",
+            click: () => excuteStartSession(row)
         }
     ], [
         {
@@ -275,5 +277,24 @@ const showCreateUpdateModal = (row?: Topic) =>
     modal.open(ModalTopicForm, {
         topic: row
     });
+};
+
+const excuteStartSession = async (row: Topic) =>
+{
+    const collection: Collection = {
+        id: row.id,
+        type: "topic"
+    };
+    if (authStore.getSetting("show_session_introduction"))
+    {
+        modal.open(ModalSessionIntroduction, {
+            collection
+        });
+    }
+    else
+    {
+        await startSession(collection);
+        await modal.close();
+    }
 };
 </script>

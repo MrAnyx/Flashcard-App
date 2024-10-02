@@ -85,9 +85,10 @@
 </template>
 
 <script setup lang="ts">
-import { ModalConfirm, ModalUnitForm } from "#components";
+import { ModalConfirm, ModalSessionIntroduction, ModalUnitForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
 import type { Unit } from "~/types/entity";
+import type { Collection } from "~/types/session";
 
 // Meta methods for page
 definePageMeta({
@@ -249,6 +250,7 @@ const rowOptions = (row: Unit): DropdownItem[][] => [
             class: "bg-primary-300/15 hover:!bg-gray-100 dark:hover:!bg-gray-900",
             labelClass: "text-primary-500",
             iconClass: "bg-primary-500",
+            click: () => excuteStartSession(row)
         }
     ],
     [
@@ -299,4 +301,24 @@ const breadcrumbItems: BreadcrumbLink[] = [
         label: topic.name,
     }
 ];
+
+const excuteStartSession = async (row: Unit) =>
+{
+    const collection: Collection = {
+        id: row.id,
+        type: "unit"
+    };
+
+    if (authStore.getSetting("show_session_introduction"))
+    {
+        modal.open(ModalSessionIntroduction, {
+            collection
+        });
+    }
+    else
+    {
+        await startSession(collection);
+        await modal.close();
+    }
+};
 </script>
