@@ -1,21 +1,32 @@
 <script setup lang="ts">
 import { VisXYContainer, VisLine, VisAxis, VisArea, VisCrosshair, VisTooltip } from "@unovis/vue";
 import { ref } from "vue";
+import { eachDayOfInterval, format, sub } from "date-fns";
+
+const randomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 type DataRecord = { x: number; y: number };
-const data = ref<DataRecord[]>([
-    { x: 0, y: 0 },
-    { x: 1, y: 1 },
-    { x: 2, y: 3 },
-    { x: 3, y: 2 },
-    { x: 4, y: 0 },
-    { x: 5, y: 7 },
-    { x: 6, y: 6 },
-    { x: 7, y: 10 },
-    { x: 8, y: 4 },
-]);
+const data = ref<DataRecord[]>(
+    eachDayOfInterval({ start: sub(new Date(), { days: 14 }), end: new Date() }).map((el: any) => ({
+        x: el,
+        y: randomNumber(0, 50)
+    }))
+);
 
-const template = (d: DataRecord) => `${d.x}: ${d.y}`;
+const x = (_: DataRecord, i: number) => i;
+const y = (d: DataRecord) => d.y;
+
+const xTicks = (i: number) =>
+{
+    console.log(i);
+    if (i === 0 || i === data.value.length - 1 || !data.value[i])
+    {
+        return "";
+    }
+    return format(data.value[i].x, "d MMM");
+};
+
+const template = (d: DataRecord) => `${format(d.x, "d MMM")}: ${d.y}`;
 </script>
 
 <template>
@@ -26,19 +37,21 @@ const template = (d: DataRecord) => `${d.x}: ${d.y}`;
     >
         <VisLine
             :data="data"
-            :x="(d: DataRecord) => d.x"
-            :y="(d: DataRecord) => d.y"
             color="rgb(var(--color-primary-DEFAULT))"
+            :x="x"
+            :y="y"
         />
         <VisArea
             :data="data"
             color="rgb(var(--color-primary-DEFAULT))"
-            :x="(d: DataRecord) => d.x"
-            :y="(d: DataRecord) => d.y"
+            :x="x"
+            :y="y"
             :opacity="0.1"
         />
         <VisAxis
             type="x"
+            :x="x"
+            :tick-format="xTicks"
         />
 
         <VisCrosshair
