@@ -1,132 +1,81 @@
 <script setup lang="ts">
-const theme = useColorMode();
+import { VisXYContainer, VisLine, VisAxis, VisArea, VisCrosshair, VisTooltip } from "@unovis/vue";
+import { ref } from "vue";
 
-const options = computed(() => ({
-    chart: {
-        foreColor: theme.value === "light" ? graphColor("gray", 500) : graphColor("gray", 500),
-        animations: {
-            enabled: false
-        },
-        toolbar: {
-            show: false
-        },
-        zoom: {
-            enabled: false
-        }
-    },
-    xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
-        tooltip: {
-            enabled: false
-        },
-        axisBorder: {
-            color: theme.value === "light" ? graphColor("gray", 400) : graphColor("gray", 700),
-        },
-        axisTicks: {
-            color: theme.value === "light" ? graphColor("gray", 400) : graphColor("gray", 700),
-        },
-    },
-    grid: {
-        borderColor: theme.value === "light" ? graphColor("gray", 300) : graphColor("gray", 700),
-        xaxis: {
-            lines: {
-                show: true
-            }
-        },
-        yaxis: {
-            lines: {
-                show: false
-            }
-        },
-    },
-    stroke: {
-        curve: "smooth",
-        show: true,
-        width: 3,
-        dashArray: 0,
-        colors: [theme.value === "light" ? graphColor("primary", 500) : graphColor("primary", 500)]
-    },
-    fill: {
-        colors: [theme.value === "light" ? graphColor("primary", 500) : graphColor("primary", 500)],
-        type: "gradient",
-    },
-    dataLabels: {
-        enabled: false
-    },
-    markers: {
-        colors: [theme.value === "light" ? graphColor("primary", 400) : graphColor("primary", 400)],
-        strokeWidth: 2,
-        hover: {
-            size: 5
-        }
-    },
-    tooltip: {
-        enabled: true,
-        theme: theme.value,
-        followCursor: true,
-        onDatasetHover: {
-            highlightDataSeries: true,
-        },
-        x: {
-            show: true
-        },
-        y: {
-            formatter: (val: number) => val,
-            title: {
-                formatter: (seriesName: string) => seriesName,
-            },
-        },
-        marker: {
-            show: false,
-        },
-    },
-}));
+type DataRecord = { x: number; y: number };
+const data = ref<DataRecord[]>([
+    { x: 0, y: 0 },
+    { x: 1, y: 1 },
+    { x: 2, y: 3 },
+    { x: 3, y: 2 },
+    { x: 4, y: 0 },
+    { x: 5, y: 7 },
+    { x: 6, y: 6 },
+    { x: 7, y: 10 },
+    { x: 8, y: 4 },
+]);
 
-const series = computed(() => [{
-    name: "Avg review",
-    data: [30, 40, 45, 50, 49, 60, 91, 91]
-}]);
+const template = (d: DataRecord) => `${d.x}: ${d.y}`;
 </script>
 
 <template>
-    <ClientOnly>
-        <div class="w-full h-96">
-            <apexchart
-                height="100%"
-                type="area"
-                :options="options"
-                :series="series"
-            />
-        </div>
-    </ClientOnly>
+    <VisXYContainer
+        :data="data"
+        :padding="{ top: 10 }"
+        class="h-96"
+    >
+        <VisLine
+            :data="data"
+            :x="(d: DataRecord) => d.x"
+            :y="(d: DataRecord) => d.y"
+            color="rgb(var(--color-primary-DEFAULT))"
+        />
+        <VisArea
+            :data="data"
+            color="rgb(var(--color-primary-DEFAULT))"
+            :x="(d: DataRecord) => d.x"
+            :y="(d: DataRecord) => d.y"
+            :opacity="0.1"
+        />
+        <VisAxis
+            type="x"
+        />
+
+        <VisCrosshair
+            color="rgb(var(--color-primary-DEFAULT))"
+            :template="template"
+        />
+
+        <VisTooltip />
+    </VisXYContainer>
 </template>
 
-<style lang="scss">
-.apexcharts-tooltip.apexcharts-theme-dark {
-    border: 1px solid rgb(var(--color-gray-800)) !important;
-    box-shadow: none !important;
+<style scoped>
+.unovis-xy-container {
+  --vis-crosshair-line-stroke-color: rgb(var(--color-primary-500));
+  --vis-crosshair-circle-stroke-color: #fff;
 
-    .apexcharts-tooltip-title {
-        background: rgb(var(--color-gray-900)) !important;
-        margin-bottom: 0;
-    }
+  --vis-axis-grid-color: rgb(var(--color-gray-200));
+  --vis-axis-tick-color: rgb(var(--color-gray-200));
+  --vis-axis-tick-label-color: rgb(var(--color-gray-400));
 
-    .apexcharts-tooltip-series-group {
-        background: rgb(var(--color-gray-800)) !important;
-    }
+  --vis-tooltip-background-color: #fff;
+  --vis-tooltip-border-color: rgb(var(--color-gray-200));
+  --vis-tooltip-text-color: rgb(var(--color-gray-900));
 }
 
-.apexcharts-tooltip.apexcharts-theme-light {
-    border: 1px solid rgb(var(--color-gray-200)) !important;
-    box-shadow: none !important;
+.dark {
+  .unovis-xy-container {
+    --vis-crosshair-line-stroke-color: rgb(var(--color-primary-400));
+    --vis-crosshair-circle-stroke-color: rgb(var(--color-gray-900));
 
-    .apexcharts-tooltip-title {
-        background: rgb(var(--color-gray-100)) !important;
-        margin-bottom: 0;
-    }
+    --vis-axis-grid-color: rgb(var(--color-gray-800));
+    --vis-axis-tick-color: rgb(var(--color-gray-800));
+    --vis-axis-tick-label-color: rgb(var(--color-gray-500));
 
-    .apexcharts-tooltip-series-group {
-        background: rgb(var(--color-gray-50)) !important;
-    }
+    --vis-tooltip-background-color: rgb(var(--color-gray-900));
+    --vis-tooltip-border-color: rgb(var(--color-gray-800));
+    --vis-tooltip-text-color: #fff;
+  }
 }
 </style>

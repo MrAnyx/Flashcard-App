@@ -18,13 +18,14 @@
         "@nuxt/vite-builder": "^3.13.0",
         "@nuxtjs/color-mode": "^3.4.4",
         "@pinia/nuxt": "^0.5.4",
-        "apexcharts": "^3.53.0",
+        "@unovis/ts": "^1.4.4",
+        "@unovis/vue": "^1.4.4",
+        "date-fns": "^4.1.0",
         "luxon": "^3.5.0",
         "nanoid": "^5.0.7",
         "vue": "^3.4.38",
         "vue-router": "^4.4.3",
         "vue-tsc": "^2.1.4",
-        "vue3-apexcharts": "^1.6.0",
         "zod": "^3.23.8"
     },
     "devDependencies": {

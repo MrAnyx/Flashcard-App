@@ -54,7 +54,8 @@ export const useAuthStore = defineStore("auth", {
         },
         isPremium(state)
         {
-            return state.user?.premium || false;
+            // return state.user?.premium || false;
+            return true;
         }
     }
 });
