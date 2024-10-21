@@ -12,11 +12,24 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 px-6">
             <BaseDataCard
-                v-for="i in 4"
-                :key="i"
-                icon="i-tabler-circle-check"
-                label="Correct flashcards"
+                icon="i-tabler-versions"
+                label="Total sessions"
                 :value="35"
+            />
+            <BaseDataCard
+                icon="i-tabler-clock-pin"
+                label="Sessions today"
+                :value="2"
+            />
+            <BaseDataCard
+                icon="i-tabler-calendar"
+                label="Total reviews"
+                :value="687"
+            />
+            <BaseDataCard
+                icon="i-tabler-clock-pin"
+                label="Reviews today"
+                :value="79"
             />
         </div>
 
