@@ -186,6 +186,11 @@ const answer = async (gradeType: number) =>
         {
             sessionStore.nextFlashcards();
         }
+        else
+        {
+            // Not working
+            await repository.session.stop(sessionStore.currentSession!.id);
+        }
     }
     catch
     {

@@ -68,8 +68,8 @@ export type ResetPassword = {
 
 export type Session = {
     id: number;
-    started_at: string;
-    ended_at: string;
+    startedAt: string;
+    endedAt: string;
 };
 
 export const GradeType = {

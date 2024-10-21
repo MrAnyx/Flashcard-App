@@ -5,6 +5,7 @@ import type { Answer } from "~/types/session";
 
 type State = {
     total: number;
+    sessions: Session[];
     currentSession?: Session;
     currentSessionFlashcards: Flashcard[];
     currentFlashcard: number;
@@ -15,6 +16,7 @@ export const useSessionStore = defineStore("session", {
     persist: true,
     state: (): State => ({
         total: 0,
+        sessions: [],
         currentSession: undefined,
         currentSessionFlashcards: [],
         currentFlashcard: 0,
@@ -37,7 +39,7 @@ export const useSessionStore = defineStore("session", {
                 grade: gradeType,
                 timestamp: now,
                 duration: this.currentFlashcard === 0
-                    ? now - DateTime.fromISO(this.currentSession!.started_at).toMillis()
+                    ? now - DateTime.fromISO(this.currentSession!.startedAt).toMillis()
                     : now - this.grades[this.currentFlashcard - 1].timestamp
             });
         },

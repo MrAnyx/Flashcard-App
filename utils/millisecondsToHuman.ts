@@ -2,6 +2,8 @@ import { Duration } from "luxon";
 
 export default (milliseconds: number) =>
 {
+    console.log(milliseconds);
+
     if (milliseconds <= 1000)
     {
         return "<1s";

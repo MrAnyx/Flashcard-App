@@ -1,54 +1,68 @@
 <template>
-    <div>
-        <div class="py-6">
-            <div class="flex items-center mb-4 px-6 justify-between">
-                <div class="flex items-center space-x-3">
-                    <h4 class="font-medium text-lg">
-                        Sessions
-                    </h4>
-                    <UBadge
-                        v-if="!loading"
-                        color="primary"
-                        variant="subtle"
-                    >
-                        {{ total }} topic{{ total > 1 ? 's' : '' }}
-                    </UBadge>
-                </div>
-                <UButton
-                    label="Start a session"
-                    variant="soft"
-                    color="primary"
-                    icon="i-tabler-device-gamepad-2"
-                    @click="excuteStartSession()"
-                />
-            </div>
-            <UTable
-                v-model:sort="sort"
-                :rows="topicStore.topics"
-                :columns="columns"
-                :loading="loading"
-                sort-mode="manual"
-                @update:sort="loadTable"
-                @select="select"
+    <section class="py-6 flex flex-col gap-y-6 ">
+        <div class="flex justify-end px-6">
+            <UButton
+                label="Start a session"
+                variant="soft"
+                color="primary"
+                class="justify-self-end"
+                icon="i-tabler-device-gamepad-2"
+                @click="excuteStartSession()"
             />
-            <div
-                v-if="(total / itemsPerPage) > 1"
-                class="mt-4 flex justify-center"
-            >
-                <UPagination
-                    v-model="page"
-                    :page-count="itemsPerPage"
-                    :total="total"
-                    @update:model-value="loadTable"
-                />
-            </div>
         </div>
-    </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 px-6">
+            <BaseDataCard
+                v-for="i in 4"
+                :key="i"
+                icon="i-tabler-circle-check"
+                label="Correct flashcards"
+                :value="35"
+            />
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 px-6">
+            <UCard
+                class="w-full"
+            >
+                <template #header>
+                    Number of sessions
+                </template>
+                <GraphLine />
+            </UCard><UCard
+                class="w-full"
+            >
+                <template #header>
+                    Number of reviews
+                </template>
+                <GraphLine />
+            </UCard>
+        </div>
+        <UTable
+            v-model:sort="sort"
+            :rows="sessionStore.sessions"
+            :columns="columns"
+            :loading="loading"
+            sort-mode="manual"
+            @update:sort="loadTable"
+            @select="select"
+        />
+        <div
+            v-if="(total / itemsPerPage) > 1"
+            class="mt-4 flex justify-center"
+        >
+            <UPagination
+                v-model="page"
+                :page-count="itemsPerPage"
+                :total="total"
+                @update:model-value="loadTable"
+            />
+        </div>
+    </section>
 </template>
 
 <script lang="ts" setup>
 import { ModalSessionIntroduction } from "#components";
-import type { Topic } from "~/types/entity";
+import type { Session } from "~/types/entity";
 
 definePageMeta({
     name: "practice",
@@ -61,7 +75,7 @@ useHead({
 
 // Stores and composables
 const repository = useRepository();
-const topicStore = useTopicStore();
+const sessionStore = useSessionStore();
 const authStore = useAuthStore();
 const modal = useModal();
 
@@ -74,7 +88,7 @@ onMounted(async () =>
 const loading = ref(false);
 const page = ref(1);
 const sort = ref({
-    column: "name",
+    column: "startedAt",
     direction: "asc" as const
 });
 const total = ref<number>(0);
@@ -82,15 +96,15 @@ const itemsPerPage = authStore.getSetting<number>("items_per_page");
 
 // Table data
 const columns = [{
-    key: "name",
-    label: "Name",
+    key: "startedAt",
+    label: "Started at",
     sortable: true,
     class: "w-[20%]"
 }, {
-    key: "description",
-    label: "Description",
+    key: "endedAt",
+    label: "Ended at",
     sortable: true,
-    class: "w-full"
+    class: "w-[20%]"
 }];
 
 const loadTable = async () =>
@@ -99,7 +113,7 @@ const loadTable = async () =>
     {
         loading.value = true;
 
-        const response = await repository.topic.findAll({
+        const response = await repository.session.findAll({
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
@@ -108,7 +122,7 @@ const loadTable = async () =>
 
         total.value = response["@pagination"]!.total;
 
-        topicStore.topics = response.data;
+        sessionStore.sessions = response.data;
     }
     finally
     {
@@ -116,15 +130,8 @@ const loadTable = async () =>
     }
 };
 
-const select = (row: Topic) =>
+const select = (row: Session) =>
 {
-    topicStore.selectedTopic = row;
-    return navigateTo({
-        name: "units",
-        params: {
-            topicId: row.id
-        }
-    });
 };
 
 const excuteStartSession = async () =>
