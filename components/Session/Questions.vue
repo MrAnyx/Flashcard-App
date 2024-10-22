@@ -25,11 +25,11 @@
                 </UButton>
 
                 <UBadge
-                    v-if="sessionStore.currentStrike >= 3"
+                    v-if="practiceStore.currentStrike >= 3"
                     variant="subtle"
                 >
                     <UIcon name="i-tabler-flame" class="w-5 h-5 mr-1" />
-                    {{ sessionStore.currentStrike }} in a row
+                    {{ practiceStore.currentStrike }} in a row
                 </UBadge>
             </div>
 
@@ -132,14 +132,14 @@ definePageMeta({
 });
 
 const repository = useRepository();
-const sessionStore = useSessionStore();
+const practiceStore = usePracticeStore();
 const reviewStore = useReviewStore();
 
 const state = reactive({
     loading: false,
 });
 
-const currentQuestion = computed(() => sessionStore.currentSessionFlashcards[sessionStore.currentFlashcard]);
+const currentQuestion = computed(() => practiceStore.currentSessionFlashcards[practiceStore.currentFlashcard]);
 const difficulty = computed<{ label: string; color: BadgeColor }>(() =>
 {
     if (!currentQuestion.value || currentQuestion.value.difficulty === null)
@@ -178,18 +178,18 @@ const answer = async (gradeType: number) =>
     try
     {
         state.loading = true;
-        await repository.flashcard.review(currentQuestion.value.id, gradeType, sessionStore.currentSession!.id);
-        sessionStore.addGrade(gradeType);
+        await repository.flashcard.review(currentQuestion.value.id, gradeType, practiceStore.currentSession!.id);
+        practiceStore.addGrade(gradeType);
         reviewStore.increment();
 
-        if (sessionStore.hasNextFlashcard)
+        if (practiceStore.hasNextFlashcard)
         {
-            sessionStore.nextFlashcards();
+            practiceStore.nextFlashcards();
         }
         else
         {
             // Not working
-            await repository.session.stop(sessionStore.currentSession!.id);
+            await repository.session.stop(practiceStore.currentSession!.id);
         }
     }
     catch

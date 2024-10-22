@@ -58,7 +58,16 @@
             sort-mode="manual"
             @update:sort="loadTable"
             @select="select"
-        />
+        >
+            <template #startedAt-data="{ row }">
+                <span>{{ row.startedAt ? formatDate(row.startedAt, DateTime.DATETIME_MED) : '-' }}</span>
+            </template>
+
+            <template #endedAt-data="{ row }">
+                <span>{{ row.endedt ? formatDate(row.endedt, DateTime.DATETIME_MED) : '-' }}</span>
+            </template>
+        </UTable>
+
         <div
             v-if="(total / itemsPerPage) > 1"
             class="mt-4 flex justify-center"
@@ -74,6 +83,7 @@
 </template>
 
 <script lang="ts" setup>
+import { DateTime } from "luxon";
 import { ModalSessionIntroduction } from "#components";
 import type { Session } from "~/types/entity";
 
@@ -112,12 +122,13 @@ const columns = [{
     key: "startedAt",
     label: "Started at",
     sortable: true,
-    class: "w-[20%]"
 }, {
     key: "endedAt",
     label: "Ended at",
     sortable: true,
-    class: "w-[20%]"
+}, {
+    key: "totalReviews",
+    label: "Total reviews",
 }];
 
 const loadTable = async () =>

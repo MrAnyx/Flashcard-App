@@ -1,11 +1,11 @@
 <template>
     <div class="h-full flex flex-col">
         <UMeter
-            :value="sessionStore.currentFlashcard"
-            :max="sessionStore.currentSessionFlashcards.length"
+            :value="practiceStore.currentFlashcard"
+            :max="practiceStore.currentSessionFlashcards.length"
             size="sm"
         />
-        <SessionQuestions v-if="sessionStore.hasNextFlashcard" class="grow" />
+        <SessionQuestions v-if="practiceStore.hasNextFlashcard" class="grow" />
         <SessionResults v-else class="grow" />
     </div>
 </template>
@@ -19,11 +19,11 @@ definePageMeta({
 });
 
 const modal = useModal();
-const sessionStore = useSessionStore();
+const practiceStore = usePracticeStore();
 
 onBeforeRouteLeave(async () =>
 {
-    return sessionStore.hasNextFlashcard ? await displayModalAsync() : true;
+    return practiceStore.hasNextFlashcard ? await displayModalAsync() : true;
 });
 
 const displayModalAsync = () =>

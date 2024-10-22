@@ -70,6 +70,7 @@ export type Session = {
     id: number;
     startedAt: string;
     endedAt: string;
+    totalReviews: number | null;
 };
 
 export const GradeType = {

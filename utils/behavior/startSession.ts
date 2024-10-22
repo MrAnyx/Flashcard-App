@@ -1,3 +1,4 @@
+import { usePracticeStore } from "~/stores/practice.store";
 import type { Collection } from "~/types/session";
 
 export default async (collection?: Collection): Promise<void> =>
@@ -17,7 +18,7 @@ export default async (collection?: Collection): Promise<void> =>
                 return;
             }
 
-            useSessionStore().defineSession(session);
+            usePracticeStore().defineSession(session);
 
             await navigateTo({
                 name: "session"
