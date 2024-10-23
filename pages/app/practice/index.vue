@@ -14,7 +14,7 @@
             <BaseDataCard
                 icon="i-tabler-versions"
                 label="Total sessions"
-                :value="35"
+                :value="sessionStore.total"
             />
             <BaseDataCard
                 icon="i-tabler-clock-pin"
@@ -24,7 +24,7 @@
             <BaseDataCard
                 icon="i-tabler-calendar"
                 label="Total reviews"
-                :value="687"
+                :value="reviewStore.total"
             />
             <BaseDataCard
                 icon="i-tabler-clock-pin"
@@ -99,6 +99,7 @@ useHead({
 // Stores and composables
 const repository = useRepository();
 const sessionStore = useSessionStore();
+const reviewStore = useReviewStore();
 const authStore = useAuthStore();
 const modal = useModal();
 

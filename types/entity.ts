@@ -35,6 +35,7 @@ export type Unit = {
     updatedAt: string;
     description: string;
     favorite: boolean;
+    topic: Topic;
 };
 
 export type Flashcard = {
@@ -51,6 +52,7 @@ export type Flashcard = {
     stability: number | null;
     favorite: boolean;
     help: string | null;
+    unit: Unit;
 };
 
 export type Auth = {
