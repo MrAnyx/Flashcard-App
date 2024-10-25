@@ -1,5 +1,6 @@
 import { AbstractRepository } from "./AbstractRepository";
 import type { Pagination } from "~/types/core";
+import type { FlashcardCountCriteria } from "~/types/countCriteria";
 import type { Flashcard, Session } from "~/types/entity";
 import type { JsonStandard } from "~/types/request";
 
@@ -97,24 +98,13 @@ export class FlashcardRepository extends AbstractRepository
         });
     };
 
-    async count()
+    async count(criteria: FlashcardCountCriteria = "all")
     {
         return this.fetch<JsonStandard<number>>(`/flashcards/count`, {
-            method: "GET"
-        });
-    };
-
-    async countToReview()
-    {
-        return this.fetch<JsonStandard<number>>(`/flashcards/reviews/count`, {
-            method: "GET"
-        });
-    };
-
-    async countCorrect()
-    {
-        return this.fetch<JsonStandard<number>>(`/flashcards/correct/count`, {
-            method: "GET"
+            method: "GET",
+            query: {
+                criteria
+            }
         });
     };
 

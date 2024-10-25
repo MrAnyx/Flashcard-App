@@ -2,6 +2,7 @@ import { AbstractRepository } from "./AbstractRepository";
 import type { Flashcard, Session, Topic } from "~/types/entity";
 import type { Pagination } from "~/types/core";
 import type { JsonStandard } from "~/types/request";
+import type { TopicCountCriteria } from "~/types/countCriteria";
 
 export class TopicRepository extends AbstractRepository
 {
@@ -75,10 +76,13 @@ export class TopicRepository extends AbstractRepository
         });
     }
 
-    async count()
+    async count(criteria: TopicCountCriteria = "all")
     {
         return this.fetch<JsonStandard<number>>(`/topics/count`, {
-            method: "GET"
+            method: "GET",
+            query: {
+                criteria
+            }
         });
     }
 }

@@ -99,7 +99,7 @@ definePageMeta({
 });
 
 useHead({
-    title: "General"
+    title: "Appearance"
 });
 
 const authStore = useAuthStore();

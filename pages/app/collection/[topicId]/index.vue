@@ -151,7 +151,7 @@ const loadTable = async () =>
     {
         loading.value = true;
 
-        const repsonse = await repository.unit.getUnitsByTopic(topic.id, {
+        const repsonse = await repository.unit.findByTopic(topic.id, {
             order: sort.value.direction,
             sort: sort.value.column,
             page: page.value,
@@ -169,7 +169,7 @@ const loadTable = async () =>
 
 const toggleFavorite = async (row: Unit) =>
 {
-    await repository.unit.updatePartialUnit(row.id, {
+    await repository.unit.partialUpdate(row.id, {
         favorite: !row.favorite
     });
     row.favorite = !row.favorite;
@@ -177,7 +177,7 @@ const toggleFavorite = async (row: Unit) =>
 
 const duplicateRow = async (row: Unit) =>
 {
-    const response = await repository.unit.createUnit(topic.id, {
+    const response = await repository.unit.create(topic.id, {
         name: row.name,
         description: row.description,
         favorite: false
@@ -200,7 +200,7 @@ const deleteRow = async (row: Unit) =>
         color: "red",
         async onConfirm()
         {
-            await repository.unit.deleteUnit(row.id);
+            await repository.unit.delete(row.id);
 
             unitStore.delete(row);
 
@@ -221,7 +221,7 @@ const resetRow = async (row: Unit) =>
         color: "red",
         async onConfirm()
         {
-            await repository.unit.resetUnit(row.id);
+            await repository.unit.reset(row.id);
 
             useStandardToast("success", {
                 description: `The unit ${row.name} has been reset`

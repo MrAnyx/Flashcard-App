@@ -129,7 +129,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
 
         if (props.unit)
         {
-            const unit = await repository.unit.updatePartialUnit(props.unit.id, {
+            const unit = await repository.unit.partialUpdate(props.unit.id, {
                 name: event.data.name,
                 description: event.data.description,
             });
@@ -138,7 +138,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
         }
         else
         {
-            const unit = await repository.unit.createUnit(event.data.topicId, {
+            const unit = await repository.unit.create(event.data.topicId, {
                 name: event.data.name,
                 description: event.data.description,
                 favorite: false

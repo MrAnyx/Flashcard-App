@@ -173,7 +173,7 @@ const loadUnits = async () =>
             formProvider.loadingUnits = true;
             formData.unitId = undefined;
 
-            const response = await repository.unit.getUnitsByTopic(formData.topicId, { order: "asc", page: 1, sort: "name", itemsPerPage: 200 });
+            const response = await repository.unit.findByTopic(formData.topicId, { order: "asc", page: 1, sort: "name", itemsPerPage: 200 });
             formProvider.units = response.data;
         }
         finally

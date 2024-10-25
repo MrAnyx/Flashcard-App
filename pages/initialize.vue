@@ -37,10 +37,10 @@ const initialize = async () =>
         const [user, totalTopic, totalUnits, totalFlashcards, totalFlashcardsToReview, totalReviews] = await Promise.all([
             repository.user.findMe(),
             repository.topic.count(),
-            repository.unit.countUnits(),
+            repository.unit.count(),
             repository.flashcard.count(),
-            repository.flashcard.countToReview(),
-            repository.review.count(false),
+            repository.flashcard.count("to_review"),
+            repository.review.count(),
         ]);
 
         // Authentication

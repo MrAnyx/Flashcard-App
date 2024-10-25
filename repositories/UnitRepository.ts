@@ -2,10 +2,11 @@ import { AbstractRepository } from "./AbstractRepository";
 import type { Flashcard, Session, Unit } from "~/types/entity";
 import type { Pagination } from "~/types/core";
 import type { JsonStandard } from "~/types/request";
+import type { UnitCountCriteria } from "~/types/countCriteria";
 
 export class UnitRepository extends AbstractRepository
 {
-    async getUnits(pagination: Pagination)
+    async findAll(pagination: Pagination)
     {
         return this.fetch<JsonStandard<Unit[]>>(`/units`, {
             method: "GET",
@@ -15,14 +16,14 @@ export class UnitRepository extends AbstractRepository
         });
     };
 
-    async getUnit(id: number)
+    async find(id: number)
     {
         return this.fetch<JsonStandard<Unit>>(`/units/${id}`, {
             method: "GET"
         });
     };
 
-    async createUnit(topicId: number, unit: Pick<Unit, "name" | "description" | "favorite">)
+    async create(topicId: number, unit: Pick<Unit, "name" | "description" | "favorite">)
     {
         return this.fetch<JsonStandard<Unit>>("/units", {
             method: "POST",
@@ -33,14 +34,14 @@ export class UnitRepository extends AbstractRepository
         });
     };
 
-    async deleteUnit(id: number)
+    async delete(id: number)
     {
         return this.fetch<JsonStandard<null>>(`/units/${id}`, {
             method: "DELETE"
         });
     };
 
-    async updatePartialUnit(id: number, updatedElement: Partial<Unit>)
+    async partialUpdate(id: number, updatedElement: Partial<Unit>)
     {
         return this.fetch<JsonStandard<Unit>>(`/units/${id}`, {
             method: "PATCH",
@@ -50,12 +51,12 @@ export class UnitRepository extends AbstractRepository
         });
     };
 
-    async updateUnit(id: number, updatedElement: Unit)
+    async update(id: number, updatedElement: Unit)
     {
-        return this.updatePartialUnit(id, updatedElement);
+        return this.partialUpdate(id, updatedElement);
     };
 
-    async getUnitsByTopic(topicId: number, pagination: Pagination)
+    async findByTopic(topicId: number, pagination: Pagination)
     {
         return this.fetch<JsonStandard<Unit[]>>(`/topics/${topicId}/units`, {
             method: "GET",
@@ -65,7 +66,7 @@ export class UnitRepository extends AbstractRepository
         });
     };
 
-    async resetUnit(id: number)
+    async reset(id: number)
     {
         return this.fetch<JsonStandard<null>>(`/units/${id}/reset`, {
             method: "PATCH"
@@ -79,7 +80,7 @@ export class UnitRepository extends AbstractRepository
         });
     };
 
-    async recentUnits()
+    async findRecents()
     {
         return this.fetch<JsonStandard<Unit[]>>(`/units/recent`, {
             method: "GET"
@@ -93,10 +94,13 @@ export class UnitRepository extends AbstractRepository
         });
     };
 
-    async countUnits()
+    async count(criteria: UnitCountCriteria = "all")
     {
         return this.fetch<JsonStandard<number>>(`/units/count`, {
-            method: "GET"
+            method: "GET",
+            query: {
+                criteria
+            }
         });
     };
 }
