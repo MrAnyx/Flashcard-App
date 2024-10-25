@@ -40,14 +40,14 @@
                 <template #header>
                     Number of sessions
                 </template>
-                <GraphLine />
+                <GraphLine :data="data" :tooltip-template="template" :x-ticks="xTicks" />
             </UCard><UCard
                 class="w-full"
             >
                 <template #header>
                     Number of reviews
                 </template>
-                <GraphLine />
+                <GraphLine :data="data" :tooltip-template="template" :x-ticks="xTicks" />
             </UCard>
         </div>
         <UTable
@@ -84,8 +84,10 @@
 
 <script lang="ts" setup>
 import { DateTime } from "luxon";
+import { eachDayOfInterval, format, sub } from "date-fns";
 import { ModalSessionIntroduction } from "#components";
 import type { Session } from "~/types/entity";
+import type { DataRecord } from "~/types/graph";
 
 definePageMeta({
     name: "practice",
@@ -171,4 +173,24 @@ const excuteStartSession = async () =>
         await modal.close();
     }
 };
+
+const randomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+const data = ref<DataRecord[]>(
+    eachDayOfInterval({ start: sub(new Date(), { days: 14 }), end: new Date() }).map((el: any) => ({
+        x: el,
+        y: randomNumber(0, 50)
+    }))
+);
+
+const xTicks = (i: number) =>
+{
+    if (i === 0 || i === data.value.length - 1 || !data.value[i])
+    {
+        return "";
+    }
+    return format(data.value[i].x, "d MMM");
+};
+
+const template = (d: DataRecord) => `${format(d.x, "d MMM")}: ${d.y}`;
 </script>

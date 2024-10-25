@@ -1,35 +1,19 @@
 <script setup lang="ts">
 import { VisXYContainer, VisLine, VisAxis, VisArea, VisCrosshair, VisTooltip } from "@unovis/vue";
 import { ref } from "vue";
-import { eachDayOfInterval, format, sub } from "date-fns";
+import type { DataRecord } from "~/types/graph";
+
+const props = defineProps<{
+    data: DataRecord[];
+    tooltipTemplate?: (d: DataRecord) => string;
+    xTicks?: (i: number) => string;
+}>();
 
 const graphContainer = ref<HTMLElement | null>(null);
-
 const { width } = useElementSize(graphContainer);
-
-const randomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-type DataRecord = { x: number; y: number };
-const data = ref<DataRecord[]>(
-    eachDayOfInterval({ start: sub(new Date(), { days: 14 }), end: new Date() }).map((el: any) => ({
-        x: el,
-        y: randomNumber(0, 50)
-    }))
-);
 
 const x = (_: DataRecord, i: number) => i;
 const y = (d: DataRecord) => d.y;
-
-const xTicks = (i: number) =>
-{
-    if (i === 0 || i === data.value.length - 1 || !data.value[i])
-    {
-        return "";
-    }
-    return format(data.value[i].x, "d MMM");
-};
-
-const template = (d: DataRecord) => `${format(d.x, "d MMM")}: ${d.y}`;
 </script>
 
 <template>
@@ -57,12 +41,13 @@ const template = (d: DataRecord) => `${format(d.x, "d MMM")}: ${d.y}`;
             <VisAxis
                 type="x"
                 :x="x"
-                :tick-format="xTicks"
+                :tick-format="props.xTicks"
             />
 
             <VisCrosshair
+                v-if="props.tooltipTemplate"
                 color="rgb(var(--color-primary-DEFAULT))"
-                :template="template"
+                :template="props.tooltipTemplate"
             />
 
             <VisTooltip />
