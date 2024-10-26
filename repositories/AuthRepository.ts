@@ -15,7 +15,7 @@ export class AuthRepository extends AbstractRepository
         });
     }
 
-    async register(authData: Omit<Auth, "identifier">)
+    async register(authData: Pick<Auth, "email" | "password" | "username">)
     {
         return this.fetch<JsonStandard<User>>("/auth/register", {
             method: "POST",

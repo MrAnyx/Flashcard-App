@@ -23,7 +23,7 @@ export class TopicRepository extends AbstractRepository
         });
     };
 
-    async create(topic: Pick<Topic, "name" | "description" | "favorite">)
+    async create(topic: Partial<Topic>)
     {
         return this.fetch<JsonStandard<Topic>>("/topics", {
             method: "POST",

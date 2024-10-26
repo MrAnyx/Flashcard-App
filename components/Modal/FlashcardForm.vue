@@ -146,7 +146,10 @@ const formData = reactive({
 
 onMounted(async () =>
 {
-    await loadTopics();
+    if (!props.topic)
+    {
+        await loadTopics();
+    }
 });
 
 const loadTopics = async () =>
@@ -206,6 +209,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
                 front: event.data.front,
                 back: event.data.back,
                 details: event.data.details,
+                help: event.data.help,
                 favorite: false
             });
 
@@ -218,8 +222,16 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
 
         if (formProvider.keepCreating)
         {
-            formData.topicId = undefined;
-            formData.unitId = undefined;
+            if (!props.topic)
+            {
+                formData.topicId = undefined;
+            }
+
+            if (!props.unit)
+            {
+                formData.unitId = undefined;
+            }
+
             formData.front = "";
             formData.back = "";
             formData.details = "";

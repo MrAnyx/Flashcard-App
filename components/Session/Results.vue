@@ -94,7 +94,7 @@
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <template v-for="(grade, i) in practiceStore.grades" :key="i">
-                        <div class="grow ring ring-gray-800 ring-1 rounded-md p-2 text-gray-400 dark:text-gray-300 flex items-center">
+                        <div class="grow ring ring-gray-200 dark:ring-gray-800 ring-1 rounded-md p-2 text-gray-500 dark:text-gray-300 flex items-center">
                             <span class="font-medium grow text-center">{{ i + 1 }}</span>
                             <Tooltip
                                 v-if="grade.grade === GradeType.easy"
@@ -182,17 +182,17 @@
                                     <UIcon v-else-if="practiceStore.grades[i].grade === GradeType.again" name="i-tabler-reload" :class="`text-${gradeColor(GradeType.again)}-400`" />
                                     <span>Question {{ i + 1 }}</span>
                                 </div>
-                                <div class="flex items-center gap-x-2  text-gray-500 dark:text-gray-400">
+                                <div class="flex items-center gap-x-2 text-gray-500 dark:text-gray-400">
                                     <UIcon name="i-tabler-clock" />
                                     {{ millisecondsToHuman(practiceStore.grades[i].duration) }}
                                 </div>
                             </div>
                         </template>
-                        <p class="p-3 text-gray-300">
+                        <p class="p-3 text-gray-500 dark:text-gray-300">
                             {{ flashcard.front }}
                         </p>
                         <UDivider />
-                        <p class="p-3 text-gray-300">
+                        <p class="p-3 text-gray-500 dark:text-gray-300">
                             {{ flashcard.back }}
                         </p>
                     </UCard>

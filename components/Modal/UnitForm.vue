@@ -103,7 +103,10 @@ const formData = reactive({
 
 onMounted(async () =>
 {
-    await loadTopics();
+    if (!props.topic)
+    {
+        await loadTopics();
+    }
 });
 
 const loadTopics = async () =>
@@ -156,7 +159,10 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
 
         if (formProvider.keepCreating)
         {
-            formData.topicId = undefined;
+            if (!props.topic)
+            {
+                formData.topicId = undefined;
+            }
             formData.name = "";
             formData.description = "";
         }

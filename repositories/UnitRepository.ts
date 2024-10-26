@@ -23,7 +23,7 @@ export class UnitRepository extends AbstractRepository
         });
     };
 
-    async create(topicId: number, unit: Pick<Unit, "name" | "description" | "favorite">)
+    async create(topicId: number, unit: Partial<Unit>)
     {
         return this.fetch<JsonStandard<Unit>>("/units", {
             method: "POST",

@@ -23,7 +23,7 @@ export class FlashcardRepository extends AbstractRepository
         });
     };
 
-    async create(unitId: number, unit: Pick<Flashcard, "front" | "back" | "details" | "favorite">)
+    async create(unitId: number, unit: Partial<Flashcard>)
     {
         return this.fetch<JsonStandard<Flashcard>>("/flashcards", {
             method: "POST",
