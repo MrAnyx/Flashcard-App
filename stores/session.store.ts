@@ -7,7 +7,6 @@ type State = {
 };
 
 export const useSessionStore = defineStore("session", {
-    persist: true,
     state: (): State => ({
         total: 0,
         sessions: [],

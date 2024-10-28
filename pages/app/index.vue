@@ -71,7 +71,7 @@
                     <BaseDataCard
                         icon="i-tabler-circle-check"
                         label="Correct flashcards"
-                        :value="`${formatNumber(correctFlashcards / (flashcardStore.total > 0 ? flashcardStore.total : 1))}%`"
+                        :value="`${formatNumber(correctFlashcards / (flashcardStore.total > 0 ? flashcardStore.total : 1) * 100)}%`"
                     />
                     <BaseDataCard
                         icon="i-tabler-stars"

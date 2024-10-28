@@ -1,4 +1,4 @@
 export type DataRecord = {
-    x: number;
+    x: number | Date;
     y: number;
 };

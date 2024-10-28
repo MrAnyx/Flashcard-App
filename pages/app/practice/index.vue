@@ -1,6 +1,13 @@
 <template>
     <section class="py-6 flex flex-col gap-y-6 ">
-        <div class="flex justify-end px-6">
+        <div class="flex justify-between px-6">
+            <USelectMenu
+                v-model="selectedPeriod"
+                :options="periodOptions"
+                class="w-[125px]"
+                @change="loadCards"
+            />
+
             <UButton
                 label="Start a session"
                 variant="soft"
@@ -18,8 +25,8 @@
             />
             <BaseDataCard
                 icon="i-tabler-clock-pin"
-                label="Sessions today"
-                :value="2"
+                label="Sessions on period"
+                :value="cardsdata.sessionsOnPeriod"
             />
             <BaseDataCard
                 icon="i-tabler-calendar"
@@ -28,8 +35,8 @@
             />
             <BaseDataCard
                 icon="i-tabler-clock-pin"
-                label="Reviews today"
-                :value="79"
+                label="Reviews on period"
+                :value="cardsdata.reviewsOnPeriod"
             />
         </div>
 
@@ -69,13 +76,13 @@
         </UTable>
 
         <div
-            v-if="(total / itemsPerPage) > 1"
+            v-if="(sessionStore.total / itemsPerPage) > 1"
             class="mt-4 flex justify-center"
         >
             <UPagination
                 v-model="page"
                 :page-count="itemsPerPage"
-                :total="total"
+                :total="sessionStore.total"
                 @update:model-value="loadTable"
             />
         </div>
@@ -88,6 +95,7 @@ import { eachDayOfInterval, format, sub } from "date-fns";
 import { ModalSessionIntroduction } from "#components";
 import type { Session } from "~/types/entity";
 import type { DataRecord } from "~/types/graph";
+import type { Period } from "~/types/period";
 
 definePageMeta({
     name: "practice",
@@ -109,6 +117,7 @@ const modal = useModal();
 onMounted(async () =>
 {
     await loadTable();
+    await loadCards();
 });
 
 const loading = ref(false);
@@ -117,8 +126,36 @@ const sort = ref({
     column: "startedAt",
     direction: "asc" as const
 });
-const total = ref<number>(0);
 const itemsPerPage = authStore.getSetting<number>("items_per_page");
+
+const cardsdata = reactive({
+    sessionsOnPeriod: 0,
+    reviewsOnPeriod: 0
+});
+
+const periodOptions: { id: Period; label: string }[] = [
+    {
+        id: "today",
+        label: "Today"
+    }, {
+        id: "yesterday",
+        label: "Yesterday"
+    }, {
+        id: "last_7_days",
+        label: "Last 7 days"
+    }, {
+        id: "last_14_days",
+        label: "Last 7 days"
+    }, {
+        id: "last_30_days",
+        label: "Last 30 days"
+    }, {
+        id: "last_90_days",
+        label: "Last 90 days"
+    }
+];
+
+const selectedPeriod = ref(periodOptions[0]);
 
 // Table data
 const columns = [{
@@ -134,6 +171,28 @@ const columns = [{
     label: "Total reviews",
 }];
 
+const loadCards = async () =>
+{
+    try
+    {
+        loading.value = true;
+
+        const sessionResponse = await repository.session.count("all", selectedPeriod.value.id);
+        cardsdata.sessionsOnPeriod = sessionResponse.data;
+
+        const reviewResponse = await repository.review.count("all", selectedPeriod.value.id);
+        cardsdata.reviewsOnPeriod = reviewResponse.data;
+    }
+    finally
+    {
+        loading.value = false;
+    }
+};
+const loadGraphs = async () =>
+{
+
+};
+
 const loadTable = async () =>
 {
     try
@@ -146,8 +205,6 @@ const loadTable = async () =>
             page: page.value,
             itemsPerPage
         });
-
-        total.value = response["@pagination"]!.total;
 
         sessionStore.sessions = response.data;
     }
@@ -177,7 +234,7 @@ const excuteStartSession = async () =>
 const randomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const data = ref<DataRecord[]>(
-    eachDayOfInterval({ start: sub(new Date(), { days: 14 }), end: new Date() }).map((el: any) => ({
+    eachDayOfInterval({ start: sub(new Date(), { days: 14 }), end: new Date() }).map(el => ({
         x: el,
         y: randomNumber(0, 50)
     }))
