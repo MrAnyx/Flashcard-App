@@ -34,4 +34,15 @@ export class SessionRepository extends AbstractRepository
             }
         });
     }
+
+    async countGroupByDate()
+    {
+        return this.fetch<JsonStandard<{ date: string; total: number }[]>>("/sessions/count", {
+            method: "GET",
+            query: {
+                criteria: "group_by_date",
+                period: "last_30_days"
+            }
+        });
+    }
 }

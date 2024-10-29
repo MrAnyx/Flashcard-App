@@ -74,6 +74,14 @@ export type Session = {
     totalReviews: number | null;
 };
 
+export type Review = {
+    id: number;
+    date: string;
+    Grade: number;
+    reset: boolean;
+    flashcard: Flashcard;
+};
+
 export const GradeType = {
     again: 1,
     hard: 2,

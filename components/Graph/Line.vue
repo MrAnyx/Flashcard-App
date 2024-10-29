@@ -10,7 +10,7 @@ const props = defineProps<{
 }>();
 
 const graphContainer = ref<HTMLElement | null>(null);
-const { width } = useElementSize(graphContainer);
+const { width, height } = useElementSize(graphContainer);
 
 const x = (_: DataRecord, i: number) => i;
 const y = (d: DataRecord) => d.y;
@@ -22,7 +22,7 @@ const y = (d: DataRecord) => d.y;
         <VisXYContainer
             :data="data"
             :padding="{ top: 10 }"
-            class="h-96"
+            :height="height"
             :width="width"
         >
             <VisLine

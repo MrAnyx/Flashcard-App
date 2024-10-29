@@ -1,6 +1,6 @@
 <template>
-    <UModal>
-        <UCard>
+    <UModal :fullscreen="props.fullscreen ?? false">
+        <UCard :ui="ui">
             <template #header>
                 <div class="flex justify-between items-center">
                     <div class="flex gap-x-2 items-center">
@@ -33,7 +33,13 @@
 const props = defineProps<{
     title?: string;
     icon?: string;
+    borderless?: boolean;
+    fullscreen?: boolean;
 }>();
 
 const modal = useModal();
+
+const ui = {
+    ...(props.borderless ? { body: { padding: "" } } : {})
+};
 </script>

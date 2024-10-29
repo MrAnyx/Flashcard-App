@@ -1,13 +1,6 @@
 <template>
     <section class="py-6 flex flex-col gap-y-6 ">
-        <div class="flex justify-between px-6">
-            <USelectMenu
-                v-model="selectedPeriod"
-                :options="periodOptions"
-                class="w-[125px]"
-                @change="loadCards"
-            />
-
+        <div class="flex justify-end px-6">
             <UButton
                 label="Start a session"
                 variant="soft"
@@ -25,7 +18,7 @@
             />
             <BaseDataCard
                 icon="i-tabler-clock-pin"
-                label="Sessions on period"
+                label="Total sessions today"
                 :value="cardsdata.sessionsOnPeriod"
             />
             <BaseDataCard
@@ -35,26 +28,23 @@
             />
             <BaseDataCard
                 icon="i-tabler-clock-pin"
-                label="Reviews on period"
+                label="Total reviews today"
                 :value="cardsdata.reviewsOnPeriod"
             />
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 px-6">
-            <UCard
-                class="w-full"
-            >
+            <UCard>
                 <template #header>
-                    Number of sessions
+                    Number of sessions over the last 30 days
                 </template>
-                <GraphLine :data="data" :tooltip-template="template" :x-ticks="xTicks" />
-            </UCard><UCard
-                class="w-full"
-            >
+                <GraphLine :data="sessionGraph" :tooltip-template="template" :x-ticks="xTicks" />
+            </UCard>
+            <UCard>
                 <template #header>
-                    Number of reviews
+                    Number of reviews over the last 30 days
                 </template>
-                <GraphLine :data="data" :tooltip-template="template" :x-ticks="xTicks" />
+                <GraphLine :data="reviewGraph" :tooltip-template="template" :x-ticks="xTicks" />
             </UCard>
         </div>
         <UTable
@@ -92,7 +82,7 @@
 <script lang="ts" setup>
 import { DateTime } from "luxon";
 import { eachDayOfInterval, format, sub } from "date-fns";
-import { ModalSessionIntroduction } from "#components";
+import { ModalSessionIntroduction, ModalSessionReviewRecap } from "#components";
 import type { Session } from "~/types/entity";
 import type { DataRecord } from "~/types/graph";
 import type { Period } from "~/types/period";
@@ -118,13 +108,14 @@ onMounted(async () =>
 {
     await loadTable();
     await loadCards();
+    await loadGraphs();
 });
 
 const loading = ref(false);
 const page = ref(1);
 const sort = ref({
     column: "startedAt",
-    direction: "asc" as const
+    direction: "desc" as const
 });
 const itemsPerPage = authStore.getSetting<number>("items_per_page");
 
@@ -132,30 +123,6 @@ const cardsdata = reactive({
     sessionsOnPeriod: 0,
     reviewsOnPeriod: 0
 });
-
-const periodOptions: { id: Period; label: string }[] = [
-    {
-        id: "today",
-        label: "Today"
-    }, {
-        id: "yesterday",
-        label: "Yesterday"
-    }, {
-        id: "last_7_days",
-        label: "Last 7 days"
-    }, {
-        id: "last_14_days",
-        label: "Last 7 days"
-    }, {
-        id: "last_30_days",
-        label: "Last 30 days"
-    }, {
-        id: "last_90_days",
-        label: "Last 90 days"
-    }
-];
-
-const selectedPeriod = ref(periodOptions[0]);
 
 // Table data
 const columns = [{
@@ -173,24 +140,48 @@ const columns = [{
 
 const loadCards = async () =>
 {
-    try
-    {
-        loading.value = true;
+    loading.value = true;
 
-        const sessionResponse = await repository.session.count("all", selectedPeriod.value.id);
-        cardsdata.sessionsOnPeriod = sessionResponse.data;
+    const sessionResponse = await repository.session.count("all", "today");
+    cardsdata.sessionsOnPeriod = sessionResponse.data;
 
-        const reviewResponse = await repository.review.count("all", selectedPeriod.value.id);
-        cardsdata.reviewsOnPeriod = reviewResponse.data;
-    }
-    finally
-    {
-        loading.value = false;
-    }
+    const reviewResponse = await repository.review.count("all", "today");
+    cardsdata.reviewsOnPeriod = reviewResponse.data;
+
+    loading.value = false;
 };
+
+const xTicks = (i: number) =>
+{
+    if (i === 0 || i === sessionGraph.value.length - 1 || !sessionGraph.value[i])
+    {
+        return "";
+    }
+    return format(sessionGraph.value[i].x, "d MMM");
+};
+
+const template = (d: DataRecord) => `${format(d.x, "d MMM")}: ${d.y}`;
+
+const sessionGraph = ref<DataRecord[]>([]);
+const reviewGraph = ref<DataRecord[]>([]);
+
 const loadGraphs = async () =>
 {
+    loading.value = true;
 
+    const sessionGraphResponse = await repository.session.countGroupByDate();
+    sessionGraph.value = eachDayOfInterval({ start: sub(new Date(), { days: 30 }), end: new Date() }).map(el => ({
+        x: el,
+        y: sessionGraphResponse.data.find(res => res.date === format(el, "yyyy-MM-dd"))?.total ?? 0
+    }));
+
+    const reviewGraphResponse = await repository.review.countGroupByDate();
+    reviewGraph.value = eachDayOfInterval({ start: sub(new Date(), { days: 30 }), end: new Date() }).map(el => ({
+        x: el,
+        y: reviewGraphResponse.data.find(res => res.date === format(el, "yyyy-MM-dd"))?.total ?? 0
+    }));
+
+    loading.value = false;
 };
 
 const loadTable = async () =>
@@ -214,8 +205,11 @@ const loadTable = async () =>
     }
 };
 
-const select = (row: Session) =>
+const select = async (row: Session) =>
 {
+    modal.open(ModalSessionReviewRecap, {
+        session: row
+    });
 };
 
 const excuteStartSession = async () =>
@@ -230,24 +224,4 @@ const excuteStartSession = async () =>
         await modal.close();
     }
 };
-
-const randomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-const data = ref<DataRecord[]>(
-    eachDayOfInterval({ start: sub(new Date(), { days: 14 }), end: new Date() }).map(el => ({
-        x: el,
-        y: randomNumber(0, 50)
-    }))
-);
-
-const xTicks = (i: number) =>
-{
-    if (i === 0 || i === data.value.length - 1 || !data.value[i])
-    {
-        return "";
-    }
-    return format(data.value[i].x, "d MMM");
-};
-
-const template = (d: DataRecord) => `${format(d.x, "d MMM")}: ${d.y}`;
 </script>
