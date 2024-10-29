@@ -211,4 +211,10 @@ definePageMeta({
 });
 
 const practiceStore = usePracticeStore();
+const repository = useRepository();
+
+onMounted(async () =>
+{
+    await repository.session.stop(practiceStore.currentSession!.id);
+});
 </script>

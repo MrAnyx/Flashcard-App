@@ -61,7 +61,7 @@
             </template>
 
             <template #endedAt-data="{ row }">
-                <span>{{ row.endedt ? formatDate(row.endedt, DateTime.DATETIME_MED) : '-' }}</span>
+                <span>{{ row.endedAt ? formatDate(row.endedAt, DateTime.DATETIME_MED) : '-' }}</span>
             </template>
         </UTable>
 

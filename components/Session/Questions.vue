@@ -186,11 +186,6 @@ const answer = async (gradeType: number) =>
         {
             practiceStore.nextFlashcards();
         }
-        else
-        {
-            // Not working
-            await repository.session.stop(practiceStore.currentSession!.id);
-        }
     }
     catch
     {
