@@ -7,23 +7,23 @@ export default defineNuxtPlugin(() =>
         baseURL: config.apiBaseUrl,
         keepalive: true,
         retry: false,
-        headers: {
-            "Content-Type": "application/json+std"
-        },
         onRequest({ options })
         {
             if (token.value)
             {
-                options.headers.append("Authorization", `Bearer ${token.value}`);
+                options.headers = {
+                    ...options.headers,
+                    Authorization: `Bearer ${token.value}`
+                };
             }
         },
         onRequestError()
         {
-            // useStandardToast("error", {
-            //     description: "An error occured while send a request, please try again or contact the administrator."
-            // });
+            useStandardToast("error", {
+                description: "An error occured while send a request, please try again or contact the administrator."
+            });
         },
-        onResponseError()
+        onResponseError({ response })
         {
             // if (response.status === 500)
             // {
@@ -31,7 +31,7 @@ export default defineNuxtPlugin(() =>
             // }
 
             // TODO Gestion globale des erreurs
-            // useStandardToast("error");
+            useStandardToast("error");
         }
     });
 

@@ -1,21 +1,13 @@
 <template>
-    <div class="h-svh bg-cool-900 text-white">
-        <h1>Landing page</h1>
-        <NuxtLink to="/app">
-            App
-        </NuxtLink>
-        <NuxtLink to="/auth/login">
-            Login
-        </NuxtLink>
+    <div>
+        <h1>Hello World</h1>
     </div>
 </template>
 
-<script setup lang="ts">
-definePageMeta({
-    name: "landing",
-});
+<script lang="ts" setup>
 
-useHead({
-    title: "Master your knowledge"
-});
 </script>
+
+<style>
+
+</style>

@@ -35,7 +35,7 @@
                 },
                 "tailwindCSS.classAttributes": ["class", "active-class", "inactive-class"],
                 "eslint.validate": ["javascript", "typescript", "vue"],
-                // "eslint.experimental.useFlatConfig": true,
+                "eslint.useFlatConfig": true,
                 "editor.codeActionsOnSave": {
                     "source.fixAll": "never",
                     "source.fixAll.eslint": "explicit",

@@ -9,6 +9,15 @@
     </div>
 </template>
 
+<script setup lang="ts">
+useHead({
+    titleTemplate: (titleChunk) =>
+    {
+        return titleChunk ? `${titleChunk} - Flashcard` : "Flashcard";
+    }
+});
+</script>
+
 <style lang="scss">
 ::-webkit-scrollbar {
     background-color: transparent;

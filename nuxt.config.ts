@@ -1,27 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import pkg from "./package.json";
-
-console.log(process.env.NODE_ENV);
-
 export default defineNuxtConfig({
-    modules: ["@nuxt/ui", "@vueuse/nuxt", "@nuxtjs/i18n", "@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "nuxt-umami", "@nuxt/eslint"],
-    ssr: false,
-    imports: {
-        dirs: [
-            "utils/**"
-        ]
-    },
-    // sourcemap: {
-    //     server: false,
-    //     client: false
-    // },
-    devtools: {
-        enabled: false,
-
-        timeline: {
-            enabled: true
-        }
-    },
+    modules: [
+        "@nuxtjs/device",
+        "@vueuse/nuxt",
+        "@nuxt/image",
+        "@nuxt/eslint",
+        "@nuxt/test-utils/module",
+        "@nuxt/ui",
+        "@pinia/nuxt",
+    ],
+    devtools: { enabled: true },
     router: {
         options: {
             scrollBehaviorType: "smooth"
@@ -33,18 +21,9 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             apiBaseUrl: process.env.API_BASE_URL,
-            appVersion: pkg.version,
         },
     },
-    // vite: {
-    //     server: {
-    //         middlewareMode: true,
-    //         hmr: {
-    //             port: 3001
-    //         }
-    //     }
-    // },
-    compatibilityDate: "2024-07-28",
+    compatibilityDate: "2024-11-01",
     eslint: {
         config: {
             stylistic: {
@@ -53,36 +32,11 @@ export default defineNuxtConfig({
                 quotes: "double",
                 commaDangle: "only-multiline",
                 braceStyle: "allman",
-                quoteProps: "as-needed"
+                quoteProps: "as-needed",
             }
         },
     },
-    i18n: {
-        defaultLocale: "en",
-        locales: ["en", "fr"],
-        vueI18n: "./i18n/i18n.config.ts",
-        strategy: "no_prefix"
-    },
     pinia: {
-        storesDirs: ["./stores/**"]
-    },
-    piniaPersistedstate: {
-        storage: "localStorage"
-    },
-    tailwindcss: {
-        viewer: false
-    },
-    umami: {
-        id: process.env.UMAMI_TOKEN,
-        host: process.env.UMAMI_HOST,
-        autoTrack: true,
-        enabled: process.env.NODE_ENV === "production",
-        // proxy: 'cloak',
-        // useDirective: true,
-        // ignoreLocalhost: true,
-        // excludeQueryParams: false,
-        // domains: ['cool-site.app', 'my-space.site'],
-        // customEndpoint: '/my-custom-endpoint',
-        // logErrors: true,
+        storesDirs: ["./stores/**"],
     },
 });

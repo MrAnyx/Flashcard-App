@@ -124,7 +124,7 @@
 
 <script lang="ts" setup>
 import type { BadgeColor } from "#ui/types";
-import { GradeType } from "~/types/entity";
+import { GradeType } from "../../types/entity";
 import Tooltip from "~/components/Tooltip.vue";
 
 definePageMeta({
