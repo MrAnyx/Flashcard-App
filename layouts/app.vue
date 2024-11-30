@@ -1,7 +1,7 @@
 <template>
     <main class="w-screen h-screen flex flex-row">
         <aside class="border-r border-gray-200 dark:border-gray-800 w-[350px] hidden lg:block">
-            sidebar
+            <Sidebar class="px-3 py-3.5" />
         </aside>
         <USlideover
             v-model="isSidebarOpen"
@@ -9,16 +9,15 @@
             side="left"
             :ui="{ width: 'w-screen max-w-[350px]' }"
         >
-            <!-- <aside class="h-full overflow-y-auto">
+            <aside class="h-full">
                 <Sidebar
-                    class="p-4 overflow-y-auto"
+                    class="px-3 py-3.5"
                     @close="isSidebarOpen = !isSidebarOpen"
                 />
-            </aside> -->
-            sidebar
+            </aside>
         </USlideover>
         <section class="grow overflow-auto flex flex-col">
-            <header class="h-16 flex items-center border-b border-gray-200 dark:border-gray-800 px-3 lg:px-6">
+            <header class="h-16 shrink-0 flex items-center border-b border-gray-200 dark:border-gray-800 px-3 lg:px-6">
                 <UButton
                     color="gray"
                     variant="ghost"
