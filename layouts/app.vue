@@ -1,5 +1,9 @@
 <template>
-    <main class="w-screen h-screen flex flex-row">
+    <Loader v-if="!applicationStore.initialized" />
+    <main
+        v-else
+        class="w-screen h-screen flex flex-row"
+    >
         <aside class="border-r border-gray-200 dark:border-gray-800 w-[350px] hidden lg:block">
             <Sidebar class="px-3 py-3.5" />
         </aside>
@@ -40,4 +44,6 @@
 
 <script lang="ts" setup>
 const isSidebarOpen = ref(false);
+
+const applicationStore = useApplicationStore();
 </script>
