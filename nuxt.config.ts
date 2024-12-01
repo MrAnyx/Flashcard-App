@@ -1,3 +1,5 @@
+import pkg from "./package.json";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     modules: [
@@ -21,6 +23,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             apiBaseUrl: process.env.API_BASE_URL,
+            appVersion: pkg.version,
         },
     },
     compatibilityDate: "2024-11-01",
