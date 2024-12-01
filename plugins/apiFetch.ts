@@ -7,15 +7,13 @@ export default defineNuxtPlugin(() =>
         baseURL: config.apiBaseUrl,
         keepalive: true,
         retry: false,
+        responseType: "json",
         headers: {
-            "Content-Type": "application/json+std"
+            Accept: "application/json+std",
+            ...(token.value ? { Authorization: `Bearer ${token.value}` } : {}),
         },
-        onRequest({ options })
+        onRequest()
         {
-            if (token.value)
-            {
-                options.headers.append("Authorization", `Bearer ${token.value}`);
-            }
         },
         onRequestError()
         {

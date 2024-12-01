@@ -101,18 +101,23 @@ import type { DropdownItem, VerticalNavigationLink } from "#ui/types";
 
 defineEmits(["close"]);
 
-const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[{
-    label: "Collection",
-    badge: 5645,
-    icon: "i-tabler-layout-dashboard",
-}, {
-    label: "Practice",
-    icon: "i-tabler-device-gamepad-2",
-},
-{
-    label: "Settings",
-    icon: "i-tabler-settings",
-}]]);
+const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[
+    {
+        label: "Collection",
+        badge: 5645,
+        icon: "i-tabler-layout-dashboard",
+    }, {
+        label: "Practice",
+        icon: "i-tabler-device-gamepad-2",
+        to: {
+            name: "practice"
+        }
+    },
+    {
+        label: "Settings",
+        icon: "i-tabler-settings",
+    }
+]]);
 
 const otherLinks = computed<VerticalNavigationLink[][]>(() => [
     [
@@ -138,9 +143,9 @@ const profileDropdownOptions = computed<DropdownItem[][]>(() => [
         {
             label: "Settings",
             icon: "i-tabler-settings",
-            to: {
-                name: "settings-account"
-            }
+            // to: {
+            //     name: "settings-account"
+            // }
         }, {
             label: "Shortcuts",
             icon: "i-tabler-terminal-2",
@@ -156,7 +161,7 @@ const profileDropdownOptions = computed<DropdownItem[][]>(() => [
         click: () =>
         {
             // authStore.logout();
-            return navigateTo({ name: "landing" });
+            // return navigateTo({ name: "landing" });
         }
     }]
 ]);

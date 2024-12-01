@@ -2,6 +2,7 @@ import pkg from "./package.json";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+
     modules: [
         "@nuxtjs/device",
         "@vueuse/nuxt",
@@ -11,6 +12,7 @@ export default defineNuxtConfig({
         "@nuxt/ui",
         "@pinia/nuxt",
     ],
+    ssr: false,
     devtools: { enabled: true },
     router: {
         options: {

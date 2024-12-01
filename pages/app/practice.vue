@@ -1,7 +1,7 @@
 <template>
     <NuxtLayout name="app">
         <template #header>
-            Flashcard
+            Practice
         </template>
         <div class="h-full flex flex-col justify-between items-center">
             <h1>Hello World</h1>
@@ -20,10 +20,10 @@
 
 <script lang="ts" setup>
 definePageMeta({
-    name: "dashboard",
+    name: "practice",
 });
 
 useHead({
-    title: "Dashboard"
+    title: "Practice"
 });
 </script>
