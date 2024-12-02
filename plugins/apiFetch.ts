@@ -17,9 +17,9 @@ export default defineNuxtPlugin(() =>
         },
         onRequestError()
         {
-            // useStandardToast("error", {
-            //     description: "An error occured while send a request, please try again or contact the administrator."
-            // });
+            useStandardToast("error", {
+                description: "An error occured while send a request, please try again or contact the administrator."
+            });
         },
         onResponseError()
         {
@@ -29,7 +29,7 @@ export default defineNuxtPlugin(() =>
             // }
 
             // TODO Gestion globale des erreurs
-            // useStandardToast("error");
+            useStandardToast("error");
         }
     });
 

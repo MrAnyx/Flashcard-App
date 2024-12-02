@@ -26,4 +26,9 @@ definePageMeta({
 useHead({
     title: "Dashboard"
 });
+
+onMounted(async () =>
+{
+    useRepository().user.findMe();
+});
 </script>

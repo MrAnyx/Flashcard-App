@@ -1,3 +1,5 @@
+export type StandardToastType = "error" | "warning" | "info" | "success" | "unauthorized";
+
 export type Pagination = {
     sort: string;
     order: "ASC" | "DESC";
