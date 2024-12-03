@@ -21,14 +21,10 @@
 <script lang="ts" setup>
 definePageMeta({
     name: "dashboard",
+    middleware: ["auth", "initialize"] // Order is important to first check login and then initialize
 });
 
 useHead({
     title: "Dashboard"
-});
-
-onMounted(async () =>
-{
-    useRepository().user.findMe();
 });
 </script>

@@ -1,8 +1,8 @@
+import type { NuxtPage } from "nuxt/schema";
 import pkg from "./package.json";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-
     modules: [
         "@nuxtjs/device",
         "@vueuse/nuxt",
