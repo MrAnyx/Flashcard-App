@@ -15,7 +15,7 @@
                 variant="ghost"
                 label="Flashcard"
                 class="flex-1"
-                :to="{ name: 'dashboard' }"
+                :to="{ name: 'overview' }"
             >
                 <template #leading>
                     <NuxtImg

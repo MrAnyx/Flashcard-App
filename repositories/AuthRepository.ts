@@ -1,12 +1,11 @@
 import { AbstractRepository } from "./AbstractRepository";
-import type { JsonStandard } from "~/types/request";
 import type { Auth, ResetPassword, User } from "~/types/entity";
 
 export class AuthRepository extends AbstractRepository
 {
     async login(authData: Pick<Auth, "identifier" | "password">)
     {
-        return this.fetch<JsonStandard<User>>("/auth/login", {
+        return this.fetch<User>("/auth/login", {
             method: "POST",
             body: {
                 identifier: authData.identifier,
@@ -17,7 +16,7 @@ export class AuthRepository extends AbstractRepository
 
     async register(authData: Pick<Auth, "email" | "password" | "username">)
     {
-        return this.fetch<JsonStandard<User>>("/auth/register", {
+        return this.fetch<User>("/auth/register", {
             method: "POST",
             body: {
                 email: authData.email,
@@ -29,7 +28,7 @@ export class AuthRepository extends AbstractRepository
 
     async requestPasswordReset(authData: Pick<ResetPassword, "identifier">)
     {
-        return this.fetch<JsonStandard<null>>("/auth/reset-password/request", {
+        return this.fetch<null>("/auth/reset-password/request", {
             method: "POST",
             body: {
                 identifier: authData.identifier,
@@ -39,7 +38,7 @@ export class AuthRepository extends AbstractRepository
 
     async proceedResetPassword(authData: Pick<ResetPassword, "token" | "password">)
     {
-        return this.fetch<JsonStandard<User>>("/auth/reset-password/proceed", {
+        return this.fetch<User>("/auth/reset-password/proceed", {
             method: "POST",
             body: {
                 token: authData.token,

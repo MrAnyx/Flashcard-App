@@ -1,6 +1,4 @@
-export type JsonStatus = "invalid" | "valid";
-
-export type JsonPagination = {
+export type Pagination = {
     total: number;
     count: number;
     offset: number;
@@ -11,9 +9,7 @@ export type JsonPagination = {
     has_previous_page: boolean;
 };
 
-export type JsonStandard<TData> = {
-    "@timestamp": string;
-    "@status": JsonStatus;
-    "@pagination": JsonPagination | null;
+export type Paginated<TData> = {
+    pagination: Pagination;
     data: TData;
 };

@@ -4,6 +4,11 @@ export default defineAppConfig({
         gray: "cool",
         kbd: {
             padding: "px-1.5"
-        }
+        },
+        input: {
+            default: {
+                size: "md"
+            }
+        },
     },
 });

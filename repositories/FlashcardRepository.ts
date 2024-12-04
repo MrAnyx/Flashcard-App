@@ -2,13 +2,12 @@ import { AbstractRepository } from "./AbstractRepository";
 import type { Pagination } from "~/types/core";
 import type { FlashcardCountCriteria } from "~/types/countCriteria";
 import type { Flashcard, Session } from "~/types/entity";
-import type { JsonStandard } from "~/types/request";
 
 export class FlashcardRepository extends AbstractRepository
 {
     async findAll(pagination: Pagination)
     {
-        return this.fetch<JsonStandard<Flashcard[]>>(`/flashcards`, {
+        return this.fetch<Flashcard[]>(`/flashcards`, {
             method: "GET",
             query: {
                 ...pagination
@@ -18,14 +17,14 @@ export class FlashcardRepository extends AbstractRepository
 
     async find(id: number)
     {
-        return this.fetch<JsonStandard<Flashcard>>(`/flashcards/${id}`, {
+        return this.fetch<Flashcard>(`/flashcards/${id}`, {
             method: "GET"
         });
     };
 
     async create(unitId: number, unit: Partial<Flashcard>)
     {
-        return this.fetch<JsonStandard<Flashcard>>("/flashcards", {
+        return this.fetch<Flashcard>("/flashcards", {
             method: "POST",
             body: {
                 ...unit,
@@ -36,14 +35,14 @@ export class FlashcardRepository extends AbstractRepository
 
     async delete(id: number)
     {
-        return this.fetch<JsonStandard<null>>(`/flashcards/${id}`, {
+        return this.fetch<null>(`/flashcards/${id}`, {
             method: "DELETE"
         });
     };
 
     async partialUpdate(id: number, updatedElement: Partial<Flashcard>)
     {
-        return this.fetch<JsonStandard<Flashcard>>(`/flashcards/${id}`, {
+        return this.fetch<Flashcard>(`/flashcards/${id}`, {
             method: "PATCH",
             body: {
                 ...updatedElement
@@ -58,7 +57,7 @@ export class FlashcardRepository extends AbstractRepository
 
     async findByUnit(unitId: number, pagination: Pagination)
     {
-        return this.fetch<JsonStandard<Flashcard[]>>(`/units/${unitId}/flashcards`, {
+        return this.fetch<Flashcard[]>(`/units/${unitId}/flashcards`, {
             method: "GET",
             query: {
                 ...pagination
@@ -68,7 +67,7 @@ export class FlashcardRepository extends AbstractRepository
 
     async review(id: number, gradeType: number, sessionId: number)
     {
-        return this.fetch<JsonStandard<null>>(`/flashcards/${id}/review`, {
+        return this.fetch<null>(`/flashcards/${id}/review`, {
             method: "POST",
             body: {
                 grade: gradeType,
@@ -79,28 +78,28 @@ export class FlashcardRepository extends AbstractRepository
 
     async resetAll()
     {
-        return this.fetch<JsonStandard<null>>(`/flashcards/reset`, {
+        return this.fetch<null>(`/flashcards/reset`, {
             method: "POST"
         });
     };
 
     async reset(id: number)
     {
-        return this.fetch<JsonStandard<null>>(`/flashcards/${id}/reset`, {
+        return this.fetch<null>(`/flashcards/${id}/reset`, {
             method: "POST"
         });
     };
 
     async session()
     {
-        return this.fetch<JsonStandard<{ session: Session; flashcards: Flashcard[] }>>(`/flashcards/session`, {
+        return this.fetch<{ session: Session; flashcards: Flashcard[] }>(`/flashcards/session`, {
             method: "GET"
         });
     };
 
     async count(criteria: FlashcardCountCriteria = "all")
     {
-        return this.fetch<JsonStandard<number>>(`/flashcards/count`, {
+        return this.fetch<number>(`/flashcards/count`, {
             method: "GET",
             query: {
                 criteria
@@ -110,7 +109,7 @@ export class FlashcardRepository extends AbstractRepository
 
     async averageGrade()
     {
-        return this.fetch<JsonStandard<number>>(`/flashcards/averageGrade`, {
+        return this.fetch<number>(`/flashcards/averageGrade`, {
             method: "GET"
         });
     };

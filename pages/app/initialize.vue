@@ -3,6 +3,10 @@
 </template>
 
 <script lang="ts" setup>
+definePageMeta({
+    name: "initialize"
+});
+
 const applicationStore = useApplicationStore();
 const route = useRoute();
 const router = useRouter();
