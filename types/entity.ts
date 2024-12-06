@@ -33,6 +33,12 @@ export type Unit = {
     topic: Topic;
 };
 
+export type State = 0 | 1;
+export const StateType: Record<string, State> = {
+    new: 0,
+    learning: 1
+};
+
 export type Flashcard = {
     id: number;
     createdAt: string;
@@ -42,12 +48,12 @@ export type Flashcard = {
     details: string;
     nextReview: string;
     previousReview: string;
-    state: number;
+    state: State;
     difficulty: number | null;
     stability: number | null;
+    unit: Unit;
     favorite: boolean;
     help: string | null;
-    unit: Unit;
 };
 
 export type Auth = {
@@ -70,17 +76,18 @@ export type Session = {
     totalReviews: number | null;
 };
 
-export type Review = {
-    id: number;
-    date: string;
-    Grade: number;
-    reset: boolean;
-    flashcard: Flashcard;
-};
-
-export const GradeType = {
+export type Grade = 1 | 2 | 3 | 4;
+export const GradeType: Record<string, Grade> = {
     again: 1,
     hard: 2,
     good: 3,
     easy: 4
+};
+
+export type Review = {
+    id: number;
+    date: string;
+    grade: Grade;
+    reset: boolean;
+    flashcard: Flashcard;
 };

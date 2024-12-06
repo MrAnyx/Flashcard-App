@@ -1,12 +1,12 @@
 export type Pagination = {
     total: number;
+    itemsPerPage: number;
     count: number;
+    totalpages: number;
+    page: number;
     offset: number;
-    items_per_page: number;
-    total_pages: number;
-    current_page: number;
-    has_next_page: boolean;
-    has_previous_page: boolean;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
 };
 
 export type Paginated<TData> = {
