@@ -1,4 +1,4 @@
-export default defineNuxtRouteMiddleware(async (to, _from) =>
+export default defineNuxtRouteMiddleware(async (to) =>
 {
     const applicationStore = useApplicationStore();
 
@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to, _from) =>
         return navigateTo({
             name: "initialize",
             query: {
-                forward: to.path
+                forward: to.fullPath
             }
         });
     }

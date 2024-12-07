@@ -19,6 +19,11 @@
 
                 <slot />
 
+                <UDivider
+                    v-if="$slots.footer"
+                    :ui="{ border: { base: 'dark:border-gray-700' } }"
+                />
+
                 <slot name="footer" />
             </div>
         </UCard>

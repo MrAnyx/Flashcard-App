@@ -3,25 +3,25 @@ import type { Auth, ResetPassword, User } from "~/types/entity";
 
 export class AuthRepository extends AbstractRepository
 {
-    async login(authData: Pick<Auth, "identifier" | "password">)
+    async login(authData: Pick<Auth, "identifier" | "rawPassword">)
     {
         return this.fetch<User>("/auth/login", {
             method: "POST",
             body: {
                 identifier: authData.identifier,
-                password: authData.password
+                password: authData.rawPassword
             }
         });
     }
 
-    async register(authData: Pick<Auth, "email" | "password" | "username">)
+    async register(authData: Pick<Auth, "email" | "rawPassword" | "username">)
     {
         return this.fetch<User>("/auth/register", {
             method: "POST",
             body: {
                 email: authData.email,
                 username: authData.username,
-                password: authData.password
+                password: authData.rawPassword
             }
         });
     }

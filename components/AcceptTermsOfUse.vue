@@ -1,11 +1,11 @@
 <template>
-    <p class="text-sm text-gray-400">
+    <AuthFooter>
         By clicking the button, you agree to our
         <ULink
-            :to="{ name: 'landing' }"
+            :to="{ name: 'terms-of-use' }"
             class="text-primary hover:text-primary-300"
         >
             terms of use
         </ULink>
-    </p>
+    </AuthFooter>
 </template>

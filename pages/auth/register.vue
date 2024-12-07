@@ -1,11 +1,8 @@
 <template>
     <NuxtLayout name="auth">
         <template #header>
-            <header class="flex flex-col space-y-2 items-center">
-                <h2 class="text-3xl font-medium3">
-                    Create an account
-                </h2>
-                <p class="text-gray-400">
+            <AuthHeader title="Create an account">
+                <template #subtitle>
                     Already have an account?
                     <ULink
                         :to="{ name: 'login', query: route.query }"
@@ -13,8 +10,8 @@
                     >
                         Login
                     </ULink>
-                </p>
-            </header>
+                </template>
+            </AuthHeader>
         </template>
 
         <UForm
@@ -83,7 +80,6 @@
         </UForm>
 
         <template #footer>
-            <UDivider :ui="{ border: { base: 'dark:border-gray-700' } }" />
             <AcceptTermsOfUse class="text-center" />
         </template>
     </NuxtLayout>
@@ -94,6 +90,7 @@ import { z } from "zod";
 
 definePageMeta({
     name: "register",
+    middleware: ["guest"]
 });
 
 useHead({
@@ -138,11 +135,12 @@ const onSubmit = async () =>
         const data = await repository.auth.register({
             username: formData.username,
             email: formData.email,
-            password: formData.password
+            rawPassword: formData.password
         });
 
-        authStore.login(data.data);
-        navigateTo({ name: "overview" });
+        authStore.login(data);
+
+        await redirectToForwardedRoute("overview");
     }
     finally
     {

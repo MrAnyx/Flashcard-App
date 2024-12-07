@@ -1,14 +1,11 @@
 <template>
-    <div>
-        <header class="text-center mb-8 flex flex-col space-y-2">
-            <h2 class="text-3xl font-medium3">
-                Oups, I forgot my password
-            </h2>
-        </header>
-
-        <p class="text-gray-400 mb-8 leading-loose">
-            The token sent by email is valid for <strong>10 minutes</strong>. Fill the token and your new password to finalize the process.
-        </p>
+    <NuxtLayout name="auth">
+        <template #header>
+            <AuthHeader
+                title="Oups, I forgot my password"
+                subtitle="The token sent by email is valid for 10 minutes. Fill the token and your new password to finalize the process."
+            />
+        </template>
         <UForm
             :schema="schema"
             :state="formData"
@@ -24,6 +21,7 @@
                     <UInput
                         v-model="formData.token"
                         autofocus
+                        type="password"
                         placeholder="Enter the token sent by email"
                         icon="i-tabler-key"
                     />
@@ -59,35 +57,26 @@
             >
                 Reset my password
             </UButton>
-
-            <UDivider
-                :ui="{ border: { base: 'dark:border-gray-700' } }"
-            />
-
-            <p class="text-sm text-gray-400 text-center">
-                Go back to the
-                <ULink
-                    :to="{ name: 'login' }"
-                    class="text-primary hover:text-primary-300"
-                >
-                    login page
-                </ULink>
-            </p>
         </UForm>
-    </div>
+
+        <template #footer>
+            <AuthBackToLoginPage class="text-center" />
+        </template>
+    </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 import { z } from "zod";
 
 definePageMeta({
-    layout: "auth",
     name: "reset-password-proceed",
+    middleware: ["guest"]
 });
 
 const authStore = useAuthStore();
 const repository = useRepository();
 const validationRule = useValidationRule();
+const route = useRoute();
 
 // Form definition
 const schema = z
@@ -122,11 +111,12 @@ const onSubmit = async () =>
             password: formData.password
         });
 
-        authStore.login(data.data);
+        authStore.login(data);
         useStandardToast("success", {
             description: "Your password has beed reset successfully"
         });
-        navigateTo({ name: "overview" });
+
+        await redirectToForwardedRoute("overview");
     }
     finally
     {

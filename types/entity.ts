@@ -60,7 +60,7 @@ export type Auth = {
     username: string;
     email: string;
     identifier: string;
-    password: string;
+    rawPassword: string;
 };
 
 export type ResetPassword = {

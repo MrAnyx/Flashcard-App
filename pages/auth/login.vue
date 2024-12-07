@@ -1,11 +1,8 @@
 <template>
     <NuxtLayout name="auth">
         <template #header>
-            <header class="flex flex-col space-y-2 items-center">
-                <h2 class="text-3xl font-medium3">
-                    Welcome back
-                </h2>
-                <p class="text-gray-400">
+            <AuthHeader title="Welcome back">
+                <template #subtitle>
                     Don't have an account?
                     <ULink
                         :to="{ name: 'register', query: route.query }"
@@ -13,8 +10,8 @@
                     >
                         Sign up
                     </ULink>
-                </p>
-            </header>
+                </template>
+            </AuthHeader>
         </template>
 
         <UForm
@@ -43,7 +40,7 @@
                 >
                     <template #hint>
                         <ULink
-                            :to="{ name: 'reset-password-request' }"
+                            :to="{ name: 'reset-password-request', query: route.query }"
                             class="text-primary hover:text-primary-300"
                         >
                             Forgot password?
@@ -68,7 +65,6 @@
         </UForm>
 
         <template #footer>
-            <UDivider :ui="{ border: { base: 'dark:border-gray-700' } }" />
             <AcceptTermsOfUse class="text-center" />
         </template>
     </NuxtLayout>
@@ -79,6 +75,7 @@ import { z } from "zod";
 
 definePageMeta({
     name: "login",
+    middleware: ["guest"]
 });
 
 useHead({
@@ -112,19 +109,12 @@ const onSubmit = async () =>
 
         const data = await repository.auth.login({
             identifier: formData.identifier,
-            password: formData.password
+            rawPassword: formData.password
         });
 
         authStore.login(data);
 
-        if (route.query.forward)
-        {
-            await navigateTo(route.query.forward as string);
-        }
-        else
-        {
-            await navigateTo({ name: "overview" });
-        }
+        await redirectToForwardedRoute("overview");
     }
     finally
     {

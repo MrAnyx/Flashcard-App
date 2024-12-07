@@ -1,4 +1,4 @@
-export default defineNuxtRouteMiddleware((to, _from) =>
+export default defineNuxtRouteMiddleware(async (to) =>
 {
     const token = useToken();
 
@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware((to, _from) =>
         return navigateTo({
             name: "login",
             query: {
-                forward: to.path
+                forward: to.fullPath
             }
         });
     }
