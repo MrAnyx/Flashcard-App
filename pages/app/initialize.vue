@@ -21,8 +21,6 @@ const colorMode = useColorMode();
 const appConfig = useAppConfig();
 
 const applicationStore = useApplicationStore();
-const route = useRoute();
-const router = useRouter();
 
 onMounted(async () =>
 {

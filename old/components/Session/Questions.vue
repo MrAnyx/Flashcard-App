@@ -180,7 +180,7 @@ const answer = async (gradeType: number) =>
         state.loading = true;
         await repository.flashcard.review(currentQuestion.value.id, gradeType, practiceStore.currentSession!.id);
         practiceStore.addGrade(gradeType);
-        reviewStore.increment();
+        reviewStore.incrementTotal();
 
         if (practiceStore.hasNextFlashcard)
         {

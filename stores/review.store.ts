@@ -7,11 +7,11 @@ export const useReviewStore = defineStore("review", {
         total: 0,
     }),
     actions: {
-        increment()
+        incrementTotal()
         {
             this.total++;
         },
-        decrement()
+        decrementTotal()
         {
             this.total--;
         }

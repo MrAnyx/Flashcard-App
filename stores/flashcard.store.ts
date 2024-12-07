@@ -16,18 +16,18 @@ export const useFlashcardStore = defineStore("flashcard", {
         prepend(item: Flashcard)
         {
             this.flashcards = [item, ...this.flashcards];
-            this.increment();
+            this.incrementTotal();
         },
         append(item: Flashcard)
         {
             this.flashcards = [...this.flashcards, item];
-            this.increment();
+            this.incrementTotal();
         },
         delete(item: Flashcard)
         {
             const itemToRemove = this.flashcards.findIndex(f => f.id === item.id);
             this.flashcards.splice(itemToRemove, 1);
-            this.decrement();
+            this.decrementTotal();
         },
         update(id: number, item: Partial<Flashcard>)
         {
@@ -41,13 +41,21 @@ export const useFlashcardStore = defineStore("flashcard", {
                 };
             }
         },
-        increment()
+        incrementTotal()
         {
             this.total++;
         },
-        decrement()
+        decrementTotal()
         {
             this.total--;
+        },
+        incrementFlashcardsToReview()
+        {
+            this.totalToReview++;
+        },
+        decrementFlashcardsToReview()
+        {
+            this.totalToReview--;
         }
     },
     getters: {}

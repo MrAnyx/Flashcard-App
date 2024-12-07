@@ -12,11 +12,11 @@ export const useSessionStore = defineStore("session", {
         sessions: [],
     }),
     actions: {
-        increment()
+        incrementTotal()
         {
             this.total++;
         },
-        decrement()
+        decrementTotal()
         {
             this.total--;
         }

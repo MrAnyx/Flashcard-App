@@ -22,7 +22,7 @@ export const usePracticeStore = defineStore("practice", {
         defineSession(session: { session: Session; flashcards: Flashcard[] })
         {
             const sessionStore = useSessionStore();
-            sessionStore.increment();
+            sessionStore.incrementTotal();
 
             this.currentSession = session.session;
             this.currentSessionFlashcards = session.flashcards;
