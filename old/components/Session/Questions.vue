@@ -139,7 +139,7 @@ const state = reactive({
     loading: false,
 });
 
-const currentQuestion = computed(() => practiceStore.currentSessionFlashcards[practiceStore.currentFlashcard]);
+const currentQuestion = computed(() => practiceStore.currentSessionFlashcards[practiceStore.currentFlashcardIndex]);
 const difficulty = computed<{ label: string; color: BadgeColor }>(() =>
 {
     if (!currentQuestion.value || currentQuestion.value.difficulty === null)

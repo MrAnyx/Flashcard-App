@@ -1,7 +1,7 @@
 <template>
     <div class="h-full flex flex-col">
         <UMeter
-            :value="practiceStore.currentFlashcard"
+            :value="practiceStore.currentFlashcardIndex"
             :max="practiceStore.currentSessionFlashcards.length"
             size="sm"
         />

@@ -7,10 +7,9 @@ export class ReviewRepository extends AbstractRepository
 {
     async count(criteria: ReviewCountCriteria = "only_valid", period: Period = "all")
     {
-        return this.fetch<number>("/reviews/count", {
+        return this.fetch<number>(`/reviews/count/${criteria}`, {
             method: "GET",
             query: {
-                criteria,
                 period
             }
         });
@@ -25,10 +24,9 @@ export class ReviewRepository extends AbstractRepository
 
     async countGroupByDate()
     {
-        return this.fetch<{ date: string; total: number }[]>("/reviews/count", {
+        return this.fetch<{ date: string; total: number }[]>("/reviews/count/group_by_date", {
             method: "GET",
             query: {
-                criteria: "group_by_date",
                 period: "last_30_days"
             }
         });

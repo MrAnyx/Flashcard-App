@@ -77,11 +77,8 @@ export class TopicRepository extends AbstractRepository
 
     async count(criteria: TopicCountCriteria = "all")
     {
-        return this.fetch<number>(`/topics/count`, {
+        return this.fetch<number>(`/topics/count/${criteria}`, {
             method: "GET",
-            query: {
-                criteria
-            }
         });
     }
 }

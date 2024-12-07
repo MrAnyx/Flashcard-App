@@ -99,11 +99,8 @@ export class FlashcardRepository extends AbstractRepository
 
     async count(criteria: FlashcardCountCriteria = "all")
     {
-        return this.fetch<number>(`/flashcards/count`, {
+        return this.fetch<number>(`/flashcards/count/${criteria}`, {
             method: "GET",
-            query: {
-                criteria
-            }
         });
     };
 

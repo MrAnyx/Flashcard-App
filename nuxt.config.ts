@@ -11,6 +11,7 @@ export default defineNuxtConfig({
         "@nuxt/test-utils/module",
         "@nuxt/ui",
         "@pinia/nuxt",
+        "pinia-plugin-persistedstate/nuxt"
     ],
     ssr: false,
     devtools: { enabled: true },

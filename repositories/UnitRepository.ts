@@ -95,11 +95,8 @@ export class UnitRepository extends AbstractRepository
 
     async count(criteria: UnitCountCriteria = "all")
     {
-        return this.fetch<number>(`/units/count`, {
+        return this.fetch<number>(`/units/count/${criteria}`, {
             method: "GET",
-            query: {
-                criteria
-            }
         });
     };
 }
