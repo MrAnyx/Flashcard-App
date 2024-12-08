@@ -7,7 +7,7 @@
                 Each card has a question you've crafted, and your mission, should you choose to accept, is to answer without sneaking a look at the back. After each question, you'll rate your performance :
                 <span class="inline-flex space-x-1">
                     <DifficultyBadge
-                        color="yellow"
+                        color="green"
                         icon="i-tabler-checks"
                         label="Easy"
                         tooltip-text="Nailed it! You could answer this one in your sleep!"
