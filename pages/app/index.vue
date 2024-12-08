@@ -24,11 +24,6 @@ definePageMeta({
     middleware: ["auth", "initialize"] // Order is important to first check login and then initialize
 });
 
-onMounted(() =>
-{
-    console.log("app page");
-});
-
 useHead({
     title: "Overview"
 });

@@ -99,15 +99,19 @@
 <script lang="ts" setup>
 import type { DropdownItem, VerticalNavigationLink } from "#ui/types";
 
+const flashcardStore = useFlashcardStore();
+const authStore = useAuthStore();
+
 defineEmits(["close"]);
 
 const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[
     {
         label: "Collection",
-        badge: 5645,
+        badge: flashcardStore.total,
         icon: "i-tabler-layout-dashboard",
     }, {
         label: "Practice",
+        badge: flashcardStore.totalToReview,
         icon: "i-tabler-device-gamepad-2",
         to: {
             name: "practice"
@@ -126,7 +130,10 @@ const otherLinks = computed<VerticalNavigationLink[][]>(() => [
             icon: "i-tabler-info-square-rounded"
         }, {
             label: "Terms of use",
-            icon: "i-tabler-file-check"
+            icon: "i-tabler-file-check",
+            to: {
+                name: "terms-of-use"
+            }
         }
     ]
 ]);
@@ -160,8 +167,8 @@ const profileDropdownOptions = computed<DropdownItem[][]>(() => [
         icon: "i-tabler-logout-2",
         click: () =>
         {
-            // authStore.logout();
-            // return navigateTo({ name: "landing" });
+            authStore.logout();
+            return navigateTo({ name: "landing" });
         }
     }]
 ]);
