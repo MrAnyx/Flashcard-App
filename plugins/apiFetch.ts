@@ -1,7 +1,6 @@
 export default defineNuxtPlugin(() =>
 {
     const config = useRuntimeConfig().public;
-    const token = useToken();
 
     const $apiFetch = $fetch.create({
         baseURL: config.apiBaseUrl,
@@ -9,11 +8,15 @@ export default defineNuxtPlugin(() =>
         retry: false,
         responseType: "json",
         headers: {
-            Accept: "application/json+std",
-            ...(token.value ? { Authorization: `Bearer ${token.value}` } : {}),
+            Accept: "application/json"
         },
-        onRequest()
+        onRequest({ options })
         {
+            const token = useToken();
+            if (token.value)
+            {
+                options.headers.append("Authorization", `Bearer ${token.value}`);
+            }
         },
         onRequestError()
         {

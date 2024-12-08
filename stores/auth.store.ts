@@ -12,14 +12,19 @@ export const useAuthStore = defineStore("auth", {
     actions: {
         logout()
         {
-            useApplicationStore().initialized = false;
-            useToken().value = null;
+            const applicationStore = useApplicationStore();
+            const token = useToken();
+
+            applicationStore.initialized = false;
+            token.value = null;
 
             this.user = undefined;
         },
         login(user: User)
         {
-            useToken().value = user.token;
+            const token = useToken();
+
+            token.value = user.token;
 
             this.user = user;
         },
