@@ -13,6 +13,11 @@ export default defineNuxtConfig({
         "pinia-plugin-persistedstate/nuxt"
     ],
     ssr: false,
+    imports: {
+        dirs: [
+            "utils/**"
+        ]
+    },
     devtools: { enabled: true },
     router: {
         options: {

@@ -65,7 +65,7 @@
         </UForm>
 
         <template #footer>
-            <AcceptTermsOfUse class="text-center" />
+            <AuthAcceptTermsOfUse class="text-center" />
         </template>
     </NuxtLayout>
 </template>

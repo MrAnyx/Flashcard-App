@@ -2,6 +2,7 @@ import { AbstractRepository } from "./AbstractRepository";
 import type { Pagination } from "~/types/core";
 import type { FlashcardCountCriteria } from "~/types/countCriteria";
 import type { Flashcard, Session } from "~/types/entity";
+import type { FlashcardSession } from "~/types/session";
 
 export class FlashcardRepository extends AbstractRepository
 {
@@ -92,7 +93,7 @@ export class FlashcardRepository extends AbstractRepository
 
     async session()
     {
-        return this.fetch<{ session: Session; flashcards: Flashcard[] }>(`/flashcards/session`, {
+        return this.fetch<FlashcardSession>(`/flashcards/session`, {
             method: "GET"
         });
     };

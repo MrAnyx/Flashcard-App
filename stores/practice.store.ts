@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { defineStore } from "pinia";
 import { GradeType, type Flashcard, type Session } from "~/types/entity";
-import type { Answer } from "~/types/session";
+import type { Answer, FlashcardSession } from "~/types/session";
 
 type State = {
     currentSession?: Session;
@@ -19,12 +19,12 @@ export const usePracticeStore = defineStore("practice", {
         grades: [],
     }),
     actions: {
-        defineSession(session: { session: Session; flashcards: Flashcard[] })
+        defineSession(session: FlashcardSession)
         {
             const sessionStore = useSessionStore();
             sessionStore.incrementTotal();
 
-            this.currentSession = session.session;
+            this.currentSession = session.session!;
             this.currentSessionFlashcards = session.flashcards;
             this.currentFlashcardIndex = 0;
             this.grades = [];

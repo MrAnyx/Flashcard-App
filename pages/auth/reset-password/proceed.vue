@@ -76,7 +76,6 @@ definePageMeta({
 const authStore = useAuthStore();
 const repository = useRepository();
 const validationRule = useValidationRule();
-const route = useRoute();
 
 // Form definition
 const schema = z
