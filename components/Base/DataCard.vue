@@ -4,16 +4,32 @@
             <UIcon
                 v-if="props.icon"
                 :name="props.icon"
-                class="dark:bg-gray-300 bg-gray-500 text-2xl shrink-0"
+                class="dark:bg-gray-400 bg-gray-500 text-2xl shrink-0"
             />
 
-            <div class="flex-1 flex flex-col min-w-0 text-left">
-                <slot name="label">
-                    <span class="truncate dark:text-gray-300 text-gray-500">{{ props.label }}</span>
-                </slot>
-                <slot name="value">
-                    <span class="text-xl dark:text-gray-300 text-gray-700 truncate">{{ props.value }}</span>
-                </slot>
+            <div class="flex-1 flex flex-col min-w-0">
+                <span class="dark:text-gray-300 text-gray-500 inline-flex items-center gap-x-2">
+                    <slot name="label">
+                        <span class="truncate">{{ props.label }}</span>
+                    </slot>
+
+                    <Tooltip
+                        v-if="props.info"
+                        help
+                        activation="hover"
+                        :text="props.info"
+                    >
+                        <UIcon
+                            :name="props.infoIcon ?? 'i-tabler-info-circle'"
+                            class="shrink-0"
+                        />
+                    </Tooltip>
+                </span>
+                <span class="text-xl dark:text-gray-300 text-gray-700 truncate">
+                    <slot name="value">
+                        {{ props.value }}
+                    </slot>
+                </span>
             </div>
         </div>
     </UCard>
@@ -22,7 +38,9 @@
 <script lang="ts" setup>
 const props = defineProps<{
     icon?: string;
-    label?: string;
-    value?: string | number | boolean;
+    label: string;
+    value: string | number | boolean;
+    info?: string;
+    infoIcon?: string;
 }>();
 </script>

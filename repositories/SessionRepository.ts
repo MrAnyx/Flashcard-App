@@ -3,12 +3,13 @@ import type { Pagination } from "~/types/core";
 import type { SessionCountCriteria } from "~/types/countCriteria";
 import type { Period } from "~/types/period";
 import type { Session } from "~/types/entity";
+import type { Paginated } from "~/types/request";
 
 export class SessionRepository extends AbstractRepository
 {
     async findAll(pagination: Pagination)
     {
-        return this.fetch<Session[]>(`/sessions`, {
+        return this.fetch<Paginated<Session[]>>(`/sessions`, {
             method: "GET",
             query: {
                 ...pagination

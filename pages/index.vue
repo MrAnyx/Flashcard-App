@@ -1,5 +1,5 @@
 <template>
-    <div class="h-svh bg-cool-900 text-white">
+    <div class="h-svh">
         <h1>Landing page</h1>
         <NuxtLink to="/app">
             App

@@ -18,18 +18,21 @@ export default defineNuxtPlugin(() =>
                 options.headers.append("Authorization", `Bearer ${token.value}`);
             }
         },
-        onRequestError()
+        onRequestError({ error })
         {
+            console.error(error);
             useStandardToast("error", {
                 description: "An error occured while send a request, please try again or contact the administrator."
             });
         },
-        onResponseError()
+        onResponseError({ error })
         {
             // if (response.status === 500)
             // {
             //     useStandardToast("error");
             // }
+
+            console.error(error);
 
             // TODO Gestion globale des erreurs
             useStandardToast("error");

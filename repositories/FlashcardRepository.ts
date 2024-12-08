@@ -2,13 +2,14 @@ import { AbstractRepository } from "./AbstractRepository";
 import type { Pagination } from "~/types/core";
 import type { FlashcardCountCriteria } from "~/types/countCriteria";
 import type { Flashcard, Session } from "~/types/entity";
+import type { Paginated } from "~/types/request";
 import type { FlashcardSession } from "~/types/session";
 
 export class FlashcardRepository extends AbstractRepository
 {
     async findAll(pagination: Pagination)
     {
-        return this.fetch<Flashcard[]>(`/flashcards`, {
+        return this.fetch<Paginated<Flashcard[]>>(`/flashcards`, {
             method: "GET",
             query: {
                 ...pagination
@@ -58,7 +59,7 @@ export class FlashcardRepository extends AbstractRepository
 
     async findByUnit(unitId: number, pagination: Pagination)
     {
-        return this.fetch<Flashcard[]>(`/units/${unitId}/flashcards`, {
+        return this.fetch<aginated<Flashcard[]>>(`/units/${unitId}/flashcards`, {
             method: "GET",
             query: {
                 ...pagination

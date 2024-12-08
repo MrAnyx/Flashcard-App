@@ -1,6 +1,6 @@
 <template>
     <main class="w-screen h-screen flex flex-row">
-        <aside class="border-r border-gray-200 dark:border-gray-800 w-[350px] hidden lg:block">
+        <aside class="border-r border-gray-200 dark:border-gray-800 min-w-[350px] hidden lg:block">
             <Sidebar class="px-3 py-3.5" />
         </aside>
         <USlideover

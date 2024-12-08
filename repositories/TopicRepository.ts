@@ -1,14 +1,15 @@
 import { AbstractRepository } from "./AbstractRepository";
-import type { Flashcard, Session, Topic } from "~/types/entity";
+import type { Topic } from "~/types/entity";
 import type { Pagination } from "~/types/core";
 import type { TopicCountCriteria } from "~/types/countCriteria";
 import type { FlashcardSession } from "~/types/session";
+import type { Paginated } from "~/types/request";
 
 export class TopicRepository extends AbstractRepository
 {
     async findAll(pagination: Pagination)
     {
-        return this.fetch<Topic[]>("/topics", {
+        return this.fetch<Paginated<Topic[]>>("/topics", {
             method: "GET",
             query: {
                 ...pagination

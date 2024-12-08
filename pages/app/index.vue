@@ -3,7 +3,7 @@
         <template #header>
             Overview
         </template>
-        <section class="p-6">
+        <section class="p-6 flex flex-col gap-y-4">
             <UCard>
                 <div class="flex flex-col gap-y-3">
                     <h2 class="text-2xl text-gray-700 dark:text-gray-300">
@@ -33,6 +33,100 @@
                     </div>
                 </div>
             </UCard>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                <template v-if="provider.loadingCards">
+                    <USkeleton
+                        v-for="i in 8"
+                        :key="i"
+                        class="h-[84px]"
+                    />
+                </template>
+                <template v-else>
+                    <BaseDataCard
+                        icon="i-tabler-folder"
+                        label="Total topics"
+                        :value="formatNumber(topicStore.total)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-color-swatch"
+                        label="Total units"
+                        :value="formatNumber(unitStore.total)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-cards"
+                        label="Total flashcards"
+                        :value="formatNumber(flashcardStore.total)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-calendar"
+                        label="Total reviews"
+                        :value="formatNumber(reviewStore.total)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-calendar-repeat"
+                        label="Flashcards to review"
+                        :value="formatNumber(flashcardStore.totalToReview)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-versions"
+                        label="Total sessions"
+                        :value="formatNumber(sessionStore.total)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-brain"
+                        label="Correct flashcards"
+                        :value="`${formatNumber(correctFlashcards / (flashcardStore.total > 0 ? flashcardStore.total : 1) * 100)}%`"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-chart-histogram"
+                        label="Average answer"
+                        info="The average grade is normalized between 0 and 100. 100 being better than 0."
+                        :value="averageGrade !== 0 ? formatNumber(normalizeValue(averageGrade, { min: 1, max: 4 }, { min: 0, max: 100 })) : 0"
+                    />
+                </template>
+            </div>
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                <UCard :ui="{ body: { padding: '!p-0' } }">
+                    <template #header>
+                        Recent topics
+                    </template>
+                    <UTable
+                        :loading="provider.loadingTables"
+                        :rows="recentTopics"
+                        :columns="recentItemColumns"
+                    />
+                </UCard>
+                <UCard :ui="{ body: { padding: '!p-0' } }">
+                    <template #header>
+                        Recent Unit
+                    </template>
+                    <UTable
+                        :loading="provider.loadingTables"
+                        :rows="recentUnits"
+                        :columns="recentItemColumns"
+                    />
+                </UCard>
+                <UCard :ui="{ body: { padding: '!p-0' } }">
+                    <template #header>
+                        Easiest flashcards
+                    </template>
+                    <UTable
+                        :loading="provider.loadingTables"
+                        :rows="easiestFlashcards"
+                        :columns="flashcardColumns"
+                    />
+                </UCard>
+                <UCard :ui="{ body: { padding: '!p-0' } }">
+                    <template #header>
+                        Hardest flashcards
+                    </template>
+                    <UTable
+                        :loading="provider.loadingTables"
+                        :rows="hardestFlashcards"
+                        :columns="flashcardColumns"
+                    />
+                </UCard>
+            </div>
         </section>
     </NuxtLayout>
 </template>
@@ -40,6 +134,7 @@
 <script lang="ts" setup>
 import { DateTime } from "luxon";
 import { ModalSessionIntroduction } from "#components";
+import type { Flashcard, Topic, Unit } from "~/types/entity";
 
 definePageMeta({
     name: "overview",
@@ -52,11 +147,120 @@ useHead({
 
 const authStore = useAuthStore();
 const modal = useModal();
+const repository = useRepository();
+const topicStore = useTopicStore();
+const unitStore = useUnitStore();
+const flashcardStore = useFlashcardStore();
+const reviewStore = useReviewStore();
+const sessionStore = useSessionStore();
 
 const provider = reactive({
-    loading: true,
+    loadingCards: false,
+    loadingTables: false,
     loadingSession: false,
 });
+
+onMounted(async () =>
+{
+    await Promise.all([
+        loadDashboardCards(),
+        loadDashboardTables()
+    ]);
+});
+
+const correctFlashcards = ref<number>(0);
+const averageGrade = ref<number>(0);
+
+const loadDashboardCards = async () =>
+{
+    try
+    {
+        provider.loadingCards = true;
+
+        const [totalCorrectFlashcardsRes, averageGradeRes] = await Promise.all([
+            repository.flashcard.count("correct"),
+            repository.flashcard.averageGrade(),
+        ]);
+
+        correctFlashcards.value = totalCorrectFlashcardsRes;
+        averageGrade.value = averageGradeRes;
+
+        provider.loadingCards = false;
+    }
+    catch
+    {
+        useStandardToast("error");
+    }
+};
+
+const recentTopics = ref<Topic[]>([]);
+const recentUnits = ref<Unit[]>([]);
+const easiestFlashcards = ref<Flashcard[]>([]);
+const hardestFlashcards = ref<Flashcard[]>([]);
+
+const loadDashboardTables = async () =>
+{
+    try
+    {
+        provider.loadingTables = true;
+
+        const [recentTopicsRes, recentUnitsRes, easiestFlashcardsRes, hardestFlashcardsRes] = await Promise.all([
+            repository.topic.findRecent(),
+            repository.unit.findRecents(),
+            repository.flashcard.findAll({
+                itemsPerPage: 5,
+                order: "ASC",
+                page: 1,
+                sort: "difficulty"
+            }),
+            repository.flashcard.findAll({
+                itemsPerPage: 5,
+                order: "DESC",
+                page: 1,
+                sort: "difficulty"
+            }),
+        ]);
+
+        recentTopics.value = recentTopicsRes;
+        recentUnits.value = recentUnitsRes;
+
+        // Keep element that have a difficulty
+        easiestFlashcards.value = easiestFlashcardsRes.data.filter(f => !!f.difficulty);
+        hardestFlashcards.value = hardestFlashcardsRes.data.filter(f => !!f.difficulty);
+
+        provider.loadingTables = false;
+    }
+    catch (err)
+    {
+        console.error(err);
+        useStandardToast("error");
+    }
+};
+
+const recentItemColumns = [
+    {
+        key: "name",
+        label: "Name",
+        class: "w-[30%]"
+    }, {
+        key: "description",
+        label: "Description",
+        class: "w-full"
+    }
+];
+
+const flashcardColumns = [
+    {
+        key: "front",
+        label: "Front",
+        class: "w-full"
+    },
+    {
+        key: "difficulty",
+        label: "Difficulty",
+        class: "w-[0]"
+    }
+];
 
 const openSessionModal = async () =>
 {

@@ -17,6 +17,7 @@ const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
 const reviewStore = useReviewStore();
+const sessionStore = useSessionStore();
 const colorMode = useColorMode();
 const appConfig = useAppConfig();
 
@@ -26,13 +27,14 @@ onMounted(async () =>
 {
     try
     {
-        const [user, totalTopic, totalUnits, totalFlashcards, totalFlashcardsToReview, totalReviews] = await Promise.all([
+        const [user, totalTopic, totalUnits, totalFlashcards, totalFlashcardsToReview, totalReviews, totalSessions] = await Promise.all([
             repository.user.findMe(),
             repository.topic.count("all"),
             repository.unit.count("all"),
             repository.flashcard.count("all"),
             repository.flashcard.count("to-review"),
             repository.review.count("all"),
+            repository.session.count("all")
         ]);
 
         // Authentication
@@ -44,6 +46,7 @@ onMounted(async () =>
         flashcardStore.total = totalFlashcards;
         flashcardStore.totalToReview = totalFlashcardsToReview;
         reviewStore.total = totalReviews;
+        sessionStore.total = totalSessions;
 
         // Theme
         colorMode.preference = authStore.getSetting<string>("color_theme");

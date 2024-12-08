@@ -10,5 +10,10 @@ export default defineAppConfig({
                 size: "md"
             }
         },
+        table: {
+            td: {
+                base: "max-w-[0] truncate"
+            }
+        },
     },
 });
