@@ -21,39 +21,37 @@
             :validate-on="['submit']"
             @submit="onSubmit"
         >
-            <div class="flex flex-col space-y-4">
-                <UFormGroup
-                    label="Email or username"
-                    name="identifier"
-                >
-                    <UInput
-                        v-model="formData.identifier"
-                        autofocus
-                        placeholder="Enter your email or username"
-                        icon="i-tabler-mail"
-                    />
-                </UFormGroup>
+            <UFormGroup
+                label="Email or username"
+                name="identifier"
+            >
+                <UInput
+                    v-model="formData.identifier"
+                    autofocus
+                    placeholder="Enter your email or username"
+                    icon="i-tabler-mail"
+                />
+            </UFormGroup>
 
-                <UFormGroup
-                    label="Password"
-                    name="password"
-                >
-                    <template #hint>
-                        <ULink
-                            :to="{ name: 'reset-password-request', query: route.query }"
-                            class="text-primary hover:text-primary-300"
-                        >
-                            Forgot password?
-                        </ULink>
-                    </template>
-                    <UInput
-                        v-model="formData.password"
-                        type="password"
-                        placeholder="Enter your password"
-                        icon="i-tabler-lock"
-                    />
-                </UFormGroup>
-            </div>
+            <UFormGroup
+                label="Password"
+                name="password"
+            >
+                <template #hint>
+                    <ULink
+                        :to="{ name: 'reset-password-request', query: route.query }"
+                        class="text-primary hover:text-primary-300"
+                    >
+                        Forgot password?
+                    </ULink>
+                </template>
+                <UInput
+                    v-model="formData.password"
+                    type="password"
+                    placeholder="Enter your password"
+                    icon="i-tabler-lock"
+                />
+            </UFormGroup>
 
             <UButton
                 type="submit"

@@ -9,46 +9,44 @@
         <UForm
             :schema="schema"
             :state="formData"
-            class="space-y-8"
+            class="space-y-6"
             :validate-on="['submit']"
             @submit="onSubmit"
         >
-            <div class="flex flex-col space-y-4">
-                <UFormGroup
-                    label="Token"
-                    name="token"
-                >
-                    <UInput
-                        v-model="formData.token"
-                        autofocus
-                        type="password"
-                        placeholder="Enter the token sent by email"
-                        icon="i-tabler-key"
-                    />
-                </UFormGroup>
-                <UFormGroup
-                    label="Password"
-                    name="password"
-                >
-                    <UInput
-                        v-model="formData.password"
-                        type="password"
-                        placeholder="New password"
-                        icon="i-tabler-lock"
-                    />
-                </UFormGroup>
-                <UFormGroup
-                    label="Password confirmation"
-                    name="passwordConfirm"
-                >
-                    <UInput
-                        v-model="formData.passwordConfirm"
-                        type="password"
-                        placeholder="Confirm your password"
-                        icon="i-tabler-lock"
-                    />
-                </UFormGroup>
-            </div>
+            <UFormGroup
+                label="Token"
+                name="token"
+            >
+                <UInput
+                    v-model="formData.token"
+                    autofocus
+                    type="password"
+                    placeholder="Enter the token sent by email"
+                    icon="i-tabler-key"
+                />
+            </UFormGroup>
+            <UFormGroup
+                label="Password"
+                name="password"
+            >
+                <UInput
+                    v-model="formData.password"
+                    type="password"
+                    placeholder="New password"
+                    icon="i-tabler-lock"
+                />
+            </UFormGroup>
+            <UFormGroup
+                label="Password confirmation"
+                name="passwordConfirm"
+            >
+                <UInput
+                    v-model="formData.passwordConfirm"
+                    type="password"
+                    placeholder="Confirm your password"
+                    icon="i-tabler-lock"
+                />
+            </UFormGroup>
 
             <UButton
                 type="submit"

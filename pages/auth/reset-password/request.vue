@@ -9,23 +9,21 @@
         <UForm
             :schema="schema"
             :state="state"
-            class="space-y-8"
+            class="space-y-6"
             :validate-on="['submit']"
             @submit="onSubmit"
         >
-            <div class="flex flex-col space-y-4">
-                <UFormGroup
-                    label="Email or username"
-                    name="identifier"
-                >
-                    <UInput
-                        v-model="state.identifier"
-                        autofocus
-                        placeholder="Enter your email or username"
-                        icon="i-tabler-mail"
-                    />
-                </UFormGroup>
-            </div>
+            <UFormGroup
+                label="Email or username"
+                name="identifier"
+            >
+                <UInput
+                    v-model="state.identifier"
+                    autofocus
+                    placeholder="Enter your email or username"
+                    icon="i-tabler-mail"
+                />
+            </UFormGroup>
 
             <UButton
                 type="submit"
