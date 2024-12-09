@@ -70,17 +70,18 @@
                 variant="ghost"
                 block
             >
-                <div class="flex items-center justify-start space-x-2 w-full">
+                <div class="flex items-center space-x-2 w-full">
                     <UAvatar
                         size="xs"
-                        alt="MrAnyx"
+                        :alt="authStore.user?.username"
                     />
 
                     <div class="grow text-left">
-                        MrAnyx
+                        {{ authStore.user?.username }}
                     </div>
 
                     <Tooltip
+                        v-if="authStore.isPremium"
                         text="Premium account"
                         activation="hover"
                         help
