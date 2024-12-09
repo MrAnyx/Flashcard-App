@@ -16,7 +16,7 @@
     "dependencies": {
         "@nuxt/eslint": "0.7.2",
         "@nuxt/image": "1.8.1",
-        "@nuxt/ui": "^2.19.2",
+        "@nuxt/ui": "^2.20.0",
         "@nuxtjs/device": "3.2.4",
         "@pinia/nuxt": "0.8.0",
         "@vueuse/nuxt": "12.0.0",
