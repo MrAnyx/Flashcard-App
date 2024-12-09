@@ -7,13 +7,9 @@
         <UBadge
             :color="props.color"
             variant="subtle"
-            class="space-x-1 items-center"
+            :icon="props.icon"
         >
-            <UIcon
-                :name="props.icon"
-                class="w-3 h-3"
-            />
-            <span>{{ props.label }}</span>
+            {{ props.label }}
         </UBadge>
     </Tooltip>
 </template>
