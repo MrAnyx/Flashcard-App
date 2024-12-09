@@ -51,10 +51,12 @@
 </template>
 
 <script lang="ts" setup>
+import { ModalTopicForm } from "#components";
 import type { DropdownItem } from "#ui/types";
 
 const topicStore = useTopicStore();
 const unitStore = useUnitStore();
+const modal = useModal();
 
 const isSidebarOpen = ref(false);
 
@@ -62,7 +64,11 @@ const createOptions = computed<DropdownItem[][]>(() => [
     [{
         label: "New topic",
         icon: "i-tabler-folder",
-        shortcuts: ["C", "T"]
+        shortcuts: ["C", "T"],
+        click: () =>
+        {
+            modal.open(ModalTopicForm);
+        }
     }, {
         label: "New unit",
         icon: "i-tabler-color-swatch",
@@ -72,7 +78,7 @@ const createOptions = computed<DropdownItem[][]>(() => [
         label: "New flashcard",
         icon: "i-tabler-cards",
         disabled: unitStore.total <= 0,
-        shortcuts: ["C", "F "]
+        shortcuts: ["C", "F"]
     }]
 ]);
 </script>
