@@ -23,6 +23,7 @@
                     option-attribute="name"
                     value-attribute="id"
                     :debounce="350"
+                    :query="formProvider.searchTopicQuery"
                     searchable-placeholder="Topic name"
                     :loading="formProvider.loadingTopics"
                 />
@@ -80,7 +81,6 @@ const props = defineProps<{
 
 const modal = useModal();
 const repository = useRepository();
-const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const validationRule = useValidationRule();
 
@@ -95,7 +95,8 @@ type Schema = z.output<typeof schema>;
 const formProvider = reactive({
     loadingTopics: false,
     loadingForm: false,
-    keepCreating: false
+    keepCreating: false,
+    searchTopicQuery: props.topic ? props.topic.name : ""
 });
 
 const formData = reactive({
@@ -153,10 +154,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
                 favorite: false
             });
 
-            if (topicStore.selectedTopic?.id === event.data.topicId)
-            {
-                unitStore.prepend(unit);
-            }
+            unitStore.prepend(unit);
         }
 
         useStandardToast("success", {
@@ -168,6 +166,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
             if (!props.topic)
             {
                 formData.topicId = undefined;
+                formProvider.searchTopicQuery = "";
             }
             formData.name = "";
             formData.description = "";
