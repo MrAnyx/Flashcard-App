@@ -1,18 +1,19 @@
 import { AbstractRepository } from "./AbstractRepository";
-import type { Pagination } from "~/types/core";
+import type { Filter, Pagination } from "~/types/core";
 import type { FlashcardCountCriteria } from "~/types/countCriteria";
-import type { Flashcard, Session } from "~/types/entity";
+import type { Flashcard } from "~/types/entity";
 import type { Paginated } from "~/types/request";
 import type { FlashcardSession } from "~/types/session";
 
 export class FlashcardRepository extends AbstractRepository
 {
-    async findAll(pagination: Pagination)
+    async findAll(pagination: Partial<Pagination>, filter: Filter | null = null)
     {
         return this.fetch<Paginated<Flashcard[]>>(`/flashcards`, {
             method: "GET",
             query: {
-                ...pagination
+                ...pagination,
+                ...(filter ?? {})
             }
         });
     };
@@ -57,12 +58,13 @@ export class FlashcardRepository extends AbstractRepository
         return this.partialUpdate(id, updatedElement);
     };
 
-    async findByUnit(unitId: number, pagination: Pagination)
+    async findByUnit(unitId: number, pagination: Partial<Pagination>, filter: Filter | null = null)
     {
-        return this.fetch<aginated<Flashcard[]>>(`/units/${unitId}/flashcards`, {
+        return this.fetch<Paginated<Flashcard[]>>(`/units/${unitId}/flashcards`, {
             method: "GET",
             query: {
-                ...pagination
+                ...pagination,
+                ...(filter ?? {})
             }
         });
     };

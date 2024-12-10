@@ -9,7 +9,7 @@ type State = {
 
 export const useUnitStore = defineStore("unit", {
     persist: {
-        paths: ["selectedUnit"]
+        pick: ["selectedUnit"]
     },
     state: (): State => ({
         recents: [],

@@ -10,6 +10,11 @@ export default defineAppConfig({
                 size: "md"
             }
         },
+        select: {
+            default: {
+                size: "md"
+            }
+        },
         table: {
             td: {
                 base: "max-w-[0] truncate"

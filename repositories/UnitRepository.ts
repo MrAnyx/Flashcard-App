@@ -1,18 +1,19 @@
 import { AbstractRepository } from "./AbstractRepository";
 import type { Unit } from "~/types/entity";
-import type { Pagination } from "~/types/core";
+import type { Filter, Pagination } from "~/types/core";
 import type { UnitCountCriteria } from "~/types/countCriteria";
 import type { FlashcardSession } from "~/types/session";
 import type { Paginated } from "~/types/request";
 
 export class UnitRepository extends AbstractRepository
 {
-    async findAll(pagination: Pagination)
+    async findAll(pagination: Partial<Pagination>, filter: Filter | null = null)
     {
         return this.fetch<Paginated<Unit[]>>(`/units`, {
             method: "GET",
             query: {
-                ...pagination
+                ...pagination,
+                ...(filter ?? {})
             }
         });
     };
@@ -57,12 +58,13 @@ export class UnitRepository extends AbstractRepository
         return this.partialUpdate(id, updatedElement);
     };
 
-    async findByTopic(topicId: number, pagination: Pagination)
+    async findByTopic(topicId: number, pagination: Partial<Pagination>, filter: Filter | null = null)
     {
         return this.fetch<Unit[]>(`/topics/${topicId}/units`, {
             method: "GET",
             query: {
-                ...pagination
+                ...pagination,
+                ...(filter ?? {})
             }
         });
     };
