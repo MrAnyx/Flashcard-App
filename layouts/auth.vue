@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen w-full grid place-items-center p-5">
+    <div class="h-screen w-full grid place-items-center p-5 overflow-auto">
         <UCard
             class="max-w-[500px] w-full"
             :ui="ui"
