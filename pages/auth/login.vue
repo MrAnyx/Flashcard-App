@@ -22,6 +22,7 @@
             @submit="onSubmit"
         >
             <UFormGroup
+                required
                 label="Email or username"
                 name="identifier"
             >
@@ -34,6 +35,7 @@
             </UFormGroup>
 
             <UFormGroup
+                required
                 label="Password"
                 name="password"
             >

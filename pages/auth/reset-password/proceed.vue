@@ -14,6 +14,7 @@
             @submit="onSubmit"
         >
             <UFormGroup
+                required
                 label="Token"
                 name="token"
             >
@@ -26,6 +27,7 @@
                 />
             </UFormGroup>
             <UFormGroup
+                required
                 label="Password"
                 name="password"
             >
@@ -37,6 +39,7 @@
                 />
             </UFormGroup>
             <UFormGroup
+                required
                 label="Password confirmation"
                 name="passwordConfirm"
             >

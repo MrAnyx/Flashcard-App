@@ -12,24 +12,36 @@
         >
             <UFormGroup
                 v-if="props.topic === undefined"
+                required
                 name="topicId"
                 label="Topic"
             >
+                <template #hint>
+                    <Tooltip
+                        activation="hover"
+                        help
+                        text="Only the first 1000 items are listed"
+                    >
+                        <UIcon name="i-tabler-info-circle" />
+                    </Tooltip>
+                </template>
                 <USelectMenu
                     v-model="formData.topicId"
-                    :searchable="loadTopics"
-                    searchable-lazy
+                    v-model:query="formProvider.searchTopicQuery"
+                    :options="formProvider.topics"
+                    :search-attributes="['name']"
+                    searchable
+                    clear-search-on-close
                     placeholder="Select a topic"
                     option-attribute="name"
                     value-attribute="id"
-                    :debounce="350"
-                    :query="formProvider.searchTopicQuery"
                     searchable-placeholder="Topic name"
                     :loading="formProvider.loadingTopics"
                 />
             </UFormGroup>
 
             <UFormGroup
+                required
                 label="Name"
                 name="name"
             >
@@ -72,7 +84,6 @@
 import { z } from "zod";
 import type { Topic, Unit } from "~/types/entity";
 import type { FormSubmitEvent } from "#ui/types";
-import type { Filter } from "~/types/core";
 
 const props = defineProps<{
     topic?: Topic;
@@ -93,6 +104,7 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 const formProvider = reactive({
+    topics: [] as Topic[],
     loadingTopics: false,
     loadingForm: false,
     keepCreating: false,
@@ -105,30 +117,29 @@ const formData = reactive({
     description: props.unit?.description ?? "",
 });
 
-const loadTopics = async (q: string) =>
+onMounted(async () =>
 {
-    const topics: Topic[] = [];
+    if (!props.topic)
+    {
+        await loadTopics();
+    }
+});
 
+const loadTopics = async () =>
+{
     try
     {
         formProvider.loadingTopics = true;
 
-        const filter: Filter | null = q
-            ? { operator: "like", filter: "name", value: q }
-            : null;
-
         const response = await repository.topic.findAll(
             { order: "ASC", page: 1, sort: "name", itemsPerPage: 50 },
-            filter
         );
-        topics.push(...response.data);
+        formProvider.topics = [...response.data];
     }
     finally
     {
         formProvider.loadingTopics = false;
     }
-
-    return topics;
 };
 
 const onSubmit = async (event: FormSubmitEvent<Schema>) =>

@@ -14,6 +14,7 @@
             @submit="onSubmit"
         >
             <UFormGroup
+                required
                 label="Email or username"
                 name="identifier"
             >

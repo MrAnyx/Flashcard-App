@@ -60,7 +60,7 @@ export class UnitRepository extends AbstractRepository
 
     async findByTopic(topicId: number, pagination: Partial<Pagination>, filter: Filter | null = null)
     {
-        return this.fetch<Unit[]>(`/topics/${topicId}/units`, {
+        return this.fetch<Paginated<Unit[]>>(`/topics/${topicId}/units`, {
             method: "GET",
             query: {
                 ...pagination,

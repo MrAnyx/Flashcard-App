@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ModalTopicForm, ModalUnitForm } from "#components";
+import { ModalFlashcardForm, ModalTopicForm, ModalUnitForm } from "#components";
 import type { DropdownItem } from "#ui/types";
 
 const topicStore = useTopicStore();
@@ -82,7 +82,11 @@ const createOptions = computed<DropdownItem[][]>(() => [
         label: "New flashcard",
         icon: "i-tabler-cards",
         disabled: unitStore.total <= 0,
-        shortcuts: ["C", "F"]
+        shortcuts: ["C", "F"],
+        click: () =>
+        {
+            modal.open(ModalFlashcardForm);
+        }
     }]
 ]);
 </script>

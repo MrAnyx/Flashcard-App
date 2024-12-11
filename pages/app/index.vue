@@ -16,7 +16,7 @@
                         Boost your skills with your flashcards! Each practice session brings you one step closer to your goals. So, are you ready to take on the challenge?
                     </p>
 
-                    <div class="flex gap-x-3">
+                    <div class="flex flex-col sm:flex-row gap-3">
                         <UButton
                             label="Start a session"
                             variant="soft"

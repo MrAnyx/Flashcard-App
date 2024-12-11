@@ -11,6 +11,7 @@
             @submit="onSubmit"
         >
             <UFormGroup
+                required
                 label="Name"
                 name="name"
             >
