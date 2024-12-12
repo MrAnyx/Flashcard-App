@@ -110,6 +110,9 @@ const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[
         label: "Collection",
         badge: flashcardStore.total,
         icon: "i-tabler-layout-dashboard",
+        to: {
+            name: "topics"
+        }
     }, {
         label: "Practice",
         badge: flashcardStore.totalToReview,

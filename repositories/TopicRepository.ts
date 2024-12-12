@@ -60,7 +60,7 @@ export class TopicRepository extends AbstractRepository
     async reset(id: number)
     {
         return this.fetch<null>(`/topics/${id}/reset`, {
-            method: "PATCH"
+            method: "POST"
         });
     };
 

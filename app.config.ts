@@ -5,6 +5,11 @@ export default defineAppConfig({
         kbd: {
             padding: "px-1.5"
         },
+        button: {
+            default: {
+                size: "md"
+            }
+        },
         input: {
             default: {
                 size: "md"
