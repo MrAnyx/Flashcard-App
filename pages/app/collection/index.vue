@@ -27,37 +27,39 @@
             </UButton>
         </header>
 
-        <UTable
-            v-model:sort="pagination.sort"
-            :rows="topicStore.topics"
-            :columns="columns"
-            :loading="provider.loading"
-            sort-mode="manual"
-            @update:sort="loadTable"
-            @select="select"
-        >
-            <template #favorite-data="{ row }">
-                <UButton
-                    :padded="false"
-                    :color="row.favorite ? 'yellow' : 'gray'"
-                    variant="link"
-                    :icon="row.favorite ? 'i-tabler-star-filled' : 'i-tabler-star'"
-                    @click.stop="toggleFavorite(row)"
-                />
-            </template>
-            <template #actions-data="{ row }">
-                <UDropdown
-                    :items="rowOptions(row)"
-                    @click.stop
-                >
+        <div>
+            <UTable
+                v-model:sort="pagination.sort"
+                :rows="topicStore.topics"
+                :columns="columns"
+                :loading="provider.loading"
+                sort-mode="manual"
+                @update:sort="loadTable"
+                @select="select"
+            >
+                <template #favorite-data="{ row }">
                     <UButton
-                        color="gray"
-                        variant="ghost"
-                        icon="i-tabler-dots"
+                        :padded="false"
+                        :color="row.favorite ? 'yellow' : 'gray'"
+                        variant="link"
+                        :icon="row.favorite ? 'i-tabler-star-filled' : 'i-tabler-star'"
+                        @click.stop="toggleFavorite(row)"
                     />
-                </UDropdown>
-            </template>
-        </UTable>
+                </template>
+                <template #actions-data="{ row }">
+                    <UDropdown
+                        :items="rowOptions(row)"
+                        @click.stop
+                    >
+                        <UButton
+                            color="gray"
+                            variant="ghost"
+                            icon="i-tabler-dots"
+                        />
+                    </UDropdown>
+                </template>
+            </UTable>
+        </div>
     </section>
 </template>
 

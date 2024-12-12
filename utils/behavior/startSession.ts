@@ -14,7 +14,8 @@ export default async (collection?: Collection): Promise<void> =>
                 useStandardToast("warning", {
                     description: collection ? "You have no flashcards to review today on this collection" : "You have no flashcards to review today"
                 });
-                return resolve();
+                resolve();
+                return;
             }
 
             usePracticeStore().defineSession(session);
@@ -22,14 +23,16 @@ export default async (collection?: Collection): Promise<void> =>
             await navigateTo({
                 name: "session"
             });
-            return resolve();
+            resolve();
+            return;
         }
         catch
         {
             useStandardToast("error", {
                 description: "Unable to start a new session"
             });
-            return reject();
+            reject();
+            return;
         }
     });
 };

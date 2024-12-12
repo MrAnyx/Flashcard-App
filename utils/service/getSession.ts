@@ -8,16 +8,14 @@ export default async (collection?: Collection) =>
     {
         return await repository.flashcard.session();
     }
-    else
+
+    switch (collection.type)
     {
-        switch (collection.type)
-        {
-            case "topic":
-                return await repository.topic.session(collection.id);
-            case "unit":
-                return await repository.unit.session(collection.id);
-            default:
-                throw new Error(`Unknown collection type ${collection.type}`);
-        }
+        case "topic":
+            return await repository.topic.session(collection.id);
+        case "unit":
+            return await repository.unit.session(collection.id);
+        default:
+            throw new Error(`Unknown collection type ${collection.type}`);
     }
 };
