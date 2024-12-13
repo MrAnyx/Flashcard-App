@@ -8,4 +8,6 @@
 definePageMeta({
     name: "flashcards"
 });
+
+// Gérer la suppression avec la date de nextReview
 </script>

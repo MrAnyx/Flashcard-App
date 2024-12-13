@@ -257,6 +257,8 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
                 favorite: false
             });
 
+            flashcardStore.incrementFlashcardsToReview();
+
             if (unitStore.collectionSelectedUnit && unitStore.collectionSelectedUnit.id === event.data.unitId)
             {
                 flashcardStore.prepend(flashcard);
