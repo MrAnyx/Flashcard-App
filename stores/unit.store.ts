@@ -1,10 +1,10 @@
 import type { Unit } from "~/types/entity";
 
 type State = {
-    recents: Unit[];
     units: Unit[];
     total: number;
-    selectedUnit?: Unit;
+    collectionSelectedUnit?: Unit;
+    collectionTotal: number;
 };
 
 export const useUnitStore = defineStore("unit", {
@@ -12,12 +12,16 @@ export const useUnitStore = defineStore("unit", {
         pick: ["selectedUnit"]
     },
     state: (): State => ({
-        recents: [],
         units: [],
         total: 0,
-        selectedUnit: undefined
+        collectionSelectedUnit: undefined,
+        collectionTotal: 0
     }),
     actions: {
+        find(id: number)
+        {
+            return this.units.find(u => u.id === id);
+        },
         prepend(item: Unit)
         {
             this.units = [item, ...this.units];
@@ -53,6 +57,14 @@ export const useUnitStore = defineStore("unit", {
         decrementTotal()
         {
             this.total--;
+        },
+        incrementCollectionTotal()
+        {
+            this.collectionTotal++;
+        },
+        decrementCollectionTotal()
+        {
+            this.collectionTotal--;
         }
     },
     getters: {}

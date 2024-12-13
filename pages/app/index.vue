@@ -92,7 +92,7 @@
                     </template>
                     <UTable
                         :loading="provider.loadingTables"
-                        :rows="recentTopics"
+                        :rows="tableData.recentTopics"
                         :columns="recentItemColumns"
                     />
                 </UCard>
@@ -102,7 +102,7 @@
                     </template>
                     <UTable
                         :loading="provider.loadingTables"
-                        :rows="recentUnits"
+                        :rows="tableData.recentUnits"
                         :columns="recentItemColumns"
                     />
                 </UCard>
@@ -112,7 +112,7 @@
                     </template>
                     <UTable
                         :loading="provider.loadingTables"
-                        :rows="easiestFlashcards"
+                        :rows="tableData.easiestFlashcards"
                         :columns="flashcardColumns"
                     />
                 </UCard>
@@ -122,7 +122,7 @@
                     </template>
                     <UTable
                         :loading="provider.loadingTables"
-                        :rows="hardestFlashcards"
+                        :rows="tableData.hardestFlashcards"
                         :columns="flashcardColumns"
                     />
                 </UCard>
@@ -193,10 +193,12 @@ const loadDashboardCards = async () =>
     }
 };
 
-const recentTopics = ref<Topic[]>([]);
-const recentUnits = ref<Unit[]>([]);
-const easiestFlashcards = ref<Flashcard[]>([]);
-const hardestFlashcards = ref<Flashcard[]>([]);
+const tableData = reactive({
+    recentTopics: [] as Topic[],
+    recentUnits: [] as Unit[],
+    easiestFlashcards: [] as Flashcard[],
+    hardestFlashcards: [] as Flashcard[],
+});
 
 const loadDashboardTables = async () =>
 {
@@ -209,24 +211,24 @@ const loadDashboardTables = async () =>
             repository.unit.findRecents(),
             repository.flashcard.findAll({
                 itemsPerPage: 5,
-                order: "ASC",
+                order: "asc",
                 page: 1,
                 sort: "difficulty"
             }),
             repository.flashcard.findAll({
                 itemsPerPage: 5,
-                order: "DESC",
+                order: "asc",
                 page: 1,
                 sort: "difficulty"
             }),
         ]);
 
-        recentTopics.value = recentTopicsRes;
-        recentUnits.value = recentUnitsRes;
+        tableData.recentTopics = recentTopicsRes;
+        tableData.recentUnits = recentUnitsRes;
 
         // Keep element that have a difficulty
-        easiestFlashcards.value = easiestFlashcardsRes.data.filter(f => !!f.difficulty);
-        hardestFlashcards.value = hardestFlashcardsRes.data.filter(f => !!f.difficulty);
+        tableData.easiestFlashcards = easiestFlashcardsRes.data.filter(f => !!f.difficulty);
+        tableData.hardestFlashcards = hardestFlashcardsRes.data.filter(f => !!f.difficulty);
 
         provider.loadingTables = false;
     }

@@ -1,64 +1,54 @@
 <template>
     <section class="py-6 flex flex-col gap-4">
-        <header class="flex items-center px-6 justify-between">
-            <div class="flex items-center space-x-3">
-                <h4 class="font-medium text-lg">
-                    Topics
-                </h4>
-                <UBadge
-                    color="primary"
-                    variant="subtle"
+        <CollectionHeaderAction
+            title="Topics"
+            :count-items="topicStore.total"
+            action-label="Add a topic"
+            class="px-6"
+            @action-click="showCreateUpdateModal()"
+        />
+        <UTable
+            v-model:sort="pagination.sort"
+            :rows="topicStore.topics"
+            :columns="columns"
+            :loading="pageProvider.loading"
+            sort-mode="manual"
+            @update:sort="loadTable"
+            @select="select"
+        >
+            <template #favorite-data="{ row }">
+                <UButton
+                    :padded="false"
+                    :color="row.favorite ? 'yellow' : 'gray'"
+                    variant="link"
+                    :icon="row.favorite ? 'i-tabler-star-filled' : 'i-tabler-star'"
+                    @click.stop="toggleFavorite(row)"
+                />
+            </template>
+            <template #actions-data="{ row }">
+                <UDropdown
+                    :items="rowOptions(row)"
+                    @click.stop
                 >
-                    {{ topicStore.total }} {{ pluralize(topicStore.total, "item") }}
-                </UBadge>
-            </div>
-            <UButton
-                label="Add a topic"
-                variant="soft"
-                color="primary"
-                @click="showCreateUpdateModal()"
-            >
-                <template #leading>
-                    <UIcon
-                        name="i-tabler-plus"
-                        class="w-5 h-5"
-                    />
-                </template>
-            </UButton>
-        </header>
-
-        <div>
-            <UTable
-                v-model:sort="pagination.sort"
-                :rows="topicStore.topics"
-                :columns="columns"
-                :loading="provider.loading"
-                sort-mode="manual"
-                @update:sort="loadTable"
-                @select="select"
-            >
-                <template #favorite-data="{ row }">
                     <UButton
-                        :padded="false"
-                        :color="row.favorite ? 'yellow' : 'gray'"
-                        variant="link"
-                        :icon="row.favorite ? 'i-tabler-star-filled' : 'i-tabler-star'"
-                        @click.stop="toggleFavorite(row)"
+                        color="gray"
+                        variant="ghost"
+                        icon="i-tabler-dots"
                     />
-                </template>
-                <template #actions-data="{ row }">
-                    <UDropdown
-                        :items="rowOptions(row)"
-                        @click.stop
-                    >
-                        <UButton
-                            color="gray"
-                            variant="ghost"
-                            icon="i-tabler-dots"
-                        />
-                    </UDropdown>
-                </template>
-            </UTable>
+                </UDropdown>
+            </template>
+        </UTable>
+
+        <div
+            v-if="(topicStore.total / itemsPerPage) > 1"
+            class="flex justify-center"
+        >
+            <UPagination
+                v-model="pagination.page"
+                :page-count="itemsPerPage"
+                :total="topicStore.total"
+                @update:model-value="loadTable"
+            />
         </div>
     </section>
 </template>
@@ -79,8 +69,8 @@ const authStore = useAuthStore();
 const repository = useRepository();
 const modal = useModal();
 
-const provider = reactive({
-    loading: false
+const pageProvider = reactive({
+    loading: true
 });
 
 const itemsPerPage = authStore.getSetting<number>("items_per_page");
@@ -93,9 +83,14 @@ const pagination = reactive({
 });
 
 // Lifecycle hooks
+onBeforeUnmount(() =>
+{
+    topicStore.collectionSelectedTopic = undefined;
+});
+
 onMounted(async () =>
 {
-    topicStore.selectedTopic = undefined;
+    topicStore.collectionSelectedTopic = undefined;
     await loadTable();
 });
 
@@ -104,12 +99,12 @@ const columns = [{
     key: "name",
     label: "Name",
     sortable: true,
-    class: "w-[30%]"
+    class: "w-[30%] min-w-[200px]"
 }, {
     key: "description",
     label: "Description",
     sortable: true,
-    class: "w-[100%]"
+    class: "w-[100%] min-w-[200px]"
 }, {
     key: "favorite",
     label: "Favorite",
@@ -125,7 +120,7 @@ const loadTable = async () =>
 {
     try
     {
-        provider.loading = true;
+        pageProvider.loading = true;
 
         const response = await repository.topic.findAll({
             order: pagination.sort.direction,
@@ -138,7 +133,7 @@ const loadTable = async () =>
     }
     finally
     {
-        provider.loading = false;
+        pageProvider.loading = false;
     }
 };
 
@@ -270,7 +265,7 @@ const deleteRow = async (row: Topic) =>
 
 const select = (row: Topic) =>
 {
-    topicStore.selectedTopic = row;
+    topicStore.collectionSelectedTopic = row;
     return navigateTo({
         name: "units",
         params: {

@@ -92,6 +92,7 @@ const props = defineProps<{
 
 const modal = useModal();
 const repository = useRepository();
+const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const validationRule = useValidationRule();
 
@@ -132,7 +133,7 @@ const loadTopics = async () =>
         formProvider.loadingTopics = true;
 
         const response = await repository.topic.findAll(
-            { order: "ASC", page: 1, sort: "name", itemsPerPage: 50 },
+            { order: "asc", page: 1, sort: "name", itemsPerPage: 1000 },
         );
         formProvider.topics = [...response.data];
     }
@@ -165,7 +166,15 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
                 favorite: false
             });
 
-            unitStore.prepend(unit);
+            if (topicStore.collectionSelectedTopic && topicStore.collectionSelectedTopic.id === event.data.topicId)
+            {
+                unitStore.prepend(unit);
+                unitStore.incrementCollectionTotal();
+            }
+            else
+            {
+                unitStore.incrementTotal();
+            }
         }
 
         useStandardToast("success", {

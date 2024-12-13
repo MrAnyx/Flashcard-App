@@ -1,10 +1,9 @@
 import type { Topic } from "~/types/entity";
 
 type State = {
-    recents: Topic[];
     topics: Topic[];
     total: number;
-    selectedTopic?: Topic;
+    collectionSelectedTopic?: Topic;
 };
 
 export const useTopicStore = defineStore("topic", {
@@ -12,12 +11,15 @@ export const useTopicStore = defineStore("topic", {
         pick: ["selectedTopic"]
     },
     state: (): State => ({
-        recents: [],
         topics: [],
         total: 0,
-        selectedTopic: undefined
+        collectionSelectedTopic: undefined
     }),
     actions: {
+        find(id: number)
+        {
+            return this.topics.find(t => t.id === id);
+        },
         prepend(item: Topic)
         {
             this.topics = [item, ...this.topics];

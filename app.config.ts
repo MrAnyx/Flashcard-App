@@ -25,5 +25,8 @@ export default defineAppConfig({
                 base: "max-w-[0] truncate"
             }
         },
+        breadcrumb: {
+            wrapper: "w-fit"
+        }
     },
 });

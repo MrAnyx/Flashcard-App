@@ -144,6 +144,7 @@ const props = defineProps<{
 
 const modal = useModal();
 const repository = useRepository();
+const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
 const validationRule = useValidationRule();
 
@@ -193,7 +194,7 @@ const loadTopics = async () =>
         formProvider.loadingTopics = true;
 
         const response = await repository.topic.findAll(
-            { order: "ASC", page: 1, sort: "name", itemsPerPage: 1000 },
+            { order: "asc", page: 1, sort: "name", itemsPerPage: 1000 },
         );
         formProvider.topics = [...response.data];
     }
@@ -219,7 +220,7 @@ const loadUnits = async () =>
 
         const response = await repository.unit.findByTopic(
             formData.topicId,
-            { order: "ASC", page: 1, sort: "name", itemsPerPage: 1000 },
+            { order: "asc", page: 1, sort: "name", itemsPerPage: 1000 },
         );
         formProvider.units = [...response.data];
     }
@@ -256,7 +257,14 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
                 favorite: false
             });
 
-            flashcardStore.prepend(flashcard);
+            if (unitStore.collectionSelectedUnit && unitStore.collectionSelectedUnit.id === event.data.unitId)
+            {
+                flashcardStore.prepend(flashcard);
+            }
+            else
+            {
+                flashcardStore.incrementTotal();
+            }
         }
 
         useStandardToast("success", {
