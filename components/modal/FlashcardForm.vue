@@ -162,10 +162,10 @@ type Schema = z.output<typeof schema>;
 const formProvider = reactive({
     topics: [] as Topic[],
     loadingTopics: false,
-    searchTopicQuery: props.topic ? props.topic.name : "",
+    searchTopicQuery: safeValue(props.topic?.name, ""),
     units: [] as Unit[],
     loadingUnits: false,
-    searchUnitQuery: props.unit ? props.unit.name : "",
+    searchUnitQuery: safeValue(props.unit?.name, ""),
     loadingForm: false,
     keepCreating: false
 });
@@ -173,10 +173,10 @@ const formProvider = reactive({
 const formData = reactive({
     topicId: props.topic?.id,
     unitId: props.unit?.id,
-    front: props.flashcard?.front ?? "",
-    back: props.flashcard?.back ?? "",
-    help: props.flashcard?.help ?? "",
-    details: props.flashcard?.details ?? "",
+    front: safeValue(props.flashcard?.front, ""),
+    back: safeValue(props.flashcard?.back, ""),
+    help: safeValue(props.flashcard?.help, ""),
+    details: safeValue(props.flashcard?.details, ""),
 });
 
 onMounted(async () =>

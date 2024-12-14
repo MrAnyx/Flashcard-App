@@ -35,23 +35,23 @@ export const useAuthStore = defineStore("auth", {
                 this.user.settings[name] = value;
             }
         },
-        getSetting<TValue>(name: SettingName)
+        getSetting<T>(name: SettingName)
         {
-            return this.user?.settings[name] as TValue;
+            return this.user?.settings[name] as T;
         }
     },
     getters: {
         token(state)
         {
-            return state.user?.token || null;
+            return safeValue(state.user?.token, null);
         },
         isAdmin(state)
         {
-            return state.user?.roles.includes("ROLE_ADMIN") || false;
+            return safeValue(state.user?.roles.includes("ROLE_ADMIN"), false);
         },
         isUser(state)
         {
-            return state.user?.roles.includes("ROLE_USER") || false;
+            return safeValue(state.user?.roles.includes("ROLE_USER"), false);
         },
         isConnected()
         {
@@ -59,7 +59,7 @@ export const useAuthStore = defineStore("auth", {
         },
         isPremium(state)
         {
-            return state.user?.roles.includes("ROLE_PREMIUM") || false;
+            return safeValue(state.user?.roles.includes("ROLE_PREMIUM"), false);
         }
     }
 });

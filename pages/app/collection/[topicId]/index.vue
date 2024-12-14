@@ -59,7 +59,7 @@
 import { ModalConfirm, ModalSessionIntroduction, ModalUnitForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
 import type { PaginationOrder } from "~/types/core";
-import type { Unit } from "~/types/entity";
+import type { Topic, Unit } from "~/types/entity";
 import type { Collection } from "~/types/session";
 
 definePageMeta({
@@ -71,8 +71,8 @@ useHead({
 });
 
 const route = useRoute();
-const topicStore = useTopicStore();
 const repository = useRepository();
+const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const authStore = useAuthStore();
 const modal = useModal();
@@ -93,19 +93,20 @@ const pagination = reactive({
 });
 
 // Lifecycle hooks
-onBeforeUnmount(() =>
-{
-    unitStore.collectionSelectedUnit = undefined;
-});
-
 onMounted(async () =>
 {
     unitStore.collectionSelectedUnit = undefined;
-    await loadParentTopic();
+    topicStore.collectionSelectedTopic = await loadParentCollection<Topic>({ type: "topic", id: topicId });
 
     if (topicStore.collectionSelectedTopic)
     {
         await loadTable();
+    }
+    else
+    {
+        useStandardToast("error", {
+            description: "Unable to load parent topic"
+        });
     }
 });
 
@@ -118,22 +119,9 @@ const breadcrumbItems = computed<BreadcrumbLink[]>(() => [
         }
     },
     {
-        label: topicStore.collectionSelectedTopic?.name ?? "",
+        label: safeValue(topicStore.collectionSelectedTopic?.name, ""),
     }
 ]);
-
-const loadParentTopic = async () =>
-{
-    if (Number.isNaN(topicId))
-    {
-        useStandardToast("error", {
-            description: "Unable to load the parent topic"
-        });
-        return;
-    }
-
-    topicStore.collectionSelectedTopic = topicStore.find(topicId) ?? await repository.topic.find(topicId);
-};
 
 // Table data
 const columns = [{
@@ -261,6 +249,7 @@ const duplicateRow = async (row: Unit) =>
     });
 
     unitStore.prepend(response);
+    unitStore.incrementCollectionTotal();
 
     useStandardToast("success", {
         description: `The unit ${row.name} has been duplicated`
@@ -299,6 +288,7 @@ const deleteRow = async (row: Unit) =>
             await repository.unit.delete(row.id);
 
             unitStore.delete(row);
+            unitStore.decrementCollectionTotal();
 
             useStandardToast("success", {
                 description: `The unit ${row.name} has been deleted`

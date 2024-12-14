@@ -114,8 +114,8 @@ const formProvider = reactive({
 
 const formData = reactive({
     topicId: props.topic?.id,
-    name: props.unit?.name ?? "",
-    description: props.unit?.description ?? "",
+    name: safeValue(props.unit?.name, ""),
+    description: safeValue(props.unit?.description, ""),
 });
 
 onMounted(async () =>

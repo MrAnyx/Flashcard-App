@@ -16,7 +16,7 @@ export const useTopicStore = defineStore("topic", {
         collectionSelectedTopic: undefined
     }),
     actions: {
-        find(id: number)
+        find(id: number): Topic | undefined
         {
             return this.topics.find(t => t.id === id);
         },

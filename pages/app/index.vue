@@ -7,7 +7,7 @@
             <UCard>
                 <div class="flex flex-col gap-y-3">
                     <h2 class="text-2xl text-gray-700 dark:text-gray-300">
-                        Welcome back {{ authStore.user?.username ?? "" }}
+                        Welcome back {{ safeValue(authStore.user?.username, "") }}
                     </h2>
                     <p class="text-gray-500 dark:text-gray-400 text-sm capitalize">
                         {{ DateTime.now().toFormat('DDDD') }}

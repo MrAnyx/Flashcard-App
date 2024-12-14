@@ -4,13 +4,15 @@ type State = {
     flashcards: Flashcard[];
     total: number;
     totalToReview: number;
+    collectionTotal: number;
 };
 
 export const useFlashcardStore = defineStore("flashcard", {
     state: (): State => ({
         flashcards: [],
         total: 0,
-        totalToReview: 0
+        totalToReview: 0,
+        collectionTotal: 0
     }),
     actions: {
         prepend(item: Flashcard)
@@ -56,6 +58,14 @@ export const useFlashcardStore = defineStore("flashcard", {
         decrementFlashcardsToReview()
         {
             this.totalToReview--;
+        },
+        incrementCollectionTotal()
+        {
+            this.collectionTotal++;
+        },
+        decrementCollectionTotal()
+        {
+            this.collectionTotal--;
         }
     },
     getters: {}

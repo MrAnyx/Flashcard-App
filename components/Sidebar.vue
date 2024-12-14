@@ -61,7 +61,7 @@
                 <div class="text-left truncate">
                     <p>Signed in as</p>
                     <p class="truncate font-medium text-gray-900 dark:text-white">
-                        mail@example.com
+                        {{ safeValue(authStore.user?.email, '') }}
                     </p>
                 </div>
             </template>
@@ -73,11 +73,11 @@
                 <div class="flex items-center space-x-2 w-full">
                     <UAvatar
                         size="xs"
-                        :alt="authStore.user?.username"
+                        :alt="safeValue(authStore.user?.username, '')"
                     />
 
                     <div class="grow text-left">
-                        {{ authStore.user?.username }}
+                        {{ safeValue(authStore.user?.username, "") }}
                     </div>
 
                     <Tooltip
@@ -102,6 +102,7 @@ import type { DropdownItem, VerticalNavigationLink } from "#ui/types";
 
 const flashcardStore = useFlashcardStore();
 const authStore = useAuthStore();
+const version = useVersion();
 
 defineEmits(["close"]);
 
@@ -144,11 +145,11 @@ const otherLinks = computed<VerticalNavigationLink[][]>(() => [
 
 const profileDropdownOptions = computed<DropdownItem[][]>(() => [
     [{
-        label: "mail@example.com",
+        label: safeValue(authStore.user?.email, ""),
         slot: "account",
         disabled: true,
     }, {
-        label: `Version: 0.0.1-alpha`,
+        label: `Version: ${version}`,
         disabled: true
     }], [
         {

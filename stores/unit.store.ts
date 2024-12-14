@@ -18,7 +18,7 @@ export const useUnitStore = defineStore("unit", {
         collectionTotal: 0
     }),
     actions: {
-        find(id: number)
+        find(id: number): Unit | undefined
         {
             return this.units.find(u => u.id === id);
         },

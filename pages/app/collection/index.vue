@@ -83,11 +83,6 @@ const pagination = reactive({
 });
 
 // Lifecycle hooks
-onBeforeUnmount(() =>
-{
-    topicStore.collectionSelectedTopic = undefined;
-});
-
 onMounted(async () =>
 {
     topicStore.collectionSelectedTopic = undefined;

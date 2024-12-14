@@ -77,8 +77,8 @@ const formProvider = reactive({
 });
 
 const formData = reactive({
-    name: props.topic?.name ?? "",
-    description: props.topic?.description ?? "",
+    name: safeValue(props.topic?.name, ""),
+    description: safeValue(props.topic?.description, ""),
 });
 
 const onSubmit = async (event: FormSubmitEvent<Schema>) =>
