@@ -56,11 +56,10 @@
 </template>
 
 <script setup lang="ts">
-import { ModalConfirm, ModalSessionIntroduction, ModalUnitForm } from "#components";
+import { ModalConfirm, ModalUnitForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
 import type { PaginationOrder } from "~/types/core";
 import type { Topic, Unit } from "~/types/entity";
-import type { Collection } from "~/types/session";
 
 definePageMeta({
     name: "units"
@@ -80,7 +79,8 @@ const modal = useModal();
 const topicId = parseInt(route.params.topicId as string);
 
 const pageProvider = reactive({
-    loading: true
+    loading: true,
+    loadingSession: false
 });
 
 const itemsPerPage = authStore.getSetting<number>("items_per_page");
@@ -214,21 +214,22 @@ const rowOptions = (row: Unit): DropdownItem[][] => [
 
 const excuteStartSession = async (row: Unit) =>
 {
-    const collection: Collection = {
-        id: row.id,
-        type: "unit"
-    };
-
-    if (authStore.getSetting<boolean>("show_session_introduction"))
+    if (pageProvider.loadingSession)
     {
-        modal.open(ModalSessionIntroduction, {
-            collection
+        return;
+    }
+
+    try
+    {
+        pageProvider.loadingSession = true;
+        await startSession({
+            id: row.id,
+            type: "unit"
         });
     }
-    else
+    finally
     {
-        await startSession(collection);
-        await modal.close();
+        pageProvider.loadingSession = false;
     }
 };
 

@@ -132,7 +132,6 @@
 
 <script lang="ts" setup>
 import { DateTime } from "luxon";
-import { ModalSessionIntroduction } from "#components";
 import type { Flashcard, Topic, Unit } from "~/types/entity";
 
 definePageMeta({
@@ -145,7 +144,6 @@ useHead({
 });
 
 const authStore = useAuthStore();
-const modal = useModal();
 const repository = useRepository();
 const topicStore = useTopicStore();
 const unitStore = useUnitStore();
@@ -265,16 +263,8 @@ const flashcardColumns = [
 
 const openSessionModal = async () =>
 {
-    if (authStore.getSetting("show_session_introduction"))
-    {
-        modal.open(ModalSessionIntroduction);
-    }
-    else
-    {
-        provider.loadingSession = true;
-        await startSession();
-        provider.loadingSession = false;
-        await modal.close();
-    }
+    provider.loadingSession = true;
+    await startSession();
+    provider.loadingSession = false;
 };
 </script>

@@ -27,14 +27,7 @@ export default defineNuxtPlugin(() =>
         },
         onResponseError({ error })
         {
-            // if (response.status === 500)
-            // {
-            //     useStandardToast("error");
-            // }
-
             console.error(error);
-
-            // TODO Gestion globale des erreurs
             useStandardToast("error");
         }
     });

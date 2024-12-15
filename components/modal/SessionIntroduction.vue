@@ -81,14 +81,20 @@ const highRange = secondsToMinutes(flashcardsPerSession * 30); // 20s per flashc
 
 const playButtonClick = async () =>
 {
-    if (dontShowAgain.value)
+    try
     {
-        await setSetting("show_session_introduction", !dontShowAgain.value);
+        provider.loading = true;
+        if (dontShowAgain.value)
+        {
+            await setSetting("show_session_introduction", !dontShowAgain.value);
+        }
+
+        await startSession(props.collection, false);
+        await modal.close();
     }
-
-    await startSession(props.collection);
-
-    await modal.close();
-    provider.loading = false;
+    finally
+    {
+        provider.loading = false;
+    }
 };
 </script>

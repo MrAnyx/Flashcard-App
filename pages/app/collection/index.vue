@@ -54,11 +54,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ModalConfirm, ModalSessionIntroduction, ModalTopicForm } from "#components";
+import { ModalConfirm, ModalTopicForm } from "#components";
 import type { DropdownItem } from "#ui/types";
 import type { PaginationOrder } from "~/types/core";
 import type { Topic } from "~/types/entity";
-import type { Collection } from "~/types/session";
 
 definePageMeta({
     name: "topics"
@@ -70,7 +69,8 @@ const repository = useRepository();
 const modal = useModal();
 
 const pageProvider = reactive({
-    loading: true
+    loading: true,
+    loadingSession: false,
 });
 
 const itemsPerPage = authStore.getSetting<number>("items_per_page");
@@ -179,20 +179,21 @@ const rowOptions = (row: Topic): DropdownItem[][] => [
 
 const excuteStartSession = async (row: Topic) =>
 {
-    const collection: Collection = {
-        id: row.id,
-        type: "topic"
-    };
-    if (authStore.getSetting("show_session_introduction"))
+    if (pageProvider.loadingSession)
     {
-        modal.open(ModalSessionIntroduction, {
-            collection
+        return;
+    }
+    try
+    {
+        pageProvider.loadingSession = true;
+        await startSession({
+            id: row.id,
+            type: "topic"
         });
     }
-    else
+    finally
     {
-        await startSession(collection);
-        await modal.close();
+        pageProvider.loadingSession = false;
     }
 };
 

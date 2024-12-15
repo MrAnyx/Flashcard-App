@@ -51,16 +51,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ModalFlashcardForm, ModalSessionIntroduction, ModalTopicForm, ModalUnitForm } from "#components";
+import { ModalFlashcardForm, ModalTopicForm, ModalUnitForm } from "#components";
 import type { DropdownItem } from "#ui/types";
 
 const topicStore = useTopicStore();
 const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
-const authStore = useAuthStore();
 const modal = useModal();
 
 const isSidebarOpen = ref(false);
+
+const provider = reactive({
+    loadingSession: false
+});
 
 const createOptions = computed<DropdownItem[][]>(() => [
     [
@@ -96,19 +99,18 @@ const createOptions = computed<DropdownItem[][]>(() => [
         {
             label: "New session",
             icon: "i-tabler-device-gamepad-2",
-            disabled: flashcardStore.totalToReview <= 0,
+            disabled: flashcardStore.totalToReview <= 0 || provider.loadingSession,
             shortcuts: ["N", "S"],
             click: async () =>
             {
-                // TODO Refactoring with index page
-                if (authStore.getSetting("show_session_introduction"))
+                try
                 {
-                    modal.open(ModalSessionIntroduction);
-                }
-                else
-                {
+                    provider.loadingSession = true;
                     await startSession();
-                    await modal.close();
+                }
+                finally
+                {
+                    provider.loadingSession = false;
                 }
             }
         }

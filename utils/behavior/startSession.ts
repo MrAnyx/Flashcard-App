@@ -1,38 +1,33 @@
+import { ModalSessionIntroduction } from "#components";
 import { usePracticeStore } from "~/stores/practice.store";
 import type { Collection } from "~/types/session";
 
-export default async (collection?: Collection): Promise<void> =>
+export default async (collection?: Collection, enableIntroductionModal: boolean = true) =>
 {
-    return new Promise(async (resolve, reject) =>
+    const modal = useModal();
+    const authStore = useAuthStore();
+
+    if (enableIntroductionModal && authStore.getSetting("show_session_introduction"))
     {
-        try
-        {
-            const session = await getSession(collection);
+        modal.open(ModalSessionIntroduction, {
+            collection
+        });
+        return;
+    }
 
-            if (session.session === null)
-            {
-                useStandardToast("warning", {
-                    description: collection ? "You have no flashcards to review today on this collection" : "You have no flashcards to review today"
-                });
-                resolve();
-                return;
-            }
+    const session = await getSession(collection);
 
-            usePracticeStore().defineSession(session);
+    if (session.session === null)
+    {
+        useStandardToast("warning", {
+            description: collection ? "You have no flashcards to review today on this collection" : "You have no flashcards to review today"
+        });
+        return;
+    }
 
-            await navigateTo({
-                name: "session"
-            });
-            resolve();
-            return;
-        }
-        catch
-        {
-            useStandardToast("error", {
-                description: "Unable to start a new session"
-            });
-            reject();
-            return;
-        }
+    usePracticeStore().defineSession(session);
+
+    await navigateTo({
+        name: "session"
     });
 };

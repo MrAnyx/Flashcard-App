@@ -15,6 +15,10 @@ export const useFlashcardStore = defineStore("flashcard", {
         collectionTotal: 0
     }),
     actions: {
+        resetAll()
+        {
+            this.totalToReview = this.total;
+        },
         prepend(item: Flashcard)
         {
             this.flashcards = [item, ...this.flashcards];

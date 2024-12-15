@@ -114,9 +114,7 @@ const eraseReviews = async () =>
         async onConfirm()
         {
             await repository.flashcard.resetAll();
-
-            // TODO Ajouter la logic dans le store
-            flashcardStore.totalToReview = flashcardStore.total;
+            flashcardStore.resetAll();
 
             useStandardToast("success", {
                 description: "All flashcards have been reset"
