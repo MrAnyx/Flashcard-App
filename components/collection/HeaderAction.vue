@@ -14,7 +14,6 @@
         </div>
         <UButton
             :label="props.actionLabel"
-            variant="soft"
             color="primary"
             @click="emit('actionClick')"
         >

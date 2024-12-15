@@ -15,8 +15,9 @@
                     @click="modal.close()"
                 />
                 <UButton
-                    :label="confirmLabel ?? 'Confirm'"
-                    :color="color ?? 'primary'"
+                    :label="safeValue(confirmLabel, 'Confirm')"
+                    :color="safeValue(color, 'primary')"
+                    variant="solid"
                     @click="confirm"
                 />
             </div>

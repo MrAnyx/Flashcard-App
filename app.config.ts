@@ -7,7 +7,8 @@ export default defineAppConfig({
         },
         button: {
             default: {
-                size: "md"
+                size: "md",
+                variant: "soft"
             }
         },
         input: {
@@ -26,6 +27,9 @@ export default defineAppConfig({
             }
         },
         breadcrumb: {
+            wrapper: "w-fit"
+        },
+        horizontalNavigation: {
             wrapper: "w-fit"
         }
     },

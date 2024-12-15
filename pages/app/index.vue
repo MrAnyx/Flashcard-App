@@ -19,7 +19,6 @@
                     <div class="flex flex-col sm:flex-row gap-3">
                         <UButton
                             label="Start a session"
-                            variant="soft"
                             icon="i-tabler-device-gamepad-2"
                             :loading="provider.loadingSession"
                             @click="openSessionModal"

@@ -5,12 +5,12 @@
                 Settings
             </template>
 
-            <UHorizontalNavigation
-                :links="links"
-                class="border-b dark:border-gray-800"
-                :ui="{ inner: 'shrink-0', container: 'px-3 overflow-auto' }"
-            />
-            <section class="p-6">
+            <section>
+                <div class="px-2 border-b border-gray-200 dark:border-gray-800 overflow-auto">
+                    <UHorizontalNavigation
+                        :links="links"
+                    />
+                </div>
                 <NuxtPage />
             </section>
         </NuxtLayout>
@@ -21,7 +21,6 @@
 import type { HorizontalNavigationLink } from "#ui/types";
 
 definePageMeta({
-    name: "settings",
     middleware: ["auth", "initialize"]
 });
 
@@ -32,17 +31,23 @@ useHead({
 const links: HorizontalNavigationLink[] = [{
     label: "Account",
     icon: "i-tabler-user",
-    to: "/app/settings/account",
+    to: {
+        name: "settings-account"
+    },
     exact: true
 }, {
     label: "General",
     icon: "i-tabler-settings",
-    to: "/app/settings/general",
+    to: {
+        name: "settings-general"
+    },
     exact: true
 }, {
     label: "Appearance",
     icon: "i-tabler-palette",
-    to: "/app/settings/appearance",
+    to: {
+        name: "settings-appearance"
+    },
     exact: true
 }];
 </script>

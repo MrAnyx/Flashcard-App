@@ -31,6 +31,7 @@
         <UButton
             icon="i-tabler-search"
             color="gray"
+            variant="solid"
         >
             <div class="flex justify-between items-center w-full">
                 Search
@@ -125,6 +126,9 @@ const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[
     {
         label: "Settings",
         icon: "i-tabler-settings",
+        to: {
+            name: "settings-account"
+        }
     }
 ]]);
 
@@ -155,9 +159,9 @@ const profileDropdownOptions = computed<DropdownItem[][]>(() => [
         {
             label: "Settings",
             icon: "i-tabler-settings",
-            // to: {
-            //     name: "settings-account"
-            // }
+            to: {
+                name: "settings-account"
+            }
         }, {
             label: "Shortcuts",
             icon: "i-tabler-terminal-2",
