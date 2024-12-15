@@ -1,5 +1,5 @@
 <template>
-    <section class="flex flex-col gap-y-8">
+    <div class="flex flex-col gap-y-8">
         <HeaderWithCaption
             title="My profile"
             caption="Customize your personal informations"
@@ -100,7 +100,7 @@
             variant="subtle"
             :actions="deleteAccountActions"
         />
-    </section>
+    </div>
 </template>
 
 <script lang="ts" setup>

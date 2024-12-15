@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col space-y-8">
+    <div class="flex flex-col gap-y-8">
         <HeaderWithCaption
             title="Pagination"
             caption="Customize how requests are made"
@@ -69,8 +69,6 @@
                 />
             </SettingsParameterEntry>
         </section>
-
-        <UDivider />
     </div>
 </template>
 
@@ -87,6 +85,7 @@ useHead({
 
 const authStore = useAuthStore();
 const repository = useRepository();
+const flashcardStore = useFlashcardStore();
 const modal = useModal();
 
 const itemsPerPageOptions = [25, 50, 100, 200, 500];
@@ -98,13 +97,13 @@ const itemsPerPageObject = itemsPerPageOptions.map((o) =>
     };
 });
 const itemsPerPage = ref(authStore.getSetting<number>("items_per_page"));
-const updatePagination = useDebounceFn(async () => await setSetting("items_per_page", itemsPerPage.value), 1000);
+const updatePagination = async () => await setSetting("items_per_page", itemsPerPage.value);
 
 const flashcardsPerSession = ref(authStore.getSetting<number>("flashcard_per_session"));
 const updateFlashcardsPerSession = useDebounceFn(async () => await setSetting("flashcard_per_session", flashcardsPerSession.value), 1000);
 
 const showSessionIntroduction = ref(authStore.getSetting<boolean>("show_session_introduction"));
-const updateShowSessionIntroduction = useDebounceFn(async () => await setSetting("show_session_introduction", showSessionIntroduction.value), 1000);
+const updateShowSessionIntroduction = async () => await setSetting("show_session_introduction", showSessionIntroduction.value);
 
 const eraseReviews = async () =>
 {
@@ -115,6 +114,8 @@ const eraseReviews = async () =>
         async onConfirm()
         {
             await repository.flashcard.resetAll();
+
+            flashcardStore.totalToReview = flashcardStore.total;
 
             useStandardToast("success", {
                 description: "All flashcards have been reset"
