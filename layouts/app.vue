@@ -1,5 +1,5 @@
 <template>
-    <main class="w-screen h-screen flex flex-row">
+    <main class="w-svw h-svh flex flex-row">
         <aside class="border-r border-gray-200 dark:border-gray-800 min-w-[350px] hidden lg:block">
             <Sidebar class="px-3 py-3.5" />
         </aside>
@@ -7,7 +7,7 @@
             v-model="isSidebarOpen"
             class="lg:hidden"
             side="left"
-            :ui="{ width: 'w-screen max-w-[350px]' }"
+            :ui="{ width: 'w-svw max-w-[350px]' }"
         >
             <aside class="h-full">
                 <Sidebar

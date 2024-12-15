@@ -1,5 +1,5 @@
 <template>
-    <div class="h-svh w-screen grid place-items-center">
+    <div class="h-svh w-svw grid place-items-center">
         <div class="size-32 relative">
             <NuxtImg
                 src="logo.svg"
