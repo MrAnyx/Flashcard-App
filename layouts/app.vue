@@ -67,7 +67,7 @@ const createOptions = computed<DropdownItem[][]>(() => [
         {
             label: "New topic",
             icon: "i-tabler-folder",
-            shortcuts: ["C", "T"],
+            shortcuts: ["N", "T"],
             click: () =>
             {
                 modal.open(ModalTopicForm);
@@ -76,7 +76,7 @@ const createOptions = computed<DropdownItem[][]>(() => [
             label: "New unit",
             icon: "i-tabler-color-swatch",
             disabled: topicStore.total <= 0,
-            shortcuts: ["C", "U"],
+            shortcuts: ["N", "U"],
             click: () =>
             {
                 modal.open(ModalUnitForm);
@@ -85,7 +85,7 @@ const createOptions = computed<DropdownItem[][]>(() => [
             label: "New flashcard",
             icon: "i-tabler-cards",
             disabled: unitStore.total <= 0,
-            shortcuts: ["C", "F"],
+            shortcuts: ["N", "F"],
             click: () =>
             {
                 modal.open(ModalFlashcardForm);
@@ -97,7 +97,7 @@ const createOptions = computed<DropdownItem[][]>(() => [
             label: "New session",
             icon: "i-tabler-device-gamepad-2",
             disabled: flashcardStore.totalToReview <= 0,
-            shortcuts: ["C", "S"],
+            shortcuts: ["N", "S"],
             click: async () =>
             {
                 // TODO Refactoring with index page
