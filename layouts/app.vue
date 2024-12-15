@@ -51,42 +51,67 @@
 </template>
 
 <script lang="ts" setup>
-import { ModalFlashcardForm, ModalTopicForm, ModalUnitForm } from "#components";
+import { ModalFlashcardForm, ModalSessionIntroduction, ModalTopicForm, ModalUnitForm } from "#components";
 import type { DropdownItem } from "#ui/types";
 
 const topicStore = useTopicStore();
 const unitStore = useUnitStore();
+const flashcardStore = useFlashcardStore();
+const authStore = useAuthStore();
 const modal = useModal();
 
 const isSidebarOpen = ref(false);
 
 const createOptions = computed<DropdownItem[][]>(() => [
-    [{
-        label: "New topic",
-        icon: "i-tabler-folder",
-        shortcuts: ["C", "T"],
-        click: () =>
+    [
         {
-            modal.open(ModalTopicForm);
+            label: "New topic",
+            icon: "i-tabler-folder",
+            shortcuts: ["C", "T"],
+            click: () =>
+            {
+                modal.open(ModalTopicForm);
+            }
+        }, {
+            label: "New unit",
+            icon: "i-tabler-color-swatch",
+            disabled: topicStore.total <= 0,
+            shortcuts: ["C", "U"],
+            click: () =>
+            {
+                modal.open(ModalUnitForm);
+            }
+        }, {
+            label: "New flashcard",
+            icon: "i-tabler-cards",
+            disabled: unitStore.total <= 0,
+            shortcuts: ["C", "F"],
+            click: () =>
+            {
+                modal.open(ModalFlashcardForm);
+            }
         }
-    }, {
-        label: "New unit",
-        icon: "i-tabler-color-swatch",
-        disabled: topicStore.total <= 0,
-        shortcuts: ["C", "U"],
-        click: () =>
+    ],
+    [
         {
-            modal.open(ModalUnitForm);
+            label: "New session",
+            icon: "i-tabler-device-gamepad-2",
+            disabled: flashcardStore.totalToReview <= 0,
+            shortcuts: ["C", "S"],
+            click: async () =>
+            {
+                // TODO Refactoring with index page
+                if (authStore.getSetting("show_session_introduction"))
+                {
+                    modal.open(ModalSessionIntroduction);
+                }
+                else
+                {
+                    await startSession();
+                    await modal.close();
+                }
+            }
         }
-    }, {
-        label: "New flashcard",
-        icon: "i-tabler-cards",
-        disabled: unitStore.total <= 0,
-        shortcuts: ["C", "F"],
-        click: () =>
-        {
-            modal.open(ModalFlashcardForm);
-        }
-    }]
+    ]
 ]);
 </script>
