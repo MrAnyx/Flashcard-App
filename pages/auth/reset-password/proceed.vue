@@ -9,7 +9,7 @@
         <UForm
             :schema="schema"
             :state="formData"
-            class="space-y-6"
+            class="flex flex-col gap-y-6"
             :validate-on="['submit']"
             @submit="onSubmit"
         >

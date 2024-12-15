@@ -11,7 +11,9 @@
                         :links="links"
                     />
                 </div>
-                <NuxtPage />
+                <div class="p-6">
+                    <NuxtPage />
+                </div>
             </section>
         </NuxtLayout>
     </div>

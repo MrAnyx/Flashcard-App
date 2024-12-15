@@ -1,5 +1,5 @@
 <template>
-    <section class="p-6 flex flex-col gap-y-8">
+    <section class="flex flex-col gap-y-8">
         <HeaderWithCaption
             title="My profile"
             caption="Customize your personal informations"
@@ -8,14 +8,13 @@
             :state="profileFormData"
             :schema="profileSchema"
             :validate-on="['submit']"
-            class="space-y-6"
+            class="flex flex-col gap-y-6"
             @submit="saveProfile"
         >
-            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
-                <div>
-                    <h4>Email</h4>
-                    <span class="text-gray-400 text-sm">Used to login and receive notifications</span>
-                </div>
+            <SettingsParameterEntry
+                label="Email"
+                caption="Used to login and receive notifications"
+            >
                 <UFormGroup name="email">
                     <UInput
                         v-model="profileFormData.email"
@@ -23,26 +22,26 @@
                         icon="i-tabler-mail"
                     />
                 </UFormGroup>
-            </div>
-            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
-                <div>
-                    <h4>Username</h4>
-                    <span class="text-gray-400 text-sm">Your unique identifier used to login</span>
-                </div>
+            </SettingsParameterEntry>
+
+            <SettingsParameterEntry
+                label="Username"
+                caption="Your unique identifier used to login"
+            >
                 <UFormGroup name="username">
                     <UInput
                         v-model="profileFormData.username"
                         icon="i-tabler-user"
                     />
                 </UFormGroup>
-            </div>
-            <div class="flex justify-end">
-                <UButton
-                    label="Save"
-                    icon="i-tabler-device-floppy"
-                    type="submit"
-                />
-            </div>
+            </SettingsParameterEntry>
+
+            <UButton
+                class="self-end"
+                label="Save"
+                icon="i-tabler-device-floppy"
+                type="submit"
+            />
         </UForm>
 
         <UDivider />
@@ -59,11 +58,10 @@
             class="flex flex-col gap-y-6"
             @submit="saveSecurity"
         >
-            <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
-                <div>
-                    <h4>Password</h4>
-                    <span class="text-gray-400 text-sm">Used to securely login to your account</span>
-                </div>
+            <SettingsParameterEntry
+                label="Password"
+                caption="Used to securely login to your account"
+            >
                 <div class="flex flex-col gap-y-3">
                     <UFormGroup name="password">
                         <UInput
@@ -83,15 +81,15 @@
                         />
                     </UFormGroup>
                 </div>
-            </div>
+            </SettingsParameterEntry>
             <UButton
                 class="self-end"
                 label="Save"
                 icon="i-tabler-device-floppy"
                 type="submit"
-                variant="soft"
             />
         </UForm>
+
         <UDivider />
 
         <UAlert
@@ -132,31 +130,22 @@ const profileSchema = z.object({
 type ProfileSchema = z.output<typeof profileSchema>;
 
 const profileFormData = reactive<ProfileSchema>({
-    email: authStore.user!.email,
-    username: authStore.user!.username,
+    email: safeValue(authStore.user?.email, ""),
+    username: safeValue(authStore.user?.username, ""),
 });
 
 const saveProfile = async (event: FormSubmitEvent<ProfileSchema>) =>
 {
-    try
-    {
-        const response = await repository.user.partialUpdateMe({
-            email: event.data.email,
-            username: event.data.username
-        });
+    const response = await repository.user.partialUpdateMe({
+        email: event.data.email,
+        username: event.data.username
+    });
 
-        authStore.user = response;
+    authStore.user = response;
 
-        useStandardToast("success", {
-            description: "Settings saved"
-        });
-    }
-    catch
-    {
-        useStandardToast("error", {
-            description: "Unable to save settings"
-        });
-    }
+    useStandardToast("success", {
+        description: "Settings saved"
+    });
 };
 
 // Security section
@@ -187,12 +176,6 @@ const saveSecurity = async () =>
 
         useStandardToast("success", {
             description: "Settings saved"
-        });
-    }
-    catch
-    {
-        useStandardToast("error", {
-            description: "Unable to save settings"
         });
     }
     finally

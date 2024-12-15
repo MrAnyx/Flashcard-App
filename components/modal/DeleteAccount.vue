@@ -3,7 +3,7 @@
         <UForm
             :schema="schema"
             :state="state"
-            class="space-y-8"
+            class="flex flex-col gap-y-6"
             :validate-on="['submit']"
             @submit="onSubmit"
         >
@@ -72,7 +72,7 @@ const onSubmit = async () =>
         authStore.logout();
         modal.close();
 
-        navigateTo({
+        await navigateTo({
             name: "landing"
         });
     }
