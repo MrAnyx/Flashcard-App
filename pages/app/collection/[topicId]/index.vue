@@ -19,6 +19,12 @@
             @update:sort="loadTable"
             @select="selectRow"
         >
+            <template #createdAt-data="{ row }">
+                <span>{{ formatDate(row.createdAt, DateTime.DATETIME_SHORT) }}</span>
+            </template>
+            <template #updatedAt-data="{ row }">
+                <span>{{ formatDate(row.updatedAt, DateTime.DATETIME_SHORT) }}</span>
+            </template>
             <template #favorite-data="{ row }">
                 <UButton
                     :padded="false"
@@ -56,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+import { DateTime } from "luxon";
 import { ModalConfirm, ModalUnitForm } from "#components";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
 import type { PaginationOrder } from "~/types/core";
@@ -90,6 +97,11 @@ const pagination = reactive({
         column: "name",
         direction: "asc" as PaginationOrder
     },
+});
+
+onBeforeMount(() =>
+{
+    unitStore.units = [];
 });
 
 // Lifecycle hooks
@@ -135,6 +147,16 @@ const columns = [{
     sortable: true,
     class: "w-[100%] min-w-[200px]"
 }, {
+    key: "createdAt",
+    label: "Creation",
+    sortable: true,
+    class: "min-w-[150px]"
+}, {
+    key: "updatedAt",
+    label: "Last update",
+    sortable: true,
+    class: "min-w-[150px]"
+}, {
     key: "favorite",
     label: "Favorite",
     sortable: true,
@@ -169,10 +191,10 @@ const loadTable = async () =>
 
 const toggleFavorite = async (row: Unit) =>
 {
-    await repository.unit.partialUpdate(row.id, {
+    const updatedUnit = await repository.unit.partialUpdate(row.id, {
         favorite: !row.favorite
     });
-    row.favorite = !row.favorite;
+    unitStore.update(row.id, updatedUnit);
 };
 
 const rowOptions = (row: Unit): DropdownItem[][] => [

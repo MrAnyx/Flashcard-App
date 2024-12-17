@@ -18,6 +18,25 @@
             sort-mode="manual"
             @update:sort="loadTable"
         >
+            <template #previousReview-data="{ row }">
+                <span>{{ row.previousReview ? formatDate(row.previousReview, DateTime.DATE_SHORT) : "-" }}</span>
+            </template>
+            <template #nextReview-data="{ row }">
+                <UBadge
+                    v-if="row.nextReview"
+                    :color="urgencyColorFromDate(row.nextReview)"
+                    variant="subtle"
+                >
+                    {{ formatDate(row.nextReview, DateTime.DATE_SHORT) }}
+                </UBadge>
+                <span v-else>-</span>
+            </template>
+            <template #createdAt-data="{ row }">
+                <span>{{ formatDate(row.createdAt, DateTime.DATETIME_SHORT) }}</span>
+            </template>
+            <template #updatedAt-data="{ row }">
+                <span>{{ formatDate(row.updatedAt, DateTime.DATETIME_SHORT) }}</span>
+            </template>
             <template #favorite-data="{ row }">
                 <UButton
                     :padded="false"
@@ -55,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { DateTime } from "luxon";
 import type { PaginationOrder } from "~/types/core";
 import type { Flashcard, Topic, Unit } from "~/types/entity";
 import type { BreadcrumbLink, DropdownItem } from "#ui/types";
@@ -92,6 +112,11 @@ const pagination = reactive({
         column: "front",
         direction: "asc" as PaginationOrder
     },
+});
+
+onBeforeMount(() =>
+{
+    flashcardStore.flashcards = [];
 });
 
 // Lifecycle hooks
@@ -144,6 +169,26 @@ const columns = [{
     sortable: true,
     class: "w-[100%] min-w-[200px]"
 }, {
+    key: "previousReview",
+    label: "Last review",
+    sortable: true,
+    class: "min-w-[150px]"
+}, {
+    key: "nextReview",
+    label: "Next review",
+    sortable: true,
+    class: "min-w-[150px]"
+}, {
+    key: "createdAt",
+    label: "Creation",
+    sortable: true,
+    class: "min-w-[150px]"
+}, {
+    key: "updatedAt",
+    label: "Last update",
+    sortable: true,
+    class: "min-w-[150px]"
+}, {
     key: "favorite",
     label: "Favorite",
     sortable: true,
@@ -178,10 +223,10 @@ const loadTable = async () =>
 
 const toggleFavorite = async (row: Flashcard) =>
 {
-    await repository.flashcard.partialUpdate(row.id, {
+    const updatedFlashcard = await repository.flashcard.partialUpdate(row.id, {
         favorite: !row.favorite
     });
-    row.favorite = !row.favorite;
+    flashcardStore.update(row.id, updatedFlashcard);
 };
 
 const rowOptions = (row: Flashcard): DropdownItem[][] => [

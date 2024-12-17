@@ -16,6 +16,12 @@
             @update:sort="loadTable"
             @select="select"
         >
+            <template #createdAt-data="{ row }">
+                <span>{{ formatDate(row.createdAt, DateTime.DATETIME_SHORT) }}</span>
+            </template>
+            <template #updatedAt-data="{ row }">
+                <span>{{ formatDate(row.updatedAt, DateTime.DATETIME_SHORT) }}</span>
+            </template>
             <template #favorite-data="{ row }">
                 <UButton
                     :padded="false"
@@ -54,6 +60,7 @@
 </template>
 
 <script lang="ts" setup>
+import { DateTime } from "luxon";
 import { ModalConfirm, ModalTopicForm } from "#components";
 import type { DropdownItem } from "#ui/types";
 import type { PaginationOrder } from "~/types/core";
@@ -82,6 +89,11 @@ const pagination = reactive({
     },
 });
 
+onBeforeMount(() =>
+{
+    topicStore.topics = [];
+});
+
 // Lifecycle hooks
 onMounted(async () =>
 {
@@ -94,12 +106,22 @@ const columns = [{
     key: "name",
     label: "Name",
     sortable: true,
-    class: "w-[30%] min-w-[200px]"
+    class: "w-[20%] min-w-[200px]"
 }, {
     key: "description",
     label: "Description",
     sortable: true,
-    class: "w-[100%] min-w-[200px]"
+    class: "w-[56%] min-w-[200px]"
+}, {
+    key: "createdAt",
+    label: "Creation",
+    sortable: true,
+    class: "min-w-[150px]"
+}, {
+    key: "updatedAt",
+    label: "Last update",
+    sortable: true,
+    class: "min-w-[150px]"
 }, {
     key: "favorite",
     label: "Favorite",
@@ -135,10 +157,10 @@ const loadTable = async () =>
 // Table actions
 const toggleFavorite = async (row: Topic) =>
 {
-    await repository.topic.partialUpdate(row.id, {
+    const updatedTopic = await repository.topic.partialUpdate(row.id, {
         favorite: !row.favorite
     });
-    row.favorite = !row.favorite;
+    topicStore.update(row.id, updatedTopic);
 };
 
 const rowOptions = (row: Topic): DropdownItem[][] => [
