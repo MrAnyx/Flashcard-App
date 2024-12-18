@@ -28,6 +28,12 @@ export default defineNuxtConfig({
     colorMode: {
         preference: "light"
     },
+    ui: {
+        safelistColors: [
+            "red", "orange", "amber", "yellow", "lime", "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose",
+            "slate", "cool", "zinc", "neutral", "stone"
+        ]
+    },
     runtimeConfig: {
         public: {
             apiBaseUrl: process.env.API_BASE_URL,
