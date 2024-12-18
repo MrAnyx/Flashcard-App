@@ -71,7 +71,7 @@
                 variant="ghost"
                 block
             >
-                <div class="flex items-center space-x-2 w-full">
+                <div class="flex items-center gap-x-3 w-full">
                     <UAvatar
                         size="xs"
                         :alt="safeValue(authStore.user?.username, '')"
