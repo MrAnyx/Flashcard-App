@@ -8,7 +8,6 @@ export default defineAppConfig({
         button: {
             default: {
                 size: "md",
-                variant: "soft"
             }
         },
         input: {
