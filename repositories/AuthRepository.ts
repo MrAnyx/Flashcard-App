@@ -21,7 +21,7 @@ export class AuthRepository extends AbstractRepository
             body: {
                 email: authData.email,
                 username: authData.username,
-                password: authData.rawPassword
+                rawPassword: authData.rawPassword
             }
         });
     }
