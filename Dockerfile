@@ -1,6 +1,5 @@
 FROM  node:22.12-alpine as base
 RUN npm install -g pnpm
-ENV NODE_ENV=production
 WORKDIR /app
 
 FROM base as build
@@ -9,6 +8,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm build
 
 FROM base as prod
+ENV NODE_ENV=production
 RUN npm install -g pm2
 COPY --from=build /app/.output ./.output
 COPY --from=build /app/ecosystem.config.cjs .
