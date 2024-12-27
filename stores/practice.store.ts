@@ -1,21 +1,23 @@
 import { DateTime } from "luxon";
 import { defineStore } from "pinia";
-import { GradeType, type Flashcard, type Session } from "~/types/entity";
+import { GradeType, type Flashcard, type Grade, type Session } from "~/types/entity";
 import type { Answer, FlashcardSession } from "~/types/session";
 
 type State = {
-    currentSession?: Session;
-    currentSessionFlashcards: Flashcard[];
+    session?: Session;
+    flashcards: Flashcard[];
     currentFlashcardIndex: number;
+    currentGrade?: Grade;
     grades: Answer[];
 };
 
 export const usePracticeStore = defineStore("practice", {
     persist: true,
     state: (): State => ({
-        currentSession: undefined,
-        currentSessionFlashcards: [],
+        session: undefined,
+        flashcards: [],
         currentFlashcardIndex: 0,
+        currentGrade: undefined,
         grades: [],
     }),
     actions: {
@@ -24,22 +26,24 @@ export const usePracticeStore = defineStore("practice", {
             const sessionStore = useSessionStore();
             sessionStore.incrementTotal();
 
-            this.currentSession = session.session!;
-            this.currentSessionFlashcards = session.flashcards;
+            this.session = session.session!;
+            this.flashcards = session.flashcards;
             this.currentFlashcardIndex = 0;
             this.grades = [];
         },
-        addGrade(gradeType: number)
+        addGrade()
         {
             const now = DateTime.now().toMillis();
 
             this.grades.push({
-                grade: gradeType,
+                grade: this.currentGrade!,
                 timestamp: now,
                 duration: this.currentFlashcardIndex === 0
-                    ? now - DateTime.fromISO(this.currentSession!.startedAt).toMillis()
+                    ? now - DateTime.fromISO(this.session!.startedAt).toMillis()
                     : now - this.grades[this.currentFlashcardIndex - 1].timestamp
             });
+
+            this.currentGrade = undefined;
         },
         nextFlashcards()
         {
@@ -51,9 +55,17 @@ export const usePracticeStore = defineStore("practice", {
         },
     },
     getters: {
+        isValidation(state)
+        {
+            return state.currentGrade !== undefined;
+        },
+        currentFlashcard(state)
+        {
+            return state.flashcards[state.currentFlashcardIndex];
+        },
         hasNextFlashcard(state)
         {
-            return state.currentFlashcardIndex < state.currentSessionFlashcards.length;
+            return state.currentFlashcardIndex < state.flashcards.length;
         },
         accuracy(state)
         {

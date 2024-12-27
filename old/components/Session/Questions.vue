@@ -139,7 +139,7 @@ const state = reactive({
     loading: false,
 });
 
-const currentQuestion = computed(() => practiceStore.currentSessionFlashcards[practiceStore.currentFlashcardIndex]);
+const currentQuestion = computed(() => practiceStore.flashcards[practiceStore.currentFlashcardIndex]);
 const difficulty = computed<{ label: string; color: BadgeColor }>(() =>
 {
     if (!currentQuestion.value || currentQuestion.value.difficulty === null)
@@ -178,7 +178,7 @@ const answer = async (gradeType: number) =>
     try
     {
         state.loading = true;
-        await repository.flashcard.review(currentQuestion.value.id, gradeType, practiceStore.currentSession!.id);
+        await repository.flashcard.review(currentQuestion.value.id, gradeType, practiceStore.session!.id);
         practiceStore.addGrade(gradeType);
         reviewStore.incrementTotal();
 

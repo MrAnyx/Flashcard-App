@@ -15,3 +15,5 @@ export type FlashcardSession = {
     session: Session | null;
     flashcards: Flashcard[];
 };
+
+export type Validation = "valid" | "invalid";

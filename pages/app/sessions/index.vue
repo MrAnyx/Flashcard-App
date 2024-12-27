@@ -79,7 +79,7 @@ import type { PaginationOrder } from "~/types/core";
 import type { Session } from "~/types/entity";
 
 definePageMeta({
-    name: "practice",
+    name: "sessions",
 });
 
 useHead({

@@ -5,8 +5,14 @@
             :max="practiceStore.flashcards.length"
             size="sm"
         />
-        <SessionQuestions v-if="practiceStore.hasNextFlashcard" class="grow" />
-        <SessionResults v-else class="grow" />
+        <SessionQuestions
+            v-if="practiceStore.hasNextFlashcard"
+            class="grow"
+        />
+        <SessionResults
+            v-else
+            class="grow"
+        />
     </div>
 </template>
 
@@ -14,8 +20,7 @@
 import { ModalConfirm } from "#components";
 
 definePageMeta({
-    name: "session",
-    middleware: ["initialize", "auth"]
+    name: "practice",
 });
 
 const modal = useModal();

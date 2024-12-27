@@ -31,7 +31,8 @@ export default defineNuxtConfig({
     ui: {
         safelistColors: [
             "red", "orange", "amber", "yellow", "lime", "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose",
-            "slate", "cool", "zinc", "neutral", "stone"
+            "slate", "cool", "zinc", "neutral", "stone",
+            "gray"
         ]
     },
     runtimeConfig: {

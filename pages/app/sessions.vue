@@ -13,6 +13,6 @@ definePageMeta({
 });
 
 useHead({
-    title: "Practice"
+    title: "Sessions"
 });
 </script>

@@ -28,6 +28,6 @@ export default async (collection?: Collection, enableIntroductionModal: boolean 
     usePracticeStore().defineSession(session);
 
     await navigateTo({
-        name: "session"
+        name: "practice"
     });
 };
