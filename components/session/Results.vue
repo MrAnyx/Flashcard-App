@@ -1,24 +1,12 @@
 <template>
-    <section class="p-6 grow flex flex-col items-center overflow-auto">
-        <div class="grid grid-cols-2 items-center w-full gap-x-">
-            <!-- TODO Factoriser -->
-            <UButton
-                size="sm"
-                icon="i-tabler-arrow-left"
-                class="justify-self-start"
-                variant="ghost"
-                square
-                :to="{ name: 'practice' }"
-                color="red"
-            >
-                <stan class="hidden md:inline">
-                    Leave
-                </stan>
-            </UButton>
-        </div>
+    <section class="p-6 flex flex-col items-center overflow-auto gap-y-6">
+        <SessionLeaveButton
+            :to="{ name: 'sessions' }"
+            class="self-start"
+        />
 
         <UCard
-            class="mt-6 overflow-auto w-full"
+            class="overflow-auto w-full"
             :ui="{ body: { padding: '' }, header: { padding: '' } }"
         >
             <template #header>
@@ -28,57 +16,17 @@
                     </h4>
 
                     <Tooltip
-                        activation="click"
+                        activation="hover"
                         help
                         :text="`Accuracy of ${formatNumber(practiceStore.accuracy * 100)}%`"
                     >
                         <UBadge
-                            v-if="mostFrequent(practiceStore.grades.map(g => g.grade)) === GradeType.easy"
-                            color="green"
+                            :color="resultGrade.color"
                             variant="subtle"
                             class="flex items-center gap-x-1"
+                            :icon="resultGrade.icon"
                         >
-                            <UIcon
-                                name="i-tabler-rosette-discount-check"
-                                class="w-4 h-4"
-                            />
-                            Awesome
-                        </UBadge>
-                        <UBadge
-                            v-if="mostFrequent(practiceStore.grades.map(g => g.grade)) === GradeType.good"
-                            color="sky"
-                            variant="subtle"
-                            class="flex items-center gap-x-1"
-                        >
-                            <UIcon
-                                name="i-tabler-thumb-up"
-                                class="w-4 h-4"
-                            />
-                            Good
-                        </UBadge>
-                        <UBadge
-                            v-if="mostFrequent(practiceStore.grades.map(g => g.grade)) === GradeType.hard"
-                            color="yellow"
-                            variant="subtle"
-                            class="flex items-center gap-x-1"
-                        >
-                            <UIcon
-                                name="i-tabler-shadow"
-                                class="w-4 h-4"
-                            />
-                            Almost
-                        </UBadge>
-                        <UBadge
-                            v-if="mostFrequent(practiceStore.grades.map(g => g.grade)) === GradeType.again"
-                            color="red"
-                            variant="subtle"
-                            class="flex items-center gap-x-1"
-                        >
-                            <UIcon
-                                name="i-tabler-repeat"
-                                class="w-4 h-4"
-                            />
-                            Try again
+                            {{ resultGrade.text }}
                         </UBadge>
                     </Tooltip>
                 </div>
@@ -90,30 +38,20 @@
                 :ui="{ list: 'hidden' }"
             >
                 <UMeter
-                    :value="practiceStore.grades.filter(g => g.grade === GradeType.easy).length"
-                    color="green"
-                />
-                <UMeter
-                    :value="practiceStore.grades.filter(g => g.grade === GradeType.good).length"
-                    color="sky"
-                />
-                <UMeter
-                    :value="practiceStore.grades.filter(g => g.grade === GradeType.hard).length"
-                    color="yellow"
-                />
-                <UMeter
-                    :value="practiceStore.grades.filter(g => g.grade === GradeType.again).length"
-                    color="red"
+                    v-for="grade in Object.values(GradeType).reverse()"
+                    :key="grade"
+                    :value="practiceStore.grades.filter(g => g.grade === grade).length"
+                    :color="gradeData(grade).color as MeterColor"
                 />
             </UMeterGroup>
 
-            <div class="p-4 md:p-5 flex flex-col gap-y-6 overflow-y-auto">
-                <div class="grid md:grid-cols-2 gap-3 text-gray-500 dark:text-gray-400">
+            <div class="p-4 md:p-5 flex flex-col gap-y-6">
+                <div class="flex gap-x-3 justify-between text-gray-500 dark:text-gray-400 overflow-x-auto">
                     <div class="flex gap-x-1 items-center shrink-0">
                         <UIcon name="i-tabler-clock" />
                         <span>Finished in ~{{ millisecondsToHuman(practiceStore.grades.map(g => g.duration).reduce((acc, duration) => acc + duration, 0)) }}</span>
                     </div>
-                    <div class="flex items-center gap-x-1 shrink-0 md:justify-end">
+                    <div class="flex items-center gap-x-1 shrink-0">
                         <UIcon name="i-tabler-cards" />
                         <span>{{ practiceStore.flashcards.length }} Flashcards</span>
                     </div>
@@ -124,50 +62,16 @@
                         v-for="(grade, i) in practiceStore.grades"
                         :key="i"
                     >
-                        <div class="grow ring ring-gray-200 dark:ring-gray-800 ring-1 rounded-md p-2 text-gray-500 dark:text-gray-300 flex items-center">
+                        <div class="ring ring-gray-200 dark:ring-gray-800 ring-1 rounded-md p-2 text-gray-500 dark:text-gray-300 flex items-center">
                             <span class="font-medium grow text-center">{{ i + 1 }}</span>
                             <Tooltip
-                                v-if="grade.grade === GradeType.easy"
                                 help
-                                text="Easy"
-                                activation="click"
+                                :text="gradeData(grade.grade).label"
+                                activation="hover"
                             >
                                 <UIcon
-                                    name="i-tabler-checks"
-                                    :class="`text-${gradeColor(grade.grade)}-400`"
-                                />
-                            </Tooltip>
-                            <Tooltip
-                                v-if="grade.grade === GradeType.good"
-                                help
-                                text="Good"
-                                activation="click"
-                            >
-                                <UIcon
-                                    name="i-tabler-circle-dashed-check"
-                                    :class="`text-${gradeColor(grade.grade)}-400`"
-                                />
-                            </Tooltip>
-                            <Tooltip
-                                v-if="grade.grade === GradeType.hard"
-                                help
-                                text="Hard"
-                                activation="click"
-                            >
-                                <UIcon
-                                    name="i-tabler-brain"
-                                    :class="`text-${gradeColor(grade.grade)}-400`"
-                                />
-                            </Tooltip>
-                            <Tooltip
-                                v-if="grade.grade === GradeType.again"
-                                help
-                                text="Again"
-                                activation="click"
-                            >
-                                <UIcon
-                                    name="i-tabler-reload"
-                                    :class="`text-${gradeColor(grade.grade)}-400`"
+                                    :name="gradeData(grade.grade).icon"
+                                    :class="`text-${gradeData(grade.grade).color}-400`"
                                 />
                             </Tooltip>
                         </div>
@@ -175,48 +79,19 @@
                 </div>
 
                 <div class="flex gap-3">
-                    <div class="flex items-center gap-x-1">
+                    <div
+                        v-for="grade in Object.values(GradeType).reverse()"
+                        :key="grade"
+                        class="flex items-center gap-x-1"
+                    >
                         <UIcon
-                            name="i-tabler-checks"
-                            :class="`text-${gradeColor(GradeType.easy)}-400`"
+                            :name="gradeData(grade).icon"
+                            :class="`text-${gradeData(grade).color}-400`"
                         />
                         <span class="text-gray-500 dark:text-gray-400">
-                            Easy:
-                            {{ practiceStore.grades.filter(g => g.grade === GradeType.easy).length }}
-                            ({{ formatNumber(100 * practiceStore.grades.filter(g => g.grade === GradeType.easy).length/practiceStore.grades.length) }}%)
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-x-1">
-                        <UIcon
-                            name="i-tabler-circle-dashed-check"
-                            :class="`text-${gradeColor(GradeType.good)}-400`"
-                        />
-                        <span class="text-gray-500 dark:text-gray-400">
-                            Good:
-                            {{ practiceStore.grades.filter(g => g.grade === GradeType.good).length }}
-                            ({{ formatNumber(100 * practiceStore.grades.filter(g => g.grade === GradeType.good).length/practiceStore.grades.length) }}%)
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-x-1">
-                        <UIcon
-                            name="i-tabler-brain"
-                            :class="`text-${gradeColor(GradeType.hard)}-400`"
-                        />
-                        <span class="text-gray-500 dark:text-gray-400">
-                            Hard:
-                            {{ practiceStore.grades.filter(g => g.grade === GradeType.hard).length }}
-                            ({{ formatNumber(100 * practiceStore.grades.filter(g => g.grade === GradeType.hard).length/practiceStore.grades.length) }}%)
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-x-1">
-                        <UIcon
-                            name="i-tabler-reload"
-                            :class="`text-${gradeColor(GradeType.again)}-400`"
-                        />
-                        <span class="text-gray-500 dark:text-gray-400">
-                            Again:
-                            {{ practiceStore.grades.filter(g => g.grade === GradeType.again).length }}
-                            ({{ formatNumber(100 * practiceStore.grades.filter(g => g.grade === GradeType.again).length/practiceStore.grades.length) }}%)
+                            {{ gradeData(grade).label }}:
+                            {{ practiceStore.grades.filter(g => g.grade === grade).length }}
+                            ({{ formatNumber(100 * practiceStore.grades.filter(g => g.grade === grade).length/practiceStore.grades.length) }}%)
                         </span>
                     </div>
                 </div>
@@ -231,24 +106,8 @@
                             <div class="p-3 flex justify-between">
                                 <div class="font-medium flex items-center gap-x-2">
                                     <UIcon
-                                        v-if="practiceStore.grades[i].grade === GradeType.easy"
-                                        name="i-tabler-checks"
-                                        :class="`text-${gradeColor(GradeType.easy)}-400`"
-                                    />
-                                    <UIcon
-                                        v-else-if="practiceStore.grades[i].grade === GradeType.good"
-                                        name="i-tabler-circle-dashed-check"
-                                        :class="`text-${gradeColor(GradeType.good)}-400`"
-                                    />
-                                    <UIcon
-                                        v-else-if="practiceStore.grades[i].grade === GradeType.hard"
-                                        name="i-tabler-brain"
-                                        :class="`text-${gradeColor(GradeType.hard)}-400`"
-                                    />
-                                    <UIcon
-                                        v-else-if="practiceStore.grades[i].grade === GradeType.again"
-                                        name="i-tabler-reload"
-                                        :class="`text-${gradeColor(GradeType.again)}-400`"
+                                        :name="gradeData(practiceStore.grades[i].grade).icon"
+                                        :class="`text-${gradeData(practiceStore.grades[i].grade).color}-400`"
                                     />
                                     <span>Question {{ i + 1 }}</span>
                                 </div>
@@ -261,7 +120,10 @@
                         <p class="p-3 text-gray-500 dark:text-gray-300">
                             {{ flashcard.front }}
                         </p>
-                        <UDivider />
+                        <UDivider
+                            label="Answer"
+                            :ui="{ label: 'text-gray-500 dark:text-gray-400' }"
+                        />
                         <p class="p-3 text-gray-500 dark:text-gray-300">
                             {{ flashcard.back }}
                         </p>
@@ -275,6 +137,7 @@
 <script lang="ts" setup>
 import { GradeType } from "../../types/entity";
 import Tooltip from "~/components/Tooltip.vue";
+import type { BadgeColor, MeterColor } from "#ui/types";
 
 const practiceStore = usePracticeStore();
 const repository = useRepository();
@@ -282,5 +145,28 @@ const repository = useRepository();
 onMounted(async () =>
 {
     await repository.session.stop(practiceStore.session!.id);
+});
+
+type ResultBadgeData = {
+    color: BadgeColor;
+    icon: string;
+    text: string;
+};
+
+const resultGrade = computed<ResultBadgeData>(() =>
+{
+    switch (practiceStore.mostFrequentGrade)
+    {
+        case GradeType.easy:
+            return { color: "green", icon: "i-tabler-rosette-discount-check", text: "Awesome" };
+        case GradeType.good:
+            return { color: "sky", icon: "i-tabler-thumb-up", text: "Good" };
+        case GradeType.hard:
+            return { color: "yellow", icon: "i-tabler-shadow", text: "Almost" };
+        case GradeType.again:
+            return { color: "red", icon: "i-tabler-repeat", text: "Try again" };
+        default:
+            return { color: "gray", icon: "i-tabler-help", text: "No grades" };
+    }
 });
 </script>

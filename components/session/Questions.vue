@@ -5,18 +5,7 @@
         </div>
         <section class="p-6 grow flex flex-col gap-6 items-center overflow-auto">
             <div class="flex justify-between items-center w-full gap-x-2">
-                <UButton
-                    size="sm"
-                    icon="i-tabler-arrow-left"
-                    variant="ghost"
-                    square
-                    :to="{ name: 'sessions' }"
-                    color="red"
-                >
-                    <stan class="hidden md:inline">
-                        Leave
-                    </stan>
-                </UButton>
+                <SessionLeaveButton :to="{ name: 'sessions' }" />
 
                 <UBadge
                     v-if="practiceStore.currentStrike >= 3"

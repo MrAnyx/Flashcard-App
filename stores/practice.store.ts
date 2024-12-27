@@ -95,6 +95,15 @@ export const usePracticeStore = defineStore("practice", {
             }
 
             return strike;
+        },
+        mostFrequentGrade(state)
+        {
+            return state.grades
+                .map(g => g.grade)
+                .sort((a, b) =>
+                    state.grades.filter(v => v.grade === a).length - state.grades.filter(v => v.grade === b).length
+                )
+                .pop();
         }
     }
 });

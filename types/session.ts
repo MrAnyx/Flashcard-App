@@ -1,4 +1,4 @@
-import type { Flashcard, Session } from "./entity";
+import type { Flashcard, Grade, Session } from "./entity";
 
 export type Collection = {
     type: "topic" | "unit";
@@ -6,7 +6,7 @@ export type Collection = {
 };
 
 export type Answer = {
-    grade: number;
+    grade: Grade;
     timestamp: number;
     duration: number; // In milliseconds
 };
