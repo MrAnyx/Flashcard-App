@@ -10,7 +10,8 @@ export default defineNuxtConfig({
         "@nuxt/test-utils/module",
         "@nuxt/ui",
         "@pinia/nuxt",
-        "pinia-plugin-persistedstate/nuxt"
+        "pinia-plugin-persistedstate/nuxt",
+        "@nuxtjs/i18n",
     ],
     ssr: false,
     imports: {
@@ -53,6 +54,12 @@ export default defineNuxtConfig({
                 quoteProps: "as-needed",
             }
         },
+    },
+    i18n: {
+        defaultLocale: "en",
+        locales: ["en", "fr"],
+        vueI18n: "./i18n/i18n.config.ts",
+        strategy: "no_prefix"
     },
     pinia: {
         storesDirs: ["./stores/**"],

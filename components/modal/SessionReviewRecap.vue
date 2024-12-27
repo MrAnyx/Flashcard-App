@@ -1,5 +1,9 @@
 <template>
-    <BaseModal title="Session recap" borderless fullscreen>
+    <BaseModal
+        title="Session recap"
+        borderless
+        fullscreen
+    >
         <UTable
             :columns="columns"
             :loading="provider.loading"
@@ -10,7 +14,10 @@
             </template>
 
             <template #grade-data="{ row }">
-                <UBadge :color="gradeColor(row.grade)" variant="subtle">
+                <UBadge
+                    :color="gradeColor(row.grade)"
+                    variant="subtle"
+                >
                     <span v-if="row.grade === GradeType.easy">Easy</span>
                     <span v-if="row.grade === GradeType.good">Good</span>
                     <span v-if="row.grade === GradeType.hard">Hard</span>

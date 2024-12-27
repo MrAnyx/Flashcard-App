@@ -104,6 +104,7 @@ import type { DropdownItem, VerticalNavigationLink } from "#ui/types";
 const flashcardStore = useFlashcardStore();
 const authStore = useAuthStore();
 const version = useVersion();
+const modal = useModal();
 
 defineEmits(["close"]);
 
@@ -168,7 +169,7 @@ const profileDropdownOptions = computed<DropdownItem[][]>(() => [
             shortcuts: ["?"],
             click: () =>
             {
-                // modal.open(ModalShortcuts);
+                modal.open(ModalShortcuts);
             }
         }
     ], [{

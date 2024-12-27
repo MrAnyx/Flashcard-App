@@ -1,6 +1,8 @@
 import { ModalFlashcardForm, ModalSearchCommandPalette, ModalSessionIntroduction, ModalShortcuts, ModalTopicForm, ModalUnitForm } from "#components";
 import type { ShortcutSection } from "~/types/shortcut";
 
+const modal = useModal();
+
 // Shortcuts must be unique to prevent bad behavior
 export const AppShortcutSections: ShortcutSection[] = [
     {
@@ -11,10 +13,10 @@ export const AppShortcutSections: ShortcutSection[] = [
                 global: true,
                 usingInput: false,
                 name: "Go to overview",
-                description: "Naviguate to your overview",
+                description: "Naviguate to your personal overview",
                 action: async () =>
                 {
-                    useModal().close();
+                    modal.close();
                     await navigateTo({
                         name: "overview"
                     });
@@ -28,7 +30,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Naviguate to the collection page",
                 action: async () =>
                 {
-                    useModal().close();
+                    modal.close();
                     await navigateTo({
                         name: "topics"
                     });
@@ -42,7 +44,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Naviguate to the practice page",
                 action: async () =>
                 {
-                    useModal().close();
+                    modal.close();
                     await navigateTo({
                         name: "practice"
                     });
@@ -56,7 +58,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Naviguate to the settings page",
                 action: async () =>
                 {
-                    useModal().close();
+                    modal.close();
                     await navigateTo({
                         name: "settings-account"
                     });
@@ -74,7 +76,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Open search command palette",
                 action: () =>
                 {
-                    useModal().open(ModalSearchCommandPalette);
+                    modal.open(ModalSearchCommandPalette);
                 }
             },
             "?": {
@@ -85,18 +87,17 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Open list of shortcuts",
                 action: () =>
                 {
-                    useModal().open(ModalShortcuts);
+                    modal.open(ModalShortcuts);
                 }
             },
-            "c-s": {
-                shortcut: ["C", "S"],
+            "n-s": {
+                shortcut: ["N", "S"],
                 global: true,
                 usingInput: false,
-                name: "Start a session",
-                description: "Start a session",
+                name: "New session",
+                description: "Start a practice session",
                 action: async () =>
                 {
-                    const modal = useModal();
                     const authStore = useAuthStore();
 
                     if (authStore.getSetting("show_session_introduction"))
@@ -110,37 +111,37 @@ export const AppShortcutSections: ShortcutSection[] = [
                     }
                 }
             },
-            "c-t": {
-                shortcut: ["C", "T"],
+            "n-t": {
+                shortcut: ["N", "T"],
                 global: true,
                 usingInput: false,
-                name: "Create a topic",
+                name: "New topic",
                 description: "Create a new topic",
                 action: () =>
                 {
-                    useModal().open(ModalTopicForm);
+                    modal.open(ModalTopicForm);
                 }
             },
-            "c-u": {
-                shortcut: ["C", "U"],
+            "n-u": {
+                shortcut: ["N", "U"],
                 global: true,
                 usingInput: false,
-                name: "Create a unit",
+                name: "New unit",
                 description: "Create a new unit",
                 action: () =>
                 {
-                    useModal().open(ModalUnitForm);
+                    modal.open(ModalUnitForm);
                 }
             },
-            "c-f": {
-                shortcut: ["C", "F"],
+            "n-f": {
+                shortcut: ["N", "F"],
                 global: true,
                 usingInput: false,
-                name: "Create a flashcard",
+                name: "New flashcard",
                 description: "Create a new flashcard",
                 action: () =>
                 {
-                    useModal().open(ModalFlashcardForm);
+                    modal.open(ModalFlashcardForm);
                 }
             },
         }
@@ -155,7 +156,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 description: "Close the current modal",
                 action: () =>
                 {
-                    useModal().close();
+                    modal.close();
                 }
             },
         }
