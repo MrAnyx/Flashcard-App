@@ -1,6 +1,9 @@
 <template>
-    <UModal :fullscreen="props.fullscreen ?? false">
-        <UCard :ui="ui">
+    <UModal
+        :fullscreen="props.fullscreen ?? false"
+        :ui="modalUi"
+    >
+        <UCard :ui="cardUi">
             <template #header>
                 <div class="flex justify-between items-center">
                     <div class="flex gap-x-2 items-center">
@@ -39,7 +42,13 @@ const props = defineProps<{
 
 const modal = useModal();
 
-const ui = {
+const cardUi = {
     ...(props.borderless ? { body: { padding: "" } } : {})
+};
+
+const modalUi = {
+    overlay: {
+        base: "backdrop-blur-sm"
+    }
 };
 </script>

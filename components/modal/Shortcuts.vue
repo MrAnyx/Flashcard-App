@@ -35,6 +35,7 @@
                     </div>
                 </div>
             </div>
+            BaseModal
         </div>
     </BaseModal>
 </template>

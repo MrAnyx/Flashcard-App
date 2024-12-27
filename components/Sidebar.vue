@@ -99,6 +99,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ModalShortcuts } from "#components";
 import type { DropdownItem, VerticalNavigationLink } from "#ui/types";
 
 const flashcardStore = useFlashcardStore();
