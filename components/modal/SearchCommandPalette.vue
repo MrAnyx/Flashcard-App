@@ -2,29 +2,64 @@
     <UModal>
         <UCommandPalette
             ref="globalCommandPalette"
-            :groups="[{ key: 'people', commands: people }]"
-            :close-button="globalCommandPalette?.query ? { icon: 'i-tabler-x', color: 'gray', variant: 'link', padded: false } : null"
+            :groups="groups"
+            nullable
+            :close-button="(closeButton as Button)"
             icon="i-tabler-search"
             :autoselect="false"
             placeholder="Search anything"
-            :fuse="{ resultLimit: 6, fuseOptions: { threshold: 0.1 } }"
+            @update:model-value="onSelect"
         />
     </UModal>
 </template>
 
 <script lang="ts" setup>
+import type { Button, Command, Group } from "#ui/types";
+
 const globalCommandPalette = ref();
 
-const people = [
-    { id: 1, label: "Wade Cooper" },
-    { id: 2, label: "Arlene Mccoy" },
-    { id: 3, label: "Devon Webb" },
-    { id: 4, label: "Tom Cook" },
-    { id: 5, label: "Tanya Fox" },
-    { id: 6, label: "Hellen Schmidt" },
-    { id: 7, label: "Caroline Schultz" },
-    { id: 8, label: "Mason Heaney" },
-    { id: 9, label: "Claudie Smitham" },
-    { id: 10, label: "Emil Schaefer" }
+const query = computed({
+    get: () => globalCommandPalette.value?.query,
+    set: (value) =>
+    {
+        globalCommandPalette.value.query = value;
+    }
+});
+
+const closeButton = computed(() => query.value ? { icon: "i-tabler-x", color: "gray", variant: "link", padded: false } : null);
+
+const onSelect = (option: Command) => option.click();
+
+const groups: Group[] = [
+    {
+        key: "topics",
+        label: (q: string) => q && `Topics`,
+        search: async (q: string) =>
+        {
+            if (!q)
+            {
+                return [];
+            }
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const users: any[] = await $fetch("https://jsonplaceholder.typicode.com/users", { params: { q } });
+
+            return users.map(user => ({ id: user.id, label: user.name, suffix: user.email }));
+        }
+    },
+    {
+        key: "global",
+        label: "Global",
+        commands: [
+            ...Object.entries(AppShortcuts).filter(([_, shortcut]) => shortcut.commandPalette).map(([key, shortcut]) => ({
+                id: key,
+                label: shortcut.name,
+                suffix: shortcut.description,
+                icon: shortcut.icon,
+                click: async () => await shortcut.action?.(),
+                shortcuts: shortcut.shortcut
+            } as Command))
+        ]
+    }
 ];
 </script>

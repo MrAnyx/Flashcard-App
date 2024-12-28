@@ -4,7 +4,10 @@
         :ui="modalUi"
     >
         <UCard :ui="cardUi">
-            <template #header>
+            <template
+                v-if="!props.hideHeader"
+                #header
+            >
                 <div class="flex justify-between items-center">
                     <div class="flex gap-x-2 items-center">
                         <slot name="header">
@@ -38,6 +41,7 @@ const props = defineProps<{
     icon?: string;
     borderless?: boolean;
     fullscreen?: boolean;
+    hideHeader?: boolean;
 }>();
 
 const modal = useModal();

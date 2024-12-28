@@ -32,6 +32,7 @@
             icon="i-tabler-search"
             color="gray"
             variant="solid"
+            @click="modal.open(ModalSearchCommandPalette)"
         >
             <div class="flex justify-between items-center w-full">
                 Search
@@ -99,7 +100,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ModalShortcuts } from "#components";
+import { ModalSearchCommandPalette, ModalShortcuts } from "#components";
 import type { DropdownItem, VerticalNavigationLink } from "#ui/types";
 
 const flashcardStore = useFlashcardStore();
@@ -113,7 +114,7 @@ const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[
     {
         label: "Collection",
         badge: flashcardStore.total,
-        icon: "i-tabler-layout-dashboard",
+        icon: "i-tabler-table",
         to: {
             name: "topics"
         }

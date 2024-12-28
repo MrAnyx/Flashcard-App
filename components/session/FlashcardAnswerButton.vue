@@ -3,7 +3,7 @@
         class="flex justify-center h-9 sm:h-12"
         :icon="gradeData(props.grade).icon"
         variant="outline"
-        :color="gradeData(props.grade).color as ButtonColor"
+        :color="(gradeData(props.grade).color as ButtonColor)"
         size="lg"
         :loading="props.loading"
         @click="emit('answer', props.grade)"
