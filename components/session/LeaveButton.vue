@@ -4,8 +4,8 @@
         icon="i-tabler-arrow-left"
         variant="ghost"
         square
-        :to="props.to"
         color="red"
+        @click="leaveSession"
     >
         <stan class="hidden md:inline">
             Leave
@@ -17,6 +17,14 @@
 import type { RouteLocationAsPathGeneric, RouteLocationAsRelativeGeneric } from "vue-router";
 
 const props = defineProps<{
-    to?: string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric;
+    to: string | RouteLocationAsRelativeGeneric | RouteLocationAsPathGeneric;
 }>();
+
+const leaveSession = async () =>
+{
+    // const practiceStore = usePracticeStore();
+    // practiceStore.resetSession();
+
+    await navigateTo(props.to);
+};
 </script>

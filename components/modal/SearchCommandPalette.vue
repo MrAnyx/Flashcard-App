@@ -28,27 +28,12 @@ const query = computed({
 
 const closeButton = computed(() => query.value ? { icon: "i-tabler-x", color: "gray", variant: "link", padded: false } : null);
 
-const onSelect = (option: Command) => option.click();
+const onSelect = (option: Command) => option.click?.();
 
 const groups: Group[] = [
     {
-        key: "topics",
-        label: (q: string) => q && `Topics`,
-        search: async (q: string) =>
-        {
-            if (!q)
-            {
-                return [];
-            }
-
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const users: any[] = await $fetch("https://jsonplaceholder.typicode.com/users", { params: { q } });
-
-            return users.map(user => ({ id: user.id, label: user.name, suffix: user.email }));
-        }
-    },
-    {
         key: "global",
+        static: true,
         label: "Global",
         commands: [
             ...Object.entries(AppShortcuts).filter(([_, shortcut]) => shortcut.commandPalette).map(([key, shortcut]) => ({
@@ -60,6 +45,24 @@ const groups: Group[] = [
                 shortcuts: shortcut.shortcut
             } as Command))
         ]
-    }
+    },
+    {
+        key: "topics",
+        label: (q: string) => q && `Topics`,
+        search: async (q: string) =>
+        {
+            if (!q)
+            {
+                return [];
+            }
+
+            // TODO : Fetch topics from API
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const users: any[] = await $fetch("https://jsonplaceholder.typicode.com/users", { params: { q } });
+
+            return users.map(user => ({ id: user.id, label: user.name, suffix: user.email }));
+        }
+    },
 ];
 </script>
