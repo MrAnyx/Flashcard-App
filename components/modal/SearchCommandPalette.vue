@@ -40,7 +40,7 @@ const groups: Group[] = [
         label: "Global",
         commands: [
             ...Object.entries(AppShortcuts).filter(([_, shortcut]) => shortcut.commandPalette).map(([key, shortcut]) => ({
-                id: key,
+                id: `command-${key}`,
                 label: shortcut.name,
                 suffix: shortcut.description,
                 icon: shortcut.icon,
@@ -65,7 +65,7 @@ const groups: Group[] = [
             );
 
             return topicsRes.data.map(topic => ({
-                id: topic.id,
+                id: `topic-${topic.id}`,
                 label: topic.name,
                 suffix: topic.description,
                 icon: "i-tabler-folder",
@@ -93,7 +93,7 @@ const groups: Group[] = [
             );
 
             return unitsRes.data.map(unit => ({
-                id: unit.id,
+                id: `unit-${unit.id}`,
                 label: unit.name,
                 suffix: unit.description,
                 icon: "i-tabler-color-swatch",
