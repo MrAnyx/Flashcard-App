@@ -4,7 +4,7 @@
             id="navbar"
             class="w-full fixed flex items-center justify-center border-b border-gray-200 dark:border-gray-800 backdrop-blur-lg bg-white/75 dark:bg-gray-900/75 z-[99]"
         >
-            <div class="w-full max-w-screen-lg px-6">
+            <div class="w-full max-w-screen-lg px-6 flex items-center justify-between">
                 <NuxtLink
                     class="flex items-center gap-x-3"
                     :to="{ name: 'landing' }"
@@ -24,6 +24,34 @@
                         {{ version }}
                     </UBadge>
                 </NuxtLink>
+                <div class="space-x-2">
+                    <template v-if="token">
+                        <UButton
+                            variant="soft"
+                            color="sky"
+                            :to="{ name: 'overview' }"
+                        >
+                            Open the app
+                        </UButton>
+                    </template>
+                    <template v-else>
+                        <UButton
+                            variant="ghost"
+                            color="gray"
+                            :to="{ name: 'login' }"
+                        >
+                            Sign in
+                        </UButton>
+                        <UButton
+                            variant="soft"
+                            color="sky"
+                            trailing-icon="i-tabler-arrow-right"
+                            :to="{ name: 'register' }"
+                        >
+                            Sign up
+                        </UButton>
+                    </template>
+                </div>
             </div>
         </nav>
         <div id="body">
@@ -32,9 +60,9 @@
             <section class="max-w-screen-lg mx-auto px-6">
                 <div class="border border-gray-200 dark:border-gray-700 rounded-lg shadow-md bg-gray-100 dark:bg-gray-800 p-3">
                     <NuxtImg
-                        src="app_example.png"
+                        :src="colorMode.value === 'dark' ? 'layout_dark.png' : 'layout_light.png' "
                         fit="cover"
-                        class="rounded-md"
+                        class="rounded-md w-full"
                     />
                 </div>
 
@@ -61,7 +89,7 @@
                         >
                             <UIcon
                                 :name="feature.icon"
-                                class="w-6 h-6"
+                                class="w-6 h-6 text-sky-500 dark:text-sky-400"
                             />
                             <p class="font-bold text-gray-800 dark:text-gray-200 mt-2">
                                 {{ feature.title }}
@@ -71,6 +99,24 @@
                             </p>
                         </UCard>
                     </div>
+                </div>
+            </section>
+
+            <section class="max-w-screen-lg mx-auto px-6 mt-[100px]">
+                <div class="bg-gray-100 dark:bg-gray-800 flex flex-col items-center justify-center h-[350px] rounded-lg shadow-md gap-6 text-center p-6">
+                    <h3 class="text-3xl font-bold text-gray-800 dark:text-gray-200">
+                        Get started today
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-center">
+                        Take control of your learning.
+                    </p>
+                    <UButton
+                        variant="solid"
+                        color="sky"
+                        leading-icon="i-tabler-arrow-right"
+                    >
+                        Sign up
+                    </UButton>
                 </div>
             </section>
 
@@ -88,6 +134,7 @@
                                 v-for="(link, j) in footerLink.links"
                                 :key="j"
                                 :to="link.link"
+                                target="_blank"
                                 class="hover:text-gray-700 dark:hover:text-gray-200 flex items-center gap-x-1"
                             >
                                 <UIcon
@@ -106,7 +153,7 @@
                     </p>
                     <div class="space-x-1">
                         <UButton
-                            :icon="colorMode.preference === 'dark' ? 'i-tabler-sun' : 'i-tabler-moon'"
+                            :icon="colorMode.value === 'dark' ? 'i-tabler-sun' : 'i-tabler-moon'"
                             variant="ghost"
                             color="gray"
                             size="sm"
@@ -140,6 +187,7 @@ useHead({
 
 const version = useVersion();
 const colorMode = useColorMode();
+const token = useToken();
 
 const features = [
     {
@@ -162,11 +210,21 @@ const features = [
         description: "Our service is available on all devices.",
         icon: "i-tabler-device-mobile",
     },
+    {
+        title: "Open-source",
+        description: "Our service is open-source and free to use.",
+        icon: "i-tabler-code",
+    },
+    {
+        title: "No ads",
+        description: "We don't show ads. We respect your privacy.",
+        icon: "i-tabler-ad-off",
+    }
 ];
 
 const toggleColorMode = () =>
 {
-    colorMode.preference = colorMode.preference === "dark" ? "light" : "dark";
+    colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
 };
 
 const footerLinks = [
@@ -198,6 +256,11 @@ const footerLinks = [
                 link: "#",
                 icon: "i-tabler-sparkles",
             },
+            {
+                label: "Contribute",
+                link: "#",
+                icon: "i-tabler-heart-handshake",
+            },
         ]
     },
     {
@@ -205,22 +268,22 @@ const footerLinks = [
         links: [
             {
                 label: "Email",
-                link: "#",
+                link: "mailto:robin@codeon.fr",
                 icon: "i-tabler-mail",
             },
             {
                 label: "X (Twitter)",
-                link: "#",
+                link: "https://x.com/MrAnyx",
                 icon: "i-tabler-brand-x",
             },
             {
                 label: "LinkedIn",
-                link: "#",
+                link: "https://www.linkedin.com/in/rob-bch/",
                 icon: "i-tabler-brand-linkedin",
             },
             {
                 label: "GitHub",
-                link: "#",
+                link: "https://github.com/MrAnyx",
                 icon: "i-tabler-brand-github",
             }
         ]
