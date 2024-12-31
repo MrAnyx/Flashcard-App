@@ -57,7 +57,7 @@
         <div id="body">
             <LandingHero class="h-[60vh]" />
 
-            <section class="max-w-screen-lg mx-auto px-6">
+            <section class="max-w-screen-lg mx-auto px-6 flex flex-col gap-y-[100px]">
                 <div class="border border-gray-200 dark:border-gray-700 rounded-lg shadow-md bg-gray-100 dark:bg-gray-800 p-3">
                     <NuxtImg
                         :src="colorMode.value === 'dark' ? 'layout_dark.png' : 'layout_light.png' "
@@ -66,7 +66,7 @@
                     />
                 </div>
 
-                <div class="mt-[100px]">
+                <div>
                     <div class="flex flex-col justify-center gap-y-3">
                         <UBadge
                             variant="subtle"
@@ -100,9 +100,7 @@
                         </UCard>
                     </div>
                 </div>
-            </section>
 
-            <section class="max-w-screen-lg mx-auto px-6 mt-[100px]">
                 <div class="bg-gray-100 dark:bg-gray-800 flex flex-col items-center justify-center h-[350px] rounded-lg shadow-md gap-6 text-center p-6">
                     <h3 class="text-3xl font-bold text-gray-800 dark:text-gray-200">
                         Get started today
