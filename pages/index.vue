@@ -15,7 +15,7 @@
                         height="30"
                     />
                     <span class="font-bold text-lg text-gray-800 dark:text-gray-200">
-                        Flashcard
+                        Meeio
                     </span>
                     <UBadge
                         variant="subtle"
