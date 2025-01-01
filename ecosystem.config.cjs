@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: 'flashcard_app',
+        name: 'meeio_frontend',
         port: '3000',
         exec_mode: 'cluster',
         instances: 'max',

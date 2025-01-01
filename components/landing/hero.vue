@@ -34,7 +34,7 @@
                     variant="ghost"
                     color="gray"
                     leading-icon="i-tabler-brand-github"
-                    to="https://github.com/MrAnyx/Flashcard-App"
+                    to="https://github.com/meeio-app/meeio"
                     target="_blank"
                 >
                     Github

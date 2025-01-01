@@ -20,7 +20,7 @@ export default defineNuxtConfig({
             "jobs/**"
         ]
     },
-    devtools: { enabled: true },
+    devtools: { enabled: false },
     router: {
         options: {
             scrollBehaviorType: "smooth"
@@ -67,6 +67,6 @@ export default defineNuxtConfig({
     },
     piniaPluginPersistedstate: {
         storage: "localStorage",
-        key: "flashcard_%id"
+        key: "meeio_%id"
     },
 });

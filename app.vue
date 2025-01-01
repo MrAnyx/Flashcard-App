@@ -13,7 +13,7 @@
 useHead({
     titleTemplate: (titleChunk) =>
     {
-        return titleChunk ? `${titleChunk} - Flashcard` : "Flashcard";
+        return titleChunk ? `${titleChunk} - Meeio` : "Meeio";
     }
 });
 </script>

@@ -13,7 +13,7 @@
             <UButton
                 color="gray"
                 variant="ghost"
-                label="Flashcard"
+                label="Meeio"
                 class="flex-1"
                 :to="{ name: 'overview' }"
             >

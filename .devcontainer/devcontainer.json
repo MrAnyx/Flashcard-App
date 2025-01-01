@@ -1,5 +1,5 @@
 {
-    "name": "Flashcard App",
+    "name": "Meeio Frontend",
     // "runArgs": ["--network=bridge"],
     "image": "mcr.microsoft.com/devcontainers/base:alpine-3.19",
     "features": {
