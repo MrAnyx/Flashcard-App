@@ -139,13 +139,14 @@ const otherLinks = computed<VerticalNavigationLink[][]>(() => [
     [
         {
             label: "Help & Documentation",
-            icon: "i-tabler-info-square-rounded"
+            icon: "i-tabler-info-square-rounded",
+            to: "https://docs.meeio.fr/",
+            target: "_blank"
         }, {
             label: "Terms of use",
             icon: "i-tabler-file-check",
-            to: {
-                name: "terms-of-use"
-            }
+            to: "https://docs.meeio.fr/legal/terms-of-use",
+            target: "_blank"
         }
     ]
 ]);

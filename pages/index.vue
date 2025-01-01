@@ -112,6 +112,7 @@
                         variant="solid"
                         color="sky"
                         leading-icon="i-tabler-arrow-right"
+                        :to="{ name: 'register' }"
                     >
                         Sign up
                     </UButton>
@@ -231,17 +232,17 @@ const footerLinks = [
         links: [
             {
                 label: "Documentation",
-                link: "#",
+                link: "https://docs.meeio.fr/",
                 icon: "i-tabler-file-text",
             },
             {
                 label: "Terms of use",
-                link: "#",
+                link: "https://docs.meeio.fr/legal/terms-of-use",
                 icon: "i-tabler-scale",
             },
             {
                 label: "Privacy policy",
-                link: "#",
+                link: "https://docs.meeio.fr/legal/privacy",
                 icon: "i-tabler-lock",
             }
         ]
@@ -251,12 +252,12 @@ const footerLinks = [
         links: [
             {
                 label: "Release",
-                link: "#",
+                link: "https://github.com/meeio-app",
                 icon: "i-tabler-sparkles",
             },
             {
                 label: "Contribute",
-                link: "#",
+                link: "https://github.com/meeio-app",
                 icon: "i-tabler-heart-handshake",
             },
         ]
