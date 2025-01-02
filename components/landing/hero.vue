@@ -15,7 +15,7 @@
                     size="lg"
                     icon="i-tabler-sparkles"
                 >
-                    Release v{{ version }}
+                    Release {{ version }}
                 </UBadge>
             </ULink>
             <div class="flex flex-col items-center gap-y-4 text-center">

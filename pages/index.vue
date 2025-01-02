@@ -152,7 +152,7 @@
                 <UDivider />
                 <div class="max-w-screen-lg mx-auto px-6 py-4 flex flex-col-reverse md:flex-row items-center justify-between gap-2">
                     <p class="text-gray-600 dark:text-gray-400 text-sm text-center">
-                        Copyright &copy; {{ DateTime.now().year }}. All rights reserved.
+                        Copyright &copy; 2024 - {{ DateTime.now().year }}. All rights reserved.
                     </p>
                     <div class="space-x-1">
                         <UButton
@@ -166,6 +166,8 @@
                         <UButton
                             icon="i-tabler-brand-github"
                             variant="ghost"
+                            to="https://github.com/meeio-app"
+                            target="_blank"
                             color="gray"
                             size="sm"
                             square
