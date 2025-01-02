@@ -21,13 +21,13 @@
                 :ui="{ body: { padding: '' }, header: { padding: '' } }"
             >
                 <template #header>
-                    <div class="flex justify-between items-center gap-x-4 overflow-x-auto p-3">
+                    <div class="flex justify-between items-center gap-x-4 overflow-x-auto p-3 h-14">
                         <SessionFlashcardDifficultyBadge
                             :flashcard="practiceStore.currentFlashcard"
                         />
 
                         <Tooltip
-                            v-if="practiceStore.currentFlashcard.help !== null && !practiceStore.isValidation"
+                            v-if="practiceStore.currentFlashcard.help && !practiceStore.isValidation"
                             class="shrink-0"
                             activation="click"
                             help
@@ -44,7 +44,7 @@
                             </UButton>
                         </Tooltip>
                         <Tooltip
-                            v-else-if="practiceStore.currentFlashcard.details !== null && practiceStore.isValidation"
+                            v-else-if="practiceStore.currentFlashcard.details && practiceStore.isValidation"
                             class="shrink-0"
                             activation="click"
                             help
