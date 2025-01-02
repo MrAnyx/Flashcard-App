@@ -6,7 +6,7 @@
             size="sm"
         />
         <SessionQuestions
-            v-if="practiceStore.hasNextFlashcard"
+            v-if="practiceStore.hasNextFlashcard && practiceStore.session"
             class="grow"
         />
         <SessionResults

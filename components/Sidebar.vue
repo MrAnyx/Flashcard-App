@@ -123,7 +123,7 @@ const navigationLinks = computed<VerticalNavigationLink[][]>(() => [[
         badge: flashcardStore.totalToReview,
         icon: "i-tabler-device-gamepad-2",
         to: {
-            name: "practice"
+            name: "sessions"
         }
     },
     {
