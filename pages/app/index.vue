@@ -57,18 +57,20 @@
                         :value="formatNumber(flashcardStore.total)"
                     />
                     <BaseDataCard
-                        icon="i-tabler-calendar"
-                        label="Total reviews"
-                        :value="formatNumber(reviewStore.total)"
-                    />
-                    <BaseDataCard
                         icon="i-tabler-calendar-repeat"
                         label="Flashcards to review"
                         :value="formatNumber(flashcardStore.totalToReview)"
                     />
                     <BaseDataCard
+                        icon="i-tabler-calendar"
+                        label="Total reviews"
+                        info="the total value also takes into account progress resets."
+                        :value="formatNumber(reviewStore.total)"
+                    />
+                    <BaseDataCard
                         icon="i-tabler-versions"
                         label="Total sessions"
+                        info="the total value also takes into account progress resets."
                         :value="formatNumber(sessionStore.total)"
                     />
                     <BaseDataCard
@@ -214,7 +216,7 @@ const loadDashboardTables = async () =>
             }),
             repository.flashcard.findAll({
                 itemsPerPage: 5,
-                order: "asc",
+                order: "desc",
                 page: 1,
                 sort: "difficulty"
             }),
