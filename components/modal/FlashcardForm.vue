@@ -262,6 +262,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
             if (unitStore.collectionSelectedUnit && unitStore.collectionSelectedUnit.id === event.data.unitId)
             {
                 flashcardStore.prepend(flashcard);
+                flashcardStore.incrementCollectionTotal();
             }
             else
             {
