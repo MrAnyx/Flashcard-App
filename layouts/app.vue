@@ -128,7 +128,7 @@ AppShortcutSections.map(s => s.shortcuts).flatMap(s => Object.entries(s)).forEac
             [key]: {
                 name: value.name,
                 handler: value.action,
-                usingInput: value.usingInput
+                usingInput: value.usingInput,
             }
         };
     }

@@ -142,6 +142,12 @@ export const AppShortcutSections: ShortcutSection[] = [
                 icon: "i-tabler-color-swatch",
                 action: async () =>
                 {
+                    const topicStore = useTopicStore();
+                    if (topicStore.total <= 0)
+                    {
+                        return;
+                    }
+
                     modal.reset();
                     setTimeout(() => modal.open(ModalUnitForm), 0);
                 }
@@ -156,6 +162,12 @@ export const AppShortcutSections: ShortcutSection[] = [
                 icon: "i-tabler-cards",
                 action: async () =>
                 {
+                    const unitStore = useUnitStore();
+                    if (unitStore.total <= 0)
+                    {
+                        return;
+                    }
+
                     modal.reset();
                     setTimeout(() => modal.open(ModalFlashcardForm), 0);
                 }

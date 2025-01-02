@@ -9,20 +9,19 @@
                 color="primary"
                 variant="subtle"
             >
-                {{ props.countItems }} {{ pluralize(props.countItems, "item") }}
+                {{ formatNumber(props.countItems) }} {{ pluralize(props.countItems, "item") }}
             </UBadge>
         </div>
         <UButton
-            :label="props.actionLabel"
             color="primary"
+            variant="soft"
+            size="sm"
+            leading-icon="i-tabler-plus"
             @click="emit('actionClick')"
         >
-            <template #leading>
-                <UIcon
-                    name="i-tabler-plus"
-                    class="w-5 h-5"
-                />
-            </template>
+            <span class="hidden sm:inline">
+                {{ props.actionLabel }}
+            </span>
         </UButton>
     </header>
 </template>
