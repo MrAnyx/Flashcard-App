@@ -14,14 +14,14 @@
                 Release v{{ version }}
             </UBadge>
             <div class="flex flex-col items-center gap-y-4 text-center">
-                <h1 class="text-6xl font-bold text-gray-800 dark:text-gray-200">
+                <h1 class="text-4xl lg:text-6xl font-bold text-gray-800 dark:text-gray-200">
                     Master your knowledge
                 </h1>
-                <p class="text-lg text-gray-600 dark:text-gray-400">
+                <p class="text-md lg:text-lg text-gray-600 dark:text-gray-400">
                     Unlock your potential with a beautiful designed yet powerful flashcard application. And it's Open Source!
                 </p>
             </div>
-            <div class="flex gap-x-4">
+            <div class="flex gap-4">
                 <UButton
                     trailing-icon="i-tabler-arrow-right"
                     color="sky"

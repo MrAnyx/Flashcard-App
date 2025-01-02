@@ -55,7 +55,7 @@
             </div>
         </nav>
         <div id="body">
-            <LandingHero class="h-[60vh]" />
+            <LandingHero class="h-[60vh] min-h-[450px]" />
 
             <section class="max-w-screen-lg mx-auto px-6 flex flex-col gap-y-[100px]">
                 <div class="border border-gray-200 dark:border-gray-700 rounded-lg shadow-md bg-gray-100 dark:bg-gray-800 p-3">
