@@ -62,16 +62,16 @@
                         :value="formatNumber(flashcardStore.totalToReview)"
                     />
                     <BaseDataCard
-                        icon="i-tabler-calendar"
-                        label="Total reviews"
-                        info="the total value also takes into account progress resets."
-                        :value="formatNumber(reviewStore.total)"
-                    />
-                    <BaseDataCard
                         icon="i-tabler-versions"
                         label="Total sessions"
-                        info="the total value also takes into account progress resets."
+                        info="The total number of sessions also takes into account progress resets."
                         :value="formatNumber(sessionStore.total)"
+                    />
+                    <BaseDataCard
+                        icon="i-tabler-calendar"
+                        label="Total reviews"
+                        info="The total number of reviews also takes into account progress resets."
+                        :value="formatNumber(reviewStore.total)"
                     />
                     <BaseDataCard
                         icon="i-tabler-brain"
