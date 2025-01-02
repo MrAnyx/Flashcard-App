@@ -5,25 +5,28 @@
             class="w-full fixed flex items-center justify-center border-b border-gray-200 dark:border-gray-800 backdrop-blur-lg bg-white/75 dark:bg-gray-900/75 z-[99]"
         >
             <div class="w-full max-w-screen-lg px-6 flex items-center justify-between">
-                <NuxtLink
-                    class="flex items-center gap-x-3"
-                    :to="{ name: 'landing' }"
-                >
-                    <NuxtImg
-                        src="logo.svg"
-                        width="30"
-                        height="30"
-                    />
-                    <span class="font-bold text-lg text-gray-800 dark:text-gray-200">
-                        Meeio
-                    </span>
+                <div class="flex items-center gap-x-3">
+                    <NuxtLink
+                        :to="{ name: 'landing' }"
+                        class="flex items-center gap-x-3"
+                    >
+                        <NuxtImg
+                            src="logo.svg"
+                            width="30"
+                            height="30"
+                        />
+                        <span class="font-bold text-lg text-gray-800 dark:text-gray-200">
+                            Meeio
+                        </span>
+                    </NuxtLink>
                     <UBadge
                         variant="subtle"
                         color="sky"
+                        class="hidden md:inline"
                     >
                         {{ version }}
                     </UBadge>
-                </NuxtLink>
+                </div>
                 <div class="space-x-2">
                     <template v-if="token">
                         <UButton
@@ -43,6 +46,7 @@
                             Sign in
                         </UButton>
                         <UButton
+                            class="hidden md:inline-flex"
                             variant="soft"
                             color="sky"
                             trailing-icon="i-tabler-arrow-right"
@@ -146,8 +150,8 @@
                     </div>
                 </div>
                 <UDivider />
-                <div class="max-w-screen-lg mx-auto px-6 py-4 flex items-center justify-between">
-                    <p class="text-gray-600 dark:text-gray-400 text-sm">
+                <div class="max-w-screen-lg mx-auto px-6 py-4 flex flex-col-reverse md:flex-row items-center justify-between gap-2">
+                    <p class="text-gray-600 dark:text-gray-400 text-sm text-center">
                         Copyright &copy; {{ DateTime.now().year }}. All rights reserved.
                     </p>
                     <div class="space-x-1">

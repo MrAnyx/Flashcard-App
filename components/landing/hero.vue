@@ -5,14 +5,19 @@
 
         <!-- Hero content -->
         <div class="relative flex flex-col items-center justify-center gap-y-8 px-6">
-            <UBadge
-                variant="subtle"
-                color="sky"
-                size="lg"
-                icon="i-tabler-sparkles"
+            <ULink
+                to="https://github.com/meeio-app/frontend/releases"
+                target="_blank"
             >
-                Release v{{ version }}
-            </UBadge>
+                <UBadge
+                    variant="subtle"
+                    color="sky"
+                    size="lg"
+                    icon="i-tabler-sparkles"
+                >
+                    Release v{{ version }}
+                </UBadge>
+            </ULink>
             <div class="flex flex-col items-center gap-y-4 text-center">
                 <h1 class="text-4xl lg:text-6xl font-bold text-gray-800 dark:text-gray-200">
                     Master your knowledge
