@@ -42,7 +42,7 @@ export class AuthRepository extends AbstractRepository
             method: "POST",
             body: {
                 token: authData.token,
-                password: authData.password,
+                rawPassword: authData.password,
             }
         });
     };
