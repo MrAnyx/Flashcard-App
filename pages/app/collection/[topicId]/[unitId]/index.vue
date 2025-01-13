@@ -273,6 +273,7 @@ const duplicateRow = async (row: Flashcard) =>
 
     flashcardStore.prepend(response);
     flashcardStore.incrementCollectionTotal();
+    flashcardStore.incrementFlashcardsToReview();
 
     useStandardToast("success", {
         description: `The flashcard ${row.front} has been duplicated`
@@ -289,7 +290,13 @@ const resetRow = async (row: Flashcard) =>
         color: "red",
         async onConfirm()
         {
-            await repository.flashcard.reset(row.id);
+            const flashcard = await repository.flashcard.reset(row.id);
+            flashcardStore.update(flashcard.id, flashcard);
+
+            if (willUpdateTotalFlashcardReviews(row))
+            {
+                flashcardStore.incrementFlashcardsToReview();
+            }
 
             useStandardToast("success", {
                 description: `The flashcard ${row.front} has been reset`
@@ -312,6 +319,12 @@ const deleteRow = async (row: Flashcard) =>
 
             flashcardStore.delete(row);
             flashcardStore.decrementCollectionTotal();
+
+            // TODO Pas bon.
+            if (willUpdateTotalFlashcardReviews(row))
+            {
+                flashcardStore.decrementFlashcardsToReview();
+            }
 
             useStandardToast("success", {
                 description: `The flashcard ${row.front} has been deleted`

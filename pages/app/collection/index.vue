@@ -71,6 +71,7 @@ definePageMeta({
 });
 
 const topicStore = useTopicStore();
+const flashcardStore = useFlashcardStore();
 const authStore = useAuthStore();
 const repository = useRepository();
 const modal = useModal();
@@ -252,6 +253,7 @@ const resetRow = async (row: Topic) =>
         async onConfirm()
         {
             await repository.topic.reset(row.id);
+            flashcardStore.totalToReview = await repository.flashcard.count("to-review");
 
             useStandardToast("success", {
                 description: `The topic ${row.name} has been reset`
@@ -271,6 +273,7 @@ const deleteRow = async (row: Topic) =>
         async onConfirm()
         {
             await repository.topic.delete(row.id);
+            flashcardStore.totalToReview = await repository.flashcard.count("to-review");
 
             topicStore.delete(row);
 

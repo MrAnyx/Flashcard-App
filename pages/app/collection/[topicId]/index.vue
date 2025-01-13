@@ -80,6 +80,7 @@ const route = useRoute();
 const repository = useRepository();
 const topicStore = useTopicStore();
 const unitStore = useUnitStore();
+const flashcardStore = useFlashcardStore();
 const authStore = useAuthStore();
 const modal = useModal();
 
@@ -290,6 +291,7 @@ const resetRow = async (row: Unit) =>
         async onConfirm()
         {
             await repository.unit.reset(row.id);
+            flashcardStore.totalToReview = await repository.flashcard.count("to-review");
 
             useStandardToast("success", {
                 description: `The unit ${row.name} has been reset`
@@ -309,6 +311,7 @@ const deleteRow = async (row: Unit) =>
         async onConfirm()
         {
             await repository.unit.delete(row.id);
+            flashcardStore.totalToReview = await repository.flashcard.count("to-review");
 
             unitStore.delete(row);
             unitStore.decrementCollectionTotal();

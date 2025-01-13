@@ -89,7 +89,7 @@ export class FlashcardRepository extends AbstractRepository
 
     async reset(id: number)
     {
-        return this.fetch<null>(`/flashcards/${id}/reset`, {
+        return this.fetch<Flashcard>(`/flashcards/${id}/reset`, {
             method: "POST"
         });
     };
