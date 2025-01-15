@@ -273,7 +273,10 @@ const deleteRow = async (row: Topic) =>
         async onConfirm()
         {
             await repository.topic.delete(row.id);
-            flashcardStore.totalToReview = await repository.flashcard.count("to-review");
+            [flashcardStore.totalToReview, flashcardStore.total] = await Promise.all([
+                repository.flashcard.count("to-review"),
+                repository.flashcard.count("all")
+            ]);
 
             topicStore.delete(row);
 

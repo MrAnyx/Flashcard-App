@@ -293,7 +293,7 @@ const resetRow = async (row: Flashcard) =>
             const flashcard = await repository.flashcard.reset(row.id);
             flashcardStore.update(flashcard.id, flashcard);
 
-            if (willUpdateTotalFlashcardReviews(row))
+            if (row.nextReview && datetimeCompare(DateTime.now().toISO(), row.nextReview) === "after")
             {
                 flashcardStore.incrementFlashcardsToReview();
             }
@@ -320,8 +320,7 @@ const deleteRow = async (row: Flashcard) =>
             flashcardStore.delete(row);
             flashcardStore.decrementCollectionTotal();
 
-            // TODO Pas bon.
-            if (willUpdateTotalFlashcardReviews(row))
+            if ((row.nextReview && datetimeCompare(DateTime.now().toISO(), row.nextReview) === "before") || row.nextReview === null)
             {
                 flashcardStore.decrementFlashcardsToReview();
             }
