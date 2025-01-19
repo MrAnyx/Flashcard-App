@@ -71,6 +71,7 @@ definePageMeta({
 });
 
 const topicStore = useTopicStore();
+const unitStore = useUnitStore();
 const flashcardStore = useFlashcardStore();
 const authStore = useAuthStore();
 const repository = useRepository();
@@ -273,12 +274,13 @@ const deleteRow = async (row: Topic) =>
         async onConfirm()
         {
             await repository.topic.delete(row.id);
-            [flashcardStore.totalToReview, flashcardStore.total] = await Promise.all([
+            topicStore.delete(row);
+
+            [unitStore.total, flashcardStore.totalToReview, flashcardStore.total] = await Promise.all([
+                repository.unit.count("all"),
                 repository.flashcard.count("to-review"),
                 repository.flashcard.count("all")
             ]);
-
-            topicStore.delete(row);
 
             useStandardToast("success", {
                 description: `The topic ${row.name} has been deleted`
