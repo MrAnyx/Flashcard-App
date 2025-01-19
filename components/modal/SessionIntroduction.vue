@@ -1,6 +1,6 @@
 <template>
     <BaseModal title="Challenge Your Knowledge">
-        <div class="flex flex-col space-y-6">
+        <div class="flex flex-col space-y-6 c-text-primary">
             <p>Welcome to your session where you take on your entire brain! You'll be pulling cards from your own collection, so <b>no topic is safe</b>. Math? Korean? Cooking? That random science fact you swore you'd never forget? They're all in the mix, because you made them!</p>
 
             <p>

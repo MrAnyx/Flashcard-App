@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .c-text-primary {
+        @apply text-gray-800 dark:text-gray-200;
+    }
+
+    .c-text-secondary {
+        @apply text-gray-600 dark:text-gray-400;
+    }
+}

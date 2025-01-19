@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h2 class="font-medium text-xl">
+        <h2 class="font-bold text-xl c-text-primary">
             {{ props.title }}
         </h2>
-        <span class="text-gray-400 text-sm">{{ props.caption }}</span>
+        <span class="c-text-secondary text-sm">{{ props.caption }}</span>
     </div>
 </template>
 

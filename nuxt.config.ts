@@ -21,6 +21,9 @@ export default defineNuxtConfig({
         ]
     },
     devtools: { enabled: false },
+    css: [
+        "~/assets/style/tailwind.scss"
+    ],
     router: {
         options: {
             scrollBehaviorType: "smooth"

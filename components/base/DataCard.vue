@@ -8,9 +8,9 @@
             />
 
             <div class="flex-1 flex flex-col min-w-0">
-                <span class="dark:text-gray-300 text-gray-500 inline-flex items-center gap-x-2">
+                <span class="inline-flex items-center gap-x-2">
                     <slot name="label">
-                        <span class="truncate">{{ props.label }}</span>
+                        <span class="truncate c-text-primary">{{ props.label }}</span>
                     </slot>
 
                     <Tooltip
@@ -21,11 +21,11 @@
                     >
                         <UIcon
                             :name="props.infoIcon ?? 'i-tabler-info-circle'"
-                            class="shrink-0"
+                            class="shrink-0 c-text-secondary"
                         />
                     </Tooltip>
                 </span>
-                <span class="text-xl dark:text-gray-300 text-gray-700 truncate">
+                <span class="text-xl c-text-primary truncate">
                     <slot name="value">
                         {{ props.value }}
                     </slot>

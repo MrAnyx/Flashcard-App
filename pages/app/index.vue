@@ -6,13 +6,13 @@
         <section class="p-6 flex flex-col gap-y-4">
             <UCard>
                 <div class="flex flex-col gap-y-3">
-                    <h2 class="text-2xl text-gray-700 dark:text-gray-300">
+                    <h2 class="text-2xl c-text-primary">
                         Welcome back {{ safeValue(authStore.user?.username, "") }}
                     </h2>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm capitalize">
+                    <p class="c-text-secondary text-sm capitalize">
                         {{ DateTime.now().toFormat('DDDD') }}
                     </p>
-                    <p class="text-gray-500 dark:text-gray-400">
+                    <p class="c-text-secondary">
                         Boost your skills with your flashcards! Each practice session brings you one step closer to your goals. So, are you ready to take on the challenge?
                     </p>
 
@@ -242,7 +242,7 @@ const recentItemColumns = [
     {
         key: "name",
         label: "Name",
-        class: "w-[30%]"
+        class: "w-[30%]",
     }, {
         key: "description",
         label: "Description",

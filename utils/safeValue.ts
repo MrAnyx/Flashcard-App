@@ -1,4 +1,4 @@
-export default <T>(value: T | undefined, fallback: T): T =>
+export default <T>(value: T | null | undefined, fallback: T): T =>
 {
-    return value !== undefined ? value : fallback;
+    return value ? value : fallback;
 };

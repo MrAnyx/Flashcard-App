@@ -15,7 +15,7 @@
                             width="30"
                             height="30"
                         />
-                        <span class="font-bold text-lg text-gray-800 dark:text-gray-200">
+                        <span class="font-bold text-lg c-text-primary">
                             Meeio
                         </span>
                     </NuxtLink>
@@ -78,10 +78,10 @@
                         >
                             Features
                         </UBadge>
-                        <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-200 text-center">
+                        <h2 class="text-4xl font-bold c-text-primary text-center">
                             The power of our service
                         </h2>
-                        <p class="text-gray-600 dark:text-gray-400 text-center">
+                        <p class="c-text-secondary text-center">
                             Transforming the way you learn and grow.
                         </p>
                     </div>
@@ -95,10 +95,10 @@
                                 :name="feature.icon"
                                 class="w-6 h-6 text-sky-500 dark:text-sky-400"
                             />
-                            <p class="font-bold text-gray-800 dark:text-gray-200 mt-2">
+                            <p class="font-bold c-text-primary mt-2">
                                 {{ feature.title }}
                             </p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                            <p class="text-sm c-text-secondary mt-1">
                                 {{ feature.description }}
                             </p>
                         </UCard>
@@ -106,10 +106,10 @@
                 </div>
 
                 <div class="bg-gray-100 dark:bg-gray-800 flex flex-col items-center justify-center h-[350px] rounded-lg shadow-md gap-6 text-center p-6 border border-gray-200 dark:border-gray-700">
-                    <h3 class="text-3xl font-bold text-gray-800 dark:text-gray-200">
+                    <h3 class="text-3xl font-bold c-text-primary">
                         Get started today
                     </h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-center">
+                    <p class="c-text-secondary text-center">
                         Take control of your learning.
                     </p>
                     <UButton
@@ -129,16 +129,16 @@
                         v-for="(footerLink, i) in footerLinks"
                         :key="i"
                     >
-                        <h3 class="font-medium text-gray-800 dark:text-gray-200">
+                        <h3 class="font-medium c-text-primary">
                             {{ footerLink.title }}
                         </h3>
-                        <div class="flex flex-col gap-y-4 items-start mt-5 text-gray-600 dark:text-gray-400">
+                        <div class="flex flex-col gap-y-4 items-start mt-5 c-text-secondary">
                             <NuxtLink
                                 v-for="(link, j) in footerLink.links"
                                 :key="j"
                                 :to="link.link"
                                 target="_blank"
-                                class="hover:text-gray-700 dark:hover:text-gray-200 flex items-center gap-x-1"
+                                class="hover:text-gray-800 dark:hover:text-gray-200 flex items-center gap-x-1"
                             >
                                 <UIcon
                                     :name="link.icon"
@@ -151,7 +151,7 @@
                 </div>
                 <UDivider />
                 <div class="max-w-screen-lg mx-auto px-6 py-4 flex flex-col-reverse md:flex-row items-center justify-between gap-2">
-                    <p class="text-gray-600 dark:text-gray-400 text-sm text-center">
+                    <p class="c-text-secondary text-sm text-center">
                         Copyright &copy; 2024 - {{ DateTime.now().year }}. All rights reserved.
                     </p>
                     <div class="space-x-1">

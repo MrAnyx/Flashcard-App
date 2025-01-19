@@ -3,7 +3,7 @@
         :title="props.title ?? 'Confirm'"
         :icon="props.icon"
     >
-        <div class="flex flex-col gap-y-4">
+        <div class="flex flex-col gap-y-4 c-text-primary">
             <p>
                 {{ description ?? "Do you want to proceed ?" }}
             </p>

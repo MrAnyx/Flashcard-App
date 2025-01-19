@@ -5,6 +5,17 @@ export default defineAppConfig({
         kbd: {
             padding: "px-1.5"
         },
+        card: {
+            header: {
+                base: "c-text-primary"
+            },
+            body: {
+                base: "c-text-primary"
+            },
+            footer: {
+                base: "c-text-primary"
+            }
+        },
         button: {
             default: {
                 size: "md",
@@ -21,12 +32,16 @@ export default defineAppConfig({
             }
         },
         table: {
+            th: {
+                color: "c-text-primary",
+            },
             td: {
-                base: "max-w-[0] truncate"
+                base: "max-w-[0] truncate",
+                color: "c-text-secondary",
             }
         },
         breadcrumb: {
-            wrapper: "w-fit"
+            wrapper: "w-fit",
         },
         horizontalNavigation: {
             wrapper: "w-fit"

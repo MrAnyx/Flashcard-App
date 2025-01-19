@@ -1,7 +1,7 @@
 <template>
     <BaseModal title="Keyboard shortcuts">
         <div
-            class="flex flex-col gap-y-10"
+            class="flex flex-col gap-y-10 c-text-primary"
         >
             <div
                 v-for="section in AppShortcutSections"
@@ -21,7 +21,7 @@
                             <p class="text-md">
                                 {{ shortcut.name }}
                             </p>
-                            <span class="text-sm text-gray-400">{{ shortcut.description }}</span>
+                            <span class="text-sm c-text-secondary">{{ shortcut.description }}</span>
                         </div>
                         <div class="shrink-0 flex gap-x-1">
                             <UKbd

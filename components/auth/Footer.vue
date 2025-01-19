@@ -1,5 +1,5 @@
 <template>
-    <p class="text-sm text-gray-400">
+    <p class="text-sm c-text-secondary">
         <slot>
             {{ props.content }}
         </slot>

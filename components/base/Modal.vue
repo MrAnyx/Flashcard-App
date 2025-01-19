@@ -14,12 +14,15 @@
                             <UIcon
                                 v-if="props.icon"
                                 :class="`h-5 w-5`"
+                                class="c-text-primary"
                                 :name="props.icon"
                             />
                             <span
                                 v-if="props.title"
-                                class="font-medium"
-                            >{{ props.title }}</span>
+                                class="font-medium c-text-primary"
+                            >
+                                {{ props.title }}
+                            </span>
                         </slot>
                     </div>
                     <UButton

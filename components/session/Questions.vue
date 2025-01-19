@@ -63,7 +63,7 @@
                     </div>
                 </template>
 
-                <div class="leading-8 sm:leading-10 md:leading-10 text-base sm:text-lg md:text-xl ">
+                <div class="leading-8 sm:leading-10 md:leading-10 text-base sm:text-lg md:text-xl c-text-primary">
                     <p class="p-4 md:p-5">
                         {{ practiceStore.currentFlashcard.front }}
                     </p>
@@ -71,7 +71,7 @@
                     <template v-if="practiceStore.isValidation">
                         <UDivider
                             label="Answer"
-                            :ui="{ label: 'text-gray-500 dark:text-gray-400' }"
+                            :ui="{ label: 'c-text-secondary' }"
                         />
                         <p class="p-4 md:p-5">
                             {{ practiceStore.currentFlashcard.back }}

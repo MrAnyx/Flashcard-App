@@ -1,7 +1,7 @@
 <template>
     <header class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
-            <h4 class="font-medium text-lg">
+            <h4 class="font-medium text-lg c-text-primary">
                 {{ props.title }}
             </h4>
             <UBadge

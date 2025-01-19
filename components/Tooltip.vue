@@ -11,7 +11,7 @@
             >
                 <div class="p-2 md:p-2 max-w-sm md:max-w-lg">
                     <p
-                        class="text-sm text-gray-600 dark:text-gray-300"
+                        class="text-sm c-text-primary"
                         :class="{ truncate: props.truncate }"
                     >
                         {{ props.text }}

@@ -62,7 +62,7 @@
             <template #account>
                 <div class="text-left truncate">
                     <p>Signed in as</p>
-                    <p class="truncate font-medium text-gray-900 dark:text-white">
+                    <p class="truncate font-medium">
                         {{ safeValue(authStore.user?.email, '') }}
                     </p>
                 </div>
@@ -78,7 +78,7 @@
                         :alt="safeValue(authStore.user?.username, '')"
                     />
 
-                    <div class="grow text-left">
+                    <div class="grow text-left c-text-primary">
                         {{ safeValue(authStore.user?.username, "") }}
                     </div>
 

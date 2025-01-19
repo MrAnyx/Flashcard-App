@@ -27,7 +27,7 @@
                     class="lg:hidden"
                     @click.prevent="isSidebarOpen = !isSidebarOpen"
                 />
-                <h1 class="text-gray-600 dark:text-gray-400 font-semibold truncate grow">
+                <h1 class="c-text-secondary font-semibold truncate grow">
                     <slot name="header" />
                 </h1>
 
