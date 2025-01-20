@@ -7,13 +7,15 @@ export default defineAppConfig({
         },
         card: {
             header: {
-                base: "c-text-primary"
+                base: "c-text-primary",
+                padding: "px-4 py-3 sm:py-4 sm:px-6"
             },
             body: {
-                base: "c-text-primary"
+                base: "c-text-primary",
             },
             footer: {
-                base: "c-text-primary"
+                base: "c-text-primary",
+                padding: "px-4 py-3 sm:py-4 sm:px-6"
             }
         },
         button: {
@@ -36,7 +38,7 @@ export default defineAppConfig({
                 color: "c-text-primary",
             },
             td: {
-                base: "max-w-[0] truncate",
+                base: "max-w-[0] truncate text-sm",
                 color: "c-text-secondary",
             }
         },

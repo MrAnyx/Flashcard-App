@@ -1,10 +1,10 @@
 <template>
-    <section class="py-6 flex flex-col gap-4">
+    <section class="py-4 lg:py-6 flex flex-col gap-4">
         <CollectionHeaderAction
             title="Topics"
             :count-items="topicStore.total"
             action-label="Add a topic"
-            class="px-6"
+            class="px-4 lg:px-6"
             @action-click="showCreateUpdateModal()"
         />
         <UTable
@@ -47,7 +47,7 @@
 
         <div
             v-if="(topicStore.total / itemsPerPage) > 1"
-            class="flex justify-center"
+            class="flex justify-center px-4 lg:px-6"
         >
             <UPagination
                 v-model="pagination.page"

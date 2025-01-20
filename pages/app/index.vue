@@ -3,16 +3,16 @@
         <template #header>
             Overview
         </template>
-        <section class="p-6 flex flex-col gap-y-4">
+        <section class="p-4 lg:p-6 flex flex-col gap-y-4">
             <UCard>
                 <div class="flex flex-col gap-y-3">
-                    <h2 class="text-2xl c-text-primary">
+                    <h2 class="text-xl md:text-2xl c-text-primary">
                         Welcome back {{ safeValue(authStore.user?.username, "") }}
                     </h2>
                     <p class="c-text-secondary text-sm capitalize">
                         {{ DateTime.now().toFormat('DDDD') }}
                     </p>
-                    <p class="c-text-secondary">
+                    <p class="c-text-secondary text-sm md:text-base">
                         Boost your skills with your flashcards! Each practice session brings you one step closer to your goals. So, are you ready to take on the challenge?
                     </p>
 

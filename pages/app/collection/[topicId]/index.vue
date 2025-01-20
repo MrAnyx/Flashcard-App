@@ -1,62 +1,64 @@
 <template>
-    <section class="flex flex-col gap-4">
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-800 overflow-auto">
+    <section class="flex flex-col">
+        <div class="px-4 lg:px-6 py-3 lg:py-4 border-b border-gray-200 dark:border-gray-800 overflow-auto">
             <UBreadcrumb :links="breadcrumbItems" />
         </div>
-        <CollectionHeaderAction
-            title="Units"
-            :count-items="unitStore.collectionTotal"
-            action-label="Add a unit"
-            class="px-6"
-            @action-click="showCreateUpdateModal()"
-        />
-        <UTable
-            v-model:sort="pagination.sort"
-            :rows="unitStore.units"
-            :columns="columns"
-            :loading="pageProvider.loading"
-            sort-mode="manual"
-            @update:sort="loadTable"
-            @select="selectRow"
-        >
-            <template #createdAt-data="{ row }">
-                <span>{{ formatDate(row.createdAt, DateTime.DATETIME_SHORT) }}</span>
-            </template>
-            <template #updatedAt-data="{ row }">
-                <span>{{ formatDate(row.updatedAt, DateTime.DATETIME_SHORT) }}</span>
-            </template>
-            <template #favorite-data="{ row }">
-                <UButton
-                    :padded="false"
-                    :color="row.favorite ? 'yellow' : 'gray'"
-                    variant="link"
-                    :icon="row.favorite ? 'i-tabler-star-filled' : 'i-tabler-star'"
-                    @click.stop="toggleFavorite(row)"
-                />
-            </template>
-            <template #actions-data="{ row }">
-                <UDropdown
-                    :items="rowOptions(row)"
-                    @click.stop
-                >
-                    <UButton
-                        color="gray"
-                        variant="ghost"
-                        icon="i-tabler-dots"
-                    />
-                </UDropdown>
-            </template>
-        </UTable>
-        <div
-            v-if="(unitStore.collectionTotal / itemsPerPage) > 1"
-            class="flex justify-center"
-        >
-            <UPagination
-                v-model="pagination.page"
-                :page-count="itemsPerPage"
-                :total="unitStore.collectionTotal"
-                @update:model-value="loadTable"
+        <div class="py-4 lg:py-6 flex flex-col gap-4">
+            <CollectionHeaderAction
+                title="Units"
+                :count-items="unitStore.collectionTotal"
+                action-label="Add a unit"
+                class="px-4 lg:px-6"
+                @action-click="showCreateUpdateModal()"
             />
+            <UTable
+                v-model:sort="pagination.sort"
+                :rows="unitStore.units"
+                :columns="columns"
+                :loading="pageProvider.loading"
+                sort-mode="manual"
+                @update:sort="loadTable"
+                @select="selectRow"
+            >
+                <template #createdAt-data="{ row }">
+                    <span>{{ formatDate(row.createdAt, DateTime.DATETIME_SHORT) }}</span>
+                </template>
+                <template #updatedAt-data="{ row }">
+                    <span>{{ formatDate(row.updatedAt, DateTime.DATETIME_SHORT) }}</span>
+                </template>
+                <template #favorite-data="{ row }">
+                    <UButton
+                        :padded="false"
+                        :color="row.favorite ? 'yellow' : 'gray'"
+                        variant="link"
+                        :icon="row.favorite ? 'i-tabler-star-filled' : 'i-tabler-star'"
+                        @click.stop="toggleFavorite(row)"
+                    />
+                </template>
+                <template #actions-data="{ row }">
+                    <UDropdown
+                        :items="rowOptions(row)"
+                        @click.stop
+                    >
+                        <UButton
+                            color="gray"
+                            variant="ghost"
+                            icon="i-tabler-dots"
+                        />
+                    </UDropdown>
+                </template>
+            </UTable>
+            <div
+                v-if="(unitStore.collectionTotal / itemsPerPage) > 1"
+                class="flex justify-center px-4 lg:px-6"
+            >
+                <UPagination
+                    v-model="pagination.page"
+                    :page-count="itemsPerPage"
+                    :total="unitStore.collectionTotal"
+                    @update:model-value="loadTable"
+                />
+            </div>
         </div>
     </section>
 </template>

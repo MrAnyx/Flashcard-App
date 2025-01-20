@@ -6,12 +6,12 @@
             </template>
 
             <section>
-                <div class="px-2 border-b border-gray-200 dark:border-gray-800 overflow-auto">
+                <div class="px-1 lg:px-3 border-b border-gray-200 dark:border-gray-800 overflow-auto">
                     <UHorizontalNavigation
                         :links="links"
                     />
                 </div>
-                <div class="p-6">
+                <div class="p-4 lg:p-6">
                     <NuxtPage />
                 </div>
             </section>

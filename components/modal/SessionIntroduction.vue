@@ -5,7 +5,7 @@
 
             <p>
                 Each card has a question you've crafted, and your mission, should you choose to accept, is to answer without sneaking a look at the back. After each question, you'll rate your performance :
-                <span class="inline-flex space-x-1">
+                <span class="space-x-1">
                     <DifficultyBadge
                         color="green"
                         icon="i-tabler-checks"

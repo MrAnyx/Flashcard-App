@@ -33,7 +33,9 @@
                     />
                 </div>
             </template>
-            <slot />
+            <div class="text-sm sm:text-base">
+                <slot />
+            </div>
         </UCard>
     </UModal>
 </template>

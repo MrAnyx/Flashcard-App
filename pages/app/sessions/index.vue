@@ -1,6 +1,6 @@
 <template>
-    <section class="py-6 flex flex-col gap-y-6">
-        <div class="px-6 flex justify-end">
+    <section class="py-4 lg:py-6 flex flex-col gap-y-6">
+        <div class="px-4 lg:px-6 flex justify-end">
             <UButton
                 label="Start a session"
                 variant="soft"
@@ -10,7 +10,7 @@
                 @click="executeStartSession()"
             />
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 px-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 px-4 lg:px-6">
             <template v-if="cardData.loading">
                 <USkeleton
                     v-for="i in 4"

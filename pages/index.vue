@@ -4,7 +4,7 @@
             id="navbar"
             class="w-full fixed flex items-center justify-center border-b border-gray-200 dark:border-gray-800 backdrop-blur-lg bg-white/75 dark:bg-gray-900/75 z-[99]"
         >
-            <div class="w-full max-w-screen-lg px-6 flex items-center justify-between">
+            <div class="w-full max-w-screen-lg px-4 lg:px-6 flex items-center justify-between">
                 <div class="flex items-center gap-x-3">
                     <NuxtLink
                         :to="{ name: 'landing' }"
@@ -61,7 +61,7 @@
         <div id="body">
             <LandingHero class="h-[60vh] min-h-[450px]" />
 
-            <section class="max-w-screen-lg mx-auto px-6 flex flex-col gap-y-[100px]">
+            <section class="max-w-screen-lg mx-auto px-4 md:px-6 flex flex-col gap-y-[100px]">
                 <div class="border border-gray-200 dark:border-gray-700 rounded-lg shadow-md bg-gray-100 dark:bg-gray-800 p-3">
                     <NuxtImg
                         :src="colorMode.value === 'dark' ? 'layout_dark.png' : 'layout_light.png' "
@@ -124,7 +124,7 @@
             </section>
 
             <footer class="w-full border-t border-gray-200 dark:border-gray-800 mt-[100px]">
-                <div class="max-w-screen-lg mx-auto px-6 py-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10">
+                <div class="max-w-screen-lg mx-auto px-4 md:px-6 py-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10">
                     <div
                         v-for="(footerLink, i) in footerLinks"
                         :key="i"
@@ -150,7 +150,7 @@
                     </div>
                 </div>
                 <UDivider />
-                <div class="max-w-screen-lg mx-auto px-6 py-4 flex flex-col-reverse md:flex-row items-center justify-between gap-2">
+                <div class="max-w-screen-lg mx-auto px-4 md:px-6 py-4 flex flex-col-reverse md:flex-row items-center justify-between gap-2">
                     <p class="c-text-secondary text-sm text-center">
                         Copyright &copy; 2024 - {{ DateTime.now().year }}. All rights reserved.
                     </p>

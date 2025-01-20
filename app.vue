@@ -21,8 +21,8 @@ useHead({
 <style lang="scss">
 ::-webkit-scrollbar {
     background-color: transparent;
-    height: .6em;
-    width: .6em
+    height: .5em;
+    width: .5em
 }
 
 html.dark {

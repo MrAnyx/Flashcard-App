@@ -10,7 +10,7 @@
             <div class="flex-1 flex flex-col min-w-0">
                 <span class="inline-flex items-center gap-x-2">
                     <slot name="label">
-                        <span class="truncate c-text-primary">{{ props.label }}</span>
+                        <span class="truncate c-text-primary text-sm lg:text-base">{{ props.label }}</span>
                     </slot>
 
                     <Tooltip
@@ -25,7 +25,7 @@
                         />
                     </Tooltip>
                 </span>
-                <span class="text-xl c-text-primary truncate">
+                <span class="text-lg lg:text-xl c-text-primary truncate">
                     <slot name="value">
                         {{ props.value }}
                     </slot>

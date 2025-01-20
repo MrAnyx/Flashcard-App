@@ -4,7 +4,7 @@
             class="max-w-[500px] w-full"
             :ui="ui"
         >
-            <div class="flex flex-col space-y-6">
+            <div class="flex flex-col gap-y-6">
                 <div class="grid place-items-center">
                     <ULink :to="{ name: 'landing' }">
                         <NuxtImg

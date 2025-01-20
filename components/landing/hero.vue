@@ -22,7 +22,7 @@
                 <h1 class="text-4xl lg:text-6xl font-bold c-text-primary">
                     Master your knowledge
                 </h1>
-                <p class="text-md lg:text-lg c-text-secondary">
+                <p class="text-base lg:text-lg c-text-secondary">
                     Unlock your potential with a beautiful designed yet powerful flashcard application. And it's Open Source!
                 </p>
             </div>
