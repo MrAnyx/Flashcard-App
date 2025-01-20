@@ -4,10 +4,10 @@
 
 @layer components {
     .c-text-primary {
-        @apply text-gray-800 dark:text-gray-200;
+        @apply text-gray-900 dark:text-gray-100;
     }
 
     .c-text-secondary {
-        @apply text-gray-600 dark:text-gray-400;
+        @apply text-gray-500 dark:text-gray-400;
     }
 }
