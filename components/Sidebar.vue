@@ -78,7 +78,7 @@
                         :alt="safeValue(authStore.user?.username, '')"
                     />
 
-                    <div class="grow text-left c-text-primary">
+                    <div class="grow text-left">
                         {{ safeValue(authStore.user?.username, "") }}
                     </div>
 

@@ -10,6 +10,7 @@
                 <UBadge
                     v-if="practiceStore.currentStrike >= 3"
                     variant="subtle"
+                    color="orange"
                     icon="i-tabler-flame"
                 >
                     {{ practiceStore.currentStrike }} in a row

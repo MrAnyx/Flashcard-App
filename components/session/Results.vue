@@ -36,7 +36,7 @@
                 />
             </UMeterGroup>
 
-            <div class="p-4 md:p-5 flex flex-col gap-y-6">
+            <div class="p-4 md:p-5 flex flex-col gap-y-6 md:gap-y-8">
                 <div class="flex flex-col md:flex-row gap-x-3 gap-y-1 md:justify-between c-text-secondary overflow-x-auto text-sm md:text-base">
                     <div class="flex gap-x-1 items-center">
                         <UIcon
