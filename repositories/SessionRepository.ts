@@ -25,22 +25,13 @@ export class SessionRepository extends AbstractRepository
         });
     }
 
-    async count(criteria: SessionCountCriteria = "all", period: Period = "all")
+    async count(criteria: SessionCountCriteria = "all", period?: Period)
     {
         return this.fetch<number>(`/sessions/count/${criteria}`, {
             method: "GET",
             query: {
-                period
-            }
-        });
-    }
-
-    async countGroupByDate()
-    {
-        return this.fetch<{ date: string; total: number }[]>("/sessions/count/group_by_date", {
-            method: "GET",
-            query: {
-                period: "last_30_days"
+                ...(period?.from ? { from: period.from } : {}),
+                ...(period?.from ? { to: period.to } : {}),
             }
         });
     }
