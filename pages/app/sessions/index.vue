@@ -142,10 +142,10 @@ const loadCards = async () =>
 
         [cardData.sessionsOnPeriod, cardData.reviewsOnPeriod] = await Promise.all([
             repository.session.count("all", {
-                from: DateTime.now().minus({ days: 1 }).toISO(),
+                from: DateTime.now().startOf("day").toISO(),
             }),
             repository.review.count("all", {
-                from: DateTime.now().minus({ days: 1 }).toISO(),
+                from: DateTime.now().startOf("day").toISO(),
             })
         ]);
     }
