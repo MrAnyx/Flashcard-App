@@ -2,10 +2,11 @@
     <section class="py-4 lg:py-6 flex flex-col gap-y-6">
         <div class="px-4 lg:px-6 flex flex-col sm:flex-row justify-end gap-x-3 gap-y-2">
             <UButton
-                :label="practiceStore.hasNextFlashcard && practiceStore.session ? 'Finish last session' : 'Previous session results'"
+                v-if="practiceStore.session"
+                :label="practiceStore.hasNextFlashcard ? 'Finish last session' : 'Previous session results'"
                 variant="ghost"
                 color="gray"
-                :icon="practiceStore.hasNextFlashcard && practiceStore.session ? 'i-tabler-arrow-forward-up' : 'i-tabler-stars'"
+                :icon="practiceStore.hasNextFlashcard ? 'i-tabler-arrow-forward-up' : 'i-tabler-star'"
                 :to="{ name: 'practice' }"
             />
             <UButton
