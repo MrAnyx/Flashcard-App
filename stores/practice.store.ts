@@ -104,6 +104,6 @@ export const usePracticeStore = defineStore("practice", {
                     state.grades.filter(v => v.grade === a).length - state.grades.filter(v => v.grade === b).length
                 )
                 .pop();
-        }
+        },
     }
 });

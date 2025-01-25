@@ -1,6 +1,13 @@
 <template>
     <section class="py-4 lg:py-6 flex flex-col gap-y-6">
-        <div class="px-4 lg:px-6 flex justify-end">
+        <div class="px-4 lg:px-6 flex flex-col sm:flex-row justify-end gap-x-3 gap-y-2">
+            <UButton
+                :label="practiceStore.hasNextFlashcard && practiceStore.session ? 'Finish last session' : 'Previous session results'"
+                variant="ghost"
+                color="gray"
+                :icon="practiceStore.hasNextFlashcard && practiceStore.session ? 'i-tabler-arrow-forward-up' : 'i-tabler-stars'"
+                :to="{ name: 'practice' }"
+            />
             <UButton
                 label="Start a session"
                 variant="soft"
@@ -90,6 +97,7 @@ useHead({
 const repository = useRepository();
 const sessionStore = useSessionStore();
 const reviewStore = useReviewStore();
+const practiceStore = usePracticeStore();
 const authStore = useAuthStore();
 
 const provider = reactive({

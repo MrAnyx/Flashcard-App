@@ -140,7 +140,10 @@ const repository = useRepository();
 
 onMounted(async () =>
 {
-    await repository.session.stop(practiceStore.session!.id);
+    if (!practiceStore.session!.endedAt)
+    {
+        practiceStore.session = await repository.session.stop(practiceStore.session!.id);
+    }
 });
 
 type ResultBadgeData = {

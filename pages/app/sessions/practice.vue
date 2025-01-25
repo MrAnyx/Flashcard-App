@@ -28,7 +28,7 @@ const practiceStore = usePracticeStore();
 
 onBeforeRouteLeave(async () =>
 {
-    return practiceStore.hasNextFlashcard ? await displayModalAsync() : true;
+    return practiceStore.hasNextFlashcard && practiceStore.session ? await displayModalAsync() : true;
 });
 
 const displayModalAsync = () =>
@@ -37,7 +37,7 @@ const displayModalAsync = () =>
     {
         modal.open(ModalConfirm, {
             title: "Leave the session",
-            description: "Are you sure you want to leave this session. You'll not be able to finish it.",
+            description: "Are you sure you want to leave this session ?",
             icon: "i-tabler-door-exit",
             cancelLabel: "Stay here",
             confirmLabel: "Leave",
