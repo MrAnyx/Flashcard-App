@@ -290,6 +290,7 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) =>
 
             formData.front = "";
             formData.back = "";
+            formData.help = "";
             formData.details = "";
         }
         else
