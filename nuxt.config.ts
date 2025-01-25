@@ -12,6 +12,7 @@ export default defineNuxtConfig({
         "@pinia/nuxt",
         "pinia-plugin-persistedstate/nuxt",
         "@nuxtjs/i18n",
+        "nuxt-umami",
     ],
     ssr: false,
     imports: {
@@ -70,5 +71,18 @@ export default defineNuxtConfig({
     piniaPluginPersistedstate: {
         storage: "localStorage",
         key: "meeio_%id"
+    },
+    umami: {
+        id: process.env.UMAMI_TOKEN,
+        host: process.env.UMAMI_HOST,
+        autoTrack: true,
+        ignoreLocalhost: true,
+        // enabled: !!process.env.UMAMI_TOKEN && !!process.env.UMAMI_HOST,
+        // proxy: 'cloak',
+        // useDirective: true,
+        // excludeQueryParams: false,
+        // domains: ['cool-site.app', 'my-space.site'],
+        // customEndpoint: '/my-custom-endpoint',
+        // logErrors: true,
     },
 });
