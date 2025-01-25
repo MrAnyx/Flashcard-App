@@ -5,12 +5,13 @@ import type { Period } from "~/types/period";
 
 export class ReviewRepository extends AbstractRepository
 {
-    async count(criteria: ReviewCountCriteria = "only_valid", period: Period = "all")
+    async count(criteria: ReviewCountCriteria = "only-valid", period?: Period)
     {
         return this.fetch<number>(`/reviews/count/${criteria}`, {
             method: "GET",
             query: {
-                period
+                ...(period?.from ? { from: period.from } : {}),
+                ...(period?.from ? { to: period.to } : {}),
             }
         });
     }
