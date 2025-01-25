@@ -52,7 +52,7 @@ export const AppShortcutSections: ShortcutSection[] = [
                 {
                     modal.reset();
                     await navigateTo({
-                        name: "practice"
+                        name: "sessions"
                     });
                 }
             },
