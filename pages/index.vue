@@ -258,13 +258,18 @@ const footerLinks = [
         links: [
             {
                 label: "Release",
-                link: "https://github.com/meeio-app",
+                link: "https://github.com/meeio-app/frontend/releases",
                 icon: "i-tabler-sparkles",
             },
             {
                 label: "Contribute",
                 link: "https://github.com/meeio-app",
                 icon: "i-tabler-heart-handshake",
+            },
+            {
+                label: "Support the project",
+                link: "https://github.com/meeio-app/frontend/stargazers",
+                icon: "i-tabler-star",
             },
         ]
     },
@@ -273,7 +278,7 @@ const footerLinks = [
         links: [
             {
                 label: "Email",
-                link: "mailto:robin@codeon.fr",
+                link: "mailto:contact@meeio.fr",
                 icon: "i-tabler-mail",
             },
             {
