@@ -39,7 +39,7 @@
                     variant="ghost"
                     color="gray"
                     leading-icon="i-tabler-brand-github"
-                    to="https://github.com/meeio-app/meeio"
+                    to="https://github.com/meeio-app"
                     target="_blank"
                 >
                     Github
