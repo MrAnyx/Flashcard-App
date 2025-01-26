@@ -76,7 +76,7 @@ export default defineNuxtConfig({
         id: process.env.UMAMI_TOKEN,
         host: process.env.UMAMI_HOST,
         autoTrack: true,
-        ignoreLocalhost: true,
+        // ignoreLocalhost: true,
         enabled: !!process.env.UMAMI_TOKEN && !!process.env.UMAMI_HOST,
         // proxy: 'cloak',
         // useDirective: true,
