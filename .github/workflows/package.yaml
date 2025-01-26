@@ -18,6 +18,9 @@ jobs:
               run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             - name: Build Docker image
+              env:
+                  UMAMI_ID: ${{ secrets.UMAMI_ID }}
+                  UMAMI_HOST: ${{ secrets.UMAMI_HOST }}
               run: |
                   REPO_LOWER=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
                   TAG=$(echo ${{ github.ref_name }} | tr '/' '-') # Replace / with -
