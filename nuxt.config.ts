@@ -73,11 +73,11 @@ export default defineNuxtConfig({
         key: "meeio_%id"
     },
     umami: {
-        id: process.env.NUXT_UMAMI_ID,
-        host: process.env.NUXT_UMAMI_HOST,
+        id: process.env.UMAMI_ID,
+        host: process.env.UMAMI_HOST,
         autoTrack: true,
-        proxy: "cloak",
         logErrors: true,
+        // proxy: "cloak",
         // ignoreLocalhost: true,
         // useDirective: true,
         // excludeQueryParams: false,
