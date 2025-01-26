@@ -42,7 +42,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            apiBaseUrl: process.env.API_BASE_URL,
+            apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL,
             appVersion: pkg.version,
         },
     },
@@ -73,11 +73,10 @@ export default defineNuxtConfig({
         key: "meeio_%id"
     },
     umami: {
-        id: process.env.UMAMI_TOKEN,
-        host: process.env.UMAMI_HOST,
+        id: process.env.NUXT_UMAMI_ID,
+        host: process.env.NUXT_UMAMI_HOST,
         autoTrack: true,
         // ignoreLocalhost: true,
-        enabled: !!process.env.UMAMI_TOKEN && !!process.env.UMAMI_HOST,
         // proxy: 'cloak',
         // useDirective: true,
         // excludeQueryParams: false,
